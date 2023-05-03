@@ -1,0 +1,151 @@
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  padding: 10px;
+  margin: auto;
+  .flex-center;
+
+  &.wrap {
+    flex-direction: column;
+    align-items: center;
+
+    .tip {
+      margin-top: 10px;
+    }
+  }
+
+  .loading {
+    .flex-center;
+  }
+}
+
+@animation: {
+  animation: rotate var(--delay) linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotatez(0deg);
+  }
+
+  to {
+    transform: rotatez(360deg);
+  }
+}
+
+.tip {
+  font-size: 14px;
+  color: #909090;
+  margin-left: 10px;
+}
+
+.wave {
+  .icon {
+    width: 4px;
+    margin-right: 5px;
+    background-color: var(--color);
+
+    .waving(@scale: 1, @delay: 0.5 s) {
+      // linear：匀速执行
+      // infinite：无限循环
+      // alternate-reverse：执行完动画后再反过来执行
+      animation: waving @delay linear infinite alternate-reverse;
+
+      @keyframes waving {
+        to {
+          opacity: 0.2;
+          transform: scaleY(@scale);
+        }
+      }
+    }
+
+    &:nth-child(1) {
+      height: 10px;
+      .waving(0.7, calc(var(--delay) * 0.3));
+    }
+
+    &:nth-child(2) {
+      height: 20px;
+      .waving(0.9, calc(var(--delay) * 0.5));
+    }
+
+    &:nth-child(3) {
+      height: 18px;
+      .waving(0.8, calc(var(--delay) * 0.4));
+    }
+  }
+}
+
+.circle {
+  .icon {
+    min-width: 20px;
+    height: 20px;
+    border: 2px solid #d8d8d8;
+    border-radius: 50%;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: -2px;
+      left: -2px;
+      bottom: -2px;
+      border: 2px solid var(--color);
+      border-radius: 50%;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+      @animation();
+    }
+  }
+}
+
+.dashed {
+  .icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px dashed var(--color);
+    @animation();
+  }
+}
+
+.dot {
+  .icon {
+    width: 7px;
+    height: 7px;
+    background-color: var(--color);
+    border-radius: 50%;
+    margin: 0 6px;
+
+    .dance(@delay: 0) {
+      animation: dance 0.4s ease infinite alternate-reverse;
+      animation-delay: @delay;
+
+      @keyframes dance {
+        from {
+          transform: translateY(-3px);
+        }
+
+        to {
+          transform: translateY(3px);
+        }
+      }
+    }
+
+    &:first-child {
+      .dance;
+    }
+
+    &:nth-child(2) {
+      .dance(0.2s);
+    }
+
+    &:last-child {
+      .dance(0.3s);
+    }
+  }
+}

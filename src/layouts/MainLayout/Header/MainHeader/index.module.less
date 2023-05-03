@@ -1,0 +1,36 @@
+.container {
+  width: var(--width-primary);
+  margin: 0 auto;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+}
+
+.logo_icon {
+  width: 5.6rem;
+  height: 5.6rem;
+  transition: 0.2s;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.category_bar {
+  flex: 1;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+
+  .label {
+    color: #333;
+    font-size: 1.6rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
