@@ -1,10 +1,11 @@
 import LogoIcon from '@/assets/logo.png';
 import { NavLink } from 'react-router-dom';
-import { Product, ProductCategories } from './const';
+import { ProductCategories } from './const';
 import styles from './index.module.less';
 import SearchBar from './SearchBar';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { toProductUrl } from '@/utils';
 
 export default function MainHeader() {
   const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
@@ -117,7 +118,7 @@ function ProductsPanel({
         {products?.map((item) => (
           <NavLink
             key={item.label}
-            to={`/${item.label.replace(/\s*/g, '').toLowerCase()}`}
+            to={toProductUrl(item.label)}
             className={styles.product_item}
           >
             <img

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { CSSProperties, PropsWithChildren } from 'react';
 
 interface RowProps extends PropsWithChildren {
   // 垂直对齐方式
@@ -13,6 +13,9 @@ interface RowProps extends PropsWithChildren {
     | 'space-evenly';
   // 是否自动换行
   wrap?: boolean;
+
+  style?: CSSProperties;
+  className?: string;
 }
 
 const rowAlign = {
@@ -33,6 +36,8 @@ export default function Row({
   align = 'top',
   justify = 'start',
   wrap = true,
+  style,
+  className,
   children
 }: RowProps) {
   return (
@@ -41,8 +46,10 @@ export default function Row({
         display: 'flex',
         justifyContent: rowJustify[justify],
         alignItems: rowAlign[align],
-        flexWrap: wrap ? 'wrap' : 'nowrap'
+        flexWrap: wrap ? 'wrap' : 'nowrap',
+        ...(style || {})
       }}
+      className={className}
     >
       {children}
     </div>

@@ -1,0 +1,108 @@
+import styles from './index.module.less';
+import { Banners, ProductCategories } from './const.ts';
+import { RightOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
+import { toProductUrl } from '@/utils';
+
+export default function HomeHero() {
+  return (
+    <div className={styles.container}>
+      <CategoryPanel />
+      <BannerSwiper />
+    </div>
+  );
+}
+
+function CategoryPanel() {
+  const [products, setProducts] = useState<Product[] | undefined>();
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  return (
+    <div
+      className={styles.category_panel}
+      onMouseLeave={() => {
+        setProducts([]);
+        setActiveIndex(-1);
+      }}
+    >
+      {ProductCategories.map((item, index) => (
+        <div
+          key={item.label}
+          className={classNames(
+            styles.category_item,
+            activeIndex === index && styles.active
+          )}
+          onMouseEnter={() => {
+            setProducts(item.children);
+            setActiveIndex(index);
+          }}
+        >
+          <span className={styles.label}>{item.label}</span>
+          <RightOutlined className={styles.icon} />
+        </div>
+      ))}
+
+      <ProductsPanel open={!!products?.length} products={products || []} />
+    </div>
+  );
+}
+
+function ProductsPanel({
+  open,
+  products
+}: {
+  open: boolean;
+  products: Product[];
+}) {
+  return (
+    <div
+      className={styles.products_panel}
+      style={{
+        display: open ? 'flex' : 'none',
+        width: `calc(24.8rem * ${Math.ceil(Math.min(products.length, 24) / 6)})`
+      }}
+    >
+      {products.slice(0, 24).map((item) => (
+        <NavLink
+          key={item.label}
+          className={styles.product_item}
+          to={toProductUrl(item.label)}
+        >
+          <img
+            alt={item.label}
+            src={item.pictureUrl}
+            className={styles.picture}
+          />
+          <span className={classNames(styles.label, 'text-ellipsis')}>
+            {item.label}
+          </span>
+        </NavLink>
+      ))}
+    </div>
+  );
+}
+
+function BannerSwiper() {
+  return (
+    <div className={styles.banner_swiper}>
+      {Banners.map((item) => (
+        <a
+          key={item.pictureUrl}
+          className={styles.banner_item}
+          href={item.linkUrl}
+          target={'_blank'}
+          rel={'nofollow'}
+        >
+          <img
+            src={item.pictureUrl}
+            className={styles.picture}
+            draggable={false}
+            alt={''}
+          />
+        </a>
+      ))}
+    </div>
+  );
+}

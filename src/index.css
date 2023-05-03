@@ -20,3 +20,9 @@
 html {
     font-size: 10px;
 }
+
+.text-ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

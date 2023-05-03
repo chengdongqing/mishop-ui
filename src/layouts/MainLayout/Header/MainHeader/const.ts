@@ -1,15 +1,3 @@
-export interface Product {
-  pictureUrl: string;
-  label: string;
-  price: string;
-}
-
-export interface ProductCategory {
-  label: string;
-  children?: Product[];
-  href?: string;
-}
-
 export const ProductCategories: ProductCategory[] = [
   {
     label: 'Xiaomi手机',
