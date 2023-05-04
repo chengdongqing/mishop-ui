@@ -43,7 +43,7 @@ export default function Space({
   const containerStyle = useMemo(() => {
     const style1: CSSProperties = {
       ...(style || {}),
-      display: 'flex',
+      display: 'inline-flex',
       flexDirection: direction === 'horizontal' ? 'row' : 'column',
       [direction === 'horizontal' ? 'alignItems' : 'justifyContent']:
         spaceAlign[align],
@@ -64,7 +64,7 @@ export default function Space({
     return style1;
   }, [direction, size]);
 
-  function isLastItem(index: number) {
+  function isNotLast(index: number) {
     return index < Children.count(children) - 1;
   }
 
@@ -73,10 +73,12 @@ export default function Space({
       {Children.map(children, (child, index) => {
         return (
           <>
-            <span style={isLastItem(index) ? itemStyle : undefined}>
+            <span style={isNotLast(index) ? itemStyle : undefined}>
               {child}
             </span>
-            {isLastItem(index) && <span style={itemStyle}>{split}</span>}
+            {isNotLast(index) && !!split && (
+              <span style={itemStyle}>{split}</span>
+            )}
           </>
         );
       })}

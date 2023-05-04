@@ -34,11 +34,16 @@ function PromoCards() {
       {Promos.map((item) => (
         <a
           className={styles.promo_item}
-          key={item.pictureUrl}
-          href={item.linkUrl}
+          key={item.src}
+          href={item.href}
           target={'_blank'}
         >
-          <img src={item.pictureUrl} alt={''} className={styles.picture} />
+          <img
+            src={item.src}
+            alt={item.description}
+            title={item.description}
+            className={styles.picture}
+          />
         </a>
       ))}
     </div>

@@ -97,17 +97,18 @@ function BannerSwiper() {
       >
         {Banners.map((item) => (
           <a
-            key={item.pictureUrl}
+            key={item.src}
             className={styles.banner_item}
-            href={item.linkUrl}
+            href={item.href}
             target={'_blank'}
             rel={'nofollow'}
           >
             <img
-              src={item.pictureUrl}
-              className={styles.picture}
+              src={item.src}
               draggable={false}
-              alt={''}
+              alt={item.description}
+              title={item.description}
+              className={styles.picture}
             />
           </a>
         ))}

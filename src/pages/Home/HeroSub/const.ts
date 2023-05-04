@@ -38,20 +38,17 @@ export const Channels = [
   }
 ];
 
-export const Promos = [
+export const Promos: Promo[] = [
   {
-    pictureUrl:
-      'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0ef4ea18cb2d6ca963d39c2109460e02.jpg?w=632&h=340',
-    linkUrl: 'https://www.mi.com/shop/buy?product_id=18363'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0ef4ea18cb2d6ca963d39c2109460e02.jpg?w=632&h=340',
+    href: 'https://www.mi.com/shop/buy?product_id=18363'
   },
   {
-    pictureUrl:
-      'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6dd2f3e0de4e6cbba98fd3799cfa5bf7.jpg?w=632&h=340',
-    linkUrl: 'https://www.mi.com/shop/buy?product_id=10050021'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6dd2f3e0de4e6cbba98fd3799cfa5bf7.jpg?w=632&h=340',
+    href: 'https://www.mi.com/shop/buy?product_id=10050021'
   },
   {
-    pictureUrl:
-      'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0cf5e958bc88727b50c5c5fba7a8f47a.jpg?w=632&h=340',
-    linkUrl: 'https://www.mi.com/shop/buy?product_id=18075'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0cf5e958bc88727b50c5c5fba7a8f47a.jpg?w=632&h=340',
+    href: 'https://www.mi.com/shop/buy?product_id=18075'
   }
 ];

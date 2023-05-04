@@ -1,0 +1,131 @@
+.container {
+  width: var(--width-primary);
+  margin: auto;
+}
+
+.header {
+  height: 5.8rem;
+
+  .title {
+    font-size: 2.2rem;
+    color: #333;
+  }
+
+  .more {
+    .more_link {
+      display: flex;
+      align-items: center;
+      color: #424242;
+      font-size: 1.6rem;
+      font-weight: 200;
+      transition: 0.4s;
+
+      &:hover {
+        color: var(--color-primary);
+
+        .icon {
+          color: var(--color-primary);
+        }
+      }
+
+      .icon {
+        color: #b0b0b0;
+        font-size: 2rem;
+        margin-left: 0.8rem;
+        transition: 0.4s;
+      }
+    }
+
+    .tabs {
+      display: flex;
+
+      .tab_item {
+        font-size: 1.6rem;
+        font-weight: 200;
+        color: #424242;
+        margin-left: 3rem;
+        cursor: pointer;
+        line-height: 2.4rem;
+
+        &.active {
+          color: var(--color-primary);
+          border-bottom: 2px solid var(--color-primary);
+        }
+      }
+    }
+  }
+}
+
+.promos {
+  width: 23.4rem;
+  height: 61.4rem;
+  display: flex;
+  flex-direction: column;
+
+  .promo_item {
+    flex: 1;
+    margin-bottom: 1.4rem;
+    transition: 0.2s linear;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.1);
+      transform: translate3d(0, -2px, 0);
+    }
+
+    .picture {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.products {
+  flex: 1;
+  margin-left: 1.4rem;
+
+  .product_item {
+    height: 30rem;
+    background-color: #fff;
+    text-align: center;
+    transition: 0.2s linear;
+
+    &:hover {
+      box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.1);
+      transform: translate3d(0, -2px, 0);
+    }
+
+    .picture {
+      width: 16rem;
+      height: 16rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .label {
+      color: #333;
+      font-size: 1.4rem;
+      margin: 0 auto 0.2rem;
+      max-width: 20rem;
+    }
+
+    .description {
+      color: #b0b0b0;
+      font-size: 1.2rem;
+      margin: 0 auto 1rem;
+      max-width: 20rem;
+    }
+
+    .price {
+      color: var(--color-primary);
+      font-size: 1.4rem;
+
+      &.original {
+        color: #b0b0b0;
+        text-decoration: line-through;
+      }
+    }
+  }
+}
