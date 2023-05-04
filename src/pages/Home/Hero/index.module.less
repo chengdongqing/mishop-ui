@@ -77,15 +77,45 @@
   }
 }
 
-.banner_swiper {
-  width: var(--width-primary);
-  height: 46rem;
-  overflow: hidden;
+.banner_card {
+  .banner_swiper {
+    width: var(--width-primary);
+    height: 46rem;
 
-  .banner_item {
-    .picture {
-      width: var(--width-primary);
-      height: 100%;
+    .banner_item {
+      .picture {
+        width: var(--width-primary);
+        height: 100%;
+      }
+    }
+  }
+
+  .btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4rem;
+    height: 7rem;
+    cursor: pointer;
+    z-index: 1;
+    text-align: center;
+    line-height: 7rem;
+    font-size: 2rem;
+    color: #fff;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    &.left {
+      left: 23.4rem;
+      border-radius: 0 2px 2px 0;
+    }
+
+    &.right {
+      right: 0;
+      border-radius: 2px 0 0 2px;
     }
   }
 }

@@ -1,10 +1,11 @@
 import styles from './index.module.less';
 import { Banners, ProductCategories } from './const.ts';
-import { RightOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { NavLink } from 'react-router-dom';
 import { toProductUrl } from '@/utils';
+import Swiper, { SwiperHandle } from '@/components/Swiper';
 
 export default function HomeHero() {
   return (
@@ -85,24 +86,49 @@ function ProductsPanel({
 }
 
 function BannerSwiper() {
+  const swiperRef = useRef<SwiperHandle>(null);
+
   return (
-    <div className={styles.banner_swiper}>
-      {Banners.map((item) => (
-        <a
-          key={item.pictureUrl}
-          className={styles.banner_item}
-          href={item.linkUrl}
-          target={'_blank'}
-          rel={'nofollow'}
-        >
-          <img
-            src={item.pictureUrl}
-            className={styles.picture}
-            draggable={false}
-            alt={''}
-          />
-        </a>
-      ))}
+    <div className={styles.banner_card}>
+      <Swiper
+        ref={swiperRef}
+        animation={'fade'}
+        className={styles.banner_swiper}
+      >
+        {Banners.map((item) => (
+          <a
+            key={item.pictureUrl}
+            className={styles.banner_item}
+            href={item.linkUrl}
+            target={'_blank'}
+            rel={'nofollow'}
+          >
+            <img
+              src={item.pictureUrl}
+              className={styles.picture}
+              draggable={false}
+              alt={''}
+            />
+          </a>
+        ))}
+      </Swiper>
+
+      <div
+        className={classNames(styles.btn, styles.left)}
+        onClick={() => {
+          swiperRef.current?.prev();
+        }}
+      >
+        <LeftOutlined />
+      </div>
+      <div
+        className={classNames(styles.btn, styles.right)}
+        onClick={() => {
+          swiperRef.current?.next();
+        }}
+      >
+        <RightOutlined />
+      </div>
     </div>
   );
 }
