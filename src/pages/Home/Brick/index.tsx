@@ -1,13 +1,13 @@
-import styles from './index.module.less';
-import Row from '@/components/Row';
-import { RightCircleFilled } from '@ant-design/icons';
-import { useState } from 'react';
-import classNames from 'classnames';
-import { NavLink } from 'react-router-dom';
-import { toProductUrl } from '@/utils';
-import Space from '@/components/Space';
 import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
+import Row from '@/components/Row';
+import Space from '@/components/Space';
+import { toProductUrl } from '@/utils';
+import { RightCircleFilled } from '@ant-design/icons';
+import classNames from 'classnames';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import styles from './index.module.less';
 
 export interface HomeBrickProps {
   title: string;
@@ -133,9 +133,11 @@ function ProductBlocks({
               </div>
               <Space>
                 <span className={styles.price}>{item.price}</span>
-                <span className={classNames(styles.price, styles.original)}>
-                  {item.price}
-                </span>
+                {!!item.originalPrice && (
+                  <span className={classNames(styles.price, styles.original)}>
+                    {item.originalPrice}
+                  </span>
+                )}
               </Space>
             </div>
           </NavLink>

@@ -1,3 +1,11 @@
+import BottomBar from './BottomBar';
+import MainFooter from './MainFooter';
+
 export default function Footer() {
-  return <div>footer...</div>;
+  return (
+    <>
+      <MainFooter />
+      <BottomBar />
+    </>
+  );
 }

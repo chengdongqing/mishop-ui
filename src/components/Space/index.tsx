@@ -28,7 +28,7 @@ const spaceAlign = {
   end: 'flex-end'
 };
 
-const cssGapSupported = !CSS.supports('gap', '1px');
+const cssGapSupported = CSS.supports('gap', '1px');
 
 export default function Space({
   direction = 'horizontal',
