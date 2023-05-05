@@ -1,7 +1,10 @@
-import Iconfont from '@/components/Iconfont';
+import Button from '@/components/Button';
+import CloseIcon from '@/components/CloseIcon';
+import Space from '@/components/Space';
 import classNames from 'classnames';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import styles from './index.module.less';
 
 interface PopupProps extends PropsWithChildren {
@@ -17,27 +20,36 @@ interface PopupProps extends PropsWithChildren {
   closable?: boolean;
   // 点击蒙层是否可关闭
   maskClosable?: boolean;
+  // 确认按钮文本
+  okText?: string;
+  // 取消按钮文本
+  cancelText?: string;
 
-  // 关闭事件
-  onClose?: () => void;
+  // 点击确认回调
+  onOk?: () => void;
+  // 点击取消回调
+  onCancel?: () => void;
 }
 
-export default function Popup({
+function Popup({
   open,
   title,
   width,
   footer,
   closable = true,
   maskClosable = true,
+  okText = '确定',
+  cancelText = '取消',
   children,
-  onClose
+  onOk,
+  onCancel
 }: PopupProps) {
   const [closing, setClosing] = useState(false);
 
   function close() {
     setClosing(true);
     setTimeout(() => {
-      onClose?.();
+      onCancel?.();
       setClosing(false);
     }, 500);
   }
@@ -48,14 +60,36 @@ export default function Popup({
         <div style={{ width }} className={styles.container}>
           <div className={classNames(styles.header, !title && styles.headless)}>
             {!!title && <div className={styles.title}>{title}</div>}
-            {closable && (
-              <div className={styles.btn_close} onClick={close}>
-                <Iconfont type={'i-close'} className={styles.icon} />
-              </div>
-            )}
+            {closable && <CloseIcon onClose={close} />}
           </div>
           <div className={styles.body}>{children}</div>
-          {!!footer && <div className={styles.footer}>{footer}</div>}
+          {footer !== undefined ? (
+            footer
+          ) : (
+            <div className={styles.footer}>
+              <Space size={'1.4rem'}>
+                {!!okText && (
+                  <Button
+                    onClick={() => {
+                      onOk?.();
+                    }}
+                  >
+                    {okText}
+                  </Button>
+                )}
+                {!!cancelText && (
+                  <Button
+                    gray
+                    onClick={() => {
+                      close();
+                    }}
+                  >
+                    {cancelText}
+                  </Button>
+                )}
+              </Space>
+            </div>
+          )}
         </div>
 
         <div
@@ -71,3 +105,24 @@ export default function Popup({
     document.getElementById('popup') as HTMLElement
   );
 }
+
+function open(
+  props: Omit<PopupProps, 'open' | 'children'> & { content?: ReactNode }
+) {
+  const popup = createRoot(document.getElementById('popup') as HTMLElement);
+  popup.render(
+    <Popup
+      open
+      {...props}
+      children={props.content}
+      onCancel={() => {
+        props.onCancel?.();
+        popup.unmount();
+      }}
+    />
+  );
+}
+
+Popup.open = open;
+
+export default Popup;

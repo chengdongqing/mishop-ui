@@ -1,0 +1,29 @@
+.btn {
+  width: 16rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: none;
+  background-color: var(--color-primary);
+  cursor: pointer;
+  transition: 0.4s;
+
+  &.btn_gray {
+    background-color: #b0b0b0;
+
+    &:hover {
+      background-color: #757575;
+    }
+  }
+
+  &:hover {
+    background-color: #f25807;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}

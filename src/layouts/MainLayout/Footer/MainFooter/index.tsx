@@ -1,7 +1,6 @@
 import Iconfont from '@/components/Iconfont';
 import Popup from '@/components/Popup';
 import Space from '@/components/Space';
-import { useState } from 'react';
 import { Links, Services } from './const.ts';
 import styles from './index.module.less';
 
@@ -36,8 +35,6 @@ function ServiceBar() {
 }
 
 function LinksBlock() {
-  const [weixinOpen, setWeixinOpen] = useState(false);
-
   return (
     <div className={styles.links_block}>
       <div className={styles.main_wrapper}>
@@ -54,7 +51,20 @@ function LinksBlock() {
                   rel={'nofollow'}
                   onClick={() => {
                     if (item.open === 'weixin') {
-                      setWeixinOpen(true);
+                      Popup.open({
+                        title: '小米手机官方微信二维码',
+                        width: '72rem',
+                        footer: null,
+                        content: (
+                          <img
+                            src={
+                              'https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/global/wx_text.png'
+                            }
+                            alt={'小米手机官方微信二维码'}
+                            style={{ width: '68rem', height: '34rem' }}
+                          />
+                        )
+                      });
                     }
                   }}
                 >
@@ -82,23 +92,6 @@ function LinksBlock() {
           </div>
         </div>
       </div>
-
-      <Popup
-        open={weixinOpen}
-        title={'小米手机官方微信二维码'}
-        width={'72rem'}
-        onClose={() => {
-          setWeixinOpen(false);
-        }}
-      >
-        <img
-          src={
-            'https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/global/wx_text.png'
-          }
-          alt={'小米手机官方微信二维码'}
-          style={{ width: '68rem', height: '34rem' }}
-        />
-      </Popup>
     </div>
   );
 }
