@@ -93,6 +93,51 @@
     text-align: center;
     transition: 0.2s linear;
 
+    &.small {
+      height: 14.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      padding: 0 2rem 0 3rem;
+      text-align: left;
+
+      &:last-child {
+        .picture {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .icon {
+            color: var(--color-primary);
+            font-size: 5.2rem;
+          }
+        }
+
+        .label {
+          font-size: 1.8rem;
+        }
+
+        .description {
+          color: #757575;
+          margin-bottom: 0;
+        }
+      }
+
+      .picture {
+        width: 8rem;
+        height: 8rem;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      .label {
+        max-width: 9.4rem;
+        white-space: pre-wrap;
+        margin-bottom: 0.5rem;
+      }
+    }
+
     &:hover {
       box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.1);
       transform: translate3d(0, -2px, 0);
@@ -101,6 +146,7 @@
     .picture {
       width: 16rem;
       height: 16rem;
+      margin-top: 2rem;
       margin-bottom: 1.8rem;
     }
 

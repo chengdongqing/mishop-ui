@@ -65,7 +65,7 @@ function MiniCart() {
       }}
     >
       <Space size={4} className={styles.btn}>
-        <Iconfont type={'icon-cart'} style={{ fontSize: '2.2rem' }} />
+        <Iconfont type={'i-cart'} style={{ fontSize: '2.2rem' }} />
         <div>购物车（0）</div>
       </Space>
 

@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { toProductUrl } from '@/utils';
 import Space from '@/components/Space';
 import Grid from '@/components/Grid';
+import Iconfont from '@/components/Iconfont';
 
 export interface HomeBrickProps {
   title: string;
@@ -27,7 +28,7 @@ export default function HomeBrick({ title, tabs, promos }: HomeBrickProps) {
       />
       <Row>
         <PromoBlocks promos={promos} />
-        <ProductBlocks tab={tabs[currentTab]} />
+        <ProductBlocks tabs={tabs} current={currentTab} />
       </Row>
     </div>
   );
@@ -66,11 +67,7 @@ function Header({
             ))}
           </div>
         ) : (
-          <a
-            className={styles.more_link}
-            href={'https://www.mi.com/p/1915.html'}
-            target={'_blank'}
-          >
+          <a className={styles.more_link} href={tabs[0].href} target={'_blank'}>
             查看更多 <RightCircleFilled className={styles.icon} />
           </a>
         )}
@@ -100,35 +97,89 @@ function PromoBlocks({ promos }: { promos: Promo[] }) {
   );
 }
 
-function ProductBlocks({ tab }: { tab: ProductCategory }) {
+function ProductBlocks({
+  tabs,
+  current
+}: {
+  tabs: ProductCategory[];
+  current: number;
+}) {
+  const isMultipleTabs = tabs.length > 1;
+  const products = tabs[current].children || [];
+  const overflowProduct = products[7];
+
   return (
     <Grid columns={4} gap={'1.4rem'} className={styles.products}>
-      {tab.children?.map((item) => (
-        <NavLink
-          key={item.label}
-          className={styles.product_item}
-          to={toProductUrl(item.label)}
-          target={'_blank'}
-        >
-          <img
-            className={styles.picture}
-            src={item.pictureUrl}
-            alt={item.label}
-          />
-          <div className={classNames(styles.label, 'text-ellipsis')}>
-            {item.label}
-          </div>
-          <div className={classNames(styles.description, 'text-ellipsis')}>
-            {item.description}
-          </div>
-          <Space>
-            <span className={styles.price}>{item.price}</span>
-            <span className={classNames(styles.price, styles.original)}>
-              {item.price}
-            </span>
-          </Space>
-        </NavLink>
-      ))}
+      {products
+        .slice(0, isMultipleTabs && overflowProduct ? -1 : 8)
+        .map((item) => (
+          <NavLink
+            key={item.label}
+            className={styles.product_item}
+            to={toProductUrl(item.label)}
+            target={'_blank'}
+          >
+            <img
+              className={styles.picture}
+              src={item.pictureUrl}
+              alt={item.label}
+            />
+            <div>
+              <div className={classNames(styles.label, 'text-ellipsis')}>
+                {item.label}
+              </div>
+              <div className={classNames(styles.description, 'text-ellipsis')}>
+                {item.description}
+              </div>
+              <Space>
+                <span className={styles.price}>{item.price}</span>
+                <span className={classNames(styles.price, styles.original)}>
+                  {item.price}
+                </span>
+              </Space>
+            </div>
+          </NavLink>
+        ))}
+
+      {isMultipleTabs && (
+        <div>
+          {!!overflowProduct && (
+            <NavLink
+              style={{ marginBottom: '1.4rem' }}
+              className={classNames(styles.product_item, styles.small)}
+              to={toProductUrl(overflowProduct.label)}
+              target={'_blank'}
+            >
+              <img
+                className={styles.picture}
+                src={overflowProduct.pictureUrl}
+                alt={overflowProduct.label}
+              />
+              <div>
+                <div className={classNames(styles.label, 'text-ellipsis')}>
+                  {overflowProduct.label}
+                </div>
+                <span className={styles.price}>{overflowProduct.price}</span>
+              </div>
+            </NavLink>
+          )}
+          <NavLink
+            className={classNames(styles.product_item, styles.small)}
+            to={`/search?keyword=${tabs[current].label}`}
+            target={'_blank'}
+          >
+            <div className={styles.picture}>
+              <Iconfont type={'i-arrow-right-circle'} className={styles.icon} />
+            </div>
+            <div>
+              <div className={styles.label}>浏览更多</div>
+              <div className={classNames(styles.description, 'text-ellipsis')}>
+                {tabs[current].label}
+              </div>
+            </div>
+          </NavLink>
+        </div>
+      )}
     </Grid>
   );
 }
