@@ -1,12 +1,16 @@
 import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
+import Popup from '@/components/Popup';
 import Row from '@/components/Row';
 import { RightCircleFilled } from '@ant-design/icons';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Videos } from './const.ts';
+import { Video, Videos } from './const.ts';
 import styles from './index.module.less';
 
 export default function HomeVideo() {
+  const [activeRecord, setActiveRecord] = useState<Video | null>(null);
+
   return (
     <div className={styles.container}>
       <Row justify={'space-between'} align={'middle'} className={styles.header}>
@@ -19,7 +23,12 @@ export default function HomeVideo() {
       <Grid columns={4} gap={'1.4rem'} className={styles.videos}>
         {Videos.slice(0, 4).map((item) => (
           <div className={styles.video_item} key={item.title}>
-            <div className={styles.cover}>
+            <div
+              className={styles.cover}
+              onClick={() => {
+                setActiveRecord(item);
+              }}
+            >
               <img
                 alt={item.title}
                 src={item.coverUrl}
@@ -36,6 +45,24 @@ export default function HomeVideo() {
           </div>
         ))}
       </Grid>
+
+      <Popup
+        width={'88rem'}
+        open={!!activeRecord}
+        title={activeRecord?.title}
+        onClose={() => {
+          setActiveRecord(null);
+        }}
+      >
+        <div style={{ margin: '-2rem' }}>
+          <video
+            src={activeRecord?.playUrl}
+            style={{ width: '100%' }}
+            autoPlay
+            controls
+          />
+        </div>
+      </Popup>
     </div>
   );
 }

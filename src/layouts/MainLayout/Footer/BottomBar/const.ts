@@ -30,11 +30,6 @@ export const Certificates = [
     alt: '诚信网站'
   },
   {
-    src: 'https://xyt.xinchacha.com/img/icon/icon3.png',
-    href: 'https://xyt.xinchacha.com/pcinfo?sn=523009637759455232&certType=6',
-    alt: '可信网站'
-  },
-  {
     src: 'https://i8.mifile.cn/b2c-mimall-media/ba10428a4f9495ac310fd0b5e0cf8370.png',
     href: 'https://www.mi.com/service/buy/commitment/',
     alt: '诚信经营 放心消费'

@@ -141,7 +141,7 @@ export const Links: LinksProps[] = [
       },
       {
         label: '官方微信',
-        open: 'wechat'
+        open: 'weixin'
       },
       {
         label: '联系我们'
