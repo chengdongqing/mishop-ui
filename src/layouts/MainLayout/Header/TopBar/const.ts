@@ -42,5 +42,9 @@ export const NavItems = [
   {
     name: '协议规则',
     link: 'https://www.mi.com/aptitude/list/'
+  },
+  {
+    name: '下载app',
+    link: 'https://www.mi.com/appdownload/'
   }
 ];

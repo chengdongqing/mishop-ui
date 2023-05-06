@@ -1,12 +1,16 @@
 import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
+import SelectLocation from '@/components/SelectLocation';
+import Space from '@/components/Space';
+import useToggle from '@/hooks/useToggle.ts';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavItems } from './const';
 import styles from './index.module.less';
-import Space from '@/components/Space';
 
 export default function TopBar() {
+  const [locationsOpen, toggleLocationsOpen] = useToggle();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -22,6 +26,14 @@ export default function TopBar() {
               {item.name}
             </a>
           ))}
+          <a
+            className={styles.nav_item}
+            onClick={() => {
+              toggleLocationsOpen();
+            }}
+          >
+            Select Location
+          </a>
         </Space>
 
         <Space>
@@ -38,6 +50,13 @@ export default function TopBar() {
           </a>
         </Space>
       </div>
+
+      <SelectLocation
+        open={locationsOpen}
+        onCancel={() => {
+          toggleLocationsOpen();
+        }}
+      />
     </div>
   );
 }

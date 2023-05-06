@@ -1,5 +1,5 @@
-import styles from './index.module.less';
 import { Channels, Promos } from './const.ts';
+import styles from './index.module.less';
 
 export default function HomeHeroSub() {
   return (
@@ -17,7 +17,7 @@ function ChannelBox() {
         <a
           className={styles.channel_item}
           key={item.label}
-          href={item.linkUrl}
+          href={item.href}
           target={'_blank'}
         >
           <img src={item.iconUrl} alt={item.label} className={styles.icon} />

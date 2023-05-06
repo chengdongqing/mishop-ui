@@ -60,6 +60,7 @@ function LinksBlock() {
                             src={
                               'https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/global/wx_text.png'
                             }
+                            draggable={false}
                             alt={'小米手机官方微信二维码'}
                             style={{ width: '68rem', height: '34rem' }}
                           />

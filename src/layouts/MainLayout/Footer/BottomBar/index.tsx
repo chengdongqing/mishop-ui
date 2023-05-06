@@ -1,9 +1,13 @@
 import LogoIcon from '@/assets/logo.png';
+import SelectLocation from '@/components/SelectLocation';
 import Space from '@/components/Space';
+import useToggle from '@/hooks/useToggle.ts';
 import { Certificates, Links } from './const.ts';
 import styles from './index.module.less';
 
 export default function BottomBar() {
+  const [locationsOpen, toggleLocationsOpen] = useToggle();
+
   return (
     <div style={{ backgroundColor: '#fafafa' }}>
       <div className={styles.container}>
@@ -20,6 +24,14 @@ export default function BottomBar() {
                     {item}
                   </a>
                 ))}
+                <a
+                  className={styles.link_item}
+                  onClick={() => {
+                    toggleLocationsOpen();
+                  }}
+                >
+                  Select Location
+                </a>
               </Space>
             </div>
             <div>
@@ -63,6 +75,13 @@ export default function BottomBar() {
         </div>
         <div className={styles.slogan} />
       </div>
+
+      <SelectLocation
+        open={locationsOpen}
+        onCancel={() => {
+          toggleLocationsOpen();
+        }}
+      />
     </div>
   );
 }

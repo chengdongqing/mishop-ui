@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import styles from './index.module.less';
 
-interface PopupProps extends PropsWithChildren {
+export interface PopupProps extends PropsWithChildren {
   // 是否弹出
   open: boolean;
   // 标题

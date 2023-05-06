@@ -3,38 +3,38 @@ export const Channels = [
     label: '保障服务',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/82abdba456e8caaea5848a0cddce03db.png',
-    linkUrl:
+    href:
       'https://api.jr.mi.com/activity/scene/scenePCsearch.html?from=search'
   },
   {
     label: '企业团购',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/806f2dfb2d27978e33fe3815d3851fa3.png',
-    linkUrl: 'https://qiye.mi.com/'
+    href: 'https://qiye.mi.com/'
   },
   {
     label: 'F码通道',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/eded6fa3b897a058163e2485532c4f10.png',
-    linkUrl: 'https://www.mi.com/order/fcode'
+    href: 'https://www.mi.com/order/fcode'
   },
   {
     label: '米粉卡',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/43a3195efa6a3cc7662efed8e7abe8bf.png',
-    linkUrl: 'https://10046.mi.com/'
+    href: 'https://10046.mi.com/'
   },
   {
     label: '以旧换新',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f4846bca6010a0deb9f85464409862af.png',
-    linkUrl: 'https://www.mi.com/a/h/16769.html'
+    href: 'https://www.mi.com/a/h/16769.html'
   },
   {
     label: '话费充值',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9a76d7636b08e0988efb4fc384ae497b.png',
-    linkUrl: 'https://recharge.10046.mi.com/'
+    href: 'https://recharge.10046.mi.com/'
   }
 ];
 
