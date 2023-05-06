@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  font-size: 1.4rem;
+  line-height: 4.8rem;
+  border-bottom: 1px solid #ededed;
+}
+
+.label {
+  height: 4.8rem;
+  color: #b0b0b0;
+  width: 12.4rem;
+}
+
+.options {
+  flex: 1;
+  overflow: hidden;
+  transition: height 0.2s;
+
+  .item {
+    height: 4.8rem;
+    line-height: 4.8rem;
+    color: #424242;
+    cursor: pointer;
+
+    span:hover,
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.btn_more {
+  color: #757575;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  .icon {
+    color: #ccc;
+    font-size: 1.2rem;
+    margin-left: 0.4rem;
+    transition: 0.3s;
+
+    &.active {
+      transform: rotate(180deg);
+    }
+  }
+}

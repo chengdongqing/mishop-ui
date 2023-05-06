@@ -1,12 +1,13 @@
 import {
   Children,
   CSSProperties,
+  HTMLAttributes,
   PropsWithChildren,
   ReactNode,
   useMemo
 } from 'react';
 
-interface SpaceProps extends PropsWithChildren {
+interface SpaceProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   // 排列方向
   direction?: 'horizontal' | 'vertical';
   // 对齐方式
@@ -38,7 +39,8 @@ export default function Space({
   wrap,
   style,
   className,
-  children
+  children,
+  ...props
 }: SpaceProps) {
   const containerStyle = useMemo(() => {
     const style1: CSSProperties = {
@@ -69,7 +71,7 @@ export default function Space({
   }
 
   return (
-    <div style={containerStyle} className={className}>
+    <div style={containerStyle} className={className} {...props}>
       {Children.map(children, (child, index) => {
         return (
           <>

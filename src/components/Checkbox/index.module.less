@@ -1,0 +1,34 @@
+.container {
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  border-radius: 0.2rem;
+  color: #fff;
+  font-size: 1.5rem;
+  transition: 0.3s;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  &.active {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.label {
+  color: #424242;
+  font-size: 1.4rem;
+  user-select: none;
+}

@@ -1,20 +1,22 @@
-import { usePlaceholder } from './helpers.ts';
-import { SearchKeywords } from './const.ts';
-import { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import styles from './index.module.less';
 import Row from '@/components/Row';
 import { SearchOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SearchKeywords } from './const.ts';
+import { usePlaceholder } from './helpers.ts';
+import styles from './index.module.less';
 
 export default function SearchBar() {
   const placeholder = usePlaceholder(SearchKeywords.slice(1));
   const [focused, setFocused] = useState(false);
-
   const [activeIndex, setActiveIndex] = useState(-1);
   const [keyword, setKeyword] = useState('');
   useEffect(() => {
     setKeyword(SearchKeywords[activeIndex] || '');
   }, [activeIndex, setKeyword]);
+
+  const navigate = useNavigate();
 
   return (
     <div className={classNames(styles.container, focused && styles.focused)}>
@@ -47,7 +49,12 @@ export default function SearchBar() {
             }
           }}
         />
-        <div className={styles.btn}>
+        <div
+          className={styles.btn}
+          onClick={() => {
+            navigate('/search');
+          }}
+        >
           <SearchOutlined className={styles.icon} />
         </div>
       </Row>

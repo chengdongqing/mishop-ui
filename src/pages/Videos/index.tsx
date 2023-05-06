@@ -19,18 +19,20 @@ export interface VideoProps {
 
 export default function VideosPage() {
   return (
-    <div style={{ backgroundColor: 'var(--color-background)' }}>
-      <div className={styles.container}>
-        <Breadcrumb values={'视频列表'} />
-        <div className={styles.title_bar}>全部视频</div>
+    <>
+      <Breadcrumb value={'视频列表'} />
+      <div style={{ backgroundColor: 'var(--color-background)' }}>
+        <div className={styles.container}>
+          <div className={styles.title_bar}>全部视频</div>
 
-        <Grid columns={2} gap={'1.4rem'} className={styles.videos}>
-          {Videos.map((item) => (
-            <VideoCard key={item.title} {...item} large />
-          ))}
-        </Grid>
+          <Grid columns={2} gap={'1.4rem'} className={styles.videos}>
+            {Videos.map((item) => (
+              <VideoCard key={item.title} {...item} large />
+            ))}
+          </Grid>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

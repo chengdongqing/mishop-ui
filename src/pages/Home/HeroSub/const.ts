@@ -3,8 +3,7 @@ export const Channels = [
     label: '保障服务',
     iconUrl:
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/82abdba456e8caaea5848a0cddce03db.png',
-    href:
-      'https://api.jr.mi.com/activity/scene/scenePCsearch.html?from=search'
+    href: 'https://api.jr.mi.com/activity/scene/scenePCsearch.html?from=search'
   },
   {
     label: '企业团购',
@@ -40,8 +39,8 @@ export const Channels = [
 
 export const Promos: PromoProps[] = [
   {
-    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0ef4ea18cb2d6ca963d39c2109460e02.jpg',
-    href: 'https://www.mi.com/shop/buy?product_id=18363'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d7d4be1a9e701e16de498f89b1865867.jpg',
+    href: 'https://www.mi.com/xiaomimixfold2'
   },
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/6dd2f3e0de4e6cbba98fd3799cfa5bf7.jpg',

@@ -1,0 +1,33 @@
+.container {
+  height: 3rem;
+  margin: 2rem 0;
+}
+
+.sorts {
+  .sort_item {
+    color: #424242;
+    font-size: 1.4rem;
+    transition: color 0.2s;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    .icon_arrow {
+      font-size: 1.8rem;
+      transform: rotate(180deg);
+      transition: 0.2s;
+
+      &.up {
+        transform: rotate(0);
+      }
+    }
+  }
+
+  .sep {
+    height: 2rem;
+    border-left: 1px solid #e0e0e0;
+  }
+}

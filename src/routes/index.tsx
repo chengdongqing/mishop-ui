@@ -1,4 +1,5 @@
 import HomePage from '@/pages/Home';
+import SearchPage from '@/pages/Search';
 import VideosPage from '@/pages/Videos';
 import { RouteProps } from 'react-router-dom';
 
@@ -22,6 +23,13 @@ const routes: IRoute[] = [
     element: <VideosPage />,
     meta: {
       title: '小米视频'
+    }
+  },
+  {
+    path: '/search',
+    element: <SearchPage />,
+    meta: {
+      title: '搜索'
     }
   }
 ];
