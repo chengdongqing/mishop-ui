@@ -1,14 +1,16 @@
 import LogoIcon from '@/assets/logo.png';
+import { toProductUrl } from '@/utils';
+import classNames from 'classnames';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ProductCategories } from './const';
 import styles from './index.module.less';
 import SearchBar from './SearchBar';
-import classNames from 'classnames';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { toProductUrl } from '@/utils';
 
 export default function MainHeader() {
-  const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
+  const [activeProducts, setActiveProducts] = useState<
+    ProductProps[] | undefined
+  >();
   const timer = useRef<NodeJS.Timer>();
 
   return (
@@ -44,7 +46,7 @@ function CategoryBar({
   onChange
 }: {
   timer: MutableRefObject<NodeJS.Timer | undefined>;
-  onChange: (items: Product[] | undefined) => void;
+  onChange: (items: ProductProps[] | undefined) => void;
 }) {
   return (
     <div
@@ -82,7 +84,7 @@ function ProductsPanel({
   onMouseLeave
 }: {
   open: boolean;
-  products: Product[] | undefined;
+  products: ProductProps[] | undefined;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {

@@ -1,4 +1,4 @@
-export const ProductCategories: ProductCategory[] = [
+export const ProductCategories: ProductCategoryProps[] = [
   {
     label: 'Xiaomi手机',
     children: [

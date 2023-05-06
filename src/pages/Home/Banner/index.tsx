@@ -1,6 +1,6 @@
 import styles from './index.module.less';
 
-export default function HomeBanner({ src, href, description }: Promo) {
+export default function HomeBanner({ src, href, description }: PromoProps) {
   return (
     <a className={styles.container} href={href} target={'_blank'}>
       <img

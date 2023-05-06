@@ -1,7 +1,7 @@
 /**
  * 产品模型
  */
-declare interface Product {
+declare interface ProductProps {
   // 产品名称
   label: string;
   // 图片地址
@@ -17,16 +17,16 @@ declare interface Product {
 /**
  * 产品类别模型
  */
-declare interface ProductCategory {
+declare interface ProductCategoryProps {
   label: string;
-  children?: Product[];
+  children?: ProductProps[];
   href?: string;
 }
 
 /**
  * 促销广告图模型
  */
-declare interface Promo {
+declare interface PromoProps {
   src: string;
   href: string;
   description?: string;

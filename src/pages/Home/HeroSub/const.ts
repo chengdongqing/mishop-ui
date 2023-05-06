@@ -38,7 +38,7 @@ export const Channels = [
   }
 ];
 
-export const Promos: Promo[] = [
+export const Promos: PromoProps[] = [
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0ef4ea18cb2d6ca963d39c2109460e02.jpg',
     href: 'https://www.mi.com/shop/buy?product_id=18363'

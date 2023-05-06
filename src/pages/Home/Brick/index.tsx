@@ -11,8 +11,8 @@ import styles from './index.module.less';
 
 export interface HomeBrickProps {
   title: string;
-  tabs: ProductCategory[];
-  promos: Promo[];
+  tabs: ProductCategoryProps[];
+  promos: PromoProps[];
 }
 
 export default function HomeBrick({ title, tabs, promos }: HomeBrickProps) {
@@ -41,7 +41,7 @@ function Header({
   onChange
 }: {
   title: string;
-  tabs: ProductCategory[];
+  tabs: ProductCategoryProps[];
   current: number;
   onChange: (index: number) => void;
 }) {
@@ -76,7 +76,7 @@ function Header({
   );
 }
 
-function PromoBlocks({ promos }: { promos: Promo[] }) {
+function PromoBlocks({ promos }: { promos: PromoProps[] }) {
   return (
     <div className={styles.promos}>
       {promos.slice(0, 2).map((item) => (
@@ -101,7 +101,7 @@ function ProductBlocks({
   tabs,
   current
 }: {
-  tabs: ProductCategory[];
+  tabs: ProductCategoryProps[];
   current: number;
 }) {
   const isMultipleTabs = tabs.length > 1;

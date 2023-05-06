@@ -1,11 +1,6 @@
-export interface Video {
-  title: string;
-  description?: string;
-  coverUrl: string;
-  playUrl: string;
-}
+import { VideoProps } from './index.tsx';
 
-export const Videos: Video[] = [
+export const Videos: VideoProps[] = [
   {
     title: '2021年春季新品发布会第一场',
     coverUrl:

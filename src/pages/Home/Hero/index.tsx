@@ -1,11 +1,11 @@
-import styles from './index.module.less';
-import { Banners, ProductCategories } from './const.ts';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { useRef, useState } from 'react';
-import classNames from 'classnames';
-import { NavLink } from 'react-router-dom';
-import { toProductUrl } from '@/utils';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
+import { toProductUrl } from '@/utils';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
+import { useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Banners, ProductCategories } from './const.ts';
+import styles from './index.module.less';
 
 export default function HomeHero() {
   return (
@@ -17,7 +17,7 @@ export default function HomeHero() {
 }
 
 function CategoryPanel() {
-  const [products, setProducts] = useState<Product[] | undefined>();
+  const [products, setProducts] = useState<ProductProps[] | undefined>();
   const [activeIndex, setActiveIndex] = useState(-1);
 
   return (
@@ -55,7 +55,7 @@ function ProductsPanel({
   products
 }: {
   open: boolean;
-  products: Product[];
+  products: ProductProps[];
 }) {
   return (
     <div
