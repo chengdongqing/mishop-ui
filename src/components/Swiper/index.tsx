@@ -1,4 +1,6 @@
-import styles from './index.module.less';
+import useSwiper from '@/components/Swiper/useSwiper.ts';
+import { PropsWithStyle } from '@/utils/declare';
+import classNames from 'classnames';
 import {
   Children,
   CSSProperties,
@@ -6,10 +8,9 @@ import {
   PropsWithChildren,
   useImperativeHandle
 } from 'react';
-import classNames from 'classnames';
-import useSwiper from '@/components/Swiper/useSwiper.ts';
+import styles from './index.module.less';
 
-export interface SwiperProps extends PropsWithChildren {
+export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
   // 自动切换
   autoplay?: boolean;
   // 动画效果
@@ -22,9 +23,6 @@ export interface SwiperProps extends PropsWithChildren {
   interval?: number;
   // 是否显示指示点
   indicatorDots?: boolean;
-
-  style?: CSSProperties;
-  className?: string;
 
   // 切换后
   afterChange?: (current?: number) => void;

@@ -1,6 +1,6 @@
 /**
- * 字符串去除空格并且转小写
+ * 构建商品详情访问地址
  */
-export function toProductUrl(label: string) {
+export function buildProductUrl(label: string) {
   return '/product/' + label.replace(/\s*/g, '').toLowerCase();
 }

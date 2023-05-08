@@ -1,6 +1,7 @@
-import { CSSProperties, PropsWithChildren } from 'react';
+import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithChildren } from 'react';
 
-interface RowProps extends PropsWithChildren {
+interface RowProps extends PropsWithChildren, PropsWithStyle {
   // 垂直对齐方式
   align?: 'top' | 'bottom' | 'middle';
   // 水平排列方式
@@ -13,9 +14,6 @@ interface RowProps extends PropsWithChildren {
     | 'space-evenly';
   // 是否自动换行
   wrap?: boolean;
-
-  style?: CSSProperties;
-  className?: string;
 }
 
 const rowAlign = {

@@ -2,7 +2,7 @@ import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { toProductUrl } from '@/utils';
+import { buildProductUrl } from '@/utils';
 import { RightCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
@@ -116,7 +116,7 @@ function ProductBlocks({
           <NavLink
             key={item.label}
             className={styles.product_item}
-            to={toProductUrl(item.label)}
+            to={buildProductUrl(item.label)}
             target={'_blank'}
           >
             <img
@@ -149,7 +149,7 @@ function ProductBlocks({
             <NavLink
               style={{ marginBottom: '1.4rem' }}
               className={classNames(styles.product_item, styles.small)}
-              to={toProductUrl(overflowProduct.label)}
+              to={buildProductUrl(overflowProduct.label)}
               target={'_blank'}
             >
               <img

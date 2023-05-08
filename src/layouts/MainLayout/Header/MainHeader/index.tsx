@@ -1,5 +1,5 @@
 import LogoIcon from '@/assets/logo.png';
-import { toProductUrl } from '@/utils';
+import { buildProductUrl } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -118,7 +118,7 @@ function ProductsPanel({
         {products?.map((item) => (
           <NavLink
             key={item.label}
-            to={toProductUrl(item.label)}
+            to={buildProductUrl(item.label)}
             className={styles.product_item}
           >
             <img

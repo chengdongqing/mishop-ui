@@ -1,5 +1,5 @@
 import Swiper, { SwiperHandle } from '@/components/Swiper';
-import { toProductUrl } from '@/utils';
+import { buildProductUrl } from '@/utils';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
@@ -69,7 +69,7 @@ function ProductsPanel({
         <NavLink
           key={item.label}
           className={styles.product_item}
-          to={toProductUrl(item.label)}
+          to={buildProductUrl(item.label)}
         >
           <img
             alt={item.label}

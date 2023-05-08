@@ -1,3 +1,4 @@
+import { PropsWithStyle } from '@/utils/declare';
 import {
   Children,
   CSSProperties,
@@ -7,7 +8,10 @@ import {
   useMemo
 } from 'react';
 
-interface SpaceProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
+interface SpaceProps
+  extends PropsWithChildren,
+    PropsWithStyle,
+    HTMLAttributes<HTMLDivElement> {
   // 排列方向
   direction?: 'horizontal' | 'vertical';
   // 对齐方式
@@ -18,9 +22,6 @@ interface SpaceProps extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {
   split?: ReactNode;
   // 自动换行
   wrap?: boolean;
-
-  style?: CSSProperties;
-  className?: string;
 }
 
 const spaceAlign = {

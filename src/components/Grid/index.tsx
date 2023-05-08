@@ -1,13 +1,11 @@
-import { CSSProperties, PropsWithChildren } from 'react';
+import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithChildren } from 'react';
 
-interface GridProps extends PropsWithChildren {
+interface GridProps extends PropsWithChildren, PropsWithStyle {
   // 列数
   columns: number;
   // 间距
   gap?: string | number;
-
-  style?: CSSProperties;
-  className?: string;
 }
 
 export default function Grid({
