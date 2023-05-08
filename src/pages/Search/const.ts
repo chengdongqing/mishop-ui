@@ -1,4 +1,4 @@
-export const Brands = [
+export const Brands: OptionItem[] = [
   {
     label: '小米',
     value: 1
@@ -13,7 +13,7 @@ export const Brands = [
   }
 ];
 
-export const Categories = [
+export const Categories: OptionItem[] = [
   {
     label: '手机',
     value: 1
@@ -85,5 +85,22 @@ export const Categories = [
   {
     label: '家电',
     value: 18
+  }
+];
+
+export const FilterBarItems: {
+  label: string;
+  value: string;
+  children: OptionItem[];
+}[] = [
+  {
+    label: '品牌',
+    value: 'brand',
+    children: Brands
+  },
+  {
+    label: '类别',
+    value: 'category',
+    children: Categories
   }
 ];

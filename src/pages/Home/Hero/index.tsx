@@ -17,7 +17,7 @@ export default function HomeHero() {
 }
 
 function CategoryPanel() {
-  const [products, setProducts] = useState<ProductProps[] | undefined>();
+  const [products, setProducts] = useState<Product[] | undefined>();
   const [activeIndex, setActiveIndex] = useState(-1);
 
   return (
@@ -55,7 +55,7 @@ function ProductsPanel({
   products
 }: {
   open: boolean;
-  products: ProductProps[];
+  products: Product[];
 }) {
   return (
     <div

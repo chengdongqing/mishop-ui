@@ -1,4 +1,4 @@
-export const ProductCategories: ProductCategoryProps[] = [
+export const ProductCategories: ProductCategory[] = [
   {
     label: '手机',
     children: [
@@ -75,7 +75,7 @@ export const ProductCategories: ProductCategoryProps[] = [
   }
 ];
 
-export const Banners: PromoProps[] = [
+export const Banners: Promo[] = [
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/89b9804e4b794f230252bc99fb55faa5.jpg?w=2452&h=920',
     href: 'https://www.mi.com/shop/buy?product_id=18363'

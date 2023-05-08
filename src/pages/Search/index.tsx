@@ -1,41 +1,31 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import useSetState from '@/hooks/useSetState.ts';
-import { useState } from 'react';
-import { Brands, Categories } from './const.ts';
+import { FilterBarItems } from './const';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
 import SortBar from './SortBar';
 
 export default function SearchPage() {
   const [params, setParams] = useSetState();
-  const [sortBy, setSortBy] = useState<string | undefined>();
-  const [checks, setChecks] = useState<string[]>([]);
 
   return (
     <>
       <Breadcrumb value={'全部结果'} split={'>'} />
       <div className={styles.filters}>
-        <FilterBar
-          label={'品牌'}
-          options={Brands}
-          value={params.brand}
-          onChange={(value) => {
-            setParams(() => ({
-              brand: value
-            }));
-          }}
-        />
-        <FilterBar
-          label={'类别'}
-          options={Categories}
-          borderless
-          value={params.category}
-          onChange={(value) => {
-            setParams({
-              category: value
-            });
-          }}
-        />
+        {FilterBarItems.map((item, index) => (
+          <FilterBar
+            key={item.value}
+            label={item.label}
+            options={item.children}
+            value={params[item.value] as BasicValue}
+            borderless={index === FilterBarItems.length - 1}
+            onChange={(value) => {
+              setParams({
+                [item.value]: value
+              });
+            }}
+          />
+        ))}
       </div>
       <div
         style={{
@@ -44,12 +34,7 @@ export default function SearchPage() {
         }}
       >
         <div className={styles.container}>
-          <SortBar
-            sortBy={sortBy}
-            checks={checks}
-            onSortChange={setSortBy}
-            onChecksChange={setChecks}
-          />
+          <SortBar params={params} onChange={setParams} />
         </div>
       </div>
     </>

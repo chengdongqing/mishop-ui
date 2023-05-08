@@ -3,9 +3,10 @@ import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import classNames from 'classnames';
+import { Key } from 'react';
 import styles from './index.module.less';
 
-const SortOptions = [
+const SortOptions: OptionItem[] = [
   {
     label: '综合',
     value: undefined
@@ -20,7 +21,7 @@ const SortOptions = [
   }
 ];
 
-const CheckOptions = [
+const CheckOptions: OptionItem[] = [
   {
     label: '促销',
     value: 'promo'
@@ -36,15 +37,11 @@ const CheckOptions = [
 ];
 
 export default function SortBar({
-  sortBy,
-  checks,
-  onSortChange,
-  onChecksChange
+  params,
+  onChange
 }: {
-  sortBy: string | undefined;
-  checks: string[];
-  onSortChange: (value: string | undefined) => void;
-  onChecksChange: (values: string[]) => void;
+  params: Record<string, unknown>;
+  onChange: (values: Record<string, unknown>) => void;
 }) {
   return (
     <Row className={styles.container} justify={'space-between'}>
@@ -58,10 +55,10 @@ export default function SortBar({
             key={item.label}
             className={classNames(
               styles.sort_item,
-              item.value === sortBy && styles.active
+              item.value === params.sortBy && styles.active
             )}
             onClick={() => {
-              onSortChange(item.value);
+              onChange({ sortBy: item.value });
             }}
           >
             {item.label}
@@ -70,10 +67,14 @@ export default function SortBar({
         <div
           className={classNames(
             styles.sort_item,
-            sortBy?.startsWith('price') && styles.active
+            (params.sortBy as string)?.startsWith('price') && styles.active
           )}
           onClick={() => {
-            onSortChange(sortBy?.endsWith('asc') ? 'price-desc' : 'price-asc');
+            onChange({
+              sortBy: (params.sortBy as string)?.endsWith('asc')
+                ? 'price-desc'
+                : 'price-asc'
+            });
           }}
         >
           价格
@@ -81,33 +82,27 @@ export default function SortBar({
             type={'i-arrow-down-long'}
             className={classNames(
               styles.icon_arrow,
-              sortBy === 'price-desc' && styles.up
+              params.sortBy === 'price-desc' && styles.up
             )}
           />
         </div>
       </Space>
 
-      <Space size={'3rem'}>
-        {CheckOptions.map((item) => (
-          <Checkbox
-            key={item.label}
-            checked={checks.includes(item.value)}
-            onChange={(checked) => {
-              if (checked) {
-                onChecksChange(checks.concat(item.value));
-              } else {
-                const index = checks.findIndex((item1) =>
-                  Object.is(item1, item.value)
-                );
-                checks.splice(index, 1);
-                onChecksChange([...checks]);
-              }
-            }}
-          >
-            {item.label}
-          </Checkbox>
-        ))}
-      </Space>
+      <Checkbox.Group
+        onChange={(values) => {
+          onChange({
+            checkedItems: values
+          });
+        }}
+      >
+        <Space size={'3rem'}>
+          {CheckOptions.map((item) => (
+            <Checkbox key={item.value as Key} value={item.value}>
+              {item.label}
+            </Checkbox>
+          ))}
+        </Space>
+      </Checkbox.Group>
     </Row>
   );
 }

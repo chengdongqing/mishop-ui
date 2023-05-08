@@ -2,24 +2,19 @@ import Grid from '@/components/Grid';
 import useToggle from '@/hooks/useToggle.ts';
 import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { Key, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './index.module.less';
 
 export default function FilterBar({
   label,
-  value = -1,
+  value,
   options,
   borderless,
   onChange
-}: {
-  label: string;
-  value: unknown;
-  options: {
-    label: string;
-    value: unknown;
-  }[];
+}: OptionItem & {
+  options: OptionItem[];
   borderless?: boolean;
-  onChange?: (value: unknown) => void;
+  onChange?: (value: BasicValue) => void;
 }) {
   const [expand, toggleExpand] = useToggle();
   const height = useMemo(() => {
@@ -29,6 +24,11 @@ export default function FilterBar({
     }
     return h;
   }, [expand, options.length]);
+  const fullOptions = useMemo(() => {
+    return ([{ label: '全部', value: undefined }] as OptionItem[]).concat(
+      options
+    );
+  }, [options]);
 
   return (
     <div
@@ -37,23 +37,21 @@ export default function FilterBar({
     >
       <div className={styles.label}>{label}:</div>
       <Grid columns={7} className={styles.options} style={{ height }}>
-        {[{ label: '全部', value: -1 as unknown }]
-          .concat(options)
-          .map((item) => (
-            <div
-              className={classNames(
-                styles.item,
-                item.value === value && styles.active,
-                'text-ellipsis'
-              )}
-              key={item.value as Key}
-              onClick={() => {
-                onChange?.(item.value);
-              }}
-            >
-              <span>{item.label}</span>
-            </div>
-          ))}
+        {fullOptions.map((item, index) => (
+          <div
+            className={classNames(
+              styles.item,
+              item.value === value && styles.active,
+              'text-ellipsis'
+            )}
+            key={item.label + index}
+            onClick={() => {
+              onChange?.(item.value);
+            }}
+          >
+            <span>{item.label}</span>
+          </div>
+        ))}
       </Grid>
       <div style={{ width: '6rem' }}>
         {options.length >= 7 && (

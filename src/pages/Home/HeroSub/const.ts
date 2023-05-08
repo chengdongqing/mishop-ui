@@ -37,7 +37,7 @@ export const Channels = [
   }
 ];
 
-export const Promos: PromoProps[] = [
+export const Promos: Promo[] = [
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d7d4be1a9e701e16de498f89b1865867.jpg',
     href: 'https://www.mi.com/xiaomimixfold2'

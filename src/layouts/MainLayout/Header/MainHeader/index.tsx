@@ -8,9 +8,7 @@ import styles from './index.module.less';
 import SearchBar from './SearchBar';
 
 export default function MainHeader() {
-  const [activeProducts, setActiveProducts] = useState<
-    ProductProps[] | undefined
-  >();
+  const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
   const timer = useRef<NodeJS.Timer>();
 
   return (
@@ -46,7 +44,7 @@ function CategoryBar({
   onChange
 }: {
   timer: MutableRefObject<NodeJS.Timer | undefined>;
-  onChange: (items: ProductProps[] | undefined) => void;
+  onChange: (items: Product[] | undefined) => void;
 }) {
   return (
     <div
@@ -84,7 +82,7 @@ function ProductsPanel({
   onMouseLeave
 }: {
   open: boolean;
-  products: ProductProps[] | undefined;
+  products: Product[] | undefined;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
