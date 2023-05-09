@@ -1,4 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import CommendedProducts from '@/components/CommendedProducts';
 import Grid from '@/components/Grid';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
@@ -55,6 +56,7 @@ export default function SearchPage() {
             <>
               <SortBar params={params} onChange={setParams} />
               <ProductList />
+              <CommendedProducts />
             </>
           )}
         </div>
@@ -64,6 +66,12 @@ export default function SearchPage() {
 }
 
 function ProductList() {
+  const [page, setPage] = useSetState(() => ({
+    current: 1,
+    pageSize: 10,
+    totalSize: 156
+  }));
+
   return (
     <div className={styles.products}>
       <Grid columns={4} gap={'1.4rem'}>
@@ -71,8 +79,14 @@ function ProductList() {
           <ProductItem key={item.label} {...item} />
         ))}
       </Grid>
-
-      <Pagination />
+      <Pagination
+        {...page}
+        onChange={(value) => {
+          setPage({
+            current: value
+          });
+        }}
+      />
     </div>
   );
 }

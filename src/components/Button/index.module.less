@@ -11,7 +11,15 @@
   cursor: pointer;
   transition: 0.4s;
 
-  &.btn_gray {
+  &:hover {
+    background-color: #f25807;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &.gray {
     background-color: #b0b0b0;
 
     &:hover {
@@ -19,11 +27,20 @@
     }
   }
 
-  &:hover {
-    background-color: #f25807;
+  &.outlined {
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    background-color: #fff;
+
+    &:hover {
+      color: #fff;
+      background-color: var(--color-primary);
+    }
   }
 
-  &:active {
-    opacity: 0.8;
+  &.small {
+    width: 12rem;
+    height: 3rem;
+    font-size: 1.2rem;
   }
 }

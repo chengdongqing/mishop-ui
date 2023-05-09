@@ -3,6 +3,7 @@ import {
   Children,
   CSSProperties,
   HTMLAttributes,
+  isValidElement,
   PropsWithChildren,
   ReactNode,
   useMemo
@@ -74,7 +75,7 @@ export default function Space({
   return (
     <div style={containerStyle} className={className} {...props}>
       {Children.map(children, (child, index) => {
-        return (
+        return isValidElement(child) ? (
           <>
             <span style={isNotLast(index) ? itemStyle : undefined}>
               {child}
@@ -83,7 +84,7 @@ export default function Space({
               <span style={itemStyle}>{split}</span>
             )}
           </>
-        );
+        ) : null;
       })}
     </div>
   );

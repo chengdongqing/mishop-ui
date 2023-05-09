@@ -1,7 +1,7 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import MainLayout from '@/layouts/MainLayout';
 import routes from '@/routes';
 import RouteDecorator from '@/routes/RouteDecorator.tsx';
-import MainLayout from '@/layouts/MainLayout';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
@@ -16,8 +16,7 @@ function App() {
             />
           ))}
         </Route>
-
-        <Route path={'*'} element={<Navigate to={'/'} />} />
+        <Route path={'*'} element={<Navigate to={'/'} replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,5 @@
-import HomePage from '@/pages/Home';
-import SearchPage from '@/pages/Search';
-import VideosPage from '@/pages/Videos';
+import Loading from '@/components/Loading';
+import { lazy, Suspense } from 'react';
 import { RouteProps } from 'react-router-dom';
 
 export type IRoute = RouteProps & {
@@ -10,24 +9,35 @@ export type IRoute = RouteProps & {
   };
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
+function LazyLoadPage({ path }: { path: string }) {
+  const Page = lazy(() => import(`/src/pages/${path}`));
+
+  return (
+    <Suspense fallback={<Loading delay={500} />}>
+      <Page />
+    </Suspense>
+  );
+}
+
 const routes: IRoute[] = [
   {
     path: '/',
-    element: <HomePage />,
+    element: <LazyLoadPage path={'Home'} />,
     meta: {
       title: '首页'
     }
   },
   {
     path: '/videos',
-    element: <VideosPage />,
+    element: <LazyLoadPage path={'Videos'} />,
     meta: {
       title: '小米视频'
     }
   },
   {
     path: '/search',
-    element: <SearchPage />,
+    element: <LazyLoadPage path={'Search'} />,
     meta: {
       title: '搜索'
     }

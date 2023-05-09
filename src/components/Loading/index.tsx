@@ -1,5 +1,6 @@
+import useMount from '@/hooks/useMount.ts';
 import classNames from 'classnames';
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 import styles from './index.module.less';
 
 interface LoadingProps {
@@ -7,7 +8,9 @@ interface LoadingProps {
   type?: 'wave' | 'circle' | 'dashed' | 'dot';
   // 颜色
   color?: string;
-  // 动画时长系数
+  // 动画时长
+  duration?: number;
+  // 延迟多久显示
   delay?: number;
   // 提示内容
   tip?: string;
@@ -22,19 +25,27 @@ interface LoadingProps {
 export default function Loading({
   type = 'wave',
   color = '#ff6700',
-  delay = 1,
+  duration = 1,
+  delay = 0,
   tip,
   warp = false,
   style = {},
   className
 }: LoadingProps) {
-  return (
+  const [visible, setVisible] = useState(false);
+  useMount(() => {
+    setTimeout(() => {
+      setVisible(true);
+    }, delay);
+  });
+
+  return visible ? (
     <div
       className={classNames(styles.container, warp && styles.wrap, className)}
       style={
         {
           '--color': color,
-          '--delay': `${delay}s`,
+          '--duration': `${duration}s`,
           ...style
         } as CSSProperties
       }
@@ -78,5 +89,5 @@ export default function Loading({
       {/* 提示文字 */}
       {!!tip && <span className={styles.tip}>{tip}</span>}
     </div>
-  );
+  ) : null;
 }

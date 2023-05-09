@@ -1,3 +1,4 @@
+import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import {
   Children,
   useCallback,
@@ -6,7 +7,6 @@ import {
   useRef,
   useState
 } from 'react';
-import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { SwiperProps } from './index.tsx';
 
 export default function useSwiper({
@@ -37,6 +37,12 @@ export default function useSwiper({
           } else {
             setDirection('reverse');
             newValue = value > 0 ? value - 1 : length - 1;
+          }
+        } else {
+          if (index > value) {
+            setDirection('forward');
+          } else {
+            setDirection('reverse');
           }
         }
         setNextIndex(newValue);

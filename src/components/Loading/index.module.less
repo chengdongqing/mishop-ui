@@ -24,7 +24,7 @@
 }
 
 @animation: {
-  animation: rotate var(--delay) linear infinite;
+  animation: rotate var(--duration) linear infinite;
 }
 
 @keyframes rotate {
@@ -49,11 +49,11 @@
     margin-right: 5px;
     background-color: var(--color);
 
-    .waving(@scale: 1, @delay: 0.5 s) {
+    .waving(@scale: 1, @duration: 0.5 s) {
       // linear：匀速执行
       // infinite：无限循环
       // alternate-reverse：执行完动画后再反过来执行
-      animation: waving @delay linear infinite alternate-reverse;
+      animation: waving @duration linear infinite alternate-reverse;
 
       @keyframes waving {
         to {
@@ -65,17 +65,17 @@
 
     &:nth-child(1) {
       height: 10px;
-      .waving(0.7, calc(var(--delay) * 0.3));
+      .waving(0.7, calc(var(--duration) * 0.3));
     }
 
     &:nth-child(2) {
       height: 20px;
-      .waving(0.9, calc(var(--delay) * 0.5));
+      .waving(0.9, calc(var(--duration) * 0.5));
     }
 
     &:nth-child(3) {
       height: 18px;
-      .waving(0.8, calc(var(--delay) * 0.4));
+      .waving(0.8, calc(var(--duration) * 0.4));
     }
   }
 }
@@ -121,9 +121,9 @@
     border-radius: 50%;
     margin: 0 6px;
 
-    .dance(@delay: 0) {
+    .dance(@duration: 0) {
       animation: dance 0.4s ease infinite alternate-reverse;
-      animation-delay: @delay;
+      animation-delay: @duration;
 
       @keyframes dance {
         from {

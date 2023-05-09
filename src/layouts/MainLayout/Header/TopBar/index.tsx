@@ -1,10 +1,10 @@
 import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
-import SelectLocation from '@/components/SelectLocation';
 import Space from '@/components/Space';
 import useToggle from '@/hooks/useToggle.ts';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import LocationSelect from '../../../../components/LocationSelect';
 import { NavItems } from './const';
 import styles from './index.module.less';
 
@@ -51,7 +51,7 @@ export default function TopBar() {
         </Space>
       </div>
 
-      <SelectLocation
+      <LocationSelect
         open={locationsOpen}
         onCancel={() => {
           toggleLocationsOpen();

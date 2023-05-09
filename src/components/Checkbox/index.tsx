@@ -64,14 +64,14 @@ function Checkbox(props: CheckboxProps) {
   );
 }
 
-interface CheckboxGroupContext {
+interface CheckboxGroupContextProps {
   value?: BasicValue[];
   disabled?: boolean;
   registerValue: (value: BasicValue) => void;
   cancelValue: (value: BasicValue) => void;
 }
 
-const GroupContext = createContext<CheckboxGroupContext | null>(null);
+const GroupContext = createContext<CheckboxGroupContextProps | null>(null);
 
 interface CheckboxGroupProps extends PropsWithChildren {
   value?: BasicValue[];

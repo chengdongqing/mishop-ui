@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import Iconfont from '@/components/Iconfont';
 import Popup from '@/components/Popup';
 import Space from '@/components/Space';
@@ -82,15 +83,16 @@ function LinksBlock() {
             400-100-5678
           </a>
           <div className={styles.remark}>8:00-18:00（仅收市话费）</div>
-          <div
-            className={styles.btn_primary}
+          <Button
+            outlined
+            size={'small'}
             onClick={() => {
               window.open('https://mi.com', '', 'width=495px,height=789px');
             }}
           >
-            <Iconfont type={'i-message'} className={styles.icon} />
+            <Iconfont type={'i-message'} className={styles.btn_icon} />
             人工客服
-          </div>
+          </Button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import LogoIcon from '@/assets/logo.png';
-import SelectLocation from '@/components/SelectLocation';
 import Space from '@/components/Space';
 import useToggle from '@/hooks/useToggle.ts';
+import LocationSelect from '../../../../components/LocationSelect';
 import { Certificates, Links } from './const.ts';
 import styles from './index.module.less';
 
@@ -76,7 +76,7 @@ export default function BottomBar() {
         <div className={styles.slogan} />
       </div>
 
-      <SelectLocation
+      <LocationSelect
         open={locationsOpen}
         onCancel={() => {
           toggleLocationsOpen();
