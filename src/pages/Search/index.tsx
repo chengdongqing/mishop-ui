@@ -46,7 +46,7 @@ export default function SearchPage() {
       <div
         style={{
           backgroundColor: 'var(--color-background)',
-          padding: '2rem 10rem'
+          padding: '2rem 0'
         }}
       >
         <div className={styles.container}>
