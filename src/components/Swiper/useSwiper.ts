@@ -14,6 +14,7 @@ export default function useSwiper({
   children,
   autoplay,
   interval,
+  circular,
   afterChange,
   beforeChange
 }: SwiperProps) {
@@ -32,8 +33,8 @@ export default function useSwiper({
         let newValue = index;
         if (index === -1) {
           if (next) {
-            setDirection('forward');
             newValue = value < length - 1 ? value + 1 : 0;
+            setDirection(newValue === 0 && !circular ? 'reverse' : 'forward');
           } else {
             setDirection('reverse');
             newValue = value > 0 ? value - 1 : length - 1;
@@ -50,7 +51,7 @@ export default function useSwiper({
         return newValue;
       });
     },
-    [beforeChange, length]
+    [beforeChange, circular, length]
   );
 
   const startPlay = useCallback(() => {

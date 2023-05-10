@@ -12,7 +12,7 @@ export default function TopBar() {
   const [locationsOpen, toggleLocationsOpen] = useToggle();
 
   return (
-    <div className={styles.wrapper}>
+    <div style={{ backgroundColor: '#333' }}>
       <div className={styles.container}>
         <Space split={<div className={styles.sep} />}>
           {NavItems.map((item) => (

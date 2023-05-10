@@ -179,7 +179,8 @@
     margin: 0 0.4rem;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.4);
-    border: 0.2rem solid hsla(0, 0%, 100%, 0.3);
+    border: max(2px, 0.2rem) solid hsla(0, 0%, 100%, 0.3);
+    transition: 0.5s;
     cursor: pointer;
 
     &.active {

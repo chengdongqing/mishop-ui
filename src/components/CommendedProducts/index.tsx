@@ -1,9 +1,10 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
-import Swiper from '@/components/Swiper';
+import Swiper, { SwiperHandle } from '@/components/Swiper';
 import { buildProductUrl } from '@/utils';
 import { PropsWithStyle } from '@/utils/declare';
 import classNames from 'classnames';
+import { useMemo, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CommendedProduct, Products } from './const.ts';
 import styles from './index.module.less';
@@ -25,17 +26,58 @@ export default function CommendedProducts({
     <div className={classNames(styles.container, className)} style={style}>
       <div className={styles.title}>{title}</div>
       {mode === 'swiper' ? (
-        <Swiper
-          interval={5000}
-          indicatorDots={false}
-          style={{ height: '30rem', marginBottom: '10rem' }}
-        >
-          <ProductBlocks products={Products.slice(0, 5)} />
-          <ProductBlocks products={Products.slice(5, 10)} />
-        </Swiper>
+        <ProductsSwiper />
       ) : (
         <ProductBlocks products={Products} />
       )}
+    </div>
+  );
+}
+
+function ProductsSwiper() {
+  const swiperRef = useRef<SwiperHandle>(null);
+  const [current, setCurrent] = useState(0);
+
+  const panels = useMemo(() => {
+    const products = [];
+    for (let i = 0; i < Products.length; i++) {
+      if (i % 5 === 0) {
+        products.push(Products.slice(i, i + 5));
+      }
+    }
+    return products;
+  }, []);
+
+  return (
+    <div>
+      <Swiper
+        ref={swiperRef}
+        interval={5000}
+        circular={false}
+        indicatorDots={false}
+        afterChange={setCurrent}
+        style={{ height: '30rem' }}
+      >
+        {panels.map((item) => (
+          <ProductBlocks key={item[0].label} products={item} />
+        ))}
+      </Swiper>
+      <div className={styles.swiper_dots}>
+        {Array(panels.length)
+          .fill(null)
+          .map((_, index) => (
+            <div
+              key={index}
+              className={classNames(
+                styles.dot_item,
+                index === current && styles.active
+              )}
+              onClick={() => {
+                swiperRef.current?.to(index);
+              }}
+            />
+          ))}
+      </div>
     </div>
   );
 }

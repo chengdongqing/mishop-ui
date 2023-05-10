@@ -1,6 +1,6 @@
 .container {
   width: var(--width-primary);
-  margin: auto;
+  margin: 0 auto 10rem;
 }
 
 .title {
@@ -67,5 +67,27 @@
     left: 50%;
     transform: translate3d(-50%, 105%, 0);
     transition: 0.4s;
+  }
+}
+
+.swiper_dots {
+  padding: 1.4rem;
+  display: flex;
+  justify-content: center;
+
+  .dot_item {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.8rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: max(2px, 0.2rem) solid #f5f5f5;
+    transition: 0.5s;
+    cursor: pointer;
+
+    &.active {
+      background-color: #f5f5f5;
+      border-color: var(--color-primary);
+    }
   }
 }

@@ -21,11 +21,13 @@ export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
   duration?: number;
   // 切换间隔
   interval?: number;
+  // 衔接滑动
+  circular?: boolean;
   // 是否显示指示点
   indicatorDots?: boolean;
 
   // 切换后
-  afterChange?: (current?: number) => void;
+  afterChange?: (current: number) => void;
   // 切换前
   beforeChange?: (current: number, next: number) => void;
 }
@@ -45,6 +47,7 @@ const Swiper = forwardRef<SwiperHandle, SwiperProps>(
       direction: direction1 = 'forward',
       duration = 800,
       interval = 3000,
+      circular = true,
       indicatorDots = true,
       style,
       className,
@@ -61,6 +64,7 @@ const Swiper = forwardRef<SwiperHandle, SwiperProps>(
       children,
       autoplay,
       interval,
+      circular,
       afterChange,
       beforeChange
     });
