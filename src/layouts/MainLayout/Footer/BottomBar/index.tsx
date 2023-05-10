@@ -18,6 +18,7 @@ export default function BottomBar() {
               <Space
                 split={<span style={{ color: '#b0b0b0' }}>|</span>}
                 size={'0.4rem'}
+                wrap
               >
                 {Links[0].map((item) => (
                   <a key={item} className={styles.link_item}>

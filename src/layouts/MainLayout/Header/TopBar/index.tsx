@@ -45,9 +45,9 @@ export default function TopBar() {
               注册
             </NavLink>
           </Space>
-          <a href={'/cart'} className={styles.nav_item}>
+          <NavLink to={'/cart'} className={styles.nav_item}>
             <MiniCart />
-          </a>
+          </NavLink>
         </Space>
       </div>
 

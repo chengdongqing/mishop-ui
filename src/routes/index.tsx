@@ -1,5 +1,5 @@
 import Loading from '@/components/Loading';
-import { lazy, Suspense } from 'react';
+import { ComponentType, lazy, Suspense } from 'react';
 import { RouteProps } from 'react-router-dom';
 
 export type IRoute = RouteProps & {
@@ -10,8 +10,8 @@ export type IRoute = RouteProps & {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-function LazyLoadPage({ path }: { path: string }) {
-  const Page = lazy(() => import(`/src/pages/${path}`));
+function LazyLoadPage({ file }: { file: Promise<{ default: ComponentType }> }) {
+  const Page = lazy(() => file);
 
   return (
     <Suspense fallback={<Loading delay={500} />}>
@@ -23,21 +23,21 @@ function LazyLoadPage({ path }: { path: string }) {
 const routes: IRoute[] = [
   {
     path: '/',
-    element: <LazyLoadPage path={'Home'} />,
+    element: <LazyLoadPage file={import('../pages/Home')} />,
     meta: {
       title: '首页'
     }
   },
   {
     path: '/videos',
-    element: <LazyLoadPage path={'Videos'} />,
+    element: <LazyLoadPage file={import('../pages/Videos')} />,
     meta: {
       title: '小米视频'
     }
   },
   {
     path: '/search',
-    element: <LazyLoadPage path={'Search'} />,
+    element: <LazyLoadPage file={import('../pages/Search')} />,
     meta: {
       title: '搜索'
     }

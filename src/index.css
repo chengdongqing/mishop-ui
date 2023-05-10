@@ -14,11 +14,12 @@
   position: relative;
   font-weight: normal;
   outline: none;
+  user-select: none;
   text-decoration: none;
 }
 
 html {
-  font-size: 10px;
+  font-size: max(0.6vw, 8px);
 }
 
 img,
