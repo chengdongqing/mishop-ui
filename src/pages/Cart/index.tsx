@@ -28,6 +28,7 @@ function EmptyCart() {
           'https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/cart/cart-empty.png'
         }
         alt={'empty cart'}
+        draggable={false}
       />
       <div className={styles.content}>
         <div className={styles.tips}>您的购物车还是空的！</div>
@@ -42,8 +43,8 @@ function EmptyCart() {
               </Link>
               <Link to={'/search'}>
                 <Button
-                  className={classNames(styles.btn, styles.gray)}
                   outlined
+                  className={classNames(styles.btn, styles.outlined)}
                 >
                   马上去购物
                 </Button>
