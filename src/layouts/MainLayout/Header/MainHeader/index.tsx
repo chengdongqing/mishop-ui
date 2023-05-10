@@ -1,8 +1,8 @@
-import LogoIcon from '@/assets/logo.png';
+import Logo from '@/components/Logo';
 import { buildProductUrl } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ProductCategories } from './const';
 import styles from './index.module.less';
 import SearchBar from './SearchBar';
@@ -15,9 +15,7 @@ export default function MainHeader() {
     <div>
       <div className={styles.container}>
         <div style={{ width: '23.4rem' }}>
-          <NavLink to={'/'}>
-            <img src={LogoIcon} className={styles.logo_icon} alt={'logo'} />
-          </NavLink>
+          <Logo />
         </div>
         <CategoryBar timer={timer} onChange={setActiveProducts} />
         <SearchBar />
@@ -116,7 +114,7 @@ function ProductsPanel({
     >
       <div className={styles.wrapper}>
         {products?.map((item) => (
-          <NavLink
+          <Link
             key={item.label}
             to={buildProductUrl(item.label)}
             className={styles.product_item}
@@ -128,7 +126,7 @@ function ProductsPanel({
             />
             <div className={styles.label}>{item.label}</div>
             <div className={styles.price}>{item.price}</div>
-          </NavLink>
+          </Link>
         ))}
       </div>
     </div>

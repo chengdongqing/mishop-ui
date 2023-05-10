@@ -3,7 +3,7 @@ import { buildProductUrl } from '@/utils';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Banners, ProductCategories } from './const.ts';
 import styles from './index.module.less';
 
@@ -66,7 +66,7 @@ function ProductsPanel({
       }}
     >
       {products.slice(0, 24).map((item) => (
-        <NavLink
+        <Link
           key={item.label}
           className={styles.product_item}
           to={buildProductUrl(item.label)}
@@ -79,7 +79,7 @@ function ProductsPanel({
           <span className={classNames(styles.label, 'text-ellipsis')}>
             {item.label}
           </span>
-        </NavLink>
+        </Link>
       ))}
     </div>
   );

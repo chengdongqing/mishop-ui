@@ -9,7 +9,6 @@ export type IRoute = RouteProps & {
   };
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 function LazyLoadPage({ file }: { file: Promise<{ default: ComponentType }> }) {
   const Page = lazy(() => file);
 
@@ -32,7 +31,7 @@ const routes: IRoute[] = [
     path: '/videos',
     element: <LazyLoadPage file={import('../pages/Videos')} />,
     meta: {
-      title: '小米视频'
+      title: '视频'
     }
   },
   {
@@ -40,6 +39,13 @@ const routes: IRoute[] = [
     element: <LazyLoadPage file={import('../pages/Search')} />,
     meta: {
       title: '搜索'
+    }
+  },
+  {
+    path: '/cart',
+    element: <LazyLoadPage file={import('../pages/Cart')} />,
+    meta: {
+      title: '购物车'
     }
   }
 ];

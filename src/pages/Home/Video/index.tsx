@@ -3,7 +3,7 @@ import Row from '@/components/Row';
 import { VideoCard } from '@/pages/Videos';
 import { Videos } from '@/pages/Videos/const.ts';
 import { RightCircleFilled } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function HomeVideo() {
@@ -11,9 +11,9 @@ export default function HomeVideo() {
     <div className={styles.container}>
       <Row justify={'space-between'} align={'middle'} className={styles.header}>
         <div className={styles.title}>视频</div>
-        <NavLink className={styles.more_link} to={'/videos'} target={'_blank'}>
+        <Link className={styles.more_link} to={'/videos'} target={'_blank'}>
           查看更多 <RightCircleFilled className={styles.icon} />
-        </NavLink>
+        </Link>
       </Row>
 
       <Grid columns={4} gap={'1.4rem'} className={styles.videos}>

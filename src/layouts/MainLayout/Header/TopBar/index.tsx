@@ -3,7 +3,7 @@ import Loading from '@/components/Loading';
 import Space from '@/components/Space';
 import useToggle from '@/hooks/useToggle.ts';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LocationSelect from '../../../../components/LocationSelect';
 import { NavItems } from './const';
 import styles from './index.module.less';
@@ -38,16 +38,16 @@ export default function TopBar() {
 
         <Space>
           <Space split={<div className={styles.sep} />}>
-            <NavLink to={'/login'} className={styles.nav_item}>
+            <Link to={'/login'} className={styles.nav_item}>
               登录
-            </NavLink>
-            <NavLink to={'/register'} className={styles.nav_item}>
+            </Link>
+            <Link to={'/register'} className={styles.nav_item}>
               注册
-            </NavLink>
+            </Link>
           </Space>
-          <NavLink to={'/cart'} className={styles.nav_item}>
+          <Link to={'/cart'} className={styles.nav_item}>
             <MiniCart />
-          </NavLink>
+          </Link>
         </Space>
       </div>
 

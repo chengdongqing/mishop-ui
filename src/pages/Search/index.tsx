@@ -9,7 +9,7 @@ import useSetState from '@/hooks/useSetState.ts';
 import { buildProductUrl } from '@/utils';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FilterBarItems, ProductItemProps, Products } from './const';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
@@ -95,7 +95,7 @@ function ProductItem(props: ProductItemProps) {
   const [pictureIndex, setPictureIndex] = useState(0);
 
   return (
-    <NavLink className={styles.product_item} to={buildProductUrl(props.label)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.label)}>
       <img
         alt={props.label}
         src={props.pictureUrls[pictureIndex]}
@@ -126,6 +126,6 @@ function ProductItem(props: ProductItemProps) {
           />
         ))}
       </Space>
-    </NavLink>
+    </Link>
   );
 }

@@ -5,7 +5,7 @@ import { buildProductUrl } from '@/utils';
 import { PropsWithStyle } from '@/utils/declare';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CommendedProduct, Products } from './const.ts';
 import styles from './index.module.less';
 
@@ -86,7 +86,7 @@ function ProductBlocks({ products }: { products: CommendedProduct[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
-        <NavLink
+        <Link
           key={item.label}
           className={styles.product_item}
           to={buildProductUrl(item.label)}
@@ -111,7 +111,7 @@ function ProductBlocks({ products }: { products: CommendedProduct[] }) {
           >
             加入购物车
           </Button>
-        </NavLink>
+        </Link>
       ))}
     </Grid>
   );

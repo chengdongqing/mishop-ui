@@ -6,7 +6,7 @@ import { buildProductUrl } from '@/utils';
 import { RightCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export interface HomeBrickProps {
@@ -113,7 +113,7 @@ function ProductBlocks({
       {products
         .slice(0, isMultipleTabs && overflowProduct ? -1 : 8)
         .map((item) => (
-          <NavLink
+          <Link
             key={item.label}
             className={styles.product_item}
             to={buildProductUrl(item.label)}
@@ -140,13 +140,13 @@ function ProductBlocks({
                 )}
               </Space>
             </div>
-          </NavLink>
+          </Link>
         ))}
 
       {isMultipleTabs && (
         <div>
           {!!overflowProduct && (
-            <NavLink
+            <Link
               style={{ marginBottom: '1.4rem' }}
               className={classNames(styles.product_item, styles.small)}
               to={buildProductUrl(overflowProduct.label)}
@@ -163,9 +163,9 @@ function ProductBlocks({
                 </div>
                 <span className={styles.price}>{overflowProduct.price}</span>
               </div>
-            </NavLink>
+            </Link>
           )}
-          <NavLink
+          <Link
             className={classNames(styles.product_item, styles.small)}
             to={`/search?keyword=${tabs[current].label}`}
             target={'_blank'}
@@ -179,7 +179,7 @@ function ProductBlocks({
                 {tabs[current].label}
               </div>
             </div>
-          </NavLink>
+          </Link>
         </div>
       )}
     </Grid>
