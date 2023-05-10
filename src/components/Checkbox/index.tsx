@@ -1,14 +1,7 @@
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
 import classNames from 'classnames';
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.less';
 
 interface CheckboxProps extends PropsWithChildren {
@@ -57,7 +50,7 @@ function Checkbox(props: CheckboxProps) {
       onClick={handleChange}
     >
       <div className={styles.checkbox}>
-        <Iconfont type={'i-check'} className={styles.icon} />
+        <Iconfont type={'i-check'} />
       </div>
       <div className={styles.label}>{props.children}</div>
     </Space>
