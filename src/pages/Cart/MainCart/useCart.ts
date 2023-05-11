@@ -30,7 +30,7 @@ export default function useCart(
     }
   }
   function removeItem(index: number) {
-    popup.confirm('确认删除所选商品吗？', {
+    popup.confirm('确定删除所选商品吗？', {
       onOk() {
         products.splice(index, 1);
         onChange([...products]);

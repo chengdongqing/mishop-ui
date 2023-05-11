@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Locations } from './const.ts';
 import styles from './index.module.less';
 
-export default function SelectLocation({
+export default function LocationSelect({
   open,
   onCancel
 }: Pick<PopupProps, 'open' | 'onCancel'>) {

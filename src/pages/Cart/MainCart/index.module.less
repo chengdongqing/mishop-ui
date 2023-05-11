@@ -132,17 +132,18 @@
     &::after {
       content: '';
       position: absolute;
-      bottom: 0;
       left: 50%;
       transform: translate3d(-50%, 100%, 0);
       border: 0.8rem solid transparent;
     }
     &::before {
-      border-width: 0.8rem 1rem 0;
+      bottom: 0;
+      border-width: 0.8rem 0.9rem;
       border-top-color: var(--color-primary);
     }
     &::after {
-      border-width: 0.7rem 0.8rem 0;
+      bottom: 0.1rem;
+      border-width: 0.7rem 0.8rem;
       border-top-color: #fff;
     }
   }

@@ -9,7 +9,7 @@ import { CartContext } from '@/pages/Cart';
 import { displayAmount, MathOperation } from '@/utils';
 import classNames from 'classnames';
 import { useContext, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import useCart from './useCart.ts';
 
@@ -108,7 +108,6 @@ function ProductList() {
 
 function FooterBar() {
   const { products, onChange } = useContext(CartContext);
-
   const totalNum = useMemo(() => {
     return products.reduce((sum, item) => {
       return item.checked ? sum + item.number : sum;
@@ -124,6 +123,8 @@ function FooterBar() {
         : sum;
     }, 0);
   }, [products]);
+
+  const navigate = useNavigate();
 
   return (
     <Row
@@ -142,7 +143,7 @@ function FooterBar() {
         <div
           className={classNames(styles.link_item, styles.danger)}
           onClick={() => {
-            popup.confirm('确认清空购物车吗？', {
+            popup.confirm('确定清空购物车吗？', {
               onOk() {
                 onChange([]);
               }
@@ -160,16 +161,19 @@ function FooterBar() {
           合计：<span>{totalAmount}</span> 元
         </div>
         <div>
-          <Link to={'/order/checkout'}>
-            <Button
-              className={classNames(
-                styles.btn_order,
-                totalNum === 0 && styles.disabled
-              )}
-            >
-              去结算
-            </Button>
-          </Link>
+          <Button
+            className={classNames(
+              styles.btn_order,
+              totalNum === 0 && styles.disabled
+            )}
+            onClick={() => {
+              if (totalNum > 0) {
+                navigate('/order/checkout');
+              }
+            }}
+          >
+            去结算
+          </Button>
           {totalNum === 0 && (
             <Button outlined className={styles.btn_tips}>
               请勾选需要结算的商品
