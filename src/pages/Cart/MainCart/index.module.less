@@ -1,0 +1,149 @@
+.container {
+  margin-top: -2rem;
+  margin-bottom: 4rem;
+}
+
+.product_list {
+  background-color: #fff;
+
+  .product_row {
+    color: #424242;
+    font-size: 1.6rem;
+    padding: 1.5rem 2.6rem 1.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.title {
+      font-size: 1.4rem;
+      height: 7rem;
+    }
+
+    .col_check {
+      width: 23rem;
+      padding-left: 2.4rem;
+
+      .img {
+        width: 8rem;
+        height: 8rem;
+        margin-left: 5.6rem;
+      }
+    }
+
+    .col_name {
+      width: 38rem;
+    }
+
+    .col_price {
+      width: 15.8rem;
+      text-align: center;
+    }
+
+    .col_num {
+      width: 15rem;
+      text-align: center;
+    }
+
+    .col_total {
+      width: 20rem;
+      text-align: center;
+
+      &.value {
+        color: var(--color-primary);
+      }
+    }
+
+    .col_action {
+      width: 8rem;
+      text-align: center;
+
+      .icon {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.footer_bar {
+  height: 5rem;
+  background-color: #fff;
+  margin-top: 2rem;
+  font-size: 1.4rem;
+
+  .link_item {
+    color: #757575;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    &.danger:hover {
+      color: red;
+    }
+  }
+
+  .cart_total {
+    color: #757575;
+    span {
+      color: var(--color-primary);
+    }
+  }
+
+  .total_amount {
+    color: var(--color-primary);
+
+    span {
+      font-size: 3rem;
+    }
+  }
+
+  .btn_order {
+    width: 20rem;
+    height: 5rem;
+    font-size: 1.8rem;
+
+    &.disabled {
+      color: #b0b0b0;
+      background-color: #e0e0e0;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn_tips {
+    width: 20rem;
+    height: 5rem;
+    position: absolute;
+    top: -0.8rem;
+    transform: translateY(-100%);
+    cursor: default;
+
+    &:hover {
+      color: var(--color-primary);
+      background-color: #fff;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate3d(-50%, 100%, 0);
+      border: 0.8rem solid transparent;
+    }
+    &::before {
+      border-width: 0.8rem 1rem 0;
+      border-top-color: var(--color-primary);
+    }
+    &::after {
+      border-width: 0.7rem 0.8rem 0;
+      border-top-color: #fff;
+    }
+  }
+}

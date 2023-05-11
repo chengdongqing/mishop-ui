@@ -10,8 +10,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({
   gray,
+  size,
   outlined,
-  size = 'default',
   className,
   ...props
 }: ButtonProps) {
@@ -21,8 +21,8 @@ export default function Button({
       className={classNames(
         className,
         styles.btn,
-        styles[size],
         gray && styles.gray,
+        !!size && styles[size],
         outlined && styles.outlined
       )}
     />

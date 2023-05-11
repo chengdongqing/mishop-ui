@@ -4,14 +4,14 @@ import Space from '@/components/Space';
 import classNames from 'classnames';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 import styles from './index.module.less';
 
 export interface PopupProps extends PropsWithChildren {
   // 是否弹出
   open: boolean;
   // 标题
-  title?: string;
+  title?: ReactNode;
   // 宽度
   width?: number | string;
   // 底部内容
@@ -21,9 +21,11 @@ export interface PopupProps extends PropsWithChildren {
   // 点击蒙层是否可关闭
   maskClosable?: boolean;
   // 确认按钮文本
-  okText?: string;
+  okText?: ReactNode;
   // 取消按钮文本
-  cancelText?: string;
+  cancelText?: ReactNode;
+  // 点击确定时关闭
+  closeOnOk?: boolean;
 
   // 点击确认回调
   onOk?: () => void;
@@ -40,6 +42,7 @@ function Popup({
   maskClosable = true,
   okText = '确定',
   cancelText = '取消',
+  closeOnOk,
   children,
   onOk,
   onCancel
@@ -60,7 +63,7 @@ function Popup({
         <div style={{ width }} className={styles.container}>
           <div className={classNames(styles.header, !title && styles.headless)}>
             {!!title && <div className={styles.title}>{title}</div>}
-            {closable && <CloseIcon onClose={close} />}
+            {closable && <CloseIcon onClick={close} />}
           </div>
           <div className={styles.body}>{children}</div>
           {footer !== undefined ? (
@@ -71,6 +74,9 @@ function Popup({
                 {!!okText && (
                   <Button
                     onClick={() => {
+                      if (closeOnOk) {
+                        close();
+                      }
                       onOk?.();
                     }}
                   >
@@ -106,10 +112,12 @@ function Popup({
   );
 }
 
+let popup: Root | undefined;
 function open(
   props: Omit<PopupProps, 'open' | 'children'> & { content?: ReactNode }
 ) {
-  const popup = createRoot(document.getElementById('popup') as HTMLElement);
+  popup?.unmount();
+  popup = createRoot(document.getElementById('popup') as HTMLElement);
   popup.render(
     <Popup
       open
@@ -117,12 +125,36 @@ function open(
       children={props.content}
       onCancel={() => {
         props.onCancel?.();
-        popup.unmount();
+        popup?.unmount();
       }}
     />
   );
 }
 
+function alert(title: string) {
+  open({
+    width: '48rem',
+    content: <div className={styles.message}>{title}</div>,
+    maskClosable: false,
+    cancelText: null,
+    closeOnOk: true
+  });
+}
+
+function confirm(title: string, props: Omit<PopupProps, 'open' | 'children'>) {
+  open({
+    width: '48rem',
+    content: (
+      <div className={classNames(styles.message, styles.confirm)}>{title}</div>
+    ),
+    maskClosable: false,
+    closeOnOk: true,
+    ...props
+  });
+}
+
 Popup.open = open;
+Popup.alert = alert;
+Popup.confirm = confirm;
 
 export default Popup;

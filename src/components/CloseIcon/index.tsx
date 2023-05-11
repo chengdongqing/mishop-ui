@@ -1,15 +1,15 @@
 import Iconfont from '@/components/Iconfont';
+import classNames from 'classnames';
+import { HTMLAttributes } from 'react';
 import styles from './index.module.less';
 
-export default function CloseIcon({ onClose }: { onClose: () => void }) {
+export default function CloseIcon({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
-      className={styles.container}
-      onClick={() => {
-        onClose();
-      }}
-    >
-      <Iconfont type={'i-close'} className={styles.icon} />
+    <div {...props} className={classNames(styles.container, className)}>
+      <Iconfont type={'i-close'} />
     </div>
   );
 }
