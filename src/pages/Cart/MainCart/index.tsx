@@ -6,12 +6,13 @@ import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { CartContext } from '@/pages/Cart';
-import { displayAmount, MathOperation } from '@/utils';
+import { displayAmount } from '@/utils';
 import classNames from 'classnames';
-import { useContext, useMemo } from 'react';
+import Decimal from 'decimal.js';
+import { useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useCart, useCartTotal, useFooterFixed } from './helpers.ts';
 import styles from './index.module.less';
-import useCart from './useCart.ts';
 
 export default function MainCart() {
   return (
@@ -37,7 +38,7 @@ function ProductList() {
       >
         <div className={styles.col_check}>
           <Checkbox
-            checked={allChecked || halfChecked}
+            checked={allChecked}
             indeterminate={!allChecked && halfChecked}
             onChange={(checked) => {
               switchCheck(-1, checked);
@@ -90,7 +91,7 @@ function ProductList() {
             />
           </div>
           <div className={classNames(styles.col_total, styles.value)}>
-            {displayAmount(MathOperation.multiply(item.price, item.number))}
+            {displayAmount(new Decimal(item.price).mul(item.number).toNumber())}
           </div>
           <div className={styles.col_action}>
             <CloseIcon
@@ -108,29 +109,15 @@ function ProductList() {
 
 function FooterBar() {
   const { products, onChange } = useContext(CartContext);
-  const totalNum = useMemo(() => {
-    return products.reduce((sum, item) => {
-      return item.checked ? sum + item.number : sum;
-    }, 0);
-  }, [products]);
-  const totalAmount = useMemo(() => {
-    return products.reduce((sum, item) => {
-      return item.checked
-        ? MathOperation.plus(
-            sum,
-            MathOperation.multiply(item.price, item.number)
-          )
-        : sum;
-    }, 0);
-  }, [products]);
-
+  const footerRef = useRef<HTMLDivElement>(null);
+  const { totalNum, totalAmount } = useCartTotal(products);
+  const fixed = useFooterFixed(footerRef, [products.length]);
   const navigate = useNavigate();
 
   return (
-    <Row
-      align={'middle'}
-      justify={'space-between'}
-      className={styles.footer_bar}
+    <div
+      ref={footerRef}
+      className={classNames(styles.footer_bar, fixed && styles.fixed)}
     >
       <Space
         size={'1.6rem'}
@@ -181,6 +168,6 @@ function FooterBar() {
           )}
         </div>
       </Space>
-    </Row>
+    </div>
   );
 }

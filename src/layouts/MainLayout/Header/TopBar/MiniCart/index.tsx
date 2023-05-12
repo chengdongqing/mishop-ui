@@ -3,18 +3,31 @@ import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import { CartContextProps } from '@/pages/Cart';
 import { Products } from '@/pages/Cart/const.ts';
+import { useCartTotal } from '@/pages/Cart/MainCart/helpers.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
-
-const isEmpty = false;
 
 export default function MiniCart() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState(() => {
+    return Products.filter((item) => item.checked);
+  });
+  const isEmpty = useMemo(() => products.length === 0, [products.length]);
+  const height = useMemo(() => {
+    if (open) {
+      if (loading || !products.length) {
+        return '12rem';
+      }
+      return `${Math.min(products.length, 5) * 8 + 10}rem`;
+    }
+    return 0;
+  }, [loading, open, products.length]);
 
   function init() {
     setLoading(true);
@@ -23,57 +36,65 @@ export default function MiniCart() {
     }, 1500);
   }
 
+  const navigate = useNavigate();
+
   return (
     <div
       className={styles.container}
       onMouseEnter={() => {
-        setOpen(true);
-        init();
+        if (!open) {
+          setOpen(true);
+          init();
+        }
       }}
       onMouseLeave={() => {
         setOpen(false);
       }}
     >
-      <Link to={'/cart'}>
-        <Space
-          size={4}
-          className={classNames(styles.btn, !isEmpty && styles.active)}
-        >
-          <Iconfont
-            type={isEmpty ? 'i-cart' : 'i-cart-full'}
-            style={{ fontSize: '2.2rem' }}
-          />
-          <div>购物车（{isEmpty ? 0 : 2}）</div>
-        </Space>
-      </Link>
-
-      <div
-        className={styles.popover}
-        style={{
-          height: open ? (loading ? '12rem' : 'auto') : 0
+      <Space
+        size={4}
+        className={classNames(styles.btn, !isEmpty && styles.active)}
+        onClick={() => {
+          navigate('/cart');
         }}
       >
+        <Iconfont
+          type={isEmpty ? 'i-cart' : 'i-cart-full'}
+          style={{ fontSize: '2.2rem' }}
+        />
+        <div>购物车（{products.length}）</div>
+      </Space>
+
+      <div className={styles.popover} style={{ height }}>
         {loading ? (
           <Loading type={'wave'} style={{ padding: '5rem' }} />
-        ) : isEmpty ? (
+        ) : !products.length ? (
           <div className={styles.placeholder}>
             购物车中还没有商品，赶紧选购吧！
           </div>
         ) : (
-          <MainCart />
+          <MainCart
+            navigate={navigate}
+            products={products}
+            onChange={setProducts}
+          />
         )}
       </div>
     </div>
   );
 }
 
-function MainCart() {
-  const navigate = useNavigate();
+function MainCart({
+  navigate,
+  products,
+  onChange
+}: CartContextProps & { navigate: NavigateFunction }) {
+  const { totalNum, totalAmount } = useCartTotal(products);
 
   return (
     <>
       <div className={styles.products}>
-        {Products.map((item) => (
+        {products.map((item, index) => (
           <Row
             key={item.label}
             align={'middle'}
@@ -93,7 +114,14 @@ function MainCart() {
             <div className={styles.price}>
               {displayAmount(item.price)} x {item.number}
             </div>
-            <Iconfont type={'i-close'} className={styles.icon_remove} />
+            <Iconfont
+              type={'i-close'}
+              className={styles.icon_remove}
+              onClick={() => {
+                products.splice(index, 1);
+                onChange([...products]);
+              }}
+            />
           </Row>
         ))}
       </div>
@@ -103,9 +131,9 @@ function MainCart() {
           direction={'vertical'}
           style={{ marginBottom: '-0.4rem' }}
         >
-          <div className={styles.total_num}>共10件商品</div>
+          <div className={styles.total_num}>共{totalNum}件商品</div>
           <div className={styles.total_amount}>
-            <span>27.9</span>元
+            <span>{totalAmount}</span>元
           </div>
         </Space>
         <Button

@@ -51,8 +51,8 @@ function Checkbox(props: CheckboxProps) {
     <Space
       className={classNames(
         styles.container,
-        checked && styles.active,
-        !!disabled && styles.disabled
+        !!disabled && styles.disabled,
+        (checked || props.indeterminate) && styles.active
       )}
       onClick={handleChange}
     >

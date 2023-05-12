@@ -70,9 +70,19 @@
 
 .footer_bar {
   height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   margin-top: 2rem;
   font-size: 1.4rem;
+  position: sticky;
+  bottom: 0;
+
+  &.fixed {
+    background-color: #fafafa;
+    box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.1);
+  }
 
   .link_item {
     color: #757575;

@@ -85,15 +85,15 @@ export const Banners: Promo[] = [
     href: 'https://www.mi.com/a/h/29234.html?sign=7e0fdd19b2fbac34e489df529bb1d26c'
   },
   {
-    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/46d41dd62cff2259e56e678205616e0f.jpg?thumb=1&f=webp&q=90',
-    href: 'https://www.mi.com/shop/buy?product_id=18268'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/8e8803e2c8bdd75b3a43b847c5a2f160.jpg?thumb=1&f=webp&q=90',
+    href: 'https://www.mi.com/a/h/29449.html?sign=2887f1f73d30fabeee121e476f99b1b0'
   },
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b631a8788272ad133da984bd1503f989.jpg?thumb=1&f=webp&q=90',
     href: 'https://www.mi.com/a/h/28850.html?sign=e9418af7abf16bb587231c2c3dcf647e'
   },
   {
-    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/08a9d7eec7b055bac247b5068f817b1d.jpg?thumb=1&f=webp&q=90',
-    href: 'https://www.mi.com/shop/buy?product_id=10050021'
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/bf7fecc077e7eaf1bfc66f8e92ff6edf.jpg?thumb=1&f=webp&q=90',
+    href: 'https://www.mi.com/shop/buy?product_id=18464'
   }
 ];

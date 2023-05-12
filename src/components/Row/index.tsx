@@ -1,7 +1,6 @@
-import { PropsWithStyle } from '@/utils/declare';
-import { PropsWithChildren } from 'react';
+import { HTMLAttributes } from 'react';
 
-interface RowProps extends PropsWithChildren, PropsWithStyle {
+interface RowProps extends HTMLAttributes<HTMLDivElement> {
   // 垂直对齐方式
   align?: 'top' | 'bottom' | 'middle';
   // 水平排列方式
@@ -35,11 +34,11 @@ export default function Row({
   justify = 'start',
   wrap = true,
   style,
-  className,
-  children
+  ...props
 }: RowProps) {
   return (
     <div
+      {...props}
       style={{
         display: 'flex',
         justifyContent: rowJustify[justify],
@@ -47,9 +46,6 @@ export default function Row({
         flexWrap: wrap ? 'wrap' : 'nowrap',
         ...(style || {})
       }}
-      className={className}
-    >
-      {children}
-    </div>
+    />
   );
 }

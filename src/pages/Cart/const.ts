@@ -7,7 +7,7 @@ export const Products: CartProduct[] = [
     label: '多彩指尖积木 单个盲盒 颜色随机发放不指定',
     price: 9.9,
     checked: true,
-    number: 1,
+    number: 3,
     limitNumber: 20
   },
   {

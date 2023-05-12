@@ -16,29 +16,3 @@ export function displayAmount(value: unknown = 0, unit = '元') {
     ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + unit
     : '--';
 }
-
-function calcMathValue(
-  a: number,
-  b: number,
-  operation: (a: number, b: number) => number
-) {
-  const [a1, b1] = [a, b].map((item) => item * 100);
-  return operation(a1, b1);
-}
-/**
- * 基本数学运算相关函数
- */
-export const MathOperation = {
-  plus(a: number, b: number) {
-    return calcMathValue(a, b, (a1, b1) => (a1 + b1) / 100);
-  },
-  minus(a: number, b: number) {
-    return calcMathValue(a, b, (a1, b1) => (a1 - b1) / 100);
-  },
-  multiply(a: number, b: number) {
-    return calcMathValue(a, b, (a1, b1) => (a1 * b1) / 10000);
-  },
-  divide(a: number, b: number) {
-    return calcMathValue(a, b, (a1, b1) => a1 / b1);
-  }
-};

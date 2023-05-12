@@ -12,7 +12,7 @@ export interface CartProduct extends Omit<Product, 'price'> {
   limitNumber: number;
 }
 
-interface CartContextProps {
+export interface CartContextProps {
   products: CartProduct[];
   onChange: (products: CartProduct[]) => void;
 }
