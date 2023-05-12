@@ -18,7 +18,7 @@ interface CommendedProductsProps extends PropsWithStyle {
 
 export default function CommendedProducts({
   title = '猜你喜欢',
-  mode = 'swiper',
+  mode,
   style,
   className
 }: CommendedProductsProps) {

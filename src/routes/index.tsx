@@ -47,6 +47,13 @@ const routes: IRoute[] = [
     meta: {
       title: '购物车'
     }
+  },
+  {
+    path: '/cart/added-successfully',
+    element: <LazyLoadPage file={import('../pages/Cart/AddedSuccessfully')} />,
+    meta: {
+      title: '成功加入购物车'
+    }
   }
 ];
 

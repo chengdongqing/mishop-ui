@@ -56,7 +56,7 @@ export default function SearchPage() {
             <>
               <SortBar params={params} onChange={setParams} />
               <ProductList />
-              <CommendedProducts />
+              <CommendedProducts mode={'swiper'} />
             </>
           )}
         </div>

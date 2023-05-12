@@ -41,7 +41,6 @@ export default function CartPage() {
 
         <CommendedProducts
           title={hasLogin ? '为您推荐' : '买购物车中商品的人还买了'}
-          mode={'static'}
         />
       </div>
     </div>
