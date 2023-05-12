@@ -68,6 +68,26 @@
     transform: translate3d(-50%, 105%, 0);
     transition: 0.4s;
   }
+
+  .notice_bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.8rem;
+    line-height: 3.8rem;
+    color: #fff;
+    font-size: 1.4rem;
+    background-color: #83c44e;
+    opacity: 0;
+    transform: translate3d(0, -1rem, 0);
+    transition: 0.2s linear;
+
+    &.active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
 }
 
 .swiper_dots {

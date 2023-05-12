@@ -86,33 +86,46 @@ function ProductBlocks({ products }: { products: CommendedProduct[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
-        <Link
-          key={item.label}
-          className={styles.product_item}
-          to={buildProductUrl(item.label)}
-        >
-          <img
-            alt={item.label}
-            src={item.pictureUrl}
-            className={styles.picture}
-          />
-          <div className={styles.label}>{item.label}</div>
-          <div className={styles.price}>{item.price}</div>
-          {!!item.comments && (
-            <div className={styles.comments}>{item.comments}好评</div>
-          )}
-          <Button
-            outlined
-            size={'small'}
-            className={styles.btn_action}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            加入购物车
-          </Button>
-        </Link>
+        <ProductBlock key={item.label} {...item} />
       ))}
     </Grid>
+  );
+}
+
+function ProductBlock(props: CommendedProduct) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <Link className={styles.product_item} to={buildProductUrl(props.label)}>
+      <img
+        alt={props.label}
+        src={props.pictureUrl}
+        className={styles.picture}
+      />
+      <div className={styles.label}>{props.label}</div>
+      <div className={styles.price}>{props.price}</div>
+      {!!props.comments && (
+        <div className={styles.comments}>{props.comments}好评</div>
+      )}
+      <Button
+        outlined
+        size={'small'}
+        className={styles.btn_action}
+        onClick={(e) => {
+          e.preventDefault();
+          setActive(true);
+          setTimeout(() => {
+            setActive(false);
+          }, 1000);
+        }}
+      >
+        加入购物车
+      </Button>
+
+      {/* 加入成功提示 */}
+      <div className={classNames(styles.notice_bar, active && styles.active)}>
+        成功加入购物车
+      </div>
+    </Link>
   );
 }
