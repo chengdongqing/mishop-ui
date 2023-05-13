@@ -113,8 +113,8 @@ export const Products: ProductItemProps[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png'
     ],
     label: 'Xiaomi 13 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
@@ -123,87 +123,87 @@ export const Products: ProductItemProps[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1679982565.11927388.png'
     ],
     label: 'Redmi Note 12 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202211292354_3561d2993d555486f6504a7c37b62439.png'
     ],
     label: 'Xiaomi 12 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d13f434be6b12bd9b5486247425eca6f.png'
     ],
     label: 'Redmi Note 11 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212261427_48f2842720deb0f7cbb9170b801adab4.png'
     ],
     label: 'Xiaomi 11 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202210262033_d865bffadb8d831a749a65a4bf00eeb3.png'
     ],
     label: 'Redmi Note 10 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212301043_d2a4c1a6590058c6a0348d2937a069c5.png'
     ],
     label: 'Xiaomi 10 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202205221513_4a54fc6db0b3bb27b77c5bab1d11b26d.png'
     ],
     label: 'Redmi Note 9 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212261455_f37dd30477e7ba040c7fb69c31ad8bf3.png'
     ],
     label: 'Xiaomi 9 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4257d435e77ec82bb6922e83b9bf5bcc.png'
     ],
     label: 'Redmi Note 8 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212261018_0724441516a1608696413107bcf58253.png'
     ],
     label: 'Xiaomi 8 Ultra',
-    originalPrice: '6499元',
-    price: '5999'
+    originalPrice: 6499,
+    price: 5999
   },
   {
     pictureUrls: [
       'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202211292352_b92e2a148fb29f213055484a98004830.png'
     ],
     label: 'Redmi Note 7 Turbo',
-    originalPrice: '2799元',
-    price: '2599元'
+    originalPrice: 2799,
+    price: 2599
   }
 ];

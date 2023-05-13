@@ -3,22 +3,28 @@ import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { CartContextProps } from '@/pages/Cart';
-import { Products } from '@/pages/Cart/const.ts';
-import { useCartTotal } from '@/pages/Cart/MainCart/helpers.ts';
+import { CartProduct } from '@/pages/Cart';
+import {
+  useCartCounter,
+  useCartProducts,
+  useIsEmptyCart
+} from '@/pages/Cart/MainCart/helpers.ts';
+import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function MiniCart() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState(() => {
-    return Products.filter((item) => item.checked);
-  });
-  const isEmpty = useMemo(() => products.length === 0, [products.length]);
+  const navigate = useNavigate();
+
+  const products = useCartProducts();
+  const isEmptyCart = useIsEmptyCart();
+  const { totalNumber, totalAmount } = useCartCounter(false);
   const height = useMemo(() => {
     if (open) {
       if (loading || !products.length) {
@@ -36,8 +42,6 @@ export default function MiniCart() {
     }, 1500);
   }
 
-  const navigate = useNavigate();
-
   return (
     <div
       className={styles.container}
@@ -53,16 +57,16 @@ export default function MiniCart() {
     >
       <Space
         size={4}
-        className={classNames(styles.btn, !isEmpty && styles.active)}
+        className={classNames(styles.btn, !isEmptyCart && styles.active)}
         onClick={() => {
           navigate('/cart');
         }}
       >
         <Iconfont
-          type={isEmpty ? 'i-cart' : 'i-cart-full'}
+          type={isEmptyCart ? 'i-cart' : 'i-cart-full'}
           style={{ fontSize: '2.2rem' }}
         />
-        <div>购物车（{products.length}）</div>
+        <div>购物车（{totalNumber}）</div>
       </Space>
 
       <div className={styles.popover} style={{ height }}>
@@ -74,9 +78,9 @@ export default function MiniCart() {
           </div>
         ) : (
           <MainCart
-            navigate={navigate}
             products={products}
-            onChange={setProducts}
+            totalNumber={totalNumber}
+            totalAmount={totalAmount}
           />
         )}
       </div>
@@ -85,16 +89,21 @@ export default function MiniCart() {
 }
 
 function MainCart({
-  navigate,
   products,
-  onChange
-}: CartContextProps & { navigate: NavigateFunction }) {
-  const { totalNum, totalAmount } = useCartTotal(products);
+  totalNumber,
+  totalAmount
+}: {
+  products: CartProduct[];
+  totalNumber: number;
+  totalAmount: number;
+}) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <>
       <div className={styles.products}>
-        {products.map((item, index) => (
+        {products.map((item) => (
           <Row
             key={item.label}
             align={'middle'}
@@ -118,8 +127,7 @@ function MainCart({
               type={'i-close'}
               className={styles.icon_remove}
               onClick={() => {
-                products.splice(index, 1);
-                onChange([...products]);
+                dispatch(cartSlice.actions.removeProduct(item));
               }}
             />
           </Row>
@@ -131,9 +139,11 @@ function MainCart({
           direction={'vertical'}
           style={{ marginBottom: '-0.4rem' }}
         >
-          <div className={styles.total_num}>共{totalNum}件商品</div>
+          <div className={styles.total_num}>
+            共{displayAmount(totalNumber, '件')}商品
+          </div>
           <div className={styles.total_amount}>
-            <span>{totalAmount}</span>元
+            <span>{displayAmount(totalAmount, '')}</span>元
           </div>
         </Space>
         <Button

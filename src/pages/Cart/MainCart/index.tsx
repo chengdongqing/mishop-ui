@@ -5,13 +5,19 @@ import NumberInput from '@/components/NumberInput';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { CartContext } from '@/pages/Cart';
+import cartSlice from '@/store/slices/cartSlice.ts';
 import { displayAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart, useCartTotal, useFooterFixed } from './helpers.ts';
+import {
+  useCart,
+  useCartCounter,
+  useCartProducts,
+  useFooterFixed
+} from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -24,11 +30,9 @@ export default function MainCart() {
 }
 
 function ProductList() {
-  const { products, onChange } = useContext(CartContext);
-  const [{ allChecked, halfChecked }, { switchCheck, removeItem }] = useCart(
-    products,
-    onChange
-  );
+  const products = useCartProducts();
+  const dispatch = useDispatch();
+  const [{ allChecked, halfChecked }, { switchCheck, removeItem }] = useCart();
 
   return (
     <div className={styles.product_list}>
@@ -41,7 +45,7 @@ function ProductList() {
             checked={allChecked}
             indeterminate={!allChecked && halfChecked}
             onChange={(checked) => {
-              switchCheck(-1, checked);
+              switchCheck(null, checked);
             }}
           >
             <span style={{ marginLeft: '1rem' }}>全选</span>
@@ -53,13 +57,13 @@ function ProductList() {
         <div className={styles.col_total}>小计</div>
         <div className={styles.col_action}>操作</div>
       </Row>
-      {products.map((item, index) => (
+      {products.map((item) => (
         <Row key={item.label} align={'middle'} className={styles.product_row}>
           <div className={styles.col_check}>
             <Checkbox
               checked={item.checked}
               onChange={(checked) => {
-                switchCheck(index, checked);
+                switchCheck(item, checked);
               }}
             />
             <img
@@ -76,16 +80,15 @@ function ProductList() {
             <NumberInput
               value={item.number}
               onChange={(value) => {
-                if (value > item.limitNumber) {
-                  popup.alert('商品加入购物车数量超过限购数');
-                } else if (value === 0) {
-                  removeItem(index);
+                if (value === 0) {
+                  removeItem(item);
                 } else {
-                  products.splice(index, 1, {
-                    ...item,
-                    number: value
-                  });
-                  onChange([...products]);
+                  dispatch(
+                    cartSlice.actions.modifyProductNumber({
+                      label: item.label,
+                      number: value
+                    })
+                  );
                 }
               }}
             />
@@ -97,7 +100,7 @@ function ProductList() {
             <CloseIcon
               className={styles.icon}
               onClick={() => {
-                removeItem(index);
+                removeItem(item);
               }}
             />
           </div>
@@ -108,9 +111,10 @@ function ProductList() {
 }
 
 function FooterBar() {
-  const { products, onChange } = useContext(CartContext);
+  const products = useCartProducts();
+  const dispatch = useDispatch();
+  const { totalNumber, totalAmount } = useCartCounter();
   const footerRef = useRef<HTMLDivElement>(null);
-  const { totalNum, totalAmount } = useCartTotal(products);
   const fixed = useFooterFixed(footerRef, [products.length]);
   const navigate = useNavigate();
 
@@ -132,7 +136,7 @@ function FooterBar() {
           onClick={() => {
             popup.confirm('确定清空购物车吗？', {
               onOk() {
-                onChange([]);
+                dispatch(cartSlice.actions.clearCart());
               }
             });
           }}
@@ -140,28 +144,28 @@ function FooterBar() {
           清空购物车
         </div>
         <div className={styles.cart_total}>
-          已选择 <span>{totalNum}</span> 件
+          已选择 <span>{displayAmount(totalNumber, '')}</span> 件
         </div>
       </Space>
       <Space size={'5rem'}>
         <div className={styles.total_amount}>
-          合计：<span>{totalAmount}</span> 元
+          合计：<span>{displayAmount(totalAmount, '')}</span> 元
         </div>
         <div>
           <Button
             className={classNames(
               styles.btn_order,
-              totalNum === 0 && styles.disabled
+              totalNumber === 0 && styles.disabled
             )}
             onClick={() => {
-              if (totalNum > 0) {
+              if (totalNumber > 0) {
                 navigate('/order/checkout');
               }
             }}
           >
             去结算
           </Button>
-          {totalNum === 0 && (
+          {totalNumber === 0 && (
             <Button outlined className={styles.btn_tips}>
               请勾选需要结算的商品
             </Button>

@@ -2,7 +2,7 @@ import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { buildProductUrl } from '@/utils';
+import { buildProductUrl, displayAmount } from '@/utils';
 import { RightCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
@@ -132,10 +132,12 @@ function ProductBlocks({
                 {item.description}
               </div>
               <Space>
-                <span className={styles.price}>{item.price}</span>
+                <span className={styles.price}>
+                  {displayAmount(item.price)}
+                </span>
                 {!!item.originalPrice && (
                   <span className={classNames(styles.price, styles.original)}>
-                    {item.originalPrice}
+                    {displayAmount(item.originalPrice)}
                   </span>
                 )}
               </Space>

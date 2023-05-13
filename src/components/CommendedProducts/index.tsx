@@ -1,12 +1,14 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
-import { buildProductUrl } from '@/utils';
+import cartSlice from '@/store/slices/cartSlice.ts';
+import { buildProductUrl, displayAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/declare';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
+import { useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CommendedProduct, Products } from './const.ts';
+import { Products } from './const.ts';
 import styles from './index.module.less';
 
 interface CommendedProductsProps extends PropsWithStyle {
@@ -82,7 +84,7 @@ function ProductsSwiper() {
   );
 }
 
-function ProductBlocks({ products }: { products: CommendedProduct[] }) {
+function ProductBlocks({ products }: { products: Product[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
@@ -92,8 +94,9 @@ function ProductBlocks({ products }: { products: CommendedProduct[] }) {
   );
 }
 
-function ProductBlock(props: CommendedProduct) {
+function ProductBlock(props: Product) {
   const [active, setActive] = useState(false);
+  const store = useStore();
 
   return (
     <Link className={styles.product_item} to={buildProductUrl(props.label)}>
@@ -103,7 +106,7 @@ function ProductBlock(props: CommendedProduct) {
         className={styles.picture}
       />
       <div className={styles.label}>{props.label}</div>
-      <div className={styles.price}>{props.price}</div>
+      <div className={styles.price}>{displayAmount(props.price)}</div>
       {!!props.comments && (
         <div className={styles.comments}>{props.comments}好评</div>
       )}
@@ -113,10 +116,24 @@ function ProductBlock(props: CommendedProduct) {
         className={styles.btn_action}
         onClick={(e) => {
           e.preventDefault();
-          setActive(true);
-          setTimeout(() => {
-            setActive(false);
-          }, 1000);
+
+          store.dispatch(
+            cartSlice.actions.putProduct({
+              product: {
+                ...props,
+                checked: true,
+                number: 1
+              },
+              callback(successful) {
+                if (successful) {
+                  setActive(true);
+                  setTimeout(() => {
+                    setActive(false);
+                  }, 1000);
+                }
+              }
+            })
+          );
         }}
       >
         加入购物车

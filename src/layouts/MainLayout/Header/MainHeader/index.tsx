@@ -1,5 +1,5 @@
 import Logo from '@/components/Logo';
-import { buildProductUrl } from '@/utils';
+import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -125,7 +125,7 @@ function ProductsPanel({
               alt={item.label}
             />
             <div className={styles.label}>{item.label}</div>
-            <div className={styles.price}>{item.price}</div>
+            <div className={styles.price}>{displayAmount(item.price)}</div>
           </Link>
         ))}
       </div>

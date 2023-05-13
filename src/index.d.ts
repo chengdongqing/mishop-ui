@@ -20,11 +20,15 @@ declare interface Product {
   // 图片地址
   pictureUrl: string;
   // 当前价格
-  price?: string;
+  price: number;
   // 原价
-  originalPrice?: string;
+  originalPrice?: number;
   // 产品描述
   description?: string;
+  // 好评数量
+  comments?: string
+  // 限购数量
+  limits?: number;
 }
 
 /**

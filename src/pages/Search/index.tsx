@@ -6,7 +6,7 @@ import Pagination from '@/components/Pagination';
 import Space from '@/components/Space';
 import useMount from '@/hooks/useMount.ts';
 import useSetState from '@/hooks/useSetState.ts';
-import { buildProductUrl } from '@/utils';
+import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -103,9 +103,9 @@ function ProductItem(props: ProductItemProps) {
       />
       <div className={styles.label}>{props.label}</div>
       <Space size={'0.4rem'}>
-        <div className={styles.price}>{props.price}</div>
+        <div className={styles.price}>{displayAmount(props.price)}</div>
         <div className={classNames(styles.price, styles.original)}>
-          {props.originalPrice}
+          {displayAmount(props.originalPrice)}
         </div>
       </Space>
       <Space className={styles.thumbs}>

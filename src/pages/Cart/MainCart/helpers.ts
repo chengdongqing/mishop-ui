@@ -1,13 +1,25 @@
 import popup from '@/components/Popup';
 import useDebounce from '@/hooks/useDebounce.ts';
+import useMount from '@/hooks/useMount.ts';
+import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
+import { useAppSelector } from '@/store';
+import cartSlice from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { RefObject, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { CartProduct } from '../index';
 
-export function useCart(
-  products: CartProduct[],
-  onChange: (products: CartProduct[]) => void
-) {
+export function useCartProducts(onlyChecked = false) {
+  return useAppSelector((state) => {
+    const { products } = state.cart;
+    return onlyChecked ? products.filter((item) => item.checked) : products;
+  });
+}
+
+export function useCart() {
+  const products = useCartProducts();
+  const dispatch = useDispatch();
+
   const allChecked = useMemo(() => {
     return products.every((item) => item.checked);
   }, [products]);
@@ -15,27 +27,27 @@ export function useCart(
     return products.some((item) => item.checked);
   }, [products]);
 
-  function switchCheck(index: number, checked: boolean) {
-    if (index === -1) {
+  function switchCheck(item: CartProduct | null, checked: boolean) {
+    if (!item) {
       //全选/全不选
-      const products1 = products.map((item) => ({
-        ...item,
-        checked: checked
-      }));
-      onChange([...products1]);
+      dispatch(
+        cartSlice.actions.modifyProductsCheck({
+          checked
+        })
+      );
     } else {
-      products.splice(index, 1, {
-        ...products[index],
-        checked
-      });
-      onChange([...products]);
+      dispatch(
+        cartSlice.actions.modifyProductCheck({
+          label: item.label,
+          checked
+        })
+      );
     }
   }
-  function removeItem(index: number) {
+  function removeItem(item: CartProduct) {
     popup.confirm('确定删除所选商品吗？', {
       onOk() {
-        products.splice(index, 1);
-        onChange([...products]);
+        dispatch(cartSlice.actions.removeProduct(item));
       }
     });
   }
@@ -46,24 +58,50 @@ export function useCart(
   ] as const;
 }
 
-export function useCartTotal(products: CartProduct[]) {
-  const totalNum = useMemo(() => {
+export function useIsEmptyCart() {
+  const products = useCartProducts();
+  return useMemo(() => !products.length, [products.length]);
+}
+
+export function useCartCounter(onlyChecked = true) {
+  const products = useCartProducts();
+
+  const totalNumber = useMemo(() => {
     return products.reduce((sum, item) => {
-      return item.checked ? sum + item.number : sum;
+      return !onlyChecked || (onlyChecked && item.checked)
+        ? sum + item.number
+        : sum;
     }, 0);
-  }, [products]);
+  }, [onlyChecked, products]);
 
   const totalAmount = useMemo(() => {
     return products.reduce((sum, item) => {
-      return item.checked
+      return !onlyChecked || (onlyChecked && item.checked)
         ? new Decimal(sum)
             .plus(new Decimal(item.price).mul(item.number))
             .toNumber()
         : sum;
     }, 0);
-  }, [products]);
+  }, [onlyChecked, products]);
 
-  return { totalNum, totalAmount };
+  return { totalNumber, totalAmount };
+}
+
+const CacheKey = 'ShoppingCart';
+export function useCartInitial() {
+  const products = useCartProducts();
+  const dispatch = useDispatch();
+
+  useMount(() => {
+    const data = window.localStorage.getItem(CacheKey);
+    if (data) {
+      dispatch(cartSlice.actions.setCart(JSON.parse(data)));
+    }
+  });
+
+  useUpdateEffect(() => {
+    window.localStorage.setItem(CacheKey, JSON.stringify(products));
+  }, [products]);
 }
 
 export function useFooterFixed(
