@@ -1,67 +1,95 @@
 import Loading from '@/components/Loading';
-import { ComponentType, lazy, Suspense } from 'react';
-import { RouteProps } from 'react-router-dom';
+import MainLayout from '@/layouts/MainLayout';
+import { ComponentType, lazy, Suspense, useEffect } from 'react';
+import { Navigate, RouteObject, useNavigate, useRoutes } from 'react-router-dom';
 
-export type IRoute = RouteProps & {
-  meta?: {
-    title?: string;
-    requireAuth?: boolean;
-  };
-};
+const hasLogin = false;
 
-function LazyLoadPage({ file }: { file: Promise<{ default: ComponentType }> }) {
+function PageDecorator({
+  file,
+  title,
+  requireAuth
+}: {
+  file: Promise<{ default: ComponentType }>;
+  title?: string;
+  requireAuth?: boolean;
+}) {
   const Page = lazy(() => file);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (requireAuth && !hasLogin) {
+      navigate('/login');
+    } else if (title) {
+      document.title = [title, '小米商城'].join(' - ');
+    }
+  }, [navigate, requireAuth, title]);
 
   return (
-    <Suspense fallback={<Loading delay={500} />}>
+    <Suspense fallback={<Loading delay={200} />}>
       <Page />
     </Suspense>
   );
 }
 
-const routes: IRoute[] = [
+const routes: RouteObject[] = [
   {
     path: '/',
-    element: <LazyLoadPage file={import('../pages/Home')} />,
-    meta: {
-      title: '首页'
-    }
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/',
+        element: <PageDecorator file={import('../pages/Home')} title={'首页'} />
+      },
+      {
+        path: '/videos',
+        element: (
+          <PageDecorator file={import('../pages/Videos')} title={'视频'} />
+        )
+      },
+      {
+        path: '/search',
+        element: (
+          <PageDecorator file={import('../pages/Search')} title={'搜索'} />
+        )
+      },
+      {
+        path: '/cart',
+        element: (
+          <PageDecorator file={import('../pages/Cart')} title={'购物车'} />
+        )
+      },
+      {
+        path: '/cart/added-successfully',
+        element: (
+          <PageDecorator
+            file={import('../pages/Cart/AddedSuccessfully')}
+            title={'成功加入购物车'}
+          />
+        )
+      },
+      {
+        path: '/product/:label',
+        element: <PageDecorator file={import('../pages/Product')} />,
+        children: [
+          {
+            path: '',
+            element: <PageDecorator file={import('../pages/Product/Sketch')} />
+          },
+          {
+            path: 'specs',
+            element: <PageDecorator file={import('../pages/Product/Specs')} />
+          }
+        ]
+      }
+    ]
   },
   {
-    path: '/videos',
-    element: <LazyLoadPage file={import('../pages/Videos')} />,
-    meta: {
-      title: '视频'
-    }
-  },
-  {
-    path: '/search',
-    element: <LazyLoadPage file={import('../pages/Search')} />,
-    meta: {
-      title: '搜索'
-    }
-  },
-  {
-    path: '/cart',
-    element: <LazyLoadPage file={import('../pages/Cart')} />,
-    meta: {
-      title: '购物车'
-    }
-  },
-  {
-    path: '/cart/added-successfully',
-    element: <LazyLoadPage file={import('../pages/Cart/AddedSuccessfully')} />,
-    meta: {
-      title: '成功加入购物车'
-    }
-  },
-  {
-    path: '/product/:label',
-    element: <LazyLoadPage file={import('../pages/Product')} />,
-    meta: {
-      title: '商品详情'
-    }
+    path: '*',
+    element: <Navigate to={'/'} replace />
   }
 ];
 
-export default routes;
+export default function Routes() {
+  return useRoutes(routes);
+}
