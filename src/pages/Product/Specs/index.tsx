@@ -1,3 +1,5 @@
+import Xiaomi13Ultra from './Xiaomi13Ultra';
+
 export default function ProductSpecs() {
-  return <div>参数页</div>;
+  return <Xiaomi13Ultra />;
 }

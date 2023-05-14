@@ -11,7 +11,7 @@ import Section7 from './Section7';
 import Section8 from './Section8';
 import Section9 from './Section9';
 
-export default function Xiaomi13Ultra() {
+export default function Xiaomi13UltraSketch() {
   return (
     <>
       <Section1/>
