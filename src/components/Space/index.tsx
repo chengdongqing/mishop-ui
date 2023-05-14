@@ -1,13 +1,5 @@
 import { PropsWithStyle } from '@/utils/declare';
-import {
-  Children,
-  CSSProperties,
-  HTMLAttributes,
-  isValidElement,
-  PropsWithChildren,
-  ReactNode,
-  useMemo
-} from 'react';
+import { Children, CSSProperties, HTMLAttributes, isValidElement, PropsWithChildren, ReactNode, useMemo } from 'react';
 
 interface SpaceProps
   extends PropsWithChildren,
@@ -49,8 +41,7 @@ export default function Space({
       ...(style || {}),
       display: 'inline-flex',
       flexDirection: direction === 'horizontal' ? 'row' : 'column',
-      [direction === 'horizontal' ? 'alignItems' : 'justifyContent']:
-        spaceAlign[align],
+      alignItems: spaceAlign[align],
       flexWrap: wrap ? 'wrap' : 'nowrap'
     };
     if (cssGapSupported) {

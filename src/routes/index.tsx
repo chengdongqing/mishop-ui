@@ -54,6 +54,13 @@ const routes: IRoute[] = [
     meta: {
       title: '成功加入购物车'
     }
+  },
+  {
+    path: '/product/:label',
+    element: <LazyLoadPage file={import('../pages/Product')} />,
+    meta: {
+      title: '商品详情'
+    }
   }
 ];
 

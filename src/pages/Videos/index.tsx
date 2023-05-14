@@ -50,12 +50,7 @@ export function VideoCard(props: VideoProps & { large?: boolean }) {
             footer: null,
             content: (
               <div style={{ margin: '-2rem' }}>
-                <video
-                  style={{ width: '100%' }}
-                  src={props.playUrl}
-                  autoPlay
-                  controls
-                />
+                <video src={props.playUrl} width={'100%'} autoPlay controls />
               </div>
             )
           });

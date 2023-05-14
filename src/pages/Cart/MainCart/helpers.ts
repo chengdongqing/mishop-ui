@@ -1,11 +1,11 @@
 import popup from '@/components/Popup';
-import useDebounce from '@/hooks/useDebounce.ts';
+import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { useAppSelector } from '@/store';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
-import { RefObject, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { CartProduct } from '../index';
 
@@ -87,48 +87,19 @@ export function useCartCounter(onlyChecked = true) {
   return { totalNumber, totalAmount };
 }
 
-const CacheKey = 'ShoppingCart';
 export function useCartInitial() {
   const products = useCartProducts();
   const dispatch = useDispatch();
+  const [storageState, setStorageState] =
+    useLocalStorageState<CartProduct[]>('ShoppingCart');
 
   useMount(() => {
-    const data = window.localStorage.getItem(CacheKey);
-    if (data) {
-      dispatch(cartSlice.actions.setCart(JSON.parse(data)));
+    if (storageState) {
+      dispatch(cartSlice.actions.setCart(storageState));
     }
   });
 
   useUpdateEffect(() => {
-    window.localStorage.setItem(CacheKey, JSON.stringify(products));
+    setStorageState(products);
   }, [products]);
-}
-
-export function useFooterFixed(
-  footerRef: RefObject<HTMLDivElement>,
-  deps: unknown[] = []
-) {
-  const [fixed, setFixed] = useState(false);
-
-  const onScroll = useDebounce(() => {
-    setFixed(
-      (footerRef.current as HTMLDivElement).getBoundingClientRect().bottom >=
-        window.innerHeight
-    );
-  }, 50);
-
-  useEffect(() => {
-    onScroll();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
-
-  useEffect(() => {
-    document.addEventListener('scroll', onScroll);
-
-    return () => {
-      document.removeEventListener('scroll', onScroll);
-    };
-  });
-
-  return fixed;
 }

@@ -5,6 +5,7 @@ import NumberInput from '@/components/NumberInput';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { displayAmount } from '@/utils';
 import classNames from 'classnames';
@@ -12,12 +13,7 @@ import Decimal from 'decimal.js';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  useCart,
-  useCartCounter,
-  useCartProducts,
-  useFooterFixed
-} from './helpers.ts';
+import { useCart, useCartCounter, useCartProducts } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -115,7 +111,13 @@ function FooterBar() {
   const dispatch = useDispatch();
   const { totalNumber, totalAmount } = useCartCounter();
   const footerRef = useRef<HTMLDivElement>(null);
-  const fixed = useFooterFixed(footerRef, [products.length]);
+  const fixed = useIsElementVisible({
+    elementRef: footerRef,
+    predicate(rect) {
+      return rect.bottom >= window.innerHeight;
+    },
+    deps: [products.length]
+  });
   const navigate = useNavigate();
 
   return (
