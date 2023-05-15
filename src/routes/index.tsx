@@ -1,36 +1,17 @@
-import Loading from '@/components/Loading';
 import MainLayout from '@/layouts/MainLayout';
-import { ComponentType, lazy, Suspense, useEffect } from 'react';
-import { Navigate, RouteObject, useNavigate, useRoutes } from 'react-router-dom';
+import { lazy } from 'react';
+import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
+import PageDecorator from './PageDecorator.tsx';
 
-const hasLogin = false;
-
-function PageDecorator({
-  file,
-  title,
-  requireAuth
-}: {
-  file: Promise<{ default: ComponentType }>;
-  title?: string;
-  requireAuth?: boolean;
-}) {
-  const Page = lazy(() => file);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (requireAuth && !hasLogin) {
-      navigate('/login');
-    } else if (title) {
-      document.title = [title, '小米商城'].join(' - ');
-    }
-  }, [navigate, requireAuth, title]);
-
-  return (
-    <Suspense fallback={<Loading delay={200} />}>
-      <Page />
-    </Suspense>
-  );
-}
+const HomePage = lazy(() => import('@/pages/Home'));
+const VideosPage = lazy(() => import('@/pages/Videos'));
+const SearchPage = lazy(() => import('@/pages/Search'));
+const CartPage = lazy(() => import('@/pages/Cart'));
+const CartSuccessfullyPage = lazy(() => import('@/pages/Cart/Successfully'));
+const ProductPage = lazy(() => import('@/pages/Product'));
+const ProductSketchPage = lazy(() => import('@/pages/Product/Sketch'));
+const ProductSpecsPage = lazy(() => import('@/pages/Product/Specs'));
+const ProductCommentsPage = lazy(() => import('@/pages/Product/Comments'));
 
 const routes: RouteObject[] = [
   {
@@ -39,46 +20,75 @@ const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <PageDecorator file={import('../pages/Home')} title={'首页'} />
+        element: (
+          <PageDecorator title={'首页'}>
+            <HomePage />
+          </PageDecorator>
+        )
       },
       {
         path: '/videos',
         element: (
-          <PageDecorator file={import('../pages/Videos')} title={'视频'} />
+          <PageDecorator title={'视频'}>
+            <VideosPage />
+          </PageDecorator>
         )
       },
       {
         path: '/search',
         element: (
-          <PageDecorator file={import('../pages/Search')} title={'搜索'} />
+          <PageDecorator title={'搜索'}>
+            <SearchPage />
+          </PageDecorator>
         )
       },
       {
         path: '/cart',
         element: (
-          <PageDecorator file={import('../pages/Cart')} title={'购物车'} />
+          <PageDecorator title={'购物车'}>
+            <CartPage />
+          </PageDecorator>
         )
       },
       {
         path: '/cart/added-successfully',
         element: (
-          <PageDecorator
-            file={import('../pages/Cart/AddedSuccessfully')}
-            title={'成功加入购物车'}
-          />
+          <PageDecorator title={'成功加入购物车'}>
+            <CartSuccessfullyPage />
+          </PageDecorator>
         )
       },
       {
         path: '/product/:label',
-        element: <PageDecorator file={import('../pages/Product')} />,
+        element: (
+          <PageDecorator title={'商品详情'}>
+            <ProductPage />
+          </PageDecorator>
+        ),
         children: [
           {
             path: '',
-            element: <PageDecorator file={import('../pages/Product/Sketch')} />
+            element: (
+              <PageDecorator title={'商品概述'}>
+                <ProductSketchPage />
+              </PageDecorator>
+            )
           },
           {
             path: 'specs',
-            element: <PageDecorator file={import('../pages/Product/Specs')} />
+            element: (
+              <PageDecorator title={'商品参数'}>
+                <ProductSpecsPage />
+              </PageDecorator>
+            )
+          },
+          {
+            path: 'comments',
+            element: (
+              <PageDecorator title={'商品评论'}>
+                <ProductCommentsPage />
+              </PageDecorator>
+            )
           }
         ]
       }

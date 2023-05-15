@@ -1,5 +1,6 @@
 import popup from '@/components/Popup';
 import { CartProduct } from '@/pages/Cart';
+import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: { products: CartProduct[] } = {
@@ -89,3 +90,10 @@ export default createSlice({
     }
   }
 });
+
+export function useCartProducts(onlyChecked = false) {
+  return useAppSelector((state) => {
+    const { products } = state.cart;
+    return onlyChecked ? products.filter((item) => item.checked) : products;
+  });
+}

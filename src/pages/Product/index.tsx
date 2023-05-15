@@ -2,12 +2,11 @@ import Button from '@/components/Button';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useDocumentTitle from '@/hooks/useDocumentTitle.ts';
-import { Link, useOutlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function ProductPage() {
   const { label } = useParams<{ label: string }>();
-  const outlet = useOutlet();
   useDocumentTitle('Xiaomi 13 Ultra 限量定制色');
 
   return (
@@ -35,7 +34,9 @@ export default function ProductPage() {
         </Row>
       </div>
 
-      <div style={{ minWidth: 'var(--width-primary)' }}>{outlet}</div>
+      <div style={{ minWidth: 'var(--width-primary)' }}>
+        <Outlet />
+      </div>
     </>
   );
 }

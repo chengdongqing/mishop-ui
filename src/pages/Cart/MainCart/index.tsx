@@ -6,14 +6,14 @@ import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
-import cartSlice from '@/store/slices/cartSlice.ts';
-import { displayAmount } from '@/utils';
+import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart, useCartCounter, useCartProducts } from './helpers.ts';
+import { useCart, useCartCounter } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -62,14 +62,16 @@ function ProductList() {
                 switchCheck(item, checked);
               }}
             />
-            <img
-              alt={item.label}
-              src={item.pictureUrl}
-              className={styles.img}
-            />
+            <Link to={buildProductUrl(item.label)}>
+              <img
+                alt={item.label}
+                src={item.pictureUrl}
+                className={styles.img}
+              />
+            </Link>
           </div>
           <div className={classNames(styles.col_name, 'text-ellipsis')}>
-            {item.label}
+            <Link to={buildProductUrl(item.label)}>{item.label}</Link>
           </div>
           <div className={styles.col_price}>{displayAmount(item.price)}</div>
           <div className={styles.col_num}>

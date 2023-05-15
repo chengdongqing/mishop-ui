@@ -1,5 +1,5 @@
 import CommendedProducts from '@/components/CommendedProducts';
-import { useAppSelector } from '@/store';
+import { useHasLogin } from '@/store/slices/userSlice.ts';
 import EmptyCart from './EmptyCart';
 import styles from './index.module.less';
 import MainCart from './MainCart';
@@ -11,7 +11,7 @@ export interface CartProduct extends Product {
 }
 
 export default function ShoppingCartPage() {
-  const hasLogin = useAppSelector((state) => !!state.user.userInfo);
+  const hasLogin = useHasLogin();
   const isEmptyCart = useIsEmptyCart();
 
   return (
