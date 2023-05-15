@@ -7,6 +7,7 @@ import {
   LeftOutlined,
   MinusCircleOutlined,
   PlusCircleOutlined,
+  ReloadOutlined,
   RightOutlined,
   RotateLeftOutlined,
   RotateRightOutlined
@@ -120,12 +121,23 @@ function FooterBar({
             }}
           />
         </Space>
-        <DownloadOutlined
-          title={'下载到本地'}
-          onClick={() => {
-            downloadFile(src, '');
-          }}
-        />
+        <Space>
+          <DownloadOutlined
+            title={'下载到本地'}
+            onClick={() => {
+              downloadFile(src, '');
+            }}
+          />
+          <ReloadOutlined
+            title={'还原缩放'}
+            onClick={() => {
+              onChange({
+                scale: 1,
+                rotate: 0
+              });
+            }}
+          />
+        </Space>
         <Space size={'2rem'}>
           <RotateLeftOutlined
             title={'向左旋转'}

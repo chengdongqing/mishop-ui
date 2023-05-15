@@ -7,6 +7,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
 import { comments } from '@/pages/Product/Comments/const.ts';
+import { MehOutlined, SmileOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import FilterBar from './FilterBar';
@@ -92,7 +93,13 @@ function CommentList() {
                   <div className={styles.date}>{item.date}</div>
                 </div>
               </Space>
-              <Rate disabled value={item.rate}>
+              <Rate
+                disabled
+                value={item.rate}
+                character={(value) => {
+                  return value > 3 ? <SmileOutlined /> : <MehOutlined />
+                }}
+              >
                 {item.rate}分
               </Rate>
             </Row>
