@@ -2,6 +2,7 @@ import Checkbox from '@/components/Checkbox';
 import Grid from '@/components/Grid';
 import previewImages from '@/components/ImagePreview';
 import Loading from '@/components/Loading';
+import Rate from '@/components/Rate';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
@@ -91,7 +92,9 @@ function CommentList() {
                   <div className={styles.date}>{item.date}</div>
                 </div>
               </Space>
-              超爱
+              <Rate disabled value={item.rate}>
+                {item.rate}分
+              </Rate>
             </Row>
             <div className={styles.content}>{item.content}</div>
             {!!item.photos?.length && (
