@@ -5,37 +5,44 @@ export const ProductCategories: ProductCategory[] = [
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ecfbf9d01c8a2605f0a6938093b23ad8.png?thumb=1&f=webp&q=90',
-        label: 'Xiaomi MIX系列'
+        label: 'Xiaomi MIX系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/827fae95d0f1d75f1535ef93e357b2af.png?thumb=1&f=webp&q=90',
-        label: 'Xiaomi 数字系列'
+        label: 'Xiaomi 数字系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/930ddc941c1e6c81042406440e88ac45.png?thumb=1&f=webp&q=90',
-        label: 'Xiaomi Civi系列'
+        label: 'Xiaomi Civi系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/0453934fca43f79d0472b28e382bd2be.png?thumb=1&f=webp&q=90',
-        label: 'Xiaomi 青春系列'
+        label: 'Xiaomi 青春系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/993aff4f7f59dd64011c61a3132f0fd4.png?thumb=1&f=webp&q=90',
-        label: 'Redmi K系列'
+        label: 'Redmi K系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/9ab5c6d195d2b3dde69683966891d5a9.png?thumb=1&f=webp&q=90',
-        label: 'Redmi Note系列'
+        label: 'Redmi Note系列',
+        price: 100
       },
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/232c1ede1284125cc4dcee5c7565d8fe.png?thumb=1&f=webp&q=90',
-        label: 'Redmi 数字系列'
+        label: 'Redmi 数字系列',
+        price: 100
       }
     ]
   },
@@ -45,7 +52,8 @@ export const ProductCategories: ProductCategory[] = [
       {
         pictureUrl:
           'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/50194366cfebbc7c82489d0094c1f944.png?thumb=1&f=webp&q=90',
-        label: '小米电视6 55” OLED'
+        label: '小米电视6 55” OLED',
+        price: 100
       }
     ]
   },

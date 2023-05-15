@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
-export default function AddedSuccessfully() {
+export default function CartSuccessfullyPage() {
   const navigate = useNavigate();
 
   return (

@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserInfo {
@@ -18,3 +19,7 @@ export default createSlice({
     }
   }
 });
+
+export function useHasLogin() {
+  return useAppSelector((state) => !!state.user.userInfo);
+}

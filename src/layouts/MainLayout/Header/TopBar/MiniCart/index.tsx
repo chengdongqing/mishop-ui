@@ -4,12 +4,8 @@ import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { CartProduct } from '@/pages/Cart';
-import {
-  useCartCounter,
-  useCartProducts,
-  useIsEmptyCart
-} from '@/pages/Cart/MainCart/helpers.ts';
-import cartSlice from '@/store/slices/cartSlice.ts';
+import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
+import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
@@ -136,6 +132,7 @@ function MainCart({
       <Row justify={'space-between'} align={'middle'} className={styles.footer}>
         <Space
           size={'0.6rem'}
+          align={'start'}
           direction={'vertical'}
           style={{ marginBottom: '-0.4rem' }}
         >

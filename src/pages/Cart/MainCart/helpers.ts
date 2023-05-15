@@ -2,19 +2,11 @@ import popup from '@/components/Popup';
 import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
-import { useAppSelector } from '@/store';
-import cartSlice from '@/store/slices/cartSlice.ts';
+import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { CartProduct } from '../index';
-
-export function useCartProducts(onlyChecked = false) {
-  return useAppSelector((state) => {
-    const { products } = state.cart;
-    return onlyChecked ? products.filter((item) => item.checked) : products;
-  });
-}
 
 export function useCart() {
   const products = useCartProducts();

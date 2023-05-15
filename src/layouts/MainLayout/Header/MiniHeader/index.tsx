@@ -1,10 +1,13 @@
 import Logo from '@/components/Logo';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import { useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function MiniHeader() {
+  const isEmptyCart = useIsEmptyCart();
+
   return (
     <div className={styles.mini_header}>
       <Row
@@ -14,7 +17,14 @@ export default function MiniHeader() {
       >
         <Space size={'4.8rem'}>
           <Logo />
-          <div className={styles.title}>我的购物车</div>
+          <Space size={'1.2rem'}>
+            <div className={styles.title}>我的购物车</div>
+            {!isEmptyCart && (
+              <div className={styles.tips}>
+                温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算
+              </div>
+            )}
+          </Space>
         </Space>
         <Space
           split={<span style={{ color: '#b0b0b0' }}>|</span>}

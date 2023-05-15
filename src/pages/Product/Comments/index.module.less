@@ -1,0 +1,96 @@
+.container {
+  width: var(--width-primary);
+  padding: 3.2rem 0 3rem;
+  margin: auto;
+}
+
+.body {
+  flex: 1;
+  margin-right: 1.4rem;
+}
+
+.header {
+  margin-bottom: 1rem;
+
+  .title {
+    color: #616161;
+    font-size: 2.2rem;
+    line-height: 4rem;
+  }
+}
+
+.comment_list {
+  .comment_item {
+    background-color: #fff;
+    padding: 4rem 4rem 4.6rem 10.3rem;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .user_info {
+      margin-left: -6.5rem;
+
+      .avatar {
+        width: 4.7rem;
+        height: 4.7rem;
+      }
+
+      .name {
+        color: #8d665a;
+        font-size: 1.6rem;
+      }
+
+      .date {
+        color: #b0b0b0;
+        font-size: 1.4rem;
+        margin-top: 0.6rem;
+      }
+    }
+
+    .content {
+      margin-top: 0.8rem;
+      color: #5e5e5e;
+      font-size: 1.8rem;
+      line-height: 2.7rem;
+    }
+
+    .photos {
+      margin-top: 1.4rem;
+
+      &.single img {
+        width: 33rem;
+        height: 33rem;
+      }
+
+      img {
+        width: 16rem;
+        height: 16rem;
+        cursor: pointer;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.go_top {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 42rem;
+
+  .btn {
+    width: 11rem;
+    height: 11rem;
+    background: #fff url(//c1.mifile.cn/f/i/17/comment2017/arrow.png) 50%
+      no-repeat;
+    cursor: pointer;
+    position: sticky;
+    top: calc(100vh - 110px);
+    bottom: 0;
+    z-index: 1;
+    right: 20rem;
+  }
+}

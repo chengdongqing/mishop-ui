@@ -17,7 +17,7 @@ export default function HomeHero() {
 }
 
 function CategoryPanel() {
-  const [products, setProducts] = useState<Product[] | undefined>();
+  const [products, setProducts] = useState<Product[]>();
   const [activeIndex, setActiveIndex] = useState(-1);
 
   return (
