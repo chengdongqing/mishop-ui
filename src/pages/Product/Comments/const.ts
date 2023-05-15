@@ -11,7 +11,10 @@ export const comments = [
       '好评，一直信赖的产品，夜灯已经买了好几个这个是顺便再买一罐，快递顺丰很是认真，下次还会光临。',
     photos: [
       'https://i1.mifile.cn/a2/1683647469_2378684_s1504_2006wh.jpg',
-      'https://i1.mifile.cn/a2/1683370267_2632722_s2252_4000wh.jpg'
+      'https://i1.mifile.cn/a2/1683370267_2632722_s2252_4000wh.jpg',
+      'https://i1.mifile.cn/a2/1683779843_3715969_s1080_1920wh.jpg',
+      'https://i1.mifile.cn/a2/1683974533_9168598_s3072_4096wh.jpg',
+      'https://i1.mifile.cn/a2/1683944870_9048298_s2296_4440wh.jpg'
     ]
   },
   {

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 type SetState<T> = Record<string, T>;
-type PatchStateAction<T> = SetState<T> | ((value: SetState<T>) => SetState<T>);
+export type PatchStateAction<T> = SetState<T> | ((value: SetState<T>) => SetState<T>);
 
 export default function useSetState<T>(
   initialState: SetState<T> | (() => SetState<T>) = {}

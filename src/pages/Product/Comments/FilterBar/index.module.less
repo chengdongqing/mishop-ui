@@ -1,6 +1,12 @@
 .container {
   background-color: #fff;
   padding: 4rem;
+
+  &:hover {
+    .categories {
+      overflow-x: auto;
+    }
+  }
 }
 
 .title {
@@ -11,12 +17,13 @@
 
 .categories {
   margin-top: 1.4rem;
+  padding-bottom: 1rem;
+  overflow-x: hidden;
 
   .category_item {
     color: #b0b0b0;
     font-size: 1.4rem;
     width: 16.8rem;
-    height: 4.4rem;
     line-height: 4.4rem;
     text-align: center;
     background-color: #f5f5f5;

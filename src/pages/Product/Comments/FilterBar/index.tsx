@@ -5,6 +5,10 @@ import styles from './index.module.less';
 
 const options = [
   {
+    label: '综合',
+    number: 852268
+  },
+  {
     label: '价格实惠',
     number: 636
   },

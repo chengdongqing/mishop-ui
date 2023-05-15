@@ -16,3 +16,15 @@ export function displayAmount(value: unknown = 0, unit = '元') {
     ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + unit
     : '--';
 }
+
+/**
+ * 下载文件
+ * @param src 文件访问地址
+ * @param filename 保存的文件名
+ */
+export function downloadFile(src: string, filename: string) {
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = src;
+  a.click();
+}

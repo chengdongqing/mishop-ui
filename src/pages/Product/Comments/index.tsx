@@ -1,5 +1,6 @@
 import Checkbox from '@/components/Checkbox';
 import Grid from '@/components/Grid';
+import previewImages from '@/components/ImagePreview';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
@@ -101,13 +102,14 @@ function CommentList() {
                 )}
               >
                 <Grid columns={4} gap={'0.8rem'}>
-                  {item.photos.map((item) => (
+                  {item.photos.map((photo, index) => (
                     <img
-                      key={item}
-                      src={
-                        'https://i1.mifile.cn/a2/1683647469_2378684_s1504_2006wh.jpg'
-                      }
+                      key={photo}
+                      src={photo}
                       alt={''}
+                      onClick={() => {
+                        previewImages(item.photos, index);
+                      }}
                     />
                   ))}
                 </Grid>
