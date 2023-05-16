@@ -2,7 +2,7 @@ import Logo from '@/components/Logo';
 import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ProductCategories } from './const';
 import styles from './index.module.less';
 import SearchBar from './SearchBar';
@@ -105,6 +105,8 @@ function ProductsPanel({
     };
   }, [open]);
 
+  const navigate = useNavigate();
+
   return (
     <div
       hidden={hidden}
@@ -114,10 +116,13 @@ function ProductsPanel({
     >
       <div className={styles.wrapper}>
         {products?.map((item) => (
-          <Link
+          <div
             key={item.label}
-            to={buildProductUrl(item.label)}
             className={styles.product_item}
+            onClick={() => {
+              navigate(buildProductUrl(item.label));
+              window.location.reload();
+            }}
           >
             <img
               className={styles.picture}
@@ -126,7 +131,7 @@ function ProductsPanel({
             />
             <div className={styles.label}>{item.label}</div>
             <div className={styles.price}>{displayAmount(item.price)}</div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

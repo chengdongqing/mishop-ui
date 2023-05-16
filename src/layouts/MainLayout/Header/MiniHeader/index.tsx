@@ -1,12 +1,14 @@
+import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import Logo from '@/components/Logo';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function MiniHeader() {
   const isEmptyCart = useIsEmptyCart();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.mini_header}>
@@ -30,8 +32,24 @@ export default function MiniHeader() {
           split={<span style={{ color: '#b0b0b0' }}>|</span>}
           className={styles.links}
         >
-          <Link to={'/login'}>登录</Link>
-          <Link to={'/register'}>注册</Link>
+          <a
+            onClick={() => {
+              openAgreementsDeclaring(() => {
+                navigate('/login');
+              });
+            }}
+          >
+            登录
+          </a>
+          <a
+            onClick={() => {
+              openAgreementsDeclaring(() => {
+                navigate('/register');
+              });
+            }}
+          >
+            注册
+          </a>
         </Space>
       </Row>
     </div>

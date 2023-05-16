@@ -1,7 +1,7 @@
 import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import openLocationSelect from '@/components/LocationSelect';
 import Space from '@/components/Space';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NavItems } from './const';
 import styles from './index.module.less';
 import MiniCart from './MiniCart';
@@ -41,9 +41,16 @@ export default function TopBar() {
             >
               登录
             </a>
-            <Link to={'/register'} className={styles.nav_item}>
+            <a
+              className={styles.nav_item}
+              onClick={() => {
+                openAgreementsDeclaring(() => {
+                  navigate('/register');
+                });
+              }}
+            >
               注册
-            </Link>
+            </a>
           </Space>
           <div className={styles.nav_item}>
             <MiniCart />
