@@ -28,7 +28,7 @@ export default function ProductCommentsPage() {
   const btnVisible = useIsElementVisible({
     elementRef: containerRef,
     predicate() {
-      return window.scrollY > 100;
+      return window.scrollY > 200;
     }
   });
 

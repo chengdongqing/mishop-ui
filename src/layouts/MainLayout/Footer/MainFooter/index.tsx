@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import Iconfont from '@/components/Iconfont';
-import Popup from '@/components/Popup';
+import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import { Links, Services } from './const.ts';
 import styles from './index.module.less';
@@ -52,8 +52,8 @@ function LinksBlock() {
                   rel={'nofollow'}
                   onClick={() => {
                     if (item.open === 'weixin') {
-                      Popup.open({
-                        title: '小米手机官方微信二维码',
+                      popup.open({
+                        title: '小米商城官方微信二维码',
                         width: '72rem',
                         footer: null,
                         content: (
@@ -62,7 +62,7 @@ function LinksBlock() {
                               'https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/global/wx_text.png'
                             }
                             draggable={false}
-                            alt={'小米手机官方微信二维码'}
+                            alt={'小米商城官方微信二维码'}
                             style={{ width: '68rem', height: '34rem' }}
                           />
                         )

@@ -1,13 +1,13 @@
-import LocationSelect from '@/components/LocationSelect';
+import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
+import openLocationSelect from '@/components/LocationSelect';
 import Space from '@/components/Space';
-import useToggle from '@/hooks/useToggle.ts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { NavItems } from './const';
 import styles from './index.module.less';
 import MiniCart from './MiniCart';
 
 export default function TopBar() {
-  const [locationsOpen, toggleLocationsOpen] = useToggle();
+  const navigate = useNavigate();
 
   return (
     <div style={{ backgroundColor: '#333' }}>
@@ -24,21 +24,23 @@ export default function TopBar() {
               {item.name}
             </a>
           ))}
-          <a
-            className={styles.nav_item}
-            onClick={() => {
-              toggleLocationsOpen();
-            }}
-          >
+          <a className={styles.nav_item} onClick={openLocationSelect}>
             Select Location
           </a>
         </Space>
 
         <Space>
           <Space split={<div className={styles.sep} />}>
-            <Link to={'/login'} className={styles.nav_item}>
+            <a
+              className={styles.nav_item}
+              onClick={() => {
+                openAgreementsDeclaring(() => {
+                  navigate('/login');
+                });
+              }}
+            >
               登录
-            </Link>
+            </a>
             <Link to={'/register'} className={styles.nav_item}>
               注册
             </Link>
@@ -48,13 +50,6 @@ export default function TopBar() {
           </div>
         </Space>
       </div>
-
-      <LocationSelect
-        open={locationsOpen}
-        onCancel={() => {
-          toggleLocationsOpen();
-        }}
-      />
     </div>
   );
 }

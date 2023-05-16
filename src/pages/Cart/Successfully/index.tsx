@@ -25,7 +25,7 @@ export default function CartSuccessfullyPage() {
             />
             <div>
               <div className={styles.title}>已成功加入购物车！</div>
-              <div className={styles.name}>Xiaomi 13 Ultra 12GB+256GB 黑色</div>
+              <div className={styles.name}>Xiaomi 13 Ultra 限量定制色 12GB+256GB 赤霞橙</div>
             </div>
           </Space>
           <Space size={'1.4rem'}>

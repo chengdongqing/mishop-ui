@@ -1,5 +1,6 @@
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
+import useMount from '@/hooks/useMount.ts';
 import useSetState, { PatchStateAction } from '@/hooks/useSetState.ts';
 import { downloadFile } from '@/utils';
 import {
@@ -27,6 +28,11 @@ interface ImagePreviewProps {
 }
 
 function ImagePreview({ urls = [], index = 0, onClose }: ImagePreviewProps) {
+  const [open, setOpen] = useState(false);
+  useMount(() => {
+    setOpen(true);
+  });
+
   const [current, setCurrent] = useState(index);
   const [transform, setTransform] = useSetState({
     scale: 1,
@@ -36,14 +42,19 @@ function ImagePreview({ urls = [], index = 0, onClose }: ImagePreviewProps) {
   const isLast = useMemo(() => {
     return current === urls.length - 1;
   }, [current, urls.length]);
-
   useEffect(() => {
     setCurrent(index);
   }, [urls, index]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.btn_close} onClick={onClose}>
+    <div className={classNames(styles.container, open && styles.open)}>
+      <div
+        className={styles.btn_close}
+        onClick={() => {
+          setOpen(false);
+          setTimeout(onClose, 500);
+        }}
+      >
         <Iconfont type={'i-close'} />
       </div>
 
@@ -143,7 +154,7 @@ function FooterBar({
             title={'向左旋转'}
             onClick={() => {
               onChange((value) => ({
-                rotate: value.rotate + 90
+                rotate: value.rotate - 90
               }));
             }}
           />
@@ -151,7 +162,7 @@ function FooterBar({
             title={'向右旋转'}
             onClick={() => {
               onChange((value) => ({
-                rotate: value.rotate - 90
+                rotate: value.rotate + 90
               }));
             }}
           />

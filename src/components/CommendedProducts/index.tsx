@@ -139,7 +139,6 @@ function ProductBlock(props: Product) {
         加入购物车
       </Button>
 
-      {/* 加入成功提示 */}
       <div className={classNames(styles.notice_bar, active && styles.active)}>
         成功加入购物车
       </div>

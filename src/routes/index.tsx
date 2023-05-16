@@ -1,4 +1,5 @@
 import MainLayout from '@/layouts/MainLayout';
+import BuyProductPage from '@/pages/Product/Buy';
 import { lazy } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import PageDecorator from './PageDecorator.tsx';
@@ -51,7 +52,7 @@ const routes: RouteObject[] = [
         )
       },
       {
-        path: '/cart/added-successfully',
+        path: '/cart/successfully',
         element: (
           <PageDecorator title={'成功加入购物车'}>
             <CartSuccessfullyPage />
@@ -61,7 +62,7 @@ const routes: RouteObject[] = [
       {
         path: '/product/:label',
         element: (
-          <PageDecorator title={'商品详情'}>
+          <PageDecorator>
             <ProductPage />
           </PageDecorator>
         ),
@@ -87,6 +88,14 @@ const routes: RouteObject[] = [
             element: (
               <PageDecorator title={'商品评论'}>
                 <ProductCommentsPage />
+              </PageDecorator>
+            )
+          },
+          {
+            path: 'buy',
+            element: (
+              <PageDecorator title={'立即购买'}>
+                <BuyProductPage />
               </PageDecorator>
             )
           }

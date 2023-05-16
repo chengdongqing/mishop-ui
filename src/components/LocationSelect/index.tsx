@@ -1,13 +1,10 @@
 import Grid from '@/components/Grid';
-import Popup, { PopupProps } from '@/components/Popup';
+import popup from '@/components/Popup';
 import { useMemo } from 'react';
 import { Locations } from './const.ts';
 import styles from './index.module.less';
 
-export default function LocationSelect({
-  open,
-  onCancel
-}: Pick<PopupProps, 'open' | 'onCancel'>) {
+function LocationSelect() {
   const locations = useMemo(() => {
     const locations1 = [];
     for (let i = 0; i < 7; i++) {
@@ -17,13 +14,7 @@ export default function LocationSelect({
   }, []);
 
   return (
-    <Popup
-      open={open}
-      footer={null}
-      width={'84rem'}
-      onCancel={onCancel}
-      title={'Select location or language'}
-    >
+    <>
       <div className={styles.header}>
         <div className={styles.title}>Welcome to Mi.com</div>
         <div className={styles.tips}>Please select location or language</div>
@@ -40,6 +31,15 @@ export default function LocationSelect({
           </a>
         ))}
       </Grid>
-    </Popup>
+    </>
   );
+}
+
+export default function openLocationSelect() {
+  popup.open({
+    footer: null,
+    width: '84rem',
+    title: 'Select location or language',
+    content: <LocationSelect />
+  });
 }

@@ -21,9 +21,14 @@
   .navs a {
     color: #616161;
     font-size: 1.4rem;
+    cursor: pointer;
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: var(--color-primary);
+    }
+
+    &.disabled {
+      cursor: default;
     }
   }
 
