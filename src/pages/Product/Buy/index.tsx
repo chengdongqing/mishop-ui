@@ -65,7 +65,7 @@ function ProductPanel() {
                 },
                 callback(successful) {
                   if (successful) {
-                    navigate('/cart/successfully');
+                    navigate('/cart/successful');
                   }
                 }
               })

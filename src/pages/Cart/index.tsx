@@ -1,5 +1,4 @@
 import CommendedProducts from '@/components/CommendedProducts';
-import { useHasLogin } from '@/store/slices/userSlice.ts';
 import EmptyCart from './EmptyCart';
 import styles from './index.module.less';
 import MainCart from './MainCart';
@@ -11,16 +10,15 @@ export interface CartProduct extends Product {
 }
 
 export default function ShoppingCartPage() {
-  const hasLogin = useHasLogin();
   const isEmptyCart = useIsEmptyCart();
 
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       <div className={styles.container}>
-        {isEmptyCart ? <EmptyCart hasLogin={hasLogin} /> : <MainCart />}
+        {isEmptyCart ? <EmptyCart /> : <MainCart />}
 
         <CommendedProducts
-          title={hasLogin ? '为您推荐' : '买购物车中商品的人还买了'}
+          title={!isEmptyCart ? '买购物车中商品的人还买了' : '为您推荐'}
         />
       </div>
     </div>
