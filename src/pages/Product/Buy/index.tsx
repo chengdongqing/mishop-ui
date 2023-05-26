@@ -4,81 +4,106 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
+import { displayAmount } from '@/utils';
 import { CheckCircleOutlined, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useStore } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AfterSaleInfos } from './const.ts';
 import styles from './index.module.less';
-import ProductSkus from './ProductSkus';
+import ProductSkus, { ProductSku } from './ProductSkus';
 import ProductSwiper from './ProductSwiper';
 
 export default function BuyProductPage() {
   const hasLogin = useHasLogin();
+  const [pictures, setPictures] = useState<string[]>([]);
 
   return (
     <>
       {!hasLogin && <LoginTipsBar />}
       <div className={styles.container}>
-        <ProductSwiper />
-        <ProductPanel />
+        <ProductSwiper pictures={pictures} />
+        <ProductPanel onPicturesChange={setPictures} />
       </div>
       <PriceDescription />
     </>
   );
 }
 
-function ProductPanel() {
+function ProductPanel({
+  onPicturesChange
+}: {
+  onPicturesChange: (values: string[]) => void;
+}) {
   const store = useStore();
   const navigate = useNavigate();
+  const [sku, setSku] = useState<ProductSku>();
+  const productName = useMemo(() => {
+    return (
+      sku?.items
+        .reduce((sum: string[], item) => {
+          sum.push(item.value);
+          return sum;
+        }, [])
+        .join(' ') || ''
+    );
+  }, [sku?.items]);
 
   return (
     <div className={styles.panel_container}>
       <div className={styles.name}>Xiaomi 13 Ultra 系列</div>
       <div className={styles.desc}>Xiaomi 13 Ultra 系列</div>
       <div className={styles.source}>小米自营</div>
-      <div className={styles.price}>5999 元</div>
+      <div className={styles.price}>{displayAmount(sku?.price)}</div>
       <div className={styles.split} />
-      <ProductSkus />
+
+      <ProductSkus
+        onChange={(value) => {
+          setSku(value);
+          onPicturesChange(value?.pictures || []);
+        }}
+      />
+
       <div className={styles.selected_info}>
         <Row justify={'space-between'}>
-          <div>Xiaomi 13 Ultra 限量定制色 12GB+256GB 赤霞橙</div>
-          <div>5999元</div>
+          <div>{productName}</div>
+          <div>{displayAmount(sku?.price)}</div>
         </Row>
-        <div className={styles.total}>总计：5999元</div>
+        <div className={styles.total}>总计：{displayAmount(sku?.price)}</div>
       </div>
 
-      <Space size={'1rem'} className={styles.action_buttons}>
-        <Button
-          className={classNames(styles.btn, styles.btn_buy)}
-          onClick={() => {
-            store.dispatch(
-              cartSlice.actions.putProduct({
-                product: {
-                  pictureUrl:
-                    'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png',
-                  label: 'Xiaomi 13 Ultra 限量定制色 12GB+256GB 赤霞橙',
-                  price: 5999,
-                  checked: true,
-                  number: 1
-                },
-                callback(successful) {
-                  if (successful) {
-                    navigate('/cart/successful');
+      {!!sku && (
+        <Space size={'1rem'} className={styles.action_buttons}>
+          <Button
+            className={classNames(styles.btn, styles.btn_buy)}
+            onClick={() => {
+              store.dispatch(
+                cartSlice.actions.putProduct({
+                  product: {
+                    pictureUrl: sku.picture,
+                    label: productName,
+                    price: sku.price,
+                    checked: true,
+                    number: 1
+                  },
+                  callback(successful) {
+                    if (successful) {
+                      navigate(`/cart/successful/${productName}`);
+                    }
                   }
-                }
-              })
-            );
-          }}
-        >
-          加入购物车
-        </Button>
-        <Button className={classNames(styles.btn, styles.btn_like)} gray>
-          <HeartOutlined className={styles.icon} />
-          喜欢
-        </Button>
-      </Space>
+                })
+              );
+            }}
+          >
+            加入购物车
+          </Button>
+          <Button className={classNames(styles.btn, styles.btn_like)} gray>
+            <HeartOutlined className={styles.icon} />
+            喜欢
+          </Button>
+        </Space>
+      )}
 
       <Space size={'1.5rem'} wrap className={styles.after_sale_info}>
         {AfterSaleInfos.map((item) => (

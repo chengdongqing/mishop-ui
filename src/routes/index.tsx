@@ -52,7 +52,7 @@ const routes: RouteObject[] = [
         )
       },
       {
-        path: '/cart/successful',
+        path: '/cart/successful/:label',
         element: (
           <PageDecorator title={'成功加入购物车'}>
             <CartSuccessfulPage />

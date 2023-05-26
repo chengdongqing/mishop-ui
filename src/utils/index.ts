@@ -28,3 +28,17 @@ export function downloadFile(src: string, filename: string) {
   a.href = src;
   a.click();
 }
+
+/**
+ * 数组转对象
+ * @param source 数组源
+ * @param apply 处理函数
+ */
+export function arrayToObject(
+  source: Record<string, unknown>[],
+  apply: (value: Record<string, unknown>) => Record<string, unknown>
+) {
+  return source.reduce((sum, item) => {
+    return Object.assign(sum, apply(item));
+  }, {});
+}

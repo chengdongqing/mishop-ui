@@ -1,54 +1,55 @@
 import Grid from '@/components/Grid';
 import classNames from 'classnames';
+import { useEffect } from 'react';
+import { Xiaomi13Skus } from './const.ts';
 import styles from './index.module.less';
+import useSkus from './useSkus.ts';
 
-export default function ProductSkus() {
+export interface ProductSku {
+  id: number;
+  price: number;
+  picture: string;
+  pictures: string[];
+  items: {
+    name: string;
+    value: string;
+  }[];
+}
+
+export default function ProductSkus({
+  onChange
+}: {
+  onChange: (value?: ProductSku) => void;
+}) {
+  const { categories, activeSkus, activeSku, switchSku } =
+    useSkus(Xiaomi13Skus);
+  useEffect(() => {
+    onChange(activeSku);
+  }, [activeSku, onChange]);
+
   return (
     <div>
-      <div className={styles.option_item}>
-        <div className={styles.title}>选择产品</div>
-        <Grid columns={2} gap={'1.2rem'} className={styles.list}>
-          {['Xiaomi 13 Ultra 限量定制色', 'Xiaomi 13 Ultra'].map(
-            (item, index) => (
+      {categories.map((item) => (
+        <div key={item.name} className={styles.option_item}>
+          <div className={styles.title}>选择{item.name}</div>
+          <Grid columns={2} gap={'1.2rem'} className={styles.list}>
+            {item.children.map((item1) => (
               <div
-                key={item}
+                key={item1}
                 className={classNames(
                   styles.item,
-                  index === 0 && styles.active
+                  activeSkus[item.name] === item1 && styles.active
                 )}
+                onClick={() => {
+                  switchSku(item.name, item1);
+                }}
               >
-                {item}
+                {item1}
               </div>
-            )
-          )}
-        </Grid>
-      </div>
-      <div className={styles.option_item}>
-        <div className={styles.title}>选择版本</div>
-        <Grid columns={2} gap={'1.2rem'} className={styles.list}>
-          {['12GB+256GB', '16GB+512GB', '16GB+1TB'].map((item, index) => (
-            <div
-              key={item}
-              className={classNames(styles.item, index === 0 && styles.active)}
-            >
-              {item}
-            </div>
-          ))}
-        </Grid>
-      </div>
-      <div className={styles.option_item}>
-        <div className={styles.title}>选择颜色</div>
-        <Grid columns={2} gap={'1.2rem'} className={styles.list}>
-          {['赤霞橙', '星空蓝', '银杏黄'].map((item, index) => (
-            <div
-              key={item}
-              className={classNames(styles.item, index === 0 && styles.active)}
-            >
-              {item}
-            </div>
-          ))}
-        </Grid>
-      </div>
+            ))}
+          </Grid>
+        </div>
+      ))}
     </div>
   );
 }

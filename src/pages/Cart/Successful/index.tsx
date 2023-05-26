@@ -3,10 +3,11 @@ import CommendedProducts from '@/components/CommendedProducts';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import classNames from 'classnames';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function CartSuccessfulPage() {
+  const params = useParams();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +26,7 @@ export default function CartSuccessfulPage() {
             />
             <div>
               <div className={styles.title}>已成功加入购物车！</div>
-              <div className={styles.name}>Xiaomi 13 Ultra 限量定制色 12GB+256GB 赤霞橙</div>
+              <div className={styles.name}>{params.label}</div>
             </div>
           </Space>
           <Space size={'1.4rem'}>

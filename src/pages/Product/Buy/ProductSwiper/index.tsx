@@ -3,10 +3,9 @@ import Swiper, { SwiperHandle } from '@/components/Swiper';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { ProductPictures } from '../const.ts';
 import styles from './index.module.less';
 
-export default function ProductSwiper() {
+export default function ProductSwiper({ pictures }: { pictures: string[] }) {
   const swiperRef = useRef<SwiperHandle>(null);
   const [current, setCurrent] = useState(0);
 
@@ -19,7 +18,7 @@ export default function ProductSwiper() {
         afterChange={setCurrent}
         className={styles.swiper}
       >
-        {ProductPictures.map((item) => (
+        {pictures.map((item) => (
           <img
             alt={''}
             key={item}
@@ -48,20 +47,18 @@ export default function ProductSwiper() {
       </div>
       <div className={styles.swiper_dots}>
         <Space>
-          {Array(ProductPictures.length)
-            .fill(null)
-            .map((_, index) => (
-              <div
-                key={index}
-                className={classNames(
-                  styles.dot_item,
-                  index === current && styles.active
-                )}
-                onClick={() => {
-                  swiperRef.current?.to(index);
-                }}
-              />
-            ))}
+          {pictures.map((item, index) => (
+            <div
+              key={item}
+              className={classNames(
+                styles.dot_item,
+                index === current && styles.active
+              )}
+              onClick={() => {
+                swiperRef.current?.to(index);
+              }}
+            />
+          ))}
         </Space>
       </div>
     </div>
