@@ -9,15 +9,20 @@ import { CheckCircleOutlined, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { useStore } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AfterSaleInfos } from './const.ts';
 import styles from './index.module.less';
+import ProductDetails from './ProductDetails';
 import ProductSkus, { ProductSku } from './ProductSkus';
 import ProductSwiper from './ProductSwiper';
 
 export default function BuyProductPage() {
   const hasLogin = useHasLogin();
   const [pictures, setPictures] = useState<string[]>([]);
+
+  const { label } = useParams<{ label: string }>();
+  // 此处根据是否为空调控制展示静态详情，仅为功能示意
+  const isAC = useMemo(() => label?.includes('空调'), [label]);
 
   return (
     <>
@@ -26,7 +31,7 @@ export default function BuyProductPage() {
         <ProductSwiper pictures={pictures} />
         <ProductPanel onPicturesChange={setPictures} />
       </div>
-      <PriceDescription />
+      {isAC ? <ProductDetails /> : <PriceDescription />}
     </>
   );
 }
@@ -41,14 +46,14 @@ function ProductPanel({
   const [sku, setSku] = useState<ProductSku>();
   const productName = useMemo(() => {
     return (
-      sku?.items
+      sku?.attrs
         .reduce((sum: string[], item) => {
           sum.push(item.value);
           return sum;
         }, [])
         .join(' ') || ''
     );
-  }, [sku?.items]);
+  }, [sku?.attrs]);
 
   return (
     <div className={styles.panel_container}>
@@ -137,9 +142,21 @@ function LoginTipsBar() {
   ) : null;
 }
 
-function PriceDescription() {
+export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
+      {weixin && (
+        <div className={styles.official_weixin}>
+          <div className={styles.title}>官方微信</div>
+          <img
+            src={
+              'https://i8.mifile.cn/b2c-mimall-media/1a84b2b629512205bf528aae91361efb.jpg'
+            }
+            alt={''}
+            width={'100%'}
+          />
+        </div>
+      )}
       <div className={styles.price_description}>
         <div className={styles.title}>价格说明</div>
         <img

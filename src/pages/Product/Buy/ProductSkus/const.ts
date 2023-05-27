@@ -12,7 +12,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.1379484.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra 限量定制色'
@@ -38,7 +38,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.1379484.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra 限量定制色'
@@ -64,7 +64,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.1379484.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra 限量定制色'
@@ -90,7 +90,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra'
@@ -116,7 +116,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra'
@@ -142,7 +142,7 @@ export const Xiaomi13Skus: ProductSku[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
     ],
-    items: [
+    attrs: [
       {
         name: '产品',
         value: 'Xiaomi 13 Ultra'
@@ -150,6 +150,162 @@ export const Xiaomi13Skus: ProductSku[] = [
       {
         name: '版本',
         value: '12GB+256GB'
+      },
+      {
+        name: '颜色',
+        value: '橄榄绿'
+      }
+    ]
+  },
+  {
+    id: 7,
+    price: 6499,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+512GB'
+      },
+      {
+        name: '颜色',
+        value: '黑色'
+      }
+    ]
+  },
+  {
+    id: 8,
+    price: 6499,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+512GB'
+      },
+      {
+        name: '颜色',
+        value: '白色'
+      }
+    ]
+  },
+  {
+    id: 9,
+    price: 6499,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+512GB'
+      },
+      {
+        name: '颜色',
+        value: '橄榄绿'
+      }
+    ]
+  },
+  {
+    id: 10,
+    price: 7299,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+1TB'
+      },
+      {
+        name: '颜色',
+        value: '黑色'
+      }
+    ]
+  },
+  {
+    id: 11,
+    price: 7299,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+1TB'
+      },
+      {
+        name: '颜色',
+        value: '白色'
+      }
+    ]
+  },
+  {
+    id: 12,
+    price: 7299,
+    picture:
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+    pictures: [
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681726098.88462331.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805079.27014020.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805081.26834901.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1681805083.3889871.png'
+    ],
+    attrs: [
+      {
+        name: '产品',
+        value: 'Xiaomi 13 Ultra'
+      },
+      {
+        name: '版本',
+        value: '16GB+1TB'
       },
       {
         name: '颜色',

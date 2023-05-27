@@ -123,7 +123,6 @@ export const Products: ProductItemProps[] = [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1679982565.11927388.png'
     ],
     label: 'Redmi Note 12 Turbo',
-    originalPrice: 2799,
     price: 2599
   },
   {
@@ -144,11 +143,11 @@ export const Products: ProductItemProps[] = [
   },
   {
     pictureUrls: [
-      'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202212261427_48f2842720deb0f7cbb9170b801adab4.png'
+      'https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202211021733_dd9277a89d08e6cc94f823ad99a7d4bc.png'
     ],
-    label: 'Xiaomi 11 Ultra',
-    originalPrice: 6499,
-    price: 5999
+    label: '米家空调 清凉版 大1匹（单冷）',
+    originalPrice: 2099,
+    price: 1599
   },
   {
     pictureUrls: [

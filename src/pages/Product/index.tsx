@@ -7,9 +7,11 @@ import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
+const name = 'Xiaomi 13 Ultra系列';
+
 export default function ProductPage() {
   const { label } = useParams<{ label: string }>();
-  useDocumentTitle('Xiaomi 13 Ultra 限量定制色');
+  useDocumentTitle(name);
 
   const { pathname } = useLocation();
   // 子页面切换后自动滚动到顶部
@@ -28,7 +30,7 @@ export default function ProductPage() {
           justify={'space-between'}
           className={styles.container}
         >
-          <div className={styles.label}>Xiaomi 13 Ultra 限量定制色</div>
+          <div className={styles.label}>{name}</div>
           <Space>
             <Space
               split={<span style={{ color: '#e0e0e0' }}>|</span>}

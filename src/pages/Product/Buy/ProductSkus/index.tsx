@@ -10,7 +10,7 @@ export interface ProductSku {
   price: number;
   picture: string;
   pictures: string[];
-  items: {
+  attrs: {
     name: string;
     value: string;
   }[];

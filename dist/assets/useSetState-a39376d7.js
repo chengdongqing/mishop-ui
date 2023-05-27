@@ -1,1 +1,0 @@
-import{r as u}from"./index-5df4887b.js";function f(n={}){const[o,r]=u.useState(n),a=u.useCallback((e,l=!1)=>{r(t=>{const s=typeof e=="function"?e(t):e;return l?s:{...t,...s}})},[]);return[o,a]}export{f as u};

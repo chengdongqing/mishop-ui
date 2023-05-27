@@ -104,9 +104,11 @@ function ProductItem(props: ProductItemProps) {
       <div className={styles.label}>{props.label}</div>
       <Space size={'0.4rem'}>
         <div className={styles.price}>{displayAmount(props.price)}</div>
-        <div className={classNames(styles.price, styles.original)}>
-          {displayAmount(props.originalPrice)}
-        </div>
+        {!!props.originalPrice && (
+          <div className={classNames(styles.price, styles.original)}>
+            {displayAmount(props.originalPrice)}
+          </div>
+        )}
       </Space>
       <Space className={styles.thumbs}>
         {props.pictureUrls.map((item, index) => (

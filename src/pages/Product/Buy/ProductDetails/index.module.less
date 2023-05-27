@@ -1,0 +1,32 @@
+.navs_bar {
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 0.1rem solid #ddd;
+
+  .nav_item {
+    width: 17rem;
+    color: #757575;
+    font-size: 1.8rem;
+    text-align: center;
+    line-height: 1.8rem;
+    border-right: 0.1rem solid #e0e0e0;
+    cursor: pointer;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &.active,
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.content {
+  width: var(--width-primary);
+  padding-bottom: 5rem;
+  margin: auto;
+}
