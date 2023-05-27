@@ -35,7 +35,7 @@ export default function MiniHeader() {
           <a
             onClick={() => {
               openAgreementsDeclaring(() => {
-                navigate('/login');
+                navigate('/auth/login');
               });
             }}
           >
@@ -44,7 +44,7 @@ export default function MiniHeader() {
           <a
             onClick={() => {
               openAgreementsDeclaring(() => {
-                navigate('/register');
+                navigate('/auth/register');
               });
             }}
           >

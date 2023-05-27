@@ -16,7 +16,7 @@ import ProductDetails from './ProductDetails';
 import ProductSkus, { ProductSku } from './ProductSkus';
 import ProductSwiper from './ProductSwiper';
 
-export default function BuyProductPage() {
+export default function ProductBuyingPage() {
   const hasLogin = useHasLogin();
   const [pictures, setPictures] = useState<string[]>([]);
 

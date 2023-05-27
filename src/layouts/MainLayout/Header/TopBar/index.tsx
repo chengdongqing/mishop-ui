@@ -35,7 +35,7 @@ export default function TopBar() {
               className={styles.nav_item}
               onClick={() => {
                 openAgreementsDeclaring(() => {
-                  navigate('/login');
+                  navigate('/auth/login');
                 });
               }}
             >
@@ -45,7 +45,7 @@ export default function TopBar() {
               className={styles.nav_item}
               onClick={() => {
                 openAgreementsDeclaring(() => {
-                  navigate('/register');
+                  navigate('/auth/register');
                 });
               }}
             >

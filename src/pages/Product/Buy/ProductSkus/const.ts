@@ -31,7 +31,7 @@ export const Xiaomi13Skus: ProductSku[] = [
     id: 2,
     price: 6499,
     picture:
-      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.1379484.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png',
     pictures: [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.13552814.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.13856241.png',
@@ -57,7 +57,7 @@ export const Xiaomi13Skus: ProductSku[] = [
     id: 3,
     price: 6499,
     picture:
-      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.25086880.png',
+      'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.1379484.png',
     pictures: [
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.13552814.png',
       'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1682993596.13856241.png',

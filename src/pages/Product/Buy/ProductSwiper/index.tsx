@@ -2,12 +2,17 @@ import Space from '@/components/Space';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.less';
 
 export default function ProductSwiper({ pictures }: { pictures: string[] }) {
   const swiperRef = useRef<SwiperHandle>(null);
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    setCurrent(0);
+    swiperRef.current?.to(0);
+  }, [pictures.length]);
 
   return (
     <div className={styles.container}>
@@ -29,38 +34,43 @@ export default function ProductSwiper({ pictures }: { pictures: string[] }) {
           />
         ))}
       </Swiper>
-      <div
-        className={classNames(styles.btn, styles.left)}
-        onClick={() => {
-          swiperRef.current?.prev();
-        }}
-      >
-        <LeftOutlined />
-      </div>
-      <div
-        className={classNames(styles.btn, styles.right)}
-        onClick={() => {
-          swiperRef.current?.next();
-        }}
-      >
-        <RightOutlined />
-      </div>
-      <div className={styles.swiper_dots}>
-        <Space>
-          {pictures.map((item, index) => (
-            <div
-              key={item}
-              className={classNames(
-                styles.dot_item,
-                index === current && styles.active
-              )}
-              onClick={() => {
-                swiperRef.current?.to(index);
-              }}
-            />
-          ))}
-        </Space>
-      </div>
+
+      {pictures.length > 1 && (
+        <>
+          <div
+            className={classNames(styles.btn, styles.left)}
+            onClick={() => {
+              swiperRef.current?.prev();
+            }}
+          >
+            <LeftOutlined />
+          </div>
+          <div
+            className={classNames(styles.btn, styles.right)}
+            onClick={() => {
+              swiperRef.current?.next();
+            }}
+          >
+            <RightOutlined />
+          </div>
+          <div className={styles.swiper_dots}>
+            <Space>
+              {pictures.map((item, index) => (
+                <div
+                  key={item}
+                  className={classNames(
+                    styles.dot_item,
+                    index === current && styles.active
+                  )}
+                  onClick={() => {
+                    swiperRef.current?.to(index);
+                  }}
+                />
+              ))}
+            </Space>
+          </div>
+        </>
+      )}
     </div>
   );
 }
