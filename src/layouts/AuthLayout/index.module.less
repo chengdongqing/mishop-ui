@@ -1,7 +1,69 @@
 .container {
-  background-color: var(--color-background);
+  width: 100vw;
+  height: 100vh;
 }
 
-.side_banner {
+.banner {
   width: 37.5rem;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main {
+  flex: 1;
+  height: 100%;
+
+  .card {
+    width: 45rem;
+    border-radius: 0.4rem;
+    box-shadow: 0 2rem 5rem 0 hsla(0, 0%, 64%, 0.1);
+    padding: 4rem 4.5rem;
+    margin: 0 auto 8rem;
+  }
+
+  .tabs {
+    margin-bottom: 1.6rem;
+
+    .ink_bar {
+      position: absolute;
+      bottom: 0;
+      width: 4.7rem;
+      height: 0.3rem;
+      border-radius: 0.2rem;
+      background-color: var(--color-primary);
+      transition: 0.2s;
+    }
+
+    .item {
+      color: #bbb;
+      font-size: 2.2rem;
+      font-weight: 200;
+      width: 4.7rem;
+      height: 4rem;
+      line-height: 4rem;
+      text-align: center;
+      display: inline-block;
+      transition: 0.2s;
+
+      &.active {
+        color: #333;
+        font-weight: 500;
+      }
+    }
+  }
+
+}
+
+.footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  font-size: 1.2rem;
+  text-align: center;
+
+  &,
+  a {
+    color: #999;
+  }
 }

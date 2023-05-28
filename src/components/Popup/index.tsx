@@ -28,9 +28,9 @@ export interface PopupProps extends PropsWithChildren {
   closeOnOk?: boolean;
 
   // 点击确认回调
-  onOk?: () => void;
+  onOk?(): void;
   // 点击取消回调
-  onCancel?: () => void;
+  onCancel?(): void;
 }
 
 function Popup({

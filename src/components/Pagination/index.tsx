@@ -9,7 +9,7 @@ interface PaginationProps {
   pageSize?: number;
   totalSize?: number;
 
-  onChange?: (page: number) => void;
+  onChange?(page: number): void;
 }
 
 const overPages = 7;

@@ -1,13 +1,7 @@
 import useSwiper from '@/components/Swiper/useSwiper.ts';
 import { PropsWithStyle } from '@/utils/declare';
 import classNames from 'classnames';
-import {
-  Children,
-  CSSProperties,
-  forwardRef,
-  PropsWithChildren,
-  useImperativeHandle
-} from 'react';
+import { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
 import styles from './index.module.less';
 
 export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
@@ -27,15 +21,15 @@ export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
   indicatorDots?: boolean;
 
   // 切换后
-  afterChange?: (current: number) => void;
+  afterChange?(current: number): void;
   // 切换前
-  beforeChange?: (current: number, next: number) => void;
+  beforeChange?(current: number, next: number): void;
 }
 
 export interface SwiperHandle {
-  next: () => void;
-  prev: () => void;
-  to: (index: number) => void;
+  next(): void;
+  prev(): void;
+  to(index: number): void;
 }
 
 const Swiper = forwardRef<SwiperHandle, SwiperProps>(
@@ -131,7 +125,7 @@ function IndicatorDots({
 }: {
   length: number;
   current: number;
-  onChange: (index: number) => void;
+  onChange(index: number): void;
 }) {
   return (
     <div className={styles.indicator_dots}>

@@ -6,7 +6,7 @@ interface NumberInputProps {
   min?: number;
   max?: number;
 
-  onChange?: (value: number) => void;
+  onChange?(value: number): void;
 }
 
 export default function NumberInput({

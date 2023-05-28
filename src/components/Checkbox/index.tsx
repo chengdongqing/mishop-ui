@@ -1,14 +1,7 @@
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
 import classNames from 'classnames';
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.less';
 
 interface CheckboxProps extends PropsWithChildren {
@@ -16,24 +9,24 @@ interface CheckboxProps extends PropsWithChildren {
   checked?: boolean;
   disabled?: boolean;
   indeterminate?: boolean;
-  onChange?: (checked: boolean) => void;
+  onChange?(checked: boolean): void;
 }
 
 function Checkbox(props: CheckboxProps) {
-  const context = useContext(GroupContext);
+  const context = useContext(CheckboxContext);
   const [checked, setChecked] = useState(false);
 
   const disabled = useMemo(() => {
-    return props.disabled || context?.disabled;
-  }, [context?.disabled, props.disabled]);
+    return props.disabled || context.disabled;
+  }, [context.disabled, props.disabled]);
 
   useEffect(() => {
     if (props.checked !== undefined) {
       setChecked(props.checked);
-    } else if (props.value && Array.isArray(context?.value)) {
-      setChecked(!!context?.value.includes(props.value));
+    } else if (props.value && Array.isArray(context.value)) {
+      setChecked(context.value.includes(props.value));
     }
-  }, [context?.value, props.checked, props.value]);
+  }, [context.value, props.checked, props.value]);
 
   function handleChange() {
     if (disabled) return;
@@ -41,9 +34,9 @@ function Checkbox(props: CheckboxProps) {
     const checked1 = !checked;
     props.onChange?.(checked1);
     if (checked1) {
-      context?.registerValue(props.value);
+      context.registerValue?.(props.value);
     } else {
-      context?.cancelValue(props.value);
+      context.cancelValue?.(props.value);
     }
   }
 
@@ -64,19 +57,19 @@ function Checkbox(props: CheckboxProps) {
   );
 }
 
-interface CheckboxGroupContextProps {
+interface CheckboxContextProps {
   value?: BasicValue[];
   disabled?: boolean;
-  registerValue: (value: BasicValue) => void;
-  cancelValue: (value: BasicValue) => void;
+  registerValue?(value: BasicValue): void;
+  cancelValue?(value: BasicValue): void;
 }
 
-const GroupContext = createContext<CheckboxGroupContextProps | null>(null);
+const CheckboxContext = createContext<CheckboxContextProps>({});
 
 interface CheckboxGroupProps extends PropsWithChildren {
   value?: BasicValue[];
   disabled?: boolean;
-  onChange?: (checkedValue: BasicValue[]) => void;
+  onChange?(checkedValue: BasicValue[]): void;
 }
 
 function CheckboxGroup({
@@ -111,11 +104,11 @@ function CheckboxGroup({
   }
 
   return (
-    <GroupContext.Provider
+    <CheckboxContext.Provider
       value={{ value: checkedValue, disabled, registerValue, cancelValue }}
     >
       {children}
-    </GroupContext.Provider>
+    </CheckboxContext.Provider>
   );
 }
 

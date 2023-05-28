@@ -24,7 +24,7 @@ interface ImagePreviewProps {
   // 默认选中的图片索引
   index?: number;
   // 关闭事件
-  onClose: () => void;
+  onClose(): void;
 }
 
 function ImagePreview({ urls = [], index = 0, onClose }: ImagePreviewProps) {

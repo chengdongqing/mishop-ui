@@ -1,15 +1,21 @@
 import LogoIcon from '@/assets/logo.png';
+import classNames from 'classnames';
+import { ImgHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
-export default function Logo() {
+export default function Logo({
+  className,
+  ...props
+}: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <Link to={'/'}>
       <img
         alt={'logo'}
         src={LogoIcon}
         draggable={false}
-        className={styles.logo_icon}
+        className={classNames(styles.logo, className)}
+        {...props}
       />
     </Link>
   );

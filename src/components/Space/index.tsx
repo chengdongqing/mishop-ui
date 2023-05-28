@@ -66,7 +66,8 @@ export default function Space({
   return (
     <div style={containerStyle} className={className} {...props}>
       {Children.map(children, (child, index) => {
-        return isValidElement(child) ? (
+        return isValidElement(child) ||
+          ['string', 'number'].includes(typeof child) ? (
           <>
             <span style={isNotLast(index) ? itemStyle : undefined}>
               {child}

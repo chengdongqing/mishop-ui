@@ -1,6 +1,7 @@
 /* semantic color variables for this project */
 :root {
   --color-primary: #ff6700;
+  --color-error: #f04645;
   --color-background: #f5f5f5;
   --width-primary: 122.6rem;
 }

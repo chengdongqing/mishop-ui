@@ -9,7 +9,7 @@ interface RateProps extends PropsWithChildren {
   value?: number;
   disabled?: boolean;
   character?: ReactNode | ((value: number) => ReactNode);
-  onChange?: (value: number) => void;
+  onChange?(value: number): void;
 }
 
 export default function Rate({

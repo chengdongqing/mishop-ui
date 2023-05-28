@@ -1,0 +1,72 @@
+.container {
+  height: 6rem;
+  background-color: #f9f9f9;
+  border: 0.1rem solid transparent;
+  border-radius: 0.4rem;
+  transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &.active {
+    background-color: #fff;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 92, 0, 0.2);
+  }
+
+  &.error {
+    background-color: #fcf2f3;
+
+    .label {
+      color: var(--color-error);
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    color: #333;
+    font-size: 1.7rem;
+    padding: 3rem 2rem 1rem;
+    background-color: transparent;
+
+    &[type='password'] {
+      letter-spacing: 1rem;
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 1.7rem;
+    font-weight: 200;
+    transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: text;
+
+    &.active {
+      top: 0.6rem;
+      font-size: 1.2rem;
+      transform: none;
+    }
+  }
+
+  .icon_eye {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: rgba(0, 0, 0, 0.25);
+    transition: 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+}
