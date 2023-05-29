@@ -1,11 +1,9 @@
 import useSetState from '@/hooks/useSetState.ts';
 import {
-  cloneElement,
   createContext,
   forwardRef,
   ForwardRefExoticComponent,
   PropsWithChildren,
-  ReactElement,
   RefAttributes,
   useImperativeHandle
 } from 'react';
@@ -103,7 +101,7 @@ const Form = forwardRef<FormHandle, FormProps>(
 ) as FormForwardRef;
 
 interface FormItemProps extends PropsWithChildren {
-  name: string;
+  name?: string;
   rules?: {
     required?: boolean;
     len?: number;
@@ -118,9 +116,7 @@ interface FormItemProps extends PropsWithChildren {
 function FormItem({ children, rules }: FormItemProps) {
   return (
     <div className={styles.form_item}>
-      {cloneElement(children as ReactElement, {
-        error: true
-      })}
+      {children}
       {!!rules?.length && (
         <div className={styles.error_tips}>{rules[0].message}</div>
       )}

@@ -26,7 +26,7 @@ export default function EmptyCart() {
         <div className={styles.btn_group}>
           {!hasLogin ? (
             <Space size={'1rem'}>
-              <Link to={'/login'}>
+              <Link to={'/auth/login'}>
                 <Button className={styles.btn}>立即登录</Button>
               </Link>
               <Link to={'/search'}>

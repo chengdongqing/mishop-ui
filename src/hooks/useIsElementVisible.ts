@@ -33,7 +33,7 @@ export default function useIsElementVisible({
     return () => {
       document.removeEventListener('scroll', onScroll);
     };
-  });
+  }, [onScroll]);
 
   return visible;
 }

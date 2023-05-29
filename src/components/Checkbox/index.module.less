@@ -2,7 +2,9 @@
   cursor: pointer;
 
   &:not(.active, .disabled):hover {
-    .checkbox,
+    .checkbox {
+      border-color: var(--color-primary);
+    }
     .label {
       color: var(--color-primary);
     }

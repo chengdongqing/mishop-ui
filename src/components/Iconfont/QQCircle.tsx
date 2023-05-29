@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react';
 
-export default function QQFilled(props: SVGAttributes<SVGElement>) {
+export default function QQCircle(props: SVGAttributes<SVGElement>) {
   return (
     <svg
       viewBox="0 0 46 46"

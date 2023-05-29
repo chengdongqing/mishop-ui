@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react';
 
-export default function WeiboFilled(props: SVGAttributes<SVGElement>) {
+export default function WeiboCircle(props: SVGAttributes<SVGElement>) {
   return (
     <svg
       viewBox="0 0 46 46"

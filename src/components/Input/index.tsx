@@ -1,5 +1,5 @@
-import EyeCloseFilled from '@/components/Iconfont/EyeCloseFilled.tsx';
-import EyeOpenFilled from '@/components/Iconfont/EyeOpenFilled.tsx';
+import EyeClose from '@/components/Iconfont/EyeClose.tsx';
+import EyeOpen from '@/components/Iconfont/EyeOpen.tsx';
 import useToggle from '@/hooks/useToggle.ts';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
@@ -68,7 +68,7 @@ export default function Input({
             toggleShowPwd();
           }}
         >
-          {showPwd ? <EyeOpenFilled /> : <EyeCloseFilled />}
+          {showPwd ? <EyeOpen /> : <EyeClose />}
         </div>
       )}
     </div>

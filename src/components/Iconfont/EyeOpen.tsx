@@ -1,6 +1,6 @@
 import { SVGAttributes } from 'react';
 
-export default function EyeOpenFilled(props: SVGAttributes<SVGElement>) {
+export default function EyeOpen(props: SVGAttributes<SVGElement>) {
   return (
     <svg
       viewBox="0 0 20 20"
