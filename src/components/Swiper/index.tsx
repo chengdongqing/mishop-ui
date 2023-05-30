@@ -1,5 +1,5 @@
 import useSwiper from '@/components/Swiper/useSwiper.ts';
-import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
 import styles from './index.module.less';

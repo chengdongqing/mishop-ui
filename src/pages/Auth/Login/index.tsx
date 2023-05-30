@@ -3,15 +3,16 @@ import Checkbox from '@/components/Checkbox';
 import Form, { FormHandle } from '@/components/Form';
 import { AlipayCircle, QQCircle, WechatCircle, WeiboCircle } from '@/components/Iconfont';
 import Input from '@/components/Input';
-import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import toast from '@/components/Toast';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function Login() {
   const formRef = useRef<FormHandle>(null);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.container}>
@@ -19,9 +20,14 @@ export default function Login() {
         ref={formRef}
         onOk={(values) => {
           if (!(values.agreed as [])?.length) {
-            popup.alert('请您同意用户条款');
+            toast.warning('请您同意用户条款');
           } else {
-            popup.alert('登录成功');
+            toast.success('登录成功', {
+              duration: 1000
+            });
+            setTimeout(() => {
+              navigate('/');
+            }, 1000);
           }
         }}
       >

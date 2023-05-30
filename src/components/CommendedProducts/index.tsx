@@ -3,7 +3,7 @@ import Grid from '@/components/Grid';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
-import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { useStore } from 'react-redux';

@@ -1,19 +1,18 @@
 import Space from '@/components/Space';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
+import { PropsWithStyle } from '@/utils/typings';
 import { CaretDownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { CSSProperties, Key, PropsWithChildren, ReactNode, useRef, useState } from 'react';
 import styles from './index.module.less';
 
-interface DropdownProps extends PropsWithChildren {
+interface DropdownProps extends PropsWithChildren<PropsWithStyle> {
   menus: {
     key: Key;
     label: ReactNode;
     disabled?: boolean;
   }[];
   arrow?: boolean;
-  style?: CSSProperties;
-  className?: string;
   overlayStyle?: CSSProperties;
   overlayClassName?: string;
 

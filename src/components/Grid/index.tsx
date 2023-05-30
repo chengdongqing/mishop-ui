@@ -1,4 +1,4 @@
-import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithStyle } from '@/utils/typings';
 import { PropsWithChildren } from 'react';
 
 interface GridProps extends PropsWithChildren, PropsWithStyle {

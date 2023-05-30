@@ -1,4 +1,4 @@
-import { PropsWithStyle } from '@/utils/declare';
+import { PropsWithStyle } from '@/utils/typings';
 import { Children, CSSProperties, HTMLAttributes, isValidElement, PropsWithChildren, ReactNode, useMemo } from 'react';
 
 interface SpaceProps

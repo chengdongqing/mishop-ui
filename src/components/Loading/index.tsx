@@ -1,9 +1,10 @@
 import useMount from '@/hooks/useMount.ts';
+import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { CSSProperties, useState } from 'react';
 import styles from './index.module.less';
 
-interface LoadingProps {
+interface LoadingProps extends PropsWithStyle {
   // 效果类型
   type?: 'wave' | 'circle' | 'dashed' | 'dot';
   // 颜色
@@ -16,10 +17,6 @@ interface LoadingProps {
   tip?: string;
   // 提示是否换行
   warp?: boolean;
-  // 样式
-  style?: CSSProperties;
-  // 类名
-  className?: string;
 }
 
 export default function Loading({
