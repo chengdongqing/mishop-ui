@@ -1,5 +1,7 @@
+import { FormItemContext } from '@/components/Form/FormItem.tsx';
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
+import useLatest from '@/hooks/useLatest.ts';
 import classNames from 'classnames';
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.less';
@@ -13,20 +15,19 @@ interface CheckboxProps extends PropsWithChildren {
 }
 
 function Checkbox(props: CheckboxProps) {
-  const context = useContext(CheckboxContext);
+  const ctx = useContext(CheckboxContext);
   const [checked, setChecked] = useState(false);
-
   const disabled = useMemo(() => {
-    return props.disabled || context.disabled;
-  }, [context.disabled, props.disabled]);
+    return props.disabled || ctx.disabled;
+  }, [ctx.disabled, props.disabled]);
 
   useEffect(() => {
     if (props.checked !== undefined) {
       setChecked(props.checked);
-    } else if (props.value && Array.isArray(context.value)) {
-      setChecked(context.value.includes(props.value));
+    } else if (props.value && Array.isArray(ctx.value)) {
+      setChecked(ctx.value.includes(props.value));
     }
-  }, [context.value, props.checked, props.value]);
+  }, [ctx.value, props.checked, props.value]);
 
   function handleChange() {
     if (disabled) return;
@@ -34,9 +35,9 @@ function Checkbox(props: CheckboxProps) {
     const checked1 = !checked;
     props.onChange?.(checked1);
     if (checked1) {
-      context.registerValue?.(props.value);
+      ctx.onChecked?.(props.value);
     } else {
-      context.cancelValue?.(props.value);
+      ctx.onUnchecked?.(props.value);
     }
   }
 
@@ -60,8 +61,8 @@ function Checkbox(props: CheckboxProps) {
 interface CheckboxContextProps {
   value?: BasicValue[];
   disabled?: boolean;
-  registerValue?(value: BasicValue): void;
-  cancelValue?(value: BasicValue): void;
+  onChecked?(value: BasicValue): void;
+  onUnchecked?(value: BasicValue): void;
 }
 
 const CheckboxContext = createContext<CheckboxContextProps>({});
@@ -78,7 +79,23 @@ function CheckboxGroup({
   disabled = false,
   onChange
 }: CheckboxGroupProps) {
+  const formItemCtx = useContext(FormItemContext);
   const [checkedValue, setCheckedValue] = useState<BasicValue[]>([]);
+
+  const valueRef = useLatest(checkedValue);
+  useEffect(() => {
+    if (Array.isArray(formItemCtx.initialValue)) {
+      setCheckedValue(formItemCtx.initialValue);
+    }
+    formItemCtx.registerField?.({
+      getValue() {
+        return valueRef.current;
+      },
+      setValue(val) {
+        setCheckedValue(Array.isArray(val) ? val : []);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (Array.isArray(value)) {
@@ -86,26 +103,28 @@ function CheckboxGroup({
     }
   }, [value]);
 
-  function registerValue(value1: BasicValue) {
+  function onChecked(value1: BasicValue) {
     if (!checkedValue?.includes(value1)) {
       const newValue = [...(checkedValue || []), value1];
       setCheckedValue(newValue);
       onChange?.(newValue);
+      formItemCtx.onChange?.(newValue);
     }
   }
-  function cancelValue(value1: BasicValue) {
+  function onUnchecked(value1: BasicValue) {
     if (checkedValue?.includes(value1)) {
       const index = checkedValue.findIndex((item) => Object.is(item, value1));
       checkedValue.splice(index, 1);
       const newValue = [...checkedValue];
       setCheckedValue(newValue);
       onChange?.(newValue);
+      formItemCtx.onChange?.(newValue);
     }
   }
 
   return (
     <CheckboxContext.Provider
-      value={{ value: checkedValue, disabled, registerValue, cancelValue }}
+      value={{ value: checkedValue, disabled, onChecked, onUnchecked }}
     >
       {children}
     </CheckboxContext.Provider>

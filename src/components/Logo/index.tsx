@@ -6,7 +6,7 @@ import styles from './index.module.less';
 
 export default function Logo({
   className,
-  ...props
+  ...rest
 }: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <Link to={'/'}>
@@ -15,7 +15,7 @@ export default function Logo({
         src={LogoIcon}
         draggable={false}
         className={classNames(styles.logo, className)}
-        {...props}
+        {...rest}
       />
     </Link>
   );

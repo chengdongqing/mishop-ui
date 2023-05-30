@@ -5,6 +5,7 @@ import styles from './index.module.less';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   gray?: boolean;
   outlined?: boolean;
+  disabled?: boolean;
   size?: 'default' | 'small';
 }
 
@@ -13,17 +14,18 @@ export default function Button({
   size,
   outlined,
   className,
-  ...props
+  ...rest
 }: ButtonProps) {
   return (
     <button
-      {...props}
+      {...rest}
       className={classNames(
         className,
         styles.btn,
         gray && styles.gray,
         !!size && styles[size],
-        outlined && styles.outlined
+        outlined && styles.outlined,
+        rest.disabled && styles.disabled
       )}
     />
   );

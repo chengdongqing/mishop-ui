@@ -34,7 +34,7 @@ export default function Space({
   style,
   className,
   children,
-  ...props
+  ...rest
 }: SpaceProps) {
   const containerStyle = useMemo(() => {
     const style1: CSSProperties = {
@@ -64,7 +64,7 @@ export default function Space({
   }
 
   return (
-    <div style={containerStyle} className={className} {...props}>
+    <div style={containerStyle} className={className} {...rest}>
       {Children.map(children, (child, index) => {
         return isValidElement(child) ||
           ['string', 'number'].includes(typeof child) ? (

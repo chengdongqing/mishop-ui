@@ -34,11 +34,11 @@ export default function Row({
   justify = 'start',
   wrap = true,
   style,
-  ...props
+  ...rest
 }: RowProps) {
   return (
     <div
-      {...props}
+      {...rest}
       style={{
         display: 'flex',
         justifyContent: rowJustify[justify],

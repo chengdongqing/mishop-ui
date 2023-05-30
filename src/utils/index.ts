@@ -36,7 +36,11 @@ export function downloadFile(src: string, filename: string) {
  */
 export function arrayToObject(
   source: Record<string, unknown>[],
-  apply: (value: Record<string, unknown>) => Record<string, unknown>
+  apply: (value: Record<string, unknown>) => Record<string, unknown> = (
+    item
+  ) => ({
+    [item.name as string]: item.value
+  })
 ) {
   return source.reduce((sum, item) => {
     return Object.assign(sum, apply(item));

@@ -5,9 +5,7 @@ import { ProductSku } from './index.tsx';
 
 export default function useSkus(skus: ProductSku[]) {
   const [activeSkus, setActiveSkus] = useSetState(() => {
-    return arrayToObject(skus[0].attrs, (item) => ({
-      [item.name as string]: item.value
-    }));
+    return arrayToObject(skus[0].attrs);
   });
 
   const findSku = useCallback(
@@ -69,9 +67,7 @@ export default function useSkus(skus: ProductSku[]) {
     })?.attrs;
     if (attrs) {
       if (!findSku({ [name]: value })) {
-        const sku = arrayToObject(attrs, (item) => ({
-          [item.name as string]: item.value
-        }));
+        const sku = arrayToObject(attrs);
         setActiveSkus(sku, true);
       } else {
         setActiveSkus({
