@@ -11,12 +11,13 @@
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  position: relative;
-  font-weight: normal;
+  color: unset;
   outline: none;
   user-select: none;
   text-decoration: none;
+  position: relative;
+  font-weight: normal;
+  box-sizing: border-box;
 }
 
 html {

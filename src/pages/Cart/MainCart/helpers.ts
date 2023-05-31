@@ -1,7 +1,4 @@
 import popup from '@/components/Popup';
-import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
-import useMount from '@/hooks/useMount.ts';
-import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
@@ -77,21 +74,4 @@ export function useCartCounter(onlyChecked = true) {
   }, [onlyChecked, products]);
 
   return { totalNumber, totalAmount };
-}
-
-export function useCartInitial() {
-  const products = useCartProducts();
-  const dispatch = useDispatch();
-  const [storageState, setStorageState] =
-    useLocalStorageState<CartProduct[]>('ShoppingCart');
-
-  useMount(() => {
-    if (storageState) {
-      dispatch(cartSlice.actions.setCart(storageState));
-    }
-  });
-
-  useUpdateEffect(() => {
-    setStorageState(products);
-  }, [products]);
 }

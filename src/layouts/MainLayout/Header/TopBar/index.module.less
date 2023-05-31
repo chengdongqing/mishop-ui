@@ -5,21 +5,92 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
 
+.nav_item {
+  font-size: 1.2rem;
+  color: #b0b0b0;
+  line-height: 4rem;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.sep {
+  width: 0.1rem;
+  height: 1.2rem;
+  background-color: #424242;
+}
+
+.mini_header {
   .nav_item {
-    font-size: 1.2rem;
-    color: #b0b0b0;
-    line-height: 4rem;
-    cursor: pointer;
+    color: #757575;
 
     &:hover {
-      color: #fff;
+      color: var(--color-primary);
+    }
+  }
+  .sep {
+    background-color: #b0b0b0;
+  }
+}
+
+.user_container {
+  width: 11rem;
+  text-align: center;
+
+  &:hover {
+    .btn {
+      color: #424242;
+      background-color: #fff;
     }
   }
 
-  .sep {
-    width: 1px;
-    height: 1.2rem;
-    background-color: #424242;
+  .btn {
+    width: 100%;
+    z-index: 11;
+    transition: 0.3s;
+    justify-content: center;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    .username {
+      display: block;
+      max-width: 8rem;
+    }
+  }
+
+  .popover {
+    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    overflow: hidden;
+    box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.15);
+    transition: height 0.3s;
+
+    .menu_item {
+      display: block;
+      color: #424242;
+      font-size: 1.2rem;
+      line-height: 3rem;
+      transition: 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--color-primary);
+        background-color: #f5f5f5;
+      }
+
+      &.danger:hover {
+        color: var(--color-error);
+      }
+    }
   }
 }

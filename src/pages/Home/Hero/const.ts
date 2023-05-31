@@ -85,8 +85,12 @@ export const ProductCategories: ProductCategory[] = [
 
 export const Banners: Promo[] = [
   {
-    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/89b9804e4b794f230252bc99fb55faa5.jpg?w=2452&h=920',
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/89b9804e4b794f230252bc99fb55faa5.jpg?thumb=1&f=webp&q=90',
     href: 'https://www.mi.com/shop/buy?product_id=18363'
+  },
+  {
+    src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/f9ff7ab2bd81728189a08fadb8ccf0e9.jpg?thumb=1&f=webp&q=90',
+    href: 'https://www.mi.com/a/h/30535.html?sign=7bd89fb662da49ae0ae1dd615acf0684'
   },
   {
     src: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d24b07f5fb10927b4cdcfce9a57a168a.jpg?thumb=1&f=webp&q=90',

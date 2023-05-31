@@ -1,14 +1,12 @@
-import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import Logo from '@/components/Logo';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
-import { useNavigate } from 'react-router-dom';
+import UserNavs from '../TopBar/UserNavs';
 import styles from './index.module.less';
 
 export default function MiniHeader() {
   const isEmptyCart = useIsEmptyCart();
-  const navigate = useNavigate();
 
   return (
     <div className={styles.mini_header}>
@@ -28,29 +26,7 @@ export default function MiniHeader() {
             )}
           </Space>
         </Space>
-        <Space
-          split={<span style={{ color: '#b0b0b0' }}>|</span>}
-          className={styles.links}
-        >
-          <a
-            onClick={() => {
-              openAgreementsDeclaring(() => {
-                navigate('/auth/login');
-              });
-            }}
-          >
-            登录
-          </a>
-          <a
-            onClick={() => {
-              openAgreementsDeclaring(() => {
-                navigate('/auth/register');
-              });
-            }}
-          >
-            注册
-          </a>
-        </Space>
+        <UserNavs miniHeader />
       </Row>
     </div>
   );

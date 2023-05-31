@@ -8,8 +8,10 @@ import toast from '@/components/Toast';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
 import useLatest from '@/hooks/useLatest.ts';
 import useSetState from '@/hooks/useSetState.ts';
+import userSlice from '@/store/slices/userSlice.ts';
 import patterns from '@/utils/patterns.ts';
 import { useState } from 'react';
+import { useStore } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
 
@@ -18,6 +20,7 @@ export default function Register() {
   const valuesRef = useLatest(values);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const store = useStore();
 
   return (
     <Form
@@ -29,6 +32,13 @@ export default function Register() {
           setLoading(true);
           setTimeout(() => {
             setLoading(false);
+            store.dispatch(
+              userSlice.actions.setUser({
+                id: '450762342',
+                name: '海盐芝士不加糖',
+                phoneNumber: '189*****874'
+              })
+            );
             popup.alert('恭喜您，注册成功！', () => {
               navigate('/');
             });

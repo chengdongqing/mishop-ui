@@ -1,14 +1,11 @@
-import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import openLocationSelect from '@/components/LocationSelect';
 import Space from '@/components/Space';
-import { useNavigate } from 'react-router-dom';
 import { NavItems } from './const';
 import styles from './index.module.less';
 import MiniCart from './MiniCart';
+import UserNavs from './UserNavs';
 
 export default function TopBar() {
-  const navigate = useNavigate();
-
   return (
     <div style={{ backgroundColor: '#333' }}>
       <div className={styles.container}>
@@ -30,28 +27,7 @@ export default function TopBar() {
         </Space>
 
         <Space>
-          <Space split={<div className={styles.sep} />}>
-            <a
-              className={styles.nav_item}
-              onClick={() => {
-                openAgreementsDeclaring(() => {
-                  navigate('/auth/login');
-                });
-              }}
-            >
-              登录
-            </a>
-            <a
-              className={styles.nav_item}
-              onClick={() => {
-                openAgreementsDeclaring(() => {
-                  navigate('/auth/register');
-                });
-              }}
-            >
-              注册
-            </a>
-          </Space>
+          <UserNavs />
           <div className={styles.nav_item}>
             <MiniCart />
           </div>

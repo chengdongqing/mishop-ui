@@ -5,14 +5,18 @@ import { AlipayCircle, QQCircle, WechatCircle, WeiboCircle } from '@/components/
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import toast from '@/components/Toast';
-import { useState } from 'react';
+import userSlice from '@/store/slices/userSlice.ts';
+import { useRef, useState } from 'react';
+import { useStore } from 'react-redux';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
 
 export default function Login() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const backUrlRef = useRef(state?.backUrl);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const store = useStore();
 
   return (
     <div className={styles.container}>
@@ -27,8 +31,15 @@ export default function Login() {
               toast.success('登录成功', {
                 duration: 1000
               });
+              store.dispatch(
+                userSlice.actions.setUser({
+                  id: '450762342',
+                  name: '海盐芝士不加糖',
+                  phoneNumber: '189*****874'
+                })
+              );
               setTimeout(() => {
-                navigate('/');
+                navigate(backUrlRef.current || '/');
               }, 1000);
             }, 3000);
           }

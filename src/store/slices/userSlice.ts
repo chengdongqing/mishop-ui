@@ -1,9 +1,12 @@
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserInfo {
+export interface UserInfo {
+  id: string;
   name: string;
   phoneNumber: string;
+  email?: string;
+  avatarUrl?: string;
 }
 
 const initialState: { userInfo: UserInfo | null } = {
@@ -14,12 +17,16 @@ export default createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
-    login(state, { payload }: PayloadAction<UserInfo>) {
+    setUser(state, { payload }: PayloadAction<UserInfo | null>) {
       state.userInfo = payload;
     }
   }
 });
 
+export function useUserInfo() {
+  return useAppSelector((state) => state.user.userInfo);
+}
+
 export function useHasLogin() {
-  return useAppSelector((state) => !!state.user.userInfo);
+  return !!useUserInfo();
 }
