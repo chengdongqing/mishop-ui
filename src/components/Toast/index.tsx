@@ -1,6 +1,12 @@
 import Space from '@/components/Space';
 import { PropsWithStyle } from '@/utils/typings';
-import { CheckCircleFilled, CloseCircleFilled, ExclamationCircleFilled, InfoCircleFilled } from '@ant-design/icons';
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  ExclamationCircleFilled,
+  InfoCircleFilled,
+  LoadingOutlined
+} from '@ant-design/icons';
 import classNames from 'classnames';
 import { createRoot, Root } from 'react-dom/client';
 import styles from './index.module.less';
@@ -21,11 +27,15 @@ const types = {
   error: {
     icon: <CloseCircleFilled />,
     color: 'var(--color-error)'
+  },
+  loading: {
+    icon: <LoadingOutlined />,
+    color: 'var(--color-primary)'
   }
 };
 
 interface ToastProps extends PropsWithStyle {
-  type: 'warning' | 'success' | 'info' | 'error';
+  type: 'warning' | 'success' | 'info' | 'error' | 'loading';
   content: string;
 }
 
@@ -59,36 +69,47 @@ function open({ duration = 3000, onClose, ...rest }: OpenToastProps) {
       onClose?.();
     }, duration);
   }
+  return () => {
+    toast?.unmount();
+  };
 }
 
 type ToastType = Omit<OpenToastProps, 'type' | 'content'>;
 
 export default {
   warning(content: string, props?: ToastType) {
-    open({
+    return open({
       type: 'warning',
       content,
       ...props
     });
   },
   success(content: string, props?: ToastType) {
-    open({
+    return open({
       type: 'success',
       content,
       ...props
     });
   },
   info(content: string, props?: ToastType) {
-    open({
+    return open({
       type: 'info',
       content,
       ...props
     });
   },
   error(content: string, props?: ToastType) {
-    open({
+    return open({
       type: 'error',
       content,
+      ...props
+    });
+  },
+  loading(content = '加载中...', props?: ToastType) {
+    return open({
+      type: 'loading',
+      content,
+      duration: props?.duration || 0,
       ...props
     });
   }

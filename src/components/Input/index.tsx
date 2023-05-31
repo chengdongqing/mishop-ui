@@ -1,19 +1,24 @@
 import { FormItemContext } from '@/components/Form/FormItem.tsx';
 import { EyeClose, EyeOpen } from '@/components/Iconfont';
+import Row from '@/components/Row';
 import useLatest from '@/hooks/useLatest.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
+import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.module.less';
 
-interface InputProps {
+interface InputProps extends PropsWithStyle {
   defaultValue?: string | number;
   value?: string | number;
   placeholder?: string;
   type?: 'text' | 'number' | 'password';
   error?: boolean;
   disabled?: boolean;
+  readonly?: boolean;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
 
   onChange?(value: string): void;
 }
@@ -25,6 +30,11 @@ export default function Input({
   type,
   error,
   disabled,
+  readonly,
+  prefix,
+  suffix,
+  style,
+  className,
   onChange
 }: InputProps) {
   const formItemCtx = useContext(FormItemContext);
@@ -57,20 +67,27 @@ export default function Input({
   }, [value1]);
 
   return (
-    <div
+    <Row
+      wrap={false}
+      align={'middle'}
+      style={style}
       className={classNames(
+        className,
         styles.container,
         focused && styles.active,
         (error || formItemCtx.error) && styles.error
       )}
     >
+      {prefix}
       <input
         value={value}
         ref={inputRef}
+        readOnly={readonly}
         disabled={disabled}
         autoComplete={'off'}
         defaultValue={defaultValue}
         type={isPwdType && showPwd ? undefined : type}
+        className={classNames(styles.input, !!placeholder && styles.with_label)}
         onChange={(e) => {
           const val = e.target.value;
           onChange?.(val);
@@ -85,18 +102,20 @@ export default function Input({
           formItemCtx.checkValue?.(e.target.value);
         }}
       />
-      <div
-        className={classNames(
-          styles.label,
-          (value1 || focused) && styles.active
-        )}
-        onClick={() => {
-          inputRef.current?.focus();
-        }}
-      >
-        {placeholder}
-      </div>
-
+      {!!placeholder && (
+        <div
+          className={classNames(
+            styles.label,
+            (value1 || focused) && styles.active
+          )}
+          onClick={() => {
+            inputRef.current?.focus();
+          }}
+        >
+          {placeholder}
+        </div>
+      )}
+      {suffix}
       {isPwdType && (
         <div
           className={styles.icon_eye}
@@ -107,6 +126,6 @@ export default function Input({
           {showPwd ? <EyeOpen /> : <EyeClose />}
         </div>
       )}
-    </div>
+    </Row>
   );
 }

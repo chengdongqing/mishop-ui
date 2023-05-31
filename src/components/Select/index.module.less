@@ -1,0 +1,36 @@
+.select {
+  .input {
+    input {
+      cursor: pointer;
+    }
+  }
+
+  :global {
+    .open {
+      transform: scaleY(1) !important;
+    }
+  }
+
+  .overlay {
+    left: 0;
+    right: 0;
+    transform: scaleY(0.8);
+    max-height: 30rem;
+    overflow-y: auto;
+
+    :global {
+      .item {
+        height: 6rem;
+        line-height: 6rem;
+        text-align: left;
+        color: #aaa;
+        font-size: 1.7rem;
+
+        &.active {
+          color: #333;
+          background-color: #fff3e6;
+        }
+      }
+    }
+  }
+}

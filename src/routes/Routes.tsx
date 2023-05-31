@@ -12,6 +12,10 @@ const routes: RouteObject[] = [
   },
   {
     path: '/auth',
+    element: <Navigate to={'/auth/login'} replace />
+  },
+  {
+    path: '/auth',
     element: <AuthLayout />,
     children: authRoutes
   },

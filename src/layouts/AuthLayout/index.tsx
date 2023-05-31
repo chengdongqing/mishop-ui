@@ -21,7 +21,10 @@ const pages = [
 export default function AuthLayout() {
   const { pathname } = useLocation();
   const current = useMemo(() => {
-    return pages.findIndex((item) => item.path === pathname);
+    return pages.findIndex((item) => pathname.startsWith(item.path));
+  }, [pathname]);
+  const isPwdReset = useMemo(() => {
+    return pathname.endsWith('/password-reset');
   }, [pathname]);
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -34,37 +37,44 @@ export default function AuthLayout() {
         minHeight: `calc(${rect?.height || 0}px + 20rem)`
       }}
     >
-      <img
-        src={
-          'https://cdn.web-global.fds.api.mi-img.com/mcfe--mi-account/static/static/media/banner.92c693b4..jpg'
-        }
-        alt={''}
-        className={styles.banner}
-      />
+      {!isPwdReset && (
+        <img
+          src={
+            'https://cdn.web-global.fds.api.mi-img.com/mcfe--mi-account/static/static/media/banner.92c693b4..jpg'
+          }
+          alt={''}
+          className={styles.banner}
+        />
+      )}
 
       <div className={styles.main}>
         <Header />
+        {isPwdReset && <div className={styles.title}>重置密码</div>}
         <div ref={cardRef} className={styles.card}>
-          <div className={styles.tabs}>
-            <Space size={'2rem'}>
-              {pages.map((item, index) => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  className={classNames(
-                    styles.item,
-                    index === current && styles.active
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </Space>
-            <div
-              className={styles.ink_bar}
-              style={{ left: `calc(6.7rem * ${current})` }}
-            />
-          </div>
+          {!isPwdReset && (
+            <div className={styles.tabs}>
+              <Space size={'2rem'}>
+                {pages.map((item, index) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    className={classNames(
+                      styles.item,
+                      index === current && styles.active
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </Space>
+              {current !== -1 && (
+                <div
+                  className={styles.ink_bar}
+                  style={{ left: `calc(6.7rem * ${current})` }}
+                />
+              )}
+            </div>
+          )}
           <Outlet />
         </div>
         <Footer />

@@ -1,12 +1,14 @@
 .content {
-  line-height: 1rem;
+  display: flex;
+  align-items: center;
   cursor: pointer;
 
   .arrow {
+    margin-left: 0.8rem;
     font-size: 1.2rem;
     transition: 0.3s;
 
-    &.active {
+    &.open {
       transform: rotate(180deg);
     }
   }
@@ -17,6 +19,7 @@
   position: absolute;
   left: 50%;
   top: 100%;
+  margin-top: 0.5rem;
   background-color: #fff;
   border-radius: 0.1rem;
   box-shadow: 0 0.5rem 2.9rem 0 hsla(0, 0%, 64%, 0.2);
@@ -25,13 +28,15 @@
   transition: 0.2s;
   opacity: 0;
 
-  &.active {
+  &.open {
     opacity: 1;
     transform: scaleY(1) translateX(-50%);
   }
 
   .item {
-    padding: 0.9rem 1.4rem;
+    padding: 0 1.4rem;
+    height: 3.8rem;
+    line-height: 3.8rem;
     color: rgba(0, 0, 0, 0.85);
     font-size: 1.4rem;
     text-align: center;
@@ -39,7 +44,7 @@
     transition: 0.3s;
     cursor: pointer;
 
-    &:hover:not(.disabled) {
+    &:hover:not(.disabled, .active) {
       color: #333;
       background-color: var(--color-background);
     }
@@ -47,6 +52,11 @@
     &.disabled {
       color: rgba(0, 0, 0, 0.25);
       cursor: not-allowed;
+    }
+
+    &.active {
+      color: #333;
+      background-color: #fff3e6;
     }
   }
 }

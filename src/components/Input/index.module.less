@@ -19,17 +19,21 @@
     }
   }
 
-  input {
-    width: 100%;
+  .input {
+    flex: 1;
     height: 100%;
     border: none;
     color: #333;
     font-size: 1.7rem;
-    padding: 3rem 2rem 1rem;
+    padding: 2rem;
     background-color: transparent;
 
     &[type='password'] {
       letter-spacing: 1rem;
+    }
+
+    &.with_label {
+      padding: 3rem 2rem 1rem;
     }
   }
 
@@ -52,11 +56,8 @@
   }
 
   .icon_eye {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
     width: 6rem;
+    height: 100%;
     cursor: pointer;
     display: flex;
     align-items: center;

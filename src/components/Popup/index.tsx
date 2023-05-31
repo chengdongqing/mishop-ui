@@ -131,17 +131,21 @@ function open(
   );
 }
 
-function alert(title: string) {
+function alert(title: ReactNode, onOk?: () => void) {
   open({
     width: '48rem',
     content: <div className={styles.message}>{title}</div>,
     maskClosable: false,
     cancelText: null,
-    closeOnOk: true
+    closeOnOk: true,
+    onOk
   });
 }
 
-function confirm(title: string, props: Omit<PopupProps, 'open' | 'children'>) {
+function confirm(
+  title: ReactNode,
+  props: Omit<PopupProps, 'open' | 'children'>
+) {
   open({
     width: '48rem',
     content: (

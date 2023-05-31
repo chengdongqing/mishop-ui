@@ -6,7 +6,6 @@ import {
   ForwardRefExoticComponent,
   PropsWithChildren,
   RefAttributes,
-  useCallback,
   useImperativeHandle
 } from 'react';
 import FormItem from './FormItem.tsx';
@@ -28,7 +27,9 @@ interface FormContextProps {
   // 初始值
   initialValues?: ValuesType;
   // 注册相关方法
-  registerFields?: (name: string, injects: FormItemInjects) => void;
+  registerField?(name: string, injects: FormItemInjects): void;
+  // 取消注册
+  cancelField?(name: string): void;
   // 值变化回调入口
   onChange?(name: string, value: unknown): void;
 }
@@ -67,63 +68,73 @@ const Form = forwardRef<FormHandle, FormProps>(
     const [fields, setFields] = useSetState<FormItemInjects>();
 
     // 收集数据
-    const getFieldsValue = useCallback(() => {
+    function getFieldsValue() {
       return arrayToObject(
         Object.entries(fields).map(([name, field]) => ({
           name,
           value: field.getValue()
         }))
       );
-    }, [fields]);
-
+    }
     // 校验数据
-    const validateFields = useCallback(() => {
+    function validateFields() {
       return Promise.all(
         Object.values(fields).map((item) => item.checkValue())
       );
-    }, [fields]);
+    }
+    // 提交表单
+    function submit() {
+      validateFields().then(() => {
+        onOk?.(getFieldsValue());
+      });
+    }
 
     // 对外提供的方法
-    useImperativeHandle(
-      forwardRef,
-      () => ({
-        submit() {
-          validateFields().then(() => {
-            onOk?.(getFieldsValue());
-          });
-        },
-        resetFields() {
-          Object.values(fields).map((item) => item.resetValue());
-        },
-        validateFields,
-        getFieldsValue,
-        setFieldsValue(values1) {
-          Object.entries(values1).forEach(([name, value]) => {
-            fields[name].setValue(value);
-          });
-        }
-      }),
-      [fields, getFieldsValue, onOk, validateFields]
-    );
+    useImperativeHandle(forwardRef, () => ({
+      submit,
+      resetFields() {
+        Object.values(fields).map((item) => item.resetValue());
+      },
+      validateFields,
+      getFieldsValue,
+      setFieldsValue(values1) {
+        Object.entries(values1).forEach(([name, value]) => {
+          fields[name].setValue(value);
+        });
+      }
+    }));
 
     return (
-      <FormContext.Provider
-        value={{
-          initialValues,
-          registerFields(name, injects) {
-            setFields({
-              [name]: injects
-            });
-          },
-          onChange(name, value) {
-            onChange?.({
-              [name]: value
-            });
-          }
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit();
         }}
       >
-        {children}
-      </FormContext.Provider>
+        <FormContext.Provider
+          value={{
+            initialValues,
+            registerField(name, injects) {
+              setFields({
+                [name]: injects
+              });
+            },
+            cancelField(name) {
+              setFields((value) => {
+                delete value[name];
+                return value;
+              });
+            },
+            onChange(name, value) {
+              onChange?.({
+                [name]: value
+              });
+            }
+          }}
+        >
+          {children}
+        </FormContext.Provider>
+      </form>
     );
   }
 ) as FormForwardRef;

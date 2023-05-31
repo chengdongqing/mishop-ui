@@ -1,4 +1,3 @@
-import Space from '@/components/Space';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import { CaretDownOutlined } from '@ant-design/icons';
@@ -6,13 +5,17 @@ import classNames from 'classnames';
 import { CSSProperties, Key, PropsWithChildren, ReactNode, useRef, useState } from 'react';
 import styles from './index.module.less';
 
+export interface OptionProps {
+  key: Key;
+  label: ReactNode;
+  disabled?: boolean;
+}
+
 interface DropdownProps extends PropsWithChildren<PropsWithStyle> {
-  menus: {
-    key: Key;
-    label: ReactNode;
-    disabled?: boolean;
-  }[];
+  menus: OptionProps[];
+  active?: Key;
   arrow?: boolean;
+  trigger?: 'hover' | 'click';
   overlayStyle?: CSSProperties;
   overlayClassName?: string;
 
@@ -23,7 +26,9 @@ interface DropdownProps extends PropsWithChildren<PropsWithStyle> {
 export default function Dropdown({
   children,
   menus,
+  active,
   arrow = true,
+  trigger = 'hover',
   style,
   className,
   overlayStyle,
@@ -39,33 +44,63 @@ export default function Dropdown({
     onOpenChange?.(open);
   }, [open]);
 
+  function openOverlay() {
+    if (open) {
+      closeOverlay();
+      return;
+    }
+    setWillOpen(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setOpen(true);
+    }, 100);
+
+    if (trigger === 'click') {
+      setTimeout(() => {
+        window.addEventListener('click', closeOverlay);
+      });
+    }
+  }
+  function closeOverlay() {
+    setOpen(false);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setWillOpen(false);
+    }, 200);
+
+    if (trigger === 'click') {
+      window.removeEventListener('click', closeOverlay);
+    }
+  }
+
   return (
     <div
       style={style}
       className={classNames(styles.container, className)}
       onMouseEnter={() => {
-        setWillOpen(true);
-        clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
-          setOpen(true);
-        }, 100);
+        if (trigger === 'hover') {
+          openOverlay();
+        }
       }}
       onMouseLeave={() => {
-        setOpen(false);
-        clearTimeout(timer.current);
-        timer.current = setTimeout(() => {
-          setWillOpen(false);
-        }, 200);
+        if (trigger === 'hover') {
+          closeOverlay();
+        }
+      }}
+      onClick={() => {
+        if (trigger === 'click') {
+          openOverlay();
+        }
       }}
     >
-      <Space className={styles.content}>
+      <div className={styles.content}>
         {children}
         {arrow && (
           <CaretDownOutlined
             className={classNames(styles.arrow, open && styles.active)}
           />
         )}
-      </Space>
+      </div>
 
       <div
         hidden={!willOpen}
@@ -73,15 +108,17 @@ export default function Dropdown({
         className={classNames(
           styles.overlay,
           overlayClassName,
-          open && styles.active
+          open && [styles.open, 'open']
         )}
       >
         {menus.map((item) => (
           <div
             key={item.key}
             className={classNames(
+              'item',
               styles.item,
-              item.disabled && styles.disabled
+              item.disabled && styles.disabled,
+              item.key === active && [styles.active, 'active']
             )}
             onClick={() => {
               if (!item.disabled) {

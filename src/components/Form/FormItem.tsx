@@ -1,3 +1,4 @@
+import useUnmount from '@/hooks/useUnmount.ts';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 import { validateValue } from './helpers.ts';
 import styles from './index.module.less';
@@ -71,7 +72,7 @@ export default function FormItem({
   useEffect(() => {
     if (name) {
       setInitialValue(initialValue1 || formCtx.initialValues?.[name]);
-      formCtx.registerFields?.(name, {
+      formCtx.registerField?.(name, {
         resetValue() {
           injects?.setValue(initialValue1);
         },
@@ -85,6 +86,12 @@ export default function FormItem({
       });
     }
   }, [injects]);
+
+  useUnmount(() => {
+    if (name) {
+      formCtx.cancelField?.(name);
+    }
+  });
 
   return (
     <div className={styles.form_item}>
