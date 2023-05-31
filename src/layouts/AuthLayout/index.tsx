@@ -34,7 +34,7 @@ export default function AuthLayout() {
     <Row
       style={{
         height: '100vh',
-        minHeight: `calc(${rect?.height || 0}px + 20rem)`
+        minHeight: `calc(${rect?.height || 0}px + ${isPwdReset ? 40 : 25}rem)`
       }}
     >
       {!isPwdReset && (
