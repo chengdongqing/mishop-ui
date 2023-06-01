@@ -1,5 +1,5 @@
 import Space from '@/components/Space';
-import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
+import useElementVisible from '@/hooks/useElementVisible.ts';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import styles from '../index.module.less';
@@ -33,11 +33,8 @@ export default function Section4() {
   const item = useMemo(() => options[current], [current]);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const visible = useIsElementVisible({
-    elementRef: containerRef,
-    predicate(rect) {
-      return rect.top <= window.innerHeight;
-    }
+  const visible = useElementVisible(containerRef, (rect) => {
+    return rect.top <= window.innerHeight;
   });
 
   return (

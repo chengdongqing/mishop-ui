@@ -5,7 +5,7 @@ import Loading from '@/components/Loading';
 import Rate from '@/components/Rate';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
+import useElementVisible from '@/hooks/useElementVisible.ts';
 import { comments } from '@/pages/Product/Comments/const.ts';
 import { MehOutlined, SmileOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -25,11 +25,8 @@ export default function ProductCommentsPage() {
   }, [category]);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const btnVisible = useIsElementVisible({
-    elementRef: containerRef,
-    predicate() {
-      return window.scrollY > 200;
-    }
+  const btnVisible = useElementVisible(containerRef, () => {
+    return window.scrollY > 200;
   });
 
   return (
@@ -97,7 +94,7 @@ function CommentList() {
                 disabled
                 value={item.rate}
                 character={(value) => {
-                  return value > 3 ? <SmileOutlined /> : <MehOutlined />
+                  return value > 3 ? <SmileOutlined /> : <MehOutlined />;
                 }}
               >
                 {item.rate}分

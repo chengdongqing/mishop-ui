@@ -6,7 +6,7 @@ import NumberInput from '@/components/NumberInput';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
+import useElementVisible from '@/hooks/useElementVisible.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
@@ -115,13 +115,11 @@ function FooterBar() {
   const dispatch = useDispatch();
   const { totalNumber, totalAmount } = useCartCounter();
   const footerRef = useRef<HTMLDivElement>(null);
-  const fixed = useIsElementVisible({
-    elementRef: footerRef,
-    predicate(rect) {
-      return rect.bottom >= window.innerHeight;
-    },
-    deps: [products.length]
-  });
+  const fixed = useElementVisible(
+    footerRef,
+    (rect) => rect.bottom >= window.innerHeight,
+    [products.length]
+  );
   const hasLogin = useHasLogin();
   const navigate = useNavigate();
 

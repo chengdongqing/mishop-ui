@@ -1,14 +1,16 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
+import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useElementVisible from '@/hooks/useElementVisible.ts';
 import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
 import { PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { addresses } from './const.ts';
 import styles from './index.module.less';
@@ -44,48 +46,82 @@ function AddressList({
   value?: number;
   onChange(id: number): void;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fixed = useElementVisible(containerRef, (rect) => {
+    return rect.bottom <= 0;
+  });
+
   return (
-    <div className={styles.address_list}>
-      <div className={styles.title}>收货地址</div>
-      <Grid columns={4} gap={'1.6rem'}>
-        {addresses.map((item) => (
-          <div
-            key={item.id}
-            className={classNames(
-              styles.item,
-              item.id === value && styles.active
-            )}
-            onClick={() => {
-              onChange(item.id);
-            }}
-          >
-            <Row
-              align={'middle'}
-              justify={'space-between'}
-              className={styles.header}
+    <>
+      <div ref={containerRef} className={styles.address_list}>
+        <div className={styles.title}>收货地址</div>
+        <Grid columns={4} gap={'1.6rem'}>
+          {addresses.map((item) => (
+            <div
+              key={item.id}
+              className={classNames(
+                styles.item,
+                item.id === value && styles.active
+              )}
+              onClick={() => {
+                onChange(item.id);
+              }}
             >
-              <div className={styles.username}>{item.username}</div>
-              <div className={styles.label}>{item.label}</div>
-            </Row>
-            <div>{item.phoneNumber}</div>
+              <Row
+                align={'middle'}
+                justify={'space-between'}
+                className={styles.header}
+              >
+                <div className={styles.username}>{item.username}</div>
+                <div className={styles.label}>{item.label}</div>
+              </Row>
+              <div>{item.phoneNumber}</div>
+              <div>
+                {item.address.map((info) => (
+                  <div key={info}>{info}</div>
+                ))}
+              </div>
+              <div className={styles.footer}>
+                <span>修改</span>
+              </div>
+            </div>
+          ))}
+          <div className={classNames(styles.item, styles.add)}>
             <div>
-              {item.address.map((info) => (
-                <div key={info}>{info}</div>
-              ))}
-            </div>
-            <div className={styles.footer}>
-              <span>修改</span>
+              <PlusCircleFilled className={styles.icon} />
+              <div>添加新地址</div>
             </div>
           </div>
-        ))}
-        <div className={classNames(styles.item, styles.add)}>
-          <div>
-            <PlusCircleFilled className={styles.icon} />
-            <div>添加新地址</div>
-          </div>
+        </Grid>
+      </div>
+
+      {!!addresses.length && !value && fixed && (
+        <div className={styles.fixed_header}>
+          <Row
+            align={'middle'}
+            justify={'space-between'}
+            className={styles.wrapper}
+          >
+            <Space size={'2.4rem'}>
+              <span>{addresses[0].username}</span>
+              <span>{addresses[0].phoneNumber}</span>
+              <span>{addresses[0].address.join(' ')}</span>
+            </Space>
+            <Button
+              className={styles.btn}
+              onClick={() => {
+                onChange(addresses[0].id);
+                containerRef.current?.scrollIntoView({
+                  behavior: 'smooth'
+                });
+              }}
+            >
+              选择该收货地址
+            </Button>
+          </Row>
         </div>
-      </Grid>
-    </div>
+      )}
+    </>
   );
 }
 
@@ -188,7 +224,15 @@ function FooterBar({ address }: { address?: ShippingAddress }) {
         >
           返回购物车
         </Button>
-        <Button>立即下单</Button>
+        <Button
+          onClick={() => {
+            if (!address) {
+              popup.alert('请选择地址');
+            }
+          }}
+        >
+          立即下单
+        </Button>
       </Space>
     </Row>
   );

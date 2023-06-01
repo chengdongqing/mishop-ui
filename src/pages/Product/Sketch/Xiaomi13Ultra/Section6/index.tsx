@@ -1,6 +1,6 @@
 import Grid from '@/components/Grid';
 import Space from '@/components/Space';
-import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
+import useElementVisible from '@/hooks/useElementVisible.ts';
 import classNames from 'classnames';
 import { useRef } from 'react';
 import styles from '../index.module.less';
@@ -71,11 +71,8 @@ const options = [
 
 export default function Section6() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const visible = useIsElementVisible({
-    elementRef: containerRef,
-    predicate(rect) {
-      return rect.top <= window.innerHeight;
-    }
+  const visible = useElementVisible(containerRef, (rect) => {
+    return rect.top <= window.innerHeight;
   });
 
   return (
