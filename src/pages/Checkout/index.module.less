@@ -15,6 +15,11 @@
 .address_list {
   margin-bottom: 3rem;
 
+  .list {
+    overflow: hidden;
+    transition: height 0.3s;
+  }
+
   .item {
     height: 17.8rem;
     padding: 1.6rem 2.4rem;
@@ -74,6 +79,23 @@
       span {
         visibility: hidden;
         color: var(--color-primary);
+      }
+    }
+  }
+
+  .btn_more {
+    height: 5rem;
+    line-height: 5rem;
+    text-align: center;
+    background-color: #eee;
+    margin-top: 2rem;
+    color: #424242;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    .icon {
+      &.active {
+        transform: rotate(180deg);
       }
     }
   }

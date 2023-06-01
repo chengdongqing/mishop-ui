@@ -7,9 +7,10 @@ import productRoutes from './product';
 const HomePage = lazy(() => import('@/pages/Home'));
 const VideosPage = lazy(() => import('@/pages/Videos'));
 const SearchPage = lazy(() => import('@/pages/Search'));
+const ProductPage = lazy(() => import('@/pages/Product'));
 const CartPage = lazy(() => import('@/pages/Cart'));
 const CartSuccessfulPage = lazy(() => import('@/pages/Cart/Successful'));
-const ProductPage = lazy(() => import('@/pages/Product'));
+const CheckoutPage = lazy(() => import('../../pages/Checkout'));
 
 const routes: RouteObject[] = [
   {
@@ -37,6 +38,15 @@ const routes: RouteObject[] = [
     )
   },
   {
+    path: '/product/:label',
+    element: (
+      <PageDecorator>
+        <ProductPage />
+      </PageDecorator>
+    ),
+    children: productRoutes
+  },
+  {
     path: '/cart',
     children: [
       {
@@ -58,13 +68,12 @@ const routes: RouteObject[] = [
     ]
   },
   {
-    path: '/product/:label',
+    path: '/checkout',
     element: (
-      <PageDecorator>
-        <ProductPage />
+      <PageDecorator title={'填写订单信息'}>
+        <CheckoutPage />
       </PageDecorator>
-    ),
-    children: productRoutes
+    )
   },
   {
     path: '/orders',

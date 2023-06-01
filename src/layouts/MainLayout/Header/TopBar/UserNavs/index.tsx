@@ -2,11 +2,12 @@ import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import toast from '@/components/Toast';
+import cartSlice from '@/store/slices/cartSlice.ts';
 import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
 import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useStore } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
 
@@ -35,9 +36,10 @@ export default function UserNavs({ miniHeader = false }) {
 }
 
 function NavsWithLogin() {
-  const userInfo = useUserInfo();
-  const store = useStore();
   const [open, setOpen] = useState(false);
+  const userInfo = useUserInfo();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <Space split={<div className={styles.sep} />}>
@@ -75,7 +77,9 @@ function NavsWithLogin() {
               onClick={() => {
                 popup.confirm('确定退出登录吗？', {
                   onOk() {
-                    store.dispatch(userSlice.actions.setUser(null));
+                    dispatch(userSlice.actions.setUser(null));
+                    dispatch(cartSlice.actions.setCart([]));
+                    navigate('/', { replace: true });
                     toast.warning('已退出登录');
                   }
                 });

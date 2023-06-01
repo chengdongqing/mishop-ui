@@ -1,21 +1,20 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import MainHeader from './MainHeader';
-import MiniHeader from './MiniHeader';
 import TopBar from './TopBar';
+
+const miniPaths = ['/cart', '/checkout'];
 
 export default function Header() {
   const location = useLocation();
-  const isCartPage = useMemo(() => {
-    return location.pathname.endsWith('cart');
+  const withoutHeader = useMemo(() => {
+    return miniPaths.some((item) => item === location.pathname);
   }, [location]);
 
-  return !isCartPage ? (
+  return !withoutHeader ? (
     <>
       <TopBar />
       <MainHeader />
     </>
-  ) : (
-    <MiniHeader />
-  );
+  ) : null;
 }

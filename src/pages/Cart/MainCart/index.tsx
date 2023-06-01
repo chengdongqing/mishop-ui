@@ -165,7 +165,7 @@ function FooterBar() {
             onClick={() => {
               if (totalNumber > 0) {
                 if (hasLogin) {
-                  navigate('/orders/checkout');
+                  navigate('/checkout');
                 } else {
                   openAgreementsDeclaring(() => {
                     navigate('/auth/login', {

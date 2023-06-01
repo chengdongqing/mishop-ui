@@ -1,13 +1,15 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
+import MiniHeader from '@/components/MiniHeader';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
+import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
-import { PlusCircleFilled } from '@ant-design/icons';
+import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
 import { useMemo, useRef, useState } from 'react';
@@ -22,20 +24,23 @@ export default function CheckoutPage() {
   }, [activeAddressId]);
 
   return (
-    <div
-      style={{
-        padding: '4rem 0 6rem',
-        backgroundColor: 'var(--color-background)'
-      }}
-    >
-      <div className={styles.container}>
-        <AddressList value={activeAddressId} onChange={setActiveAddressId} />
-        <ProductList />
-        <Shipment />
-        <BillInfos />
-        <FooterBar address={activeAddress} />
+    <>
+      <MiniHeader title={'确认订单'} />
+      <div
+        style={{
+          padding: '4rem 0 6rem',
+          backgroundColor: 'var(--color-background)'
+        }}
+      >
+        <div className={styles.container}>
+          <AddressList value={activeAddressId} onChange={setActiveAddressId} />
+          <ProductList />
+          <Shipment />
+          <BillInfos />
+          <FooterBar address={activeAddress} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -46,6 +51,12 @@ function AddressList({
   value?: number;
   onChange(id: number): void;
 }) {
+  const [showAll, toggleShowAll] = useToggle(false);
+  const height = useMemo(() => {
+    return showAll
+      ? `${(17.8 + 1.6) * Math.ceil((addresses.length + 1) / 4) - 1.6}rem`
+      : '17.8rem';
+  }, [showAll]);
   const containerRef = useRef<HTMLDivElement>(null);
   const fixed = useElementVisible(containerRef, (rect) => {
     return rect.bottom <= 0;
@@ -55,7 +66,12 @@ function AddressList({
     <>
       <div ref={containerRef} className={styles.address_list}>
         <div className={styles.title}>收货地址</div>
-        <Grid columns={4} gap={'1.6rem'}>
+        <Grid
+          columns={4}
+          gap={'1.6rem'}
+          style={{ height }}
+          className={styles.list}
+        >
           {addresses.map((item) => (
             <div
               key={item.id}
@@ -93,6 +109,14 @@ function AddressList({
             </div>
           </div>
         </Grid>
+        {addresses.length > 3 && (
+          <div className={styles.btn_more} onClick={toggleShowAll}>
+            {showAll ? '收起' : '显示'}更多地址{' '}
+            <DownOutlined
+              className={classNames(styles.icon, showAll && styles.active)}
+            />
+          </div>
+        )}
       </div>
 
       {!!addresses.length && !value && fixed && (
