@@ -25,7 +25,7 @@ export default function Login() {
           popup.alert('密码重置成功，即将重新登录', () => {
             navigate('/auth/login');
           });
-        }, 3000);
+        }, 1000);
       }}
     >
       <Form.Item name={'type'}>

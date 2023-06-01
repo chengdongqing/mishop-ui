@@ -21,13 +21,20 @@ export default function MiniCart() {
   const products = useCartProducts();
   const isEmptyCart = useIsEmptyCart();
   const { totalNumber, totalAmount } = useCartCounter(false);
+  const [autoScroll, setAutoScroll] = useState(false);
   const height = useMemo(() => {
     if (open) {
+      if (!loading) {
+        setTimeout(() => {
+          setAutoScroll(true);
+        }, 300);
+      }
       if (loading || !products.length) {
         return '12rem';
       }
       return `${Math.min(products.length, 5) * 8 + 10}rem`;
     }
+    setAutoScroll(false);
     return 0;
   }, [loading, open, products.length]);
 
@@ -77,6 +84,7 @@ export default function MiniCart() {
             products={products}
             totalNumber={totalNumber}
             totalAmount={totalAmount}
+            autoScroll={autoScroll}
           />
         )}
       </div>
@@ -87,18 +95,23 @@ export default function MiniCart() {
 function MainCart({
   products,
   totalNumber,
-  totalAmount
+  totalAmount,
+  autoScroll
 }: {
   products: CartProduct[];
   totalNumber: number;
   totalAmount: number;
+  autoScroll: boolean;
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
     <>
-      <div className={styles.products}>
+      <div
+        className={styles.products}
+        style={{ overflowY: autoScroll ? 'auto' : 'hidden' }}
+      >
         {products.map((item) => (
           <Row
             key={item.label}

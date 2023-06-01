@@ -42,7 +42,7 @@ export default function Register() {
             popup.alert('恭喜您，注册成功！', () => {
               navigate('/');
             });
-          }, 3000);
+          }, 1000);
         }
       }}
     >

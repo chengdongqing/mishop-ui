@@ -13,7 +13,7 @@ import styles from '../index.module.less';
 
 export default function Login() {
   const { pathname, state } = useLocation();
-  const backUrlRef = useRef(state?.backUrl);
+  const returnPathRef = useRef(state?.pathname);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const store = useStore();
@@ -39,9 +39,9 @@ export default function Login() {
                 })
               );
               setTimeout(() => {
-                navigate(backUrlRef.current || '/');
-              }, 1000);
-            }, 3000);
+                navigate(returnPathRef.current || '/');
+              }, 500);
+            }, 1000);
           }
         }}
       >
@@ -91,10 +91,10 @@ export default function Login() {
 
       <Row justify={'space-between'} className={styles.links_bar}>
         <Link to={'/auth/password-reset'}>忘记密码？</Link>
-        {pathname.endsWith('password') ? (
+        {pathname.endsWith('/login') ? (
           <Link to={'/auth/login/verification-code'}>手机号登录</Link>
         ) : (
-          <Link to={'/auth/login/password'}>密码登录</Link>
+          <Link to={'/auth/login'}>密码登录</Link>
         )}
       </Row>
 

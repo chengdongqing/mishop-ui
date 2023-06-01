@@ -7,7 +7,7 @@ import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { useStore } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
 
 const menus = [
@@ -95,6 +95,7 @@ function NavsWithLogin() {
 
 function NavsWithoutLogin() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <Space split={<div className={styles.sep} />}>
@@ -102,9 +103,9 @@ function NavsWithoutLogin() {
         className={styles.nav_item}
         onClick={() => {
           openAgreementsDeclaring(() => {
-            navigate('/auth/login/password', {
+            navigate('/auth/login', {
               state: {
-                backUrl: '/cart'
+                pathname
               }
             });
           });
