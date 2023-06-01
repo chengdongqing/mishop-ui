@@ -1,3 +1,4 @@
+import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import CloseIcon from '@/components/CloseIcon';
@@ -7,6 +8,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useIsElementVisible from '@/hooks/useIsElementVisible.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
@@ -120,6 +122,7 @@ function FooterBar() {
     },
     deps: [products.length]
   });
+  const hasLogin = useHasLogin();
   const navigate = useNavigate();
 
   return (
@@ -163,7 +166,17 @@ function FooterBar() {
             )}
             onClick={() => {
               if (totalNumber > 0) {
-                navigate('/order/checkout');
+                if (hasLogin) {
+                  navigate('/orders/checkout');
+                } else {
+                  openAgreementsDeclaring(() => {
+                    navigate('/auth/login', {
+                      state: {
+                        pathname: '/cart'
+                      }
+                    });
+                  });
+                }
               }
             }}
           >

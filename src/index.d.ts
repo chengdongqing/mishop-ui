@@ -26,7 +26,7 @@ declare interface Product {
   // 产品描述
   description?: string;
   // 好评数量
-  comments?: string
+  comments?: string;
   // 限购数量
   limits?: number;
 }
@@ -47,4 +47,34 @@ declare interface Promo {
   src: string;
   href: string;
   description?: string;
+}
+
+/**
+ * 收货地址模型
+ */
+declare interface ShippingAddress {
+  id: number;
+  label?: string;
+  username: string;
+  phoneNumber: string;
+  address: string[];
+}
+
+/**
+ * 登录用户模型
+ */
+declare interface UserInfo {
+  id: number;
+  name: string;
+  phoneNumber: string;
+  email?: string;
+  avatarUrl?: string;
+}
+
+/**
+ * 购物车商品模型
+ */
+declare interface CartProduct extends Product {
+  checked: boolean;
+  number: number;
 }

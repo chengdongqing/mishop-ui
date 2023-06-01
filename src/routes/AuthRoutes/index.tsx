@@ -1,6 +1,6 @@
 import LoginByPassword from '@/pages/Auth/Login/Password.tsx';
 import LoginByVerificationCode from '@/pages/Auth/Login/VerificationCode.tsx';
-import PageDecorator from '@/routes/PageDecorator.tsx';
+import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 

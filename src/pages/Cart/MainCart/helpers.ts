@@ -3,7 +3,6 @@ import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { CartProduct } from '../index';
 
 export function useCart() {
   const products = useCartProducts();

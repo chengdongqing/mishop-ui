@@ -1,9 +1,8 @@
 import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
-import { CartProduct } from '@/pages/Cart';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
-import userSlice, { UserInfo, useUserInfo } from '@/store/slices/userSlice.ts';
+import userSlice, { useUserInfo } from '@/store/slices/userSlice.ts';
 import { useDispatch } from 'react-redux';
 
 function useCartInitial() {

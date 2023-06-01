@@ -3,7 +3,6 @@ import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { CartProduct } from '@/pages/Cart';
 import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, displayAmount } from '@/utils';

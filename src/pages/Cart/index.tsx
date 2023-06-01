@@ -4,11 +4,6 @@ import styles from './index.module.less';
 import MainCart from './MainCart';
 import { useIsEmptyCart } from './MainCart/helpers.ts';
 
-export interface CartProduct extends Product {
-  checked: boolean;
-  number: number;
-}
-
 export default function ShoppingCartPage() {
   const isEmptyCart = useIsEmptyCart();
 

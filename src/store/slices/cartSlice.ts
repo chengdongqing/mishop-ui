@@ -1,5 +1,4 @@
 import popup from '@/components/Popup';
-import { CartProduct } from '@/pages/Cart';
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

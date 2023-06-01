@@ -1,14 +1,6 @@
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface UserInfo {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  email?: string;
-  avatarUrl?: string;
-}
-
 const initialState: { userInfo: UserInfo | null } = {
   userInfo: null
 };

@@ -1,5 +1,5 @@
 import useAppInitial from '@/initials.ts';
-import Routes from '@/routes/Routes.tsx';
+import Routes from '@/routes';
 import { BrowserRouter } from 'react-router-dom';
 
 export default function App() {

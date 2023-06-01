@@ -1,8 +1,8 @@
 import AuthLayout from '@/layouts/AuthLayout';
 import MainLayout from '@/layouts/MainLayout';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
-import authRoutes from './AuthRoutes.tsx';
-import mainRoutes from './MainRoutes.tsx';
+import authRoutes from './AuthRoutes';
+import mainRoutes from './MainRoutes';
 
 const routes: RouteObject[] = [
   {
