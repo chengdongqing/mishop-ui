@@ -203,7 +203,7 @@ function BillInfos() {
         <div className={styles.label}>商品总价：</div>
         <div className={styles.value}>{displayAmount(totalAmount)}</div>
         <div className={styles.label}>优惠金额：</div>
-        <div className={styles.value}>-{displayAmount(0)}</div>
+        <div className={styles.value}>-{displayAmount(0.01)}</div>
         <div className={styles.label}>运费：</div>
         <div className={styles.value}>{displayAmount(0)}</div>
         <div className={styles.label} style={{ lineHeight: '3rem' }}>
@@ -211,7 +211,7 @@ function BillInfos() {
         </div>
         <div className={styles.value}>
           <span style={{ fontSize: '3rem' }}>
-            {displayAmount(totalAmount, '')}
+            {displayAmount(new Decimal(totalAmount).sub(0.01).toNumber(), '')}
           </span>
           <span> 元</span>
         </div>
@@ -252,6 +252,8 @@ function FooterBar({ address }: { address?: ShippingAddress }) {
           onClick={() => {
             if (!address) {
               popup.alert('请选择地址');
+            } else {
+              navigate('/orders/pay');
             }
           }}
         >

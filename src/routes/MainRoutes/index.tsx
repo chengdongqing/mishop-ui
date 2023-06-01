@@ -10,7 +10,6 @@ const SearchPage = lazy(() => import('@/pages/Search'));
 const ProductPage = lazy(() => import('@/pages/Product'));
 const CartPage = lazy(() => import('@/pages/Cart'));
 const CartSuccessfulPage = lazy(() => import('@/pages/Cart/Successful'));
-const CheckoutPage = lazy(() => import('../../pages/Checkout'));
 
 const routes: RouteObject[] = [
   {
@@ -66,14 +65,6 @@ const routes: RouteObject[] = [
         )
       }
     ]
-  },
-  {
-    path: '/checkout',
-    element: (
-      <PageDecorator title={'填写订单信息'}>
-        <CheckoutPage />
-      </PageDecorator>
-    )
   },
   {
     path: '/orders',

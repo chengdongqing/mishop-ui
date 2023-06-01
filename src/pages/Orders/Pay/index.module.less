@@ -1,0 +1,131 @@
+.container {
+  width: var(--width-primary);
+  margin: auto;
+}
+
+.card {
+  background-color: #fff;
+  padding: 3rem 4.8rem;
+  margin-bottom: 3rem;
+}
+
+.order_infos {
+  display: flex;
+  font-size: 1.4rem;
+
+  .successful_icon {
+    width: 8.4rem;
+    height: 8.4rem;
+    color: #83c44e;
+    font-size: 4rem;
+    border: 0.2rem solid #83c44e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-right: 4.8rem;
+  }
+
+  .content {
+    flex: 1;
+    color: #616161;
+
+    .title {
+      color: #424242;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .tips {
+      line-height: 2;
+
+      span {
+        color: var(--color-primary);
+      }
+    }
+
+    .right {
+      text-align: right;
+      color: #757575;
+
+      .amount {
+        color: var(--color-primary);
+
+        span {
+          font-size: 2.4rem;
+        }
+      }
+
+      .btn_more {
+        line-height: 2;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          color: var(--color-primary);
+        }
+
+        .icon {
+          transition: 0.3s;
+
+          &.active {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    .details_wrapper {
+      overflow: hidden;
+      transition: height 0.3s;
+    }
+    .details {
+      border-top: 0.1rem solid #e0e0e0;
+      margin-top: 1rem;
+      padding-top: 2rem;
+
+      .item {
+        display: flex;
+        color: #333;
+        font-size: 1.4rem;
+        line-height: 2.4rem;
+        margin-bottom: 0.8rem;
+
+        .label {
+          width: 8.5rem;
+        }
+
+        .order_number {
+          color: var(--color-primary);
+          user-select: text;
+        }
+      }
+    }
+  }
+}
+
+.payment_methods {
+  .title {
+    height: 5rem;
+    margin-bottom: 3rem;
+    border-bottom: 0.1rem solid #e0e0e0;
+    color: #424242;
+    font-size: 1.8rem;
+  }
+
+  .method_item {
+    border: 0.1rem solid #e0e0e0;
+    cursor: pointer;
+    transition: 0.4s;
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    img {
+      width: 18rem;
+      height: 6rem;
+    }
+  }
+}

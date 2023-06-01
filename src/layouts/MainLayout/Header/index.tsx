@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MainHeader from './MainHeader';
 import TopBar from './TopBar';
 
-const miniPaths = ['/cart', '/checkout'];
+const miniPaths = ['/cart', '/orders/checkout', '/orders/pay'];
 
 export default function Header() {
   const location = useLocation();
