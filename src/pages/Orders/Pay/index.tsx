@@ -1,4 +1,5 @@
 import MiniHeader from '@/components/MiniHeader';
+import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useToggle from '@/hooks/useToggle.ts';
@@ -119,7 +120,7 @@ const methods = [
     icon: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/60ca2cd19969cfbfa9a5507ab80ab620.png'
   },
   {
-    label: '微信支付',
+    label: '微信',
     icon: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4cdfb179cdce8f95c57e8d82c469d20c.png'
   }
 ];
@@ -130,7 +131,33 @@ function PaymentMethods() {
       <div className={styles.title}>选择以下支付方式付款</div>
       <Space size={'1.4rem'}>
         {methods.map((item) => (
-          <div key={item.label} className={styles.method_item}>
+          <div
+            key={item.label}
+            className={styles.method_item}
+            onClick={() => {
+              popup.open({
+                title: `${item.label}支付`,
+                width: '37rem',
+                footer: null,
+                content: (
+                  <div className={styles.payment_qrcode}>
+                    <img
+                      src={
+                        'https://i.huodong.mi.com/qrcode/wxget?code=weixin%3A%2F%2Fwxpay%2Fbizpayurl%3Fpr%3D3X3F5Efzz&key=3361d67c9d7664f3a5749925c9ce1c25'
+                      }
+                      alt={'qrcode'}
+                      className={styles.qrcode}
+                    />
+                    <div className={styles.tips}>
+                      请使用 <span>{item.label}</span> 扫一扫
+                      <br />
+                      二维码完成支付
+                    </div>
+                  </div>
+                )
+              });
+            }}
+          >
             <img src={item.icon} alt={item.label} />
           </div>
         ))}
