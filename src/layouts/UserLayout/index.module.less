@@ -1,0 +1,45 @@
+.container {
+  width: var(--width-primary);
+  margin: 0 auto;
+  display: flex;
+}
+
+.side_wrapper {
+  width: 23.4rem;
+  background-color: #fff;
+  padding: 3.6rem 4.8rem;
+
+  .menu_group {
+    margin-bottom: 1.2rem;
+  }
+
+  .title {
+    color: #333;
+    font-size: 1.6rem;
+    line-height: 5.2rem;
+  }
+
+  .item {
+    display: block;
+    padding: 0.6rem 0;
+    color: #757575;
+    font-size: 1.4rem;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  margin-left: 1.4rem;
+  background-color: #fff;
+  padding: 3.6rem 4.8rem;
+}

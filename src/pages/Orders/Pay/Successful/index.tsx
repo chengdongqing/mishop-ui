@@ -6,6 +6,7 @@ import { addresses } from '@/pages/Orders/Checkout/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { displayAmount } from '@/utils';
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function PaySuccessfulPage() {
@@ -26,9 +27,11 @@ export default function PaySuccessfulPage() {
           <div className={styles.amount}>
             <span>{displayAmount(totalAmount, '')}</span>元
           </div>
-          <Button outlined className={styles.btn}>
-            查看订单详情
-          </Button>
+          <Link to={'/orders/5230601985602776'}>
+            <Button outlined className={styles.btn}>
+              查看订单详情
+            </Button>
+          </Link>
           <div className={styles.tips}>
             小米公司不会以任何理由要求您提供银行卡信息或支付额外费用
             <br />

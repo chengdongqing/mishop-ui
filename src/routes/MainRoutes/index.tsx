@@ -1,6 +1,6 @@
 import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { Outlet, RouteObject } from 'react-router-dom';
 import ordersRoutes from './orders';
 import productRoutes from './product';
 
@@ -68,6 +68,11 @@ const routes: RouteObject[] = [
   },
   {
     path: '/orders',
+    element: (
+      <PageDecorator requiresAuth>
+        <Outlet />
+      </PageDecorator>
+    ),
     children: ordersRoutes
   }
 ];

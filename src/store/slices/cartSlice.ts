@@ -47,6 +47,19 @@ export default createSlice({
         products.splice(index, 1);
       }
     },
+    removeProducts(
+      state,
+      { payload }: PayloadAction<{ labels?: string[]; allChecked?: boolean }>
+    ) {
+      const { products } = state;
+      if (payload.allChecked) {
+        state.products = products.filter((item) => !item.checked);
+      } else if (payload.labels?.length) {
+        state.products = products.filter((item) => {
+          return !payload.labels?.includes(item.label);
+        });
+      }
+    },
     modifyProductNumber(
       { products },
       { payload }: PayloadAction<{ label: string; number: number }>

@@ -39,7 +39,9 @@ export default function Login() {
                 })
               );
               setTimeout(() => {
-                navigate(returnPathRef.current || '/');
+                navigate(returnPathRef.current || '/', {
+                  replace: returnPathRef.current
+                });
               }, 500);
             }, 1000);
           }

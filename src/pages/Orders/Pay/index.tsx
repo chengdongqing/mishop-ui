@@ -166,7 +166,9 @@ function PaymentMethods() {
 
               timer.current = setTimeout(() => {
                 close();
-                navigate('/orders/pay/successful/5230601985602776');
+                navigate('/orders/pay/successful/5230601985602776', {
+                  replace: true
+                });
               }, 3000);
             }}
           >

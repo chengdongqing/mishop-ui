@@ -257,7 +257,9 @@ function FooterBar({ address }: { address?: ShippingAddress }) {
             } else {
               setSubmitting(true);
               setTimeout(() => {
-                navigate('/orders/pay');
+                navigate('/orders/pay', {
+                  replace: true
+                });
               }, 1000);
             }
           }}
