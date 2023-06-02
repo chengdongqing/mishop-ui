@@ -9,7 +9,8 @@ import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { displayAmount } from '@/utils';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function PayPage() {
@@ -97,8 +98,8 @@ function OrderInfos() {
               <div>
                 {products.map((item) => (
                   <div key={item.label}>
-                    {item.label}{' '}
-                    <span style={{ color: '#b0b0b0' }}>x {item.number}</span>
+                    {item.label}
+                    <span style={{ color: '#b0b0b0' }}> x {item.number}</span>
                   </div>
                 ))}
               </div>
@@ -126,6 +127,9 @@ const methods = [
 ];
 
 function PaymentMethods() {
+  const timer = useRef<NodeJS.Timer>();
+  const navigate = useNavigate();
+
   return (
     <div className={classNames(styles.card, styles.payment_methods)}>
       <div className={styles.title}>选择以下支付方式付款</div>
@@ -135,7 +139,7 @@ function PaymentMethods() {
             key={item.label}
             className={styles.method_item}
             onClick={() => {
-              popup.open({
+              const close = popup.open({
                 title: `${item.label}支付`,
                 width: '37rem',
                 footer: null,
@@ -154,8 +158,16 @@ function PaymentMethods() {
                       二维码完成支付
                     </div>
                   </div>
-                )
+                ),
+                onCancel() {
+                  clearTimeout(timer.current);
+                }
               });
+
+              timer.current = setTimeout(() => {
+                close();
+                navigate('/orders/pay/successful/5230601985602776');
+              }, 3000);
             }}
           >
             <img src={item.icon} alt={item.label} />

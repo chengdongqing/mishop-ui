@@ -5,6 +5,7 @@ import { RouteObject } from 'react-router-dom';
 const OrdersPage = lazy(() => import('@/pages/Orders'));
 const CheckoutPage = lazy(() => import('@/pages/Orders/Checkout'));
 const PayPage = lazy(() => import('@/pages/Orders/Pay'));
+const PageSuccessfulPage = lazy(() => import('@/pages/Orders/Pay/Successful'));
 
 const routes: RouteObject[] = [
   {
@@ -25,11 +26,24 @@ const routes: RouteObject[] = [
   },
   {
     path: 'pay',
-    element: (
-      <PageDecorator title={'支付订单'}>
-        <PayPage />
-      </PageDecorator>
-    )
+    children: [
+      {
+        path: '',
+        element: (
+          <PageDecorator title={'支付订单'}>
+            <PayPage />
+          </PageDecorator>
+        )
+      },
+      {
+        path: 'successful/:orderId',
+        element: (
+          <PageDecorator title={'支付成功'}>
+            <PageSuccessfulPage />
+          </PageDecorator>
+        )
+      }
+    ]
   }
 ];
 

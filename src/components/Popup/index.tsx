@@ -129,10 +129,14 @@ function open(
       }}
     />
   );
+
+  return () => {
+    popup?.unmount();
+  };
 }
 
 function alert(title: ReactNode, onOk?: () => void) {
-  open({
+  return open({
     width: '48rem',
     content: <div className={styles.message}>{title}</div>,
     maskClosable: false,
@@ -146,7 +150,7 @@ function confirm(
   title: ReactNode,
   props: Omit<PopupProps, 'open' | 'children'>
 ) {
-  open({
+  return open({
     width: '48rem',
     content: (
       <div className={classNames(styles.message, styles.confirm)}>{title}</div>

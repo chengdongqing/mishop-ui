@@ -14,7 +14,7 @@ import styles from '../index.module.less';
 export default function Login() {
   const { pathname, state } = useLocation();
   const returnPathRef = useRef(state?.pathname);
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const store = useStore();
 
@@ -25,15 +25,15 @@ export default function Login() {
           if (!(values.agreed as [])?.length) {
             toast.warning('请您同意用户条款');
           } else {
-            setLoading(true);
+            setSubmitting(true);
             setTimeout(() => {
-              setLoading(false);
+              setSubmitting(false);
               toast.success('登录成功', {
                 duration: 1000
               });
               store.dispatch(
                 userSlice.actions.setUser({
-                  id: '450762342',
+                  id: 450762342,
                   name: '海盐芝士不加糖',
                   phoneNumber: '189*****874'
                 })
@@ -81,7 +81,7 @@ export default function Login() {
         <Form.Item>
           <Button
             type={'submit'}
-            loading={loading}
+            loading={submitting}
             className={styles.btn_primary}
           >
             登录

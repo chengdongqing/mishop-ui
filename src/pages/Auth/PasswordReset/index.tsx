@@ -13,15 +13,15 @@ export default function Login() {
   const [activeType, setActiveType] = useState<Key>('phoneNumber');
   const [account, setAccount] = useState('');
   const passwordRef = useRef('');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   return (
     <Form
       onOk={() => {
-        setLoading(true);
+        setSubmitting(true);
         setTimeout(() => {
-          setLoading(false);
+          setSubmitting(false);
           popup.alert('密码重置成功，即将重新登录', () => {
             navigate('/auth/login');
           });
@@ -136,7 +136,7 @@ export default function Login() {
       <Form.Item>
         <Button
           type={'submit'}
-          loading={loading}
+          loading={submitting}
           className={styles.btn_primary}
         >
           重置密码

@@ -222,6 +222,7 @@ function BillInfos() {
 
 function FooterBar({ address }: { address?: ShippingAddress }) {
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <Row justify={'space-between'} className={styles.footer_bar}>
@@ -249,11 +250,15 @@ function FooterBar({ address }: { address?: ShippingAddress }) {
           返回购物车
         </Button>
         <Button
+          loading={submitting}
           onClick={() => {
             if (!address) {
               popup.alert('请选择地址');
             } else {
-              navigate('/orders/pay');
+              setSubmitting(true);
+              setTimeout(() => {
+                navigate('/orders/pay');
+              }, 1000);
             }
           }}
         >
