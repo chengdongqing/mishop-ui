@@ -3,7 +3,7 @@ import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
 const UserLayout = lazy(() => import('@/layouts/UserLayout'));
-const OrdersPage = lazy(() => import('@/pages/Orders'));
+const OrdersPage = lazy(() => import('@/pages/Orders/Orders'));
 const OrderDetailsPage = lazy(() => import('@/pages/Orders/Details'));
 const OrderCommentsPage = lazy(() => import('@/pages/Orders/Comments'));
 const CheckoutPage = lazy(() => import('@/pages/Orders/Checkout'));

@@ -5,7 +5,7 @@
 }
 
 .container {
-  padding: 10px;
+  padding: 1rem;
   margin: auto;
   .flex-center;
 
@@ -14,7 +14,7 @@
     align-items: center;
 
     .tip {
-      margin-top: 10px;
+      margin-top: 1rem;
     }
   }
 
@@ -25,7 +25,7 @@
 
 @animation: {
   animation: rotate var(--duration) linear infinite;
-}
+};
 
 @keyframes rotate {
   from {
@@ -38,15 +38,15 @@
 }
 
 .tip {
-  font-size: 14px;
+  font-size: 1.4rem;
   color: #909090;
-  margin-left: 10px;
+  margin-left: 1rem;
 }
 
 .wave {
   .icon {
-    width: 4px;
-    margin-right: 5px;
+    width: 0.4rem;
+    margin-right: 0.5rem;
     background-color: var(--color);
 
     .waving(@scale: 1, @duration: 0.5 s) {
@@ -64,17 +64,17 @@
     }
 
     &:nth-child(1) {
-      height: 10px;
+      height: 1rem;
       .waving(0.7, calc(var(--duration) * 0.3));
     }
 
     &:nth-child(2) {
-      height: 20px;
+      height: 2rem;
       .waving(0.9, calc(var(--duration) * 0.5));
     }
 
     &:nth-child(3) {
-      height: 18px;
+      height: 1.8rem;
       .waving(0.8, calc(var(--duration) * 0.4));
     }
   }
@@ -82,20 +82,20 @@
 
 .circle {
   .icon {
-    min-width: 20px;
-    height: 20px;
-    border: 2px solid #d8d8d8;
+    min-width: 2rem;
+    height: 2rem;
+    border: 0.2rem solid #d8d8d8;
     border-radius: 50%;
     position: relative;
 
     &::before {
       content: '';
       position: absolute;
-      right: -2px;
-      top: -2px;
-      left: -2px;
-      bottom: -2px;
-      border: 2px solid var(--color);
+      right: -0.2rem;
+      top: -0.2rem;
+      left: -0.2rem;
+      bottom: -0.2rem;
+      border: 0.2rem solid var(--color);
       border-radius: 50%;
       clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
       @animation();
@@ -105,21 +105,21 @@
 
 .dashed {
   .icon {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    border: 2px dashed var(--color);
+    border: 0.2rem dashed var(--color);
     @animation();
   }
 }
 
 .dot {
   .icon {
-    width: 7px;
-    height: 7px;
+    width: 0.7rem;
+    height: 0.7rem;
     background-color: var(--color);
     border-radius: 50%;
-    margin: 0 6px;
+    margin: 0 0.6rem;
 
     .dance(@duration: 0) {
       animation: dance 0.4s ease infinite alternate-reverse;
@@ -127,11 +127,11 @@
 
       @keyframes dance {
         from {
-          transform: translateY(-3px);
+          transform: translateY(-0.3rem);
         }
 
         to {
-          transform: translateY(3px);
+          transform: translateY(0.3rem);
         }
       }
     }

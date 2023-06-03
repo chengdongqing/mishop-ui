@@ -3,7 +3,7 @@ import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
+import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';

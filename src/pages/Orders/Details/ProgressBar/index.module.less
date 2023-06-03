@@ -1,0 +1,51 @@
+.container {
+  height: 5.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.wrapper {
+  display: flex;
+  height: 2rem;
+  font-size: 1.2rem;
+  background-color: #eee;
+  border-radius: 2rem;
+
+  .time_node {
+    flex: 1;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+
+    &:first-child {
+      .step {
+        border-top-left-radius: 2rem;
+        border-bottom-left-radius: 2rem;
+      }
+    }
+
+    &:last-child,
+    &.active.last {
+      .step {
+        border-top-right-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+      }
+    }
+
+    &.active {
+      .step {
+        color: #fff;
+        background-color: #83c44e;
+      }
+    }
+
+    .step {
+      height: 2rem;
+      color: #424242;
+    }
+
+    .datetime {
+      margin-top: 1.5rem;
+      color: #757575;
+    }
+  }
+}

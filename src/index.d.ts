@@ -50,9 +50,9 @@ declare interface Promo {
 }
 
 /**
- * 收货地址模型
+ * 收货信息模型
  */
-declare interface ShippingAddress {
+declare interface ShippingInfo {
   id: number;
   label?: string;
   username: string;
@@ -75,6 +75,6 @@ declare interface UserInfo {
  * 购物车商品模型
  */
 declare interface CartProduct extends Product {
-  checked: boolean;
+  checked?: boolean;
   number: number;
 }

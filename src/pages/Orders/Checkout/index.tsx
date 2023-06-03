@@ -6,7 +6,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
 import useToggle from '@/hooks/useToggle.ts';
-import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
@@ -220,7 +220,7 @@ function BillInfos() {
   );
 }
 
-function FooterBar({ address }: { address?: ShippingAddress }) {
+function FooterBar({ address }: { address?: ShippingInfo }) {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
 

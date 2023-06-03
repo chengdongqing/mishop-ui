@@ -1,7 +1,7 @@
 import Button from '@/components/Button';
 import CommendedProducts from '@/components/CommendedProducts';
 import Row from '@/components/Row';
-import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/Orders/Checkout/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { formatAmount } from '@/utils';

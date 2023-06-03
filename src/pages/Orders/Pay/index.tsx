@@ -4,7 +4,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useCountdown from '@/hooks/useCountdown.ts';
 import useToggle from '@/hooks/useToggle.ts';
-import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/Orders/Checkout/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { formatAmount, formatTime } from '@/utils';
@@ -43,7 +43,7 @@ function OrderInfos() {
   }, [open, products.length]);
 
   const navigate = useNavigate();
-  const [remaining] = useCountdown(2, false, () => {
+  const [remaining] = useCountdown(60 * 60 * 2, false, () => {
     setTimeout(() => {
       popup.alert('支付超时，订单已取消', () => {
         navigate('/orders', {

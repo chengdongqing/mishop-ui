@@ -1,4 +1,4 @@
-export const addresses: ShippingAddress[] = [
+export const addresses: ShippingInfo[] = [
   {
     id: 1,
     label: '家',

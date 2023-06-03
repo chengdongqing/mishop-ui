@@ -21,7 +21,7 @@ export default function SearchPage() {
   useMount(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 1000);
   });
 
   return (

@@ -1,0 +1,85 @@
+.order_item {
+  border: 0.1rem solid #b0b0b0;
+  margin-bottom: 2rem;
+
+  .header {
+    padding: 2.5rem 3rem;
+    border-bottom: 0.1rem solid #e0e0e0;
+
+    .order_status {
+      color: #b0b0b0;
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .order_details {
+      color: #757575;
+      font-size: 1.4rem;
+      line-height: 1rem;
+
+      .order_id {
+        cursor: pointer;
+
+        &:hover {
+          color: var(--color-primary);
+        }
+      }
+    }
+
+    .amount {
+      width: 24rem;
+      padding-left: 1rem;
+      text-align: right;
+
+      span {
+        color: #333;
+        font-size: 2.8rem;
+        font-weight: 200;
+      }
+    }
+  }
+
+  .main {
+    padding: 2rem 3rem;
+
+    .product_list {
+      flex: 1;
+
+      .product_item {
+        margin: 1rem 0;
+        color: #333;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+
+        img {
+          width: 8rem;
+          height: 8rem;
+        }
+
+        .label {
+          cursor: pointer;
+
+          &:hover {
+            color: var(--color-primary);
+          }
+        }
+      }
+    }
+
+    .btn {
+      width: 12rem;
+      height: 3rem;
+      font-size: 1.2rem;
+
+      &.gray {
+        color: #757575;
+        border-color: #b0b0b0;
+
+        &:hover {
+          color: #b0b0b0;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}

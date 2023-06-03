@@ -1,15 +1,18 @@
 import Logo from '@/components/Logo';
+import SearchBar from '@/components/SearchBar';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProductCategories } from './const';
+import { ProductCategories, RecommendedKeywords } from './const';
+import { usePlaceholder } from './helpers.ts';
 import styles from './index.module.less';
-import SearchBar from './SearchBar';
 
 export default function MainHeader() {
   const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
   const timer = useRef<NodeJS.Timer>();
+  const placeholder = usePlaceholder(RecommendedKeywords);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -18,7 +21,13 @@ export default function MainHeader() {
           <Logo />
         </div>
         <CategoryBar timer={timer} onChange={setActiveProducts} />
-        <SearchBar />
+        <SearchBar
+          placeholder={placeholder}
+          keywords={RecommendedKeywords}
+          onSearch={() => {
+            navigate('/search');
+          }}
+        />
       </div>
 
       <ProductsPanel

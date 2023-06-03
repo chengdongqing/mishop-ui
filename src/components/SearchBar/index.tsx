@@ -2,21 +2,35 @@ import Row from '@/components/Row';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SearchKeywords } from './const.ts';
-import { usePlaceholder } from './helpers.ts';
 import styles from './index.module.less';
 
-export default function SearchBar() {
-  const placeholder = usePlaceholder(SearchKeywords.slice(1));
+interface SearchBarProps {
+  placeholder?: string;
+  keywords?: string[];
+  width?: number | string;
+  height?: number | string;
+  fontSize?: number | string;
+
+  onSearch?(value: string): void;
+}
+
+export default function SearchBar({
+  placeholder,
+  keywords,
+  width,
+  height,
+  fontSize,
+  onSearch
+}: SearchBarProps) {
   const [focused, setFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [keyword, setKeyword] = useState('');
-  useEffect(() => {
-    setKeyword(SearchKeywords[activeIndex] || '');
-  }, [activeIndex, setKeyword]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (keywords) {
+      setKeyword(keywords[activeIndex] || '');
+    }
+  }, [activeIndex, keywords]);
 
   return (
     <div className={classNames(styles.container, focused && styles.focused)}>
@@ -25,6 +39,7 @@ export default function SearchBar() {
           value={keyword}
           className={styles.input}
           placeholder={placeholder}
+          style={{ width, height, fontSize }}
           onFocus={() => {
             setFocused(true);
           }}
@@ -38,48 +53,59 @@ export default function SearchBar() {
             setKeyword(e.target.value);
           }}
           onKeyDown={(e) => {
-            if (e.key === 'ArrowUp') {
-              setActiveIndex((value) => {
-                return value > 0 ? value - 1 : SearchKeywords.length - 1;
-              });
-            } else if (e.key === 'ArrowDown') {
-              setActiveIndex((value) => {
-                return value < SearchKeywords.length - 1 ? value + 1 : 0;
-              });
+            if (keywords && keywords.length) {
+              if (e.key === 'ArrowUp') {
+                setActiveIndex((value) => {
+                  return value > 0 ? value - 1 : keywords.length - 1;
+                });
+              } else if (e.key === 'ArrowDown') {
+                setActiveIndex((value) => {
+                  return value < keywords.length - 1 ? value + 1 : 0;
+                });
+              }
             }
           }}
         />
         <div
+          style={{ width: height, height }}
           className={styles.btn}
           onClick={() => {
-            navigate('/search');
+            onSearch?.(keyword);
           }}
         >
           <SearchOutlined className={styles.icon} />
         </div>
       </Row>
 
-      <TipsList
-        open={focused}
-        activeIndex={activeIndex}
-        onChange={setKeyword}
-      />
+      {!!keywords && (
+        <RecommendList
+          open={focused}
+          width={width}
+          keywords={keywords}
+          activeIndex={activeIndex}
+          onChange={setKeyword}
+        />
+      )}
     </div>
   );
 }
 
-function TipsList({
+function RecommendList({
   open,
+  width,
+  keywords,
   activeIndex,
   onChange
 }: {
   open: boolean;
+  width?: number | string;
+  keywords: string[];
   activeIndex: number;
   onChange: (value: string) => void;
 }) {
   return (
-    <div className={styles.tips_list} hidden={!open}>
-      {SearchKeywords.map((item, index) => (
+    <div className={styles.recommend_list} style={{ width }} hidden={!open}>
+      {keywords.map((item, index) => (
         <div
           key={item}
           className={classNames(

@@ -1,3 +1,5 @@
+import { EmptyValue } from './constants';
+
 /**
  * 构建商品详情访问地址
  * @param label 商品名称
@@ -5,9 +7,6 @@
 export function buildProductUrl(label: string) {
   return '/product/' + label.replace(/\s*/g, '').toLowerCase();
 }
-
-// 空值
-export const EmptyValue = '--';
 
 /**
  * 格式化金额

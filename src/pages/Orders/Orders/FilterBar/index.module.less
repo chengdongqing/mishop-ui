@@ -1,0 +1,30 @@
+.container {
+  height: 5.6rem;
+  margin-bottom: 1rem;
+}
+
+.status_list {
+  display: flex;
+
+  .item {
+    color: #757575;
+    font-size: 1.6rem;
+    border-left: 1px solid #e0e0e0;
+    padding: 0 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    &:hover:not(.active) {
+      opacity: 0.8;
+    }
+
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+}

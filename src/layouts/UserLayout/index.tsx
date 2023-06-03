@@ -1,4 +1,6 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import classNames from 'classnames';
+import { ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styles from './index.module.less';
 import menus from './menus.ts';
@@ -16,8 +18,10 @@ export default function UserLayout() {
       <Breadcrumb value={state?.title || ''} />
       <div className={styles.container}>
         <SideMenus />
-        <div className={styles.main}>
-          <Outlet />
+        <div style={{ flex: 1 }}>
+          <div className={styles.main}>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
@@ -25,23 +29,45 @@ export default function UserLayout() {
 }
 
 function SideMenus() {
+  const { pathname } = useLocation();
+
   return (
-    <div className={styles.side_wrapper}>
-      {menus.map((item) => (
-        <div key={item.label} className={styles.menu_group}>
-          <div className={styles.title}>{item.label}</div>
-          {item.children?.map((menu) => (
-            <Link
-              key={menu.label}
-              target={menu.target}
-              to={menu.href as string}
-              className={styles.item}
-            >
-              {menu.label}
-            </Link>
-          ))}
-        </div>
-      ))}
+    <div>
+      <div className={styles.side_wrapper}>
+        {menus.map((item) => (
+          <div key={item.label} className={styles.menu_group}>
+            <div className={styles.title}>{item.label}</div>
+            {item.children?.map((menu) => (
+              <Link
+                key={menu.label}
+                target={menu.target}
+                to={menu.href as string}
+                className={classNames(
+                  styles.item,
+                  menu.href === pathname && styles.active
+                )}
+              >
+                {menu.label}
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
+UserLayout.Header = function Header({
+  title,
+  extra
+}: {
+  title: ReactNode;
+  extra?: ReactNode;
+}) {
+  return (
+    <div className={styles.header}>
+      <span className={styles.title}>{title}</span>
+      {!!extra && <span className={styles.extra}>{extra}</span>}
+    </div>
+  );
+};

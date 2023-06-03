@@ -17,7 +17,7 @@ const overPages = 7;
 export default function Pagination({
   current = 1,
   pageSize = 10,
-  totalSize = 0,
+  totalSize = 10,
   onChange
 }: PaginationProps) {
   const pages = useMemo(() => {
@@ -110,17 +110,19 @@ export default function Pagination({
         )}
 
         {/* 最后一页 */}
-        <div
-          className={classNames(
-            styles.item,
-            current === pages && styles.active
-          )}
-          onClick={() => {
-            handleChange(pages);
-          }}
-        >
-          {pages}
-        </div>
+        {pages > 1 && (
+          <div
+            className={classNames(
+              styles.item,
+              current === pages && styles.active
+            )}
+            onClick={() => {
+              handleChange(pages);
+            }}
+          >
+            {pages}
+          </div>
+        )}
 
         {/* 右箭头 */}
         <div

@@ -1,0 +1,96 @@
+.header {
+  height: 5.8rem;
+  border-bottom: 0.1rem solid #e0e0e0;
+
+  .order_id {
+    color: #333;
+    font-size: 1.8rem;
+
+    span {
+      user-select: text;
+    }
+  }
+
+  .btn {
+    width: 12rem;
+    height: 3rem;
+    color: #757575;
+    font-size: 1.2rem;
+    border-color: #b0b0b0;
+
+    &:hover {
+      color: #fff;
+      border-color: #757575;
+      background-color: #757575;
+    }
+  }
+}
+
+.order_status {
+  color: #83c44e;
+  font-size: 1.8rem;
+  margin: 2.5rem 0;
+}
+
+.product_list {
+  margin-bottom: 2.5rem;
+
+  .product_item {
+    padding-top: 1rem;
+    border-bottom: 0.1rem solid #e0e0e0;
+    color: #333;
+    font-size: 1.4rem;
+
+    img {
+      width: 8rem;
+      height: 8rem;
+      margin-right: 2rem;
+    }
+
+    .label {
+      display: inline-block;
+      width: 35rem;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.order_details {
+  color: #757575;
+  font-size: 1.4rem;
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  line-height: 2;
+  border-bottom: 0.1rem solid #e0e0e0;
+
+  .title {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .label {
+    font-weight: bold;
+    margin-right: 0.4rem;
+  }
+}
+
+.amount_info {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  color: #757575;
+  font-size: 1.4rem;
+
+  .value {
+    color: var(--color-primary);
+
+    span {
+      font-size: 3rem;
+      font-weight: 200;
+    }
+  }
+}
