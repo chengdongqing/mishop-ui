@@ -9,7 +9,7 @@ import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
-import { buildProductUrl, displayAmount } from '@/utils';
+import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
 import { useRef } from 'react';
@@ -75,7 +75,7 @@ function ProductList() {
           <div className={classNames(styles.col_name, 'text-ellipsis')}>
             <Link to={buildProductUrl(item.label)}>{item.label}</Link>
           </div>
-          <div className={styles.col_price}>{displayAmount(item.price)}</div>
+          <div className={styles.col_price}>{formatAmount(item.price)}</div>
           <div className={styles.col_num}>
             <NumberInput
               value={item.number}
@@ -94,7 +94,7 @@ function ProductList() {
             />
           </div>
           <div className={classNames(styles.col_total, styles.value)}>
-            {displayAmount(new Decimal(item.price).mul(item.number).toNumber())}
+            {formatAmount(new Decimal(item.price).mul(item.number).toNumber())}
           </div>
           <div className={styles.col_action}>
             <CloseIcon
@@ -149,12 +149,12 @@ function FooterBar() {
           清空购物车
         </div>
         <div className={styles.cart_total}>
-          已选择 <span>{displayAmount(totalNumber, '')}</span> 件
+          已选择 <span>{formatAmount(totalNumber, '')}</span> 件
         </div>
       </Space>
       <Space size={'5rem'}>
         <div className={styles.total_amount}>
-          合计：<span>{displayAmount(totalAmount, '')}</span> 元
+          合计：<span>{formatAmount(totalAmount, '')}</span> 元
         </div>
         <div>
           <Button

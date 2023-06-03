@@ -80,7 +80,7 @@ export default function Register() {
               }
               setTimeout(() => {
                 resolve();
-              }, 3000);
+              }, 1000);
             });
           }}
         />

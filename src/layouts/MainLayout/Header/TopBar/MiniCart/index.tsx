@@ -5,7 +5,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/MainCart/helpers.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
-import { buildProductUrl, displayAmount } from '@/utils';
+import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -129,7 +129,7 @@ function MainCart({
               </Space>
             </Link>
             <div className={styles.price}>
-              {displayAmount(item.price)} x {item.number}
+              {formatAmount(item.price)} x {item.number}
             </div>
             <Iconfont
               type={'i-close'}
@@ -149,10 +149,10 @@ function MainCart({
           style={{ marginBottom: '-0.4rem' }}
         >
           <div className={styles.total_num}>
-            共{displayAmount(totalNumber, '件')}商品
+            共{formatAmount(totalNumber, '件')}商品
           </div>
           <div className={styles.total_amount}>
-            <span>{displayAmount(totalAmount, '')}</span>元
+            <span>{formatAmount(totalAmount, '')}</span>元
           </div>
         </Space>
         <Button

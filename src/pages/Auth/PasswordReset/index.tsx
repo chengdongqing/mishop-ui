@@ -93,7 +93,7 @@ export default function Login() {
               }
               setTimeout(() => {
                 resolve();
-              }, 3000);
+              }, 1000);
             });
           }}
         />

@@ -41,7 +41,7 @@ export default function LoginByVerificationCode() {
               }
               setTimeout(() => {
                 resolve();
-              }, 3000);
+              }, 1000);
             });
           }}
         />

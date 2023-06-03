@@ -2,7 +2,7 @@ import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
 import cartSlice from '@/store/slices/cartSlice.ts';
-import { buildProductUrl, displayAmount } from '@/utils';
+import { buildProductUrl, formatAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
@@ -106,7 +106,7 @@ function ProductBlock(props: Product) {
         className={styles.picture}
       />
       <div className={styles.label}>{props.label}</div>
-      <div className={styles.price}>{displayAmount(props.price)}</div>
+      <div className={styles.price}>{formatAmount(props.price)}</div>
       {!!props.comments && (
         <div className={styles.comments}>{props.comments}好评</div>
       )}

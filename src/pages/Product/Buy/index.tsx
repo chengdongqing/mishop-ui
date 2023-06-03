@@ -4,7 +4,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
-import { displayAmount } from '@/utils';
+import { formatAmount } from '@/utils';
 import { CheckCircleOutlined, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
@@ -60,7 +60,7 @@ function ProductPanel({
       <div className={styles.name}>Xiaomi 13 Ultra 系列</div>
       <div className={styles.desc}>Xiaomi 13 Ultra 系列</div>
       <div className={styles.source}>小米自营</div>
-      <div className={styles.price}>{displayAmount(sku?.price)}</div>
+      <div className={styles.price}>{formatAmount(sku?.price)}</div>
       <div className={styles.split} />
 
       <ProductSkus
@@ -73,9 +73,9 @@ function ProductPanel({
       <div className={styles.selected_info}>
         <Row justify={'space-between'}>
           <div>{productName}</div>
-          <div>{displayAmount(sku?.price)}</div>
+          <div>{formatAmount(sku?.price)}</div>
         </Row>
-        <div className={styles.total}>总计：{displayAmount(sku?.price)}</div>
+        <div className={styles.total}>总计：{formatAmount(sku?.price)}</div>
       </div>
 
       {!!sku && (

@@ -1,6 +1,6 @@
 import Input from '@/components/Input';
 import toast from '@/components/Toast';
-import useUnmount from '@/hooks/useUnmount.ts';
+import useCountdown from '@/hooks/useCountdown.ts';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import styles from './index.module.less';
@@ -14,12 +14,15 @@ export default function VerificationCodeInput({
   interval = 120,
   onSend
 }: InputProps) {
-  const [seconds, setSeconds] = useState(0);
   const sending = useRef(false);
-  const timer = useRef<NodeJS.Timer>();
+  const hasSent = useRef(false);
+  const [waiting, setWaiting] = useState(false);
+  const [seconds, { start }] = useCountdown(interval, true, () => {
+    setWaiting(false);
+  });
 
   function send() {
-    if (!seconds && !sending.current) {
+    if (!waiting && !sending.current) {
       sending.current = true;
       const closeLoading = toast.loading('发送中...');
       onSend()
@@ -28,22 +31,14 @@ export default function VerificationCodeInput({
           sending.current = false;
         })
         .then(() => {
-          setSeconds(interval);
-          timer.current = setInterval(() => {
-            setSeconds((v) => {
-              if (v > 0) return v - 1;
-              clearInterval(timer.current);
-              return v;
-            });
-          }, 1000);
+          start();
+          setWaiting(true);
+          hasSent.current = true;
           toast.success('发送成功，请注意查收');
         })
         .catch(toast.warning);
     }
   }
-  useUnmount(() => {
-    clearInterval(timer.current);
-  });
 
   return (
     <Input
@@ -53,12 +48,12 @@ export default function VerificationCodeInput({
         <div
           className={classNames(
             styles.btn_send,
-            seconds > 0 && styles.disabled
+            waiting && !!seconds && styles.disabled
           )}
           onClick={send}
         >
-          {!timer.current ? '获取验证码' : '重新发送'}
-          {seconds ? ` ${seconds}s` : ''}
+          {!hasSent.current ? '获取验证码' : '重新发送'}
+          {waiting && seconds ? ` ${seconds}s` : ''}
         </div>
       }
     />

@@ -4,7 +4,7 @@ import Row from '@/components/Row';
 import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/Orders/Checkout/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
-import { displayAmount } from '@/utils';
+import { formatAmount } from '@/utils';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
@@ -25,7 +25,7 @@ export default function PaySuccessfulPage() {
         <div className={styles.success_cover}>
           <div className={styles.title}>支付成功</div>
           <div className={styles.amount}>
-            <span>{displayAmount(totalAmount, '')}</span>元
+            <span>{formatAmount(totalAmount, '')}</span>元
           </div>
           <Link to={'/orders/5230601985602776'}>
             <Button outlined className={styles.btn}>

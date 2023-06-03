@@ -8,7 +8,7 @@ import useElementVisible from '@/hooks/useElementVisible.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
-import { buildProductUrl, displayAmount } from '@/utils';
+import { buildProductUrl, formatAmount } from '@/utils';
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
@@ -169,10 +169,10 @@ function ProductList() {
               </Link>
             </Space>
             <div className={styles.price_number}>
-              {displayAmount(item.price)} x {item.number}
+              {formatAmount(item.price)} x {item.number}
             </div>
             <div className={styles.subtotal}>
-              {displayAmount(
+              {formatAmount(
                 new Decimal(item.price).mul(item.number).toNumber()
               )}
             </div>
@@ -199,19 +199,19 @@ function BillInfos() {
     <div className={styles.bill_infos}>
       <Grid columns={2} gap={'0.8rem'} style={{ alignItems: 'end' }}>
         <div className={styles.label}>商品件数：</div>
-        <div className={styles.value}>{displayAmount(totalNumber, '件')}</div>
+        <div className={styles.value}>{formatAmount(totalNumber, '件')}</div>
         <div className={styles.label}>商品总价：</div>
-        <div className={styles.value}>{displayAmount(totalAmount)}</div>
+        <div className={styles.value}>{formatAmount(totalAmount)}</div>
         <div className={styles.label}>优惠金额：</div>
-        <div className={styles.value}>-{displayAmount(0.01)}</div>
+        <div className={styles.value}>-{formatAmount(0.01)}</div>
         <div className={styles.label}>运费：</div>
-        <div className={styles.value}>{displayAmount(0)}</div>
+        <div className={styles.value}>{formatAmount(0)}</div>
         <div className={styles.label} style={{ lineHeight: '3rem' }}>
           应付总额：
         </div>
         <div className={styles.value}>
           <span style={{ fontSize: '3rem' }}>
-            {displayAmount(new Decimal(totalAmount).sub(0.01).toNumber(), '')}
+            {formatAmount(new Decimal(totalAmount).sub(0.01).toNumber(), '')}
           </span>
           <span> 元</span>
         </div>

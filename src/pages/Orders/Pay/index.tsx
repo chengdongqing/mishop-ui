@@ -2,11 +2,12 @@ import MiniHeader from '@/components/MiniHeader';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useCountdown from '@/hooks/useCountdown.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/Orders/Checkout/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
-import { displayAmount } from '@/utils';
+import { formatAmount, formatTime } from '@/utils';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo, useRef } from 'react';
@@ -41,6 +42,17 @@ function OrderInfos() {
     return open ? `${11.7 + 2.4 * (products.length - 1)}rem` : 0;
   }, [open, products.length]);
 
+  const navigate = useNavigate();
+  const [remaining] = useCountdown(2, false, () => {
+    setTimeout(() => {
+      popup.alert('支付超时，订单已取消', () => {
+        navigate('/orders', {
+          replace: true
+        });
+      });
+    }, 500);
+  });
+
   return (
     <div className={classNames(styles.card, styles.order_infos)}>
       <div className={styles.successful_icon}>
@@ -51,7 +63,8 @@ function OrderInfos() {
           <div>
             <div className={styles.title}>订单提交成功！去付款咯～</div>
             <div className={styles.tips}>
-              请在 <span>1 小时 59 分</span> 内完成支付, 超时后将取消订单
+              请在 <span>{formatTime(remaining)}</span> 内完成支付,
+              超时后将取消订单
             </div>
             <div className={styles.tips} hidden={open}>
               收货信息：
@@ -66,7 +79,7 @@ function OrderInfos() {
             <div style={{ marginBottom: '1rem' }}>
               应付金额：
               <span className={styles.amount}>
-                <span>{displayAmount(totalAmount, '')}</span>元
+                <span>{formatAmount(totalAmount, '')}</span>元
               </span>
             </div>
             <div className={styles.btn_more} onClick={toggleOpen}>
