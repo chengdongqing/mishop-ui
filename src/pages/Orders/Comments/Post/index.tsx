@@ -4,10 +4,29 @@ import Form from '@/components/Form';
 import Rate from '@/components/Rate';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import Textarea from '@/components/Textarea';
+import toast from '@/components/Toast';
+import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
+import { orders } from '@/pages/Orders/Orders/const.ts';
+import { ReactNode } from 'react';
 import styles from './index.module.less';
 
 export default function PostCommentPage() {
+  const order = orders[0];
+  const [data, setData] = useSetState();
+
+  function post(key: string, values: unknown) {
+    const close = toast.loading('提交中...');
+    setTimeout(() => {
+      close();
+      toast.success('提交成功');
+      setData({
+        [key]: values
+      });
+    }, 1000);
+  }
+
   return (
     <>
       <UserLayout.Header
@@ -23,28 +42,103 @@ export default function PostCommentPage() {
           </div>
         }
       />
-      <Form noStyle onChange={console.log}>
+      <Form
+        noStyle
+        disabled={!!data.overall}
+        onOk={(values) => {
+          post('overall', values);
+        }}
+      >
         <Row className={styles.overall}>
           <div className={styles.scores}>
-            <Form.Item name={'wrapperStars'} className={styles.item}>
+            <Form.Item name={'wrapper-score'} className={styles.item}>
               <Rate prefix={'物流包装'} />
             </Form.Item>
-            <Form.Item name={'speedStars'} className={styles.item}>
+            <Form.Item name={'speed-score'} className={styles.item}>
               <Rate prefix={'物流速度'} />
             </Form.Item>
-            <Form.Item name={'serviceStars'} className={styles.item}>
+            <Form.Item name={'service-score'} className={styles.item}>
               <Rate prefix={'客服服务'} />
             </Form.Item>
           </div>
-          <div className={styles.content}>
-            <textarea />
-            <Space>
-              <Checkbox>匿名评价</Checkbox>
-              <Button outlined>发表评价</Button>
-            </Space>
-          </div>
+          <CommentGroup
+            textarea={
+              <Textarea placeholder={'还有想说的吗？您的意见对我们非常重要'} />
+            }
+          />
         </Row>
       </Form>
+      {order.products.map((item) => (
+        <Form
+          noStyle
+          key={item.label}
+          disabled={!!data[item.label]}
+          onOk={(values) => {
+            post(item.label, values);
+          }}
+        >
+          <Row className={styles.product_item}>
+            <div className={styles.product_info}>
+              <img src={item.pictureUrl} alt={item.label} />
+              <div className={styles.label}>{item.label}</div>
+            </div>
+            <div className={styles.content}>
+              <Score />
+              <CommentGroup
+                textarea={
+                  <Textarea
+                    placeholder={
+                      '外形如何？品质如何？写写你的感受分享给网友吧！\n' +
+                      '为保障您的个人隐私，请将带有个人信息的数据打码上传，否则可能会影响您的评价展示呦~'
+                    }
+                    noPrefix
+                    style={{ fontSize: '1.4rem', textIndent: 0 }}
+                  />
+                }
+              />
+            </div>
+          </Row>
+        </Form>
+      ))}
     </>
+  );
+}
+
+const options: Record<number, string> = {
+  1: '失望',
+  2: '一般',
+  3: '满意',
+  4: '喜欢',
+  5: '超爱'
+};
+
+function Score() {
+  return (
+    <Form.Item name={'score'} style={{ marginBottom: '1rem' }}>
+      <Rate
+        prefix={'评分'}
+        suffix={(value) => {
+          return <span className={styles.score_label}>{options[value]}</span>;
+        }}
+      />
+    </Form.Item>
+  );
+}
+
+function CommentGroup({ textarea }: { textarea: ReactNode }) {
+  return (
+    <div className={styles.content}>
+      <Form.Item name={'content'}>{textarea}</Form.Item>
+      <div className={styles.actions}>
+        <Space size={'3rem'}>
+          <Form.Item name={'anonymous'}>
+            <Checkbox>匿名评价</Checkbox>
+          </Form.Item>
+          <Button outlined type={'submit'} className={styles.btn}>
+            发表评价
+          </Button>
+        </Space>
+      </div>
+    </div>
   );
 }

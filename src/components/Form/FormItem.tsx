@@ -16,6 +16,8 @@ interface FieldInjects {
 interface FormItemContextProps {
   // 是否错误
   error?: boolean;
+  // 是否禁用
+  disabled?: boolean;
   // 初始值
   initialValue?: unknown;
   // 注册相关方法
@@ -114,6 +116,7 @@ export default function FormItem({
         value={{
           initialValue,
           error: !!message,
+          disabled: formCtx.disabled,
           registerField: setInjects,
           checkValue,
           onChange(value) {

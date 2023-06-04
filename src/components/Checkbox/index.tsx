@@ -16,14 +16,14 @@ interface CheckboxProps extends PropsWithChildren {
 }
 
 function Checkbox(props: CheckboxProps) {
-  const [checked, setChecked] = useFormItem(
+  const [checked, setChecked, formItemCtx] = useFormItem(
     props.checked,
     props.defaultChecked || false,
     props.onChange
   );
 
   const groupCtx = useContext(CheckboxContext);
-  const disabled = props.disabled || groupCtx.disabled;
+  const disabled = props.disabled || groupCtx.disabled || formItemCtx.disabled;
 
   useEffect(() => {
     if (props.value && Array.isArray(groupCtx.values)) {
@@ -83,7 +83,11 @@ function CheckboxGroup({
   children,
   onChange
 }: CheckboxGroupProps) {
-  const [values, setValues] = useFormItem(propValue, defaultValue, onChange);
+  const [values, setValues, ctx] = useFormItem(
+    propValue,
+    defaultValue,
+    onChange
+  );
 
   function onChecked(value: BasicValue) {
     if (!values?.includes(value)) {
@@ -100,7 +104,12 @@ function CheckboxGroup({
 
   return (
     <CheckboxContext.Provider
-      value={{ values, disabled, onChecked, onUnchecked }}
+      value={{
+        values,
+        disabled: disabled || ctx.disabled,
+        onChecked,
+        onUnchecked
+      }}
     >
       <FormItemContext.Provider value={{}}>{children}</FormItemContext.Provider>
     </CheckboxContext.Provider>

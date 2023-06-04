@@ -1,6 +1,7 @@
+import { FormContext } from '@/components/Form';
 import { LoadingOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, useContext } from 'react';
 import styles from './index.module.less';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,9 +19,12 @@ export default function Button({
   loading,
   className,
   children,
-  disabled,
+  disabled: propDisabled,
   ...rest
 }: ButtonProps) {
+  const ctx = useContext(FormContext);
+  const disabled = propDisabled || ctx.disabled;
+
   return (
     <button
       {...rest}

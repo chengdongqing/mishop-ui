@@ -5,7 +5,6 @@ import Space from '@/components/Space';
 import UserLayout from '@/layouts/UserLayout';
 import { orders } from '@/pages/Orders/Orders/const.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
-import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ExpressTimeline from './ExpressTimeline';
 import styles from './index.module.less';
@@ -40,7 +39,7 @@ const OrderProgresses = [
 
 export default function OrderDetailsPage() {
   const { orderId } = useParams<{ orderId: string }>();
-  const order = useMemo(() => orders[0], []);
+  const order = orders[0];
 
   return (
     <>

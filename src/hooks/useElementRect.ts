@@ -22,5 +22,5 @@ export default function useElementRect(
     };
   }, [getRect, target]);
 
-  return rect;
+  return [rect, getRect] as const;
 }

@@ -1,6 +1,6 @@
 import { FormItemContext } from '@/components/Form/FormItem.tsx';
-import useUpdate from '@/hooks/useUpdate.ts';
-import { useContext, useEffect, useRef } from 'react';
+import useLatest from '@/hooks/useLatest.ts';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 export default function useFormItem<T, S extends T>(
   value: T | undefined,
@@ -8,15 +8,16 @@ export default function useFormItem<T, S extends T>(
   onChange?: (value: S) => void
 ) {
   const isControlled = value !== undefined;
-  const valueRef = useRef(isControlled ? value : defaultValue);
-  const finalValue = isControlled ? value : valueRef.current;
-  const update = useUpdate();
+  const [innerValue, setInnerValue] = useState(() =>
+    isControlled ? value : defaultValue
+  );
+  const finalValue = isControlled ? value : innerValue;
+  const valueRef = useLatest(innerValue);
 
   const formItemCtx = useContext(FormItemContext);
   useEffect(() => {
     if (formItemCtx.initialValue !== undefined) {
-      valueRef.current = formItemCtx.initialValue as T;
-      update();
+      setInnerValue(formItemCtx.initialValue as T);
     }
     formItemCtx.registerField?.({
       getValue() {
@@ -24,8 +25,7 @@ export default function useFormItem<T, S extends T>(
       },
       setValue(val) {
         if (val !== undefined) {
-          valueRef.current = val as T;
-          update();
+          setInnerValue(val as T);
         }
       }
     });
@@ -33,9 +33,8 @@ export default function useFormItem<T, S extends T>(
 
   const setValue = useRef((val: S) => {
     formItemCtx.onChange?.(val);
-    valueRef.current = val;
+    setInnerValue(val);
     onChange?.(val);
-    update();
   });
 
   return [finalValue, setValue.current, formItemCtx] as const;

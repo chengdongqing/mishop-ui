@@ -18,18 +18,16 @@ import SortBar from './SortBar';
 
 export default function SearchPage() {
   const [loading, setLoading] = useState(true);
-  function startLoading() {
-    setLoading(true);
+  useMount(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }
-  useMount(startLoading);
+  });
 
   return (
     <>
       <Breadcrumb value={'全部结果'} split={'>'} />
-      <Form noStyle onChange={startLoading}>
+      <Form noStyle onChange={console.log}>
         <div className={styles.filters}>
           {FilterBarItems.map((item, index) => (
             <Form.Item key={item.value} name={item.value}>

@@ -2,7 +2,7 @@ import Space from '@/components/Space';
 import useFormItem from '@/hooks/useFormItem.ts';
 import { StarFilled } from '@ant-design/icons';
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styles from './index.module.less';
 
 interface RateProps {
@@ -11,8 +11,8 @@ interface RateProps {
   count?: number;
   disabled?: boolean;
   character?: ReactNode | ((value: number) => ReactNode);
-  prefix?: ReactNode;
-  suffix?: ReactNode;
+  prefix?: ReactNode | ((value: number) => ReactNode);
+  suffix?: ReactNode | ((value: number) => ReactNode);
 
   onChange?(value: number): void;
 }
@@ -21,18 +21,31 @@ export default function Rate({
   value: propValue,
   defaultValue = 5,
   count = 5,
-  disabled,
+  disabled: propDisabled,
   character = <StarFilled />,
   prefix,
   suffix,
   onChange
 }: RateProps) {
-  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
+  const [value, setValue, ctx] = useFormItem(propValue, defaultValue, onChange);
+  const disabled = propDisabled || ctx.disabled;
+  const [currentValue, setCurrentValue] = useState<number>();
+  const tempValue = currentValue || value;
 
   return (
     <Space>
-      {!!prefix && <div className={styles.prefix}>{prefix}</div>}
-      <Space>
+      {!!prefix && (
+        <div className={styles.prefix}>
+          {typeof prefix === 'function' ? prefix(tempValue) : prefix}
+        </div>
+      )}
+      <Space
+        onMouseLeave={() => {
+          if (!disabled) {
+            setCurrentValue(undefined);
+          }
+        }}
+      >
         {Array(count)
           .fill(null)
           .map((_, index) => (
@@ -40,20 +53,31 @@ export default function Rate({
               key={index}
               className={classNames(
                 styles.item,
-                value > index && styles.active,
+                tempValue > index && styles.active,
                 disabled && styles.disabled
               )}
+              onMouseEnter={() => {
+                if (!disabled) {
+                  setCurrentValue(index + 1);
+                }
+              }}
               onClick={() => {
                 if (!disabled) {
                   setValue(index + 1);
                 }
               }}
             >
-              {typeof character === 'function' ? character(value) : character}
+              {typeof character === 'function'
+                ? character(tempValue)
+                : character}
             </div>
           ))}
       </Space>
-      {!!suffix && <div className={styles.suffix}>{suffix}</div>}
+      {!!suffix && (
+        <div className={styles.suffix}>
+          {typeof suffix === 'function' ? suffix(tempValue) : suffix}
+        </div>
+      )}
     </Space>
   );
 }

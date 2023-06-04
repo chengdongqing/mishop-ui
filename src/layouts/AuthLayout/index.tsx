@@ -28,7 +28,7 @@ export default function AuthLayout() {
   }, [pathname]);
 
   const cardRef = useRef<HTMLDivElement>(null);
-  const rect = useElementRect(cardRef);
+  const [rect] = useElementRect(cardRef);
 
   return (
     <Row
