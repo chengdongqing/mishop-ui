@@ -43,7 +43,7 @@ export function validateValue(
         // 正则表达式
         if (
           rule.pattern &&
-          ['string', 'number'].some((item) => typeof value === item)
+          (typeof value === 'string' || typeof value === 'number')
         ) {
           const pattern = new RegExp(rule.pattern);
           if (!pattern.test(value.toString())) {

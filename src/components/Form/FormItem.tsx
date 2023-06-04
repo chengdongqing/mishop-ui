@@ -1,4 +1,6 @@
 import useUnmount from '@/hooks/useUnmount.ts';
+import { PropsWithStyle } from '@/utils/typings';
+import classNames from 'classnames';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 import { validateValue } from './helpers.ts';
 import styles from './index.module.less';
@@ -43,16 +45,20 @@ export interface FormRule {
   message?: string;
 }
 
-interface FormItemProps extends PropsWithChildren {
+interface FormItemProps extends PropsWithStyle, PropsWithChildren {
   name?: string;
   rules?: FormRule[];
   initialValue?: unknown;
+  noStyle?: boolean;
 }
 
 export default function FormItem({
   name,
   rules,
   children,
+  noStyle,
+  style,
+  className,
   initialValue: initialValue1
 }: FormItemProps) {
   const formCtx = useContext(FormContext);
@@ -62,9 +68,12 @@ export default function FormItem({
 
   const checkValue = useCallback(
     (value?: unknown) => {
-      const res = validateValue(value || injects?.getValue(), rules);
-      res.then(() => setMessage(undefined)).catch(setMessage);
-      return res;
+      if (Array.isArray(rules) && rules.length) {
+        const res = validateValue(value || injects?.getValue(), rules);
+        res.then(() => setMessage(undefined)).catch(setMessage);
+        return res;
+      }
+      return Promise.resolve();
     },
     [injects, rules]
   );
@@ -94,7 +103,13 @@ export default function FormItem({
   });
 
   return (
-    <div className={styles.form_item}>
+    <div
+      className={classNames(styles.form_item, className)}
+      style={{
+        marginTop: noStyle || formCtx.noStyle ? 0 : undefined,
+        ...style
+      }}
+    >
       <FormItemContext.Provider
         value={{
           initialValue,
@@ -103,6 +118,7 @@ export default function FormItem({
           checkValue,
           onChange(value) {
             if (name) {
+              checkValue(value);
               formCtx.onChange?.(name, value);
             }
           }

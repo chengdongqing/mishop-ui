@@ -1,8 +1,10 @@
 import Iconfont from '@/components/Iconfont';
+import useFormItem from '@/hooks/useFormItem.ts';
 import styles from './index.module.less';
 
 interface NumberInputProps {
-  value: number;
+  value?: number;
+  defaultValue?: number;
   min?: number;
   max?: number;
 
@@ -10,14 +12,23 @@ interface NumberInputProps {
 }
 
 export default function NumberInput({
-  value = 1,
+  value,
+  defaultValue = 1,
   min = 0,
   max = Number.MAX_VALUE,
   onChange
 }: NumberInputProps) {
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
+
   function handleChange(val: number) {
     if (val >= min && val <= max) {
+      formItemCtx.onChange?.(val);
+      valueRef.current = val;
       onChange?.(val);
+      update();
     }
   }
 
@@ -27,16 +38,16 @@ export default function NumberInput({
         type={'i-minus'}
         className={styles.icon}
         onClick={() => {
-          handleChange(value - 1);
+          handleChange(finalValue - 1);
         }}
       />
       <input
-        value={value}
         type={'number'}
+        value={finalValue}
         className={styles.input}
         onChange={(e) => {
           const val = Number(e.target.value);
-          if (Number.isInteger(val) && val > 0) {
+          if (Number.isInteger(val) && val >= 0) {
             handleChange(val);
           }
         }}
@@ -45,7 +56,7 @@ export default function NumberInput({
         type={'i-plus'}
         className={styles.icon}
         onClick={() => {
-          handleChange(value + 1);
+          handleChange(finalValue + 1);
         }}
       />
     </div>

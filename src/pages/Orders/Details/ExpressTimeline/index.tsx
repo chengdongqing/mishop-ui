@@ -13,6 +13,9 @@ export default function ExpressTimeline() {
         运单号：<span className={styles.waybill_no}>SF1989732423342</span>
       </div>
       <div className={styles.timeline}>
+        <div className={styles.time_node}>
+          北京市：在官网"运单资料&签收图"，可查看签收人信息 2023-06-02 18:10:51
+        </div>
         {Array(10)
           .fill(null)
           .map((_, index) => (

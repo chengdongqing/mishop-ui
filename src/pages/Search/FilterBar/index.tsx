@@ -1,4 +1,5 @@
 import Grid from '@/components/Grid';
+import useFormItem from '@/hooks/useFormItem.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -7,15 +8,24 @@ import styles from './index.module.less';
 
 export default function FilterBar({
   label,
-  value,
   options,
+  value,
+  defaultValue,
   borderless,
   onChange
-}: OptionItem & {
+}: {
+  label: string;
   options: OptionItem[];
+  value?: BasicValue;
+  defaultValue?: BasicValue;
   borderless?: boolean;
   onChange?: (value: BasicValue) => void;
 }) {
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
+
   const [expand, toggleExpand] = useToggle();
   const height = useMemo(() => {
     let h = '4.8rem';
@@ -41,12 +51,16 @@ export default function FilterBar({
           <div
             className={classNames(
               styles.item,
-              item.value === value && styles.active,
+              item.value === finalValue && styles.active,
               'text-ellipsis'
             )}
             key={item.label + index}
             onClick={() => {
-              onChange?.(item.value);
+              const val = item.value;
+              formItemCtx.onChange?.(val);
+              valueRef.current = val;
+              onChange?.(val);
+              update();
             }}
           >
             <span>{item.label}</span>

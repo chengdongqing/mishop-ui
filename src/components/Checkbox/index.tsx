@@ -1,43 +1,48 @@
 import { FormItemContext } from '@/components/Form/FormItem.tsx';
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
-import useLatest from '@/hooks/useLatest.ts';
+import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
 import styles from './index.module.less';
 
 interface CheckboxProps extends PropsWithChildren {
   value?: BasicValue;
   checked?: boolean;
+  defaultChecked?: boolean;
   disabled?: boolean;
   indeterminate?: boolean;
   onChange?(checked: boolean): void;
 }
 
 function Checkbox(props: CheckboxProps) {
-  const ctx = useContext(CheckboxContext);
-  const [checked, setChecked] = useState(false);
-  const disabled = useMemo(() => {
-    return props.disabled || ctx.disabled;
-  }, [ctx.disabled, props.disabled]);
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    props.checked,
+    props.defaultChecked || false
+  );
+
+  const groupCtx = useContext(CheckboxContext);
+  const disabled = props.disabled || groupCtx.disabled;
 
   useEffect(() => {
-    if (props.checked !== undefined) {
-      setChecked(props.checked);
-    } else if (props.value && Array.isArray(ctx.value)) {
-      setChecked(ctx.value.includes(props.value));
+    if (props.value && Array.isArray(groupCtx.value)) {
+      valueRef.current = groupCtx.value.includes(props.value);
+      update();
     }
-  }, [ctx.value, props.checked, props.value]);
+  }, [groupCtx.value, props.value, update, valueRef]);
 
   function handleChange() {
     if (disabled) return;
 
-    const checked1 = !checked;
-    props.onChange?.(checked1);
-    if (checked1) {
-      ctx.onChecked?.(props.value);
+    const checked = !finalValue;
+    formItemCtx.onChange?.(checked);
+    valueRef.current = checked;
+    props.onChange?.(checked);
+    update();
+    if (checked) {
+      groupCtx.onChecked?.(props.value);
     } else {
-      ctx.onUnchecked?.(props.value);
+      groupCtx.onUnchecked?.(props.value);
     }
   }
 
@@ -46,7 +51,7 @@ function Checkbox(props: CheckboxProps) {
       className={classNames(
         styles.container,
         !!disabled && styles.disabled,
-        (checked || props.indeterminate) && styles.active
+        (finalValue || props.indeterminate) && styles.active
       )}
       onClick={handleChange}
     >
@@ -69,64 +74,49 @@ const CheckboxContext = createContext<CheckboxContextProps>({});
 
 interface CheckboxGroupProps extends PropsWithChildren {
   value?: BasicValue[];
+  defaultValue?: BasicValue[];
   disabled?: boolean;
   onChange?(checkedValue: BasicValue[]): void;
 }
 
 function CheckboxGroup({
-  children,
   value,
+  defaultValue,
   disabled = false,
+  children,
   onChange
 }: CheckboxGroupProps) {
-  const formItemCtx = useContext(FormItemContext);
-  const [checkedValue, setCheckedValue] = useState<BasicValue[]>([]);
-
-  const valueRef = useLatest(checkedValue);
-  useEffect(() => {
-    if (Array.isArray(formItemCtx.initialValue)) {
-      setCheckedValue(formItemCtx.initialValue);
-    }
-    formItemCtx.registerField?.({
-      getValue() {
-        return valueRef.current;
-      },
-      setValue(val) {
-        setCheckedValue(Array.isArray(val) ? val : []);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (Array.isArray(value)) {
-      setCheckedValue(value);
-    }
-  }, [value]);
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
 
   function onChecked(value1: BasicValue) {
-    if (!checkedValue?.includes(value1)) {
-      const newValue = [...(checkedValue || []), value1];
-      setCheckedValue(newValue);
-      onChange?.(newValue);
+    if (!finalValue?.includes(value1)) {
+      const newValue = [...(finalValue || []), value1];
       formItemCtx.onChange?.(newValue);
+      valueRef.current = newValue;
+      onChange?.(newValue);
+      update();
     }
   }
   function onUnchecked(value1: BasicValue) {
-    if (checkedValue?.includes(value1)) {
-      const index = checkedValue.findIndex((item) => Object.is(item, value1));
-      checkedValue.splice(index, 1);
-      const newValue = [...checkedValue];
-      setCheckedValue(newValue);
-      onChange?.(newValue);
+    if (finalValue?.includes(value1)) {
+      const index = finalValue.findIndex((item) => Object.is(item, value1));
+      finalValue.splice(index, 1);
+      const newValue = [...finalValue];
       formItemCtx.onChange?.(newValue);
+      valueRef.current = newValue;
+      onChange?.(newValue);
+      update();
     }
   }
 
   return (
     <CheckboxContext.Provider
-      value={{ value: checkedValue, disabled, onChecked, onUnchecked }}
+      value={{ value: finalValue, disabled, onChecked, onUnchecked }}
     >
-      {children}
+      <FormItemContext.Provider value={{}}>{children}</FormItemContext.Provider>
     </CheckboxContext.Provider>
   );
 }

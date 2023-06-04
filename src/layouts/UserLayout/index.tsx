@@ -1,12 +1,18 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import styles from './index.module.less';
 import menus from './menus.ts';
 
 export default function UserLayout() {
-  const { state } = useLocation();
+  const { pathname } = useLocation();
+  const [title, setTitle] = useState('');
+  useEffect(() => {
+    setTimeout(() => {
+      setTitle(document.title.split(' - ')[0]);
+    }, 200);
+  }, [pathname]);
 
   return (
     <div
@@ -15,7 +21,7 @@ export default function UserLayout() {
         backgroundColor: 'var(--color-background)'
       }}
     >
-      <Breadcrumb value={state?.title || ''} />
+      <Breadcrumb value={title} />
       <div className={styles.container}>
         <SideMenus />
         <div style={{ flex: 1 }}>

@@ -16,7 +16,7 @@ export default function PageDecorator({
   requiresAuth
 }: PropsWithChildren<PageDecoratorProps>) {
   const hasLogin = useHasLogin();
-  const { pathname, state } = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const timer = useRef<NodeJS.Timer>();
 
@@ -31,12 +31,6 @@ export default function PageDecorator({
         });
       } else if (title) {
         document.title = [title, '小米商城'].join(' - ');
-        navigate(pathname, {
-          replace: true,
-          state: Object.assign(state || {}, {
-            title
-          })
-        });
       }
     }, 100);
   }, [hasLogin, navigate, pathname, requiresAuth, title]);

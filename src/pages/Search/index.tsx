@@ -1,5 +1,6 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import CommendedProducts from '@/components/CommendedProducts';
+import Form from '@/components/Form';
 import Grid from '@/components/Grid';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
@@ -16,51 +17,49 @@ import styles from './index.module.less';
 import SortBar from './SortBar';
 
 export default function SearchPage() {
-  const [params, setParams] = useSetState();
   const [loading, setLoading] = useState(true);
-  useMount(() => {
+  function startLoading() {
+    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  });
+  }
+  useMount(startLoading);
 
   return (
     <>
       <Breadcrumb value={'全部结果'} split={'>'} />
-      <div className={styles.filters}>
-        {FilterBarItems.map((item, index) => (
-          <FilterBar
-            key={item.value}
-            label={item.label}
-            options={item.children}
-            value={params[item.value] as BasicValue}
-            borderless={index === FilterBarItems.length - 1}
-            onChange={(value) => {
-              setParams({
-                [item.value]: value
-              });
-            }}
-          />
-        ))}
-      </div>
-      <div
-        style={{
-          backgroundColor: 'var(--color-background)',
-          padding: '2rem 0'
-        }}
-      >
-        <div className={styles.container}>
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
-              <SortBar params={params} onChange={setParams} />
-              <ProductList />
-              <CommendedProducts mode={'swiper'} />
-            </>
-          )}
+      <Form noStyle onChange={startLoading}>
+        <div className={styles.filters}>
+          {FilterBarItems.map((item, index) => (
+            <Form.Item key={item.value} name={item.value}>
+              <FilterBar
+                label={item.label}
+                options={item.children}
+                borderless={index === FilterBarItems.length - 1}
+              />
+            </Form.Item>
+          ))}
         </div>
-      </div>
+        <div
+          style={{
+            backgroundColor: 'var(--color-background)',
+            padding: '2rem 0'
+          }}
+        >
+          <div className={styles.container}>
+            <SortBar />
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                <ProductList />
+                <CommendedProducts mode={'swiper'} />
+              </>
+            )}
+          </div>
+        </div>
+      </Form>
     </>
   );
 }

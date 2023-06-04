@@ -96,9 +96,8 @@ function CommentList() {
                 character={(value) => {
                   return value > 3 ? <SmileOutlined /> : <MehOutlined />;
                 }}
-              >
-                {item.rate}分
-              </Rate>
+                suffix={`${item.rate}分`}
+              />
             </Row>
             <div className={styles.content}>{item.content}</div>
             {!!item.photos?.length && (

@@ -1,17 +1,15 @@
-import { FormItemContext } from '@/components/Form/FormItem.tsx';
 import { EyeClose, EyeOpen } from '@/components/Iconfont';
 import Row from '@/components/Row';
-import useLatest from '@/hooks/useLatest.ts';
+import useFormItem from '@/hooks/useFormItem.ts';
 import useToggle from '@/hooks/useToggle.ts';
-import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
-import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 import styles from './index.module.less';
 
 interface InputProps extends PropsWithStyle {
-  defaultValue?: string | number;
   value?: string | number;
+  defaultValue?: string | number;
   placeholder?: string;
   type?: 'text' | 'number' | 'password';
   error?: boolean;
@@ -24,8 +22,8 @@ interface InputProps extends PropsWithStyle {
 }
 
 export default function Input({
-  defaultValue,
   value,
+  defaultValue = '',
   placeholder,
   type,
   error,
@@ -37,34 +35,14 @@ export default function Input({
   className,
   onChange
 }: InputProps) {
-  const formItemCtx = useContext(FormItemContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
   const [showPwd, toggleShowPwd] = useToggle();
   const isPwdType = useMemo(() => type === 'password', [type]);
-
-  const [value1, setValue1] = useState(value || defaultValue);
-  const valueRef = useLatest(value1);
-  useEffect(() => {
-    if (!valueRef.current && formItemCtx.initialValue) {
-      const val = formItemCtx.initialValue as string;
-      (inputRef.current as HTMLInputElement).value = val;
-      valueRef.current = val;
-    }
-    formItemCtx.registerField?.({
-      getValue() {
-        return valueRef.current;
-      },
-      setValue(val) {
-        const val1 = (val as string) || '';
-        (inputRef.current as HTMLInputElement).value = val1;
-        setValue1(val1);
-      }
-    });
-  }, [formItemCtx.initialValue]);
-  useUpdateEffect(() => {
-    formItemCtx.checkValue?.(value1);
-  }, [value1]);
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
 
   return (
     <Row
@@ -80,19 +58,19 @@ export default function Input({
     >
       {prefix}
       <input
-        value={value}
         ref={inputRef}
+        value={finalValue}
         readOnly={readonly}
         disabled={disabled}
         autoComplete={'off'}
-        defaultValue={defaultValue}
         type={isPwdType && showPwd ? undefined : type}
         className={classNames(styles.input, !!placeholder && styles.with_label)}
         onChange={(e) => {
           const val = e.target.value;
-          onChange?.(val);
-          setValue1(val);
           formItemCtx.onChange?.(val);
+          valueRef.current = val;
+          onChange?.(val);
+          update();
         }}
         onFocus={() => {
           setFocused(true);
@@ -106,7 +84,7 @@ export default function Input({
         <div
           className={classNames(
             styles.label,
-            (value1 || focused) && styles.active
+            (finalValue || focused) && styles.active
           )}
           onClick={() => {
             inputRef.current?.focus();

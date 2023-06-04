@@ -9,6 +9,19 @@ import { Key, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
 
+const AccountTypes = [
+  {
+    name: 'phoneNumber',
+    label: '手机号',
+    pattern: patterns.phoneNumber
+  },
+  {
+    name: 'email',
+    label: '邮箱',
+    pattern: patterns.email
+  }
+];
+
 export default function Login() {
   const [activeType, setActiveType] = useState<Key>('phoneNumber');
   const [account, setAccount] = useState('');
@@ -30,43 +43,29 @@ export default function Login() {
     >
       <Form.Item name={'type'}>
         <Select
+          defaultValue={activeType}
           options={[
             { key: 'phoneNumber', label: '手机号' },
             { key: 'email', label: '邮箱' }
           ]}
-          defaultValue={'phoneNumber'}
           onChange={setActiveType}
         />
       </Form.Item>
-      {activeType === 'phoneNumber' ? (
+      {AccountTypes.filter((item) => item.name === activeType).map((item) => (
         <Form.Item
-          key={'phoneNumber'}
-          name={'phoneNumber'}
+          key={item.name}
+          name={item.name}
           rules={[
-            { required: true, message: '请输入手机号' },
+            { required: true, message: `请输入${item.label}` },
             {
-              pattern: patterns.phoneNumber,
-              message: '手机号格式错误'
+              pattern: item.pattern,
+              message: `${item.label}格式错误`
             }
           ]}
         >
-          <Input placeholder={'手机号'} onChange={setAccount} />
+          <Input placeholder={item.label} onChange={setAccount} />
         </Form.Item>
-      ) : (
-        <Form.Item
-          key={'email'}
-          name={'email'}
-          rules={[
-            { required: true, message: '请输入邮箱' },
-            {
-              pattern: patterns.email,
-              message: '邮箱格式错误'
-            }
-          ]}
-        >
-          <Input placeholder={'邮箱'} onChange={setAccount} />
-        </Form.Item>
-      )}
+      ))}
       <Form.Item
         name={'verification-code'}
         rules={[

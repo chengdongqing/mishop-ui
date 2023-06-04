@@ -6,6 +6,7 @@ const UserLayout = lazy(() => import('@/layouts/UserLayout'));
 const OrdersPage = lazy(() => import('@/pages/Orders/Orders'));
 const OrderDetailsPage = lazy(() => import('@/pages/Orders/Details'));
 const OrderCommentsPage = lazy(() => import('@/pages/Orders/Comments'));
+const PostCommentPage = lazy(() => import('@/pages/Orders/Comments/Post'));
 const CheckoutPage = lazy(() => import('@/pages/Orders/Checkout'));
 const PayPage = lazy(() => import('@/pages/Orders/Pay'));
 const PaySuccessfulPage = lazy(() => import('@/pages/Orders/Pay/Successful'));
@@ -37,11 +38,24 @@ const routes: RouteObject[] = [
       },
       {
         path: 'comments',
-        element: (
-          <PageDecorator title={'订单评价'}>
-            <OrderCommentsPage />
-          </PageDecorator>
-        )
+        children: [
+          {
+            path: '',
+            element: (
+              <PageDecorator title={'订单评价'}>
+                <OrderCommentsPage />
+              </PageDecorator>
+            )
+          },
+          {
+            path: ':orderId',
+            element: (
+              <PageDecorator title={'服务评价'}>
+                <PostCommentPage />
+              </PageDecorator>
+            )
+          }
+        ]
       }
     ]
   },

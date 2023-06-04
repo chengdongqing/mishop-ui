@@ -1,25 +1,12 @@
 import Checkbox from '@/components/Checkbox';
+import Form from '@/components/Form';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
 import { Key } from 'react';
 import styles from './index.module.less';
-
-const SortOptions: OptionItem[] = [
-  {
-    label: '综合',
-    value: undefined
-  },
-  {
-    label: '新品',
-    value: 'new'
-  },
-  {
-    label: '销量',
-    value: 'sales'
-  }
-];
 
 const CheckOptions: OptionItem[] = [
   {
@@ -36,73 +23,102 @@ const CheckOptions: OptionItem[] = [
   }
 ];
 
-export default function SortBar({
-  params,
-  onChange
-}: {
-  params: Record<string, unknown>;
-  onChange: (values: Record<string, unknown>) => void;
-}) {
+export default function SortBar() {
   return (
     <Row className={styles.container} justify={'space-between'}>
-      <Space
-        size={'3rem'}
-        className={styles.sorts}
-        split={<span className={styles.sep} />}
-      >
-        {SortOptions.map((item) => (
-          <div
-            key={item.label}
-            className={classNames(
-              styles.sort_item,
-              item.value === params.sortBy && styles.active
-            )}
-            onClick={() => {
-              onChange({ sortBy: item.value });
-            }}
-          >
-            {item.label}
-          </div>
-        ))}
+      <Form.Item name={'sortBy'}>
+        <Sorter />
+      </Form.Item>
+
+      <Form.Item name={'checks'}>
+        <Checkbox.Group>
+          <Space size={'3rem'}>
+            {CheckOptions.map((item) => (
+              <Checkbox key={item.value as Key} value={item.value}>
+                {item.label}
+              </Checkbox>
+            ))}
+          </Space>
+        </Checkbox.Group>
+      </Form.Item>
+    </Row>
+  );
+}
+
+const SortOptions = [
+  {
+    label: '综合',
+    value: undefined
+  },
+  {
+    label: '新品',
+    value: 'new'
+  },
+  {
+    label: '销量',
+    value: 'sales'
+  }
+];
+
+function Sorter({
+  value,
+  defaultValue,
+  onChange
+}: {
+  value?: string;
+  defaultValue?: string;
+  onChange?(value?: string): void;
+}) {
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
+  function handleChange(val?: string) {
+    formItemCtx.onChange?.(val);
+    valueRef.current = val;
+    onChange?.(val);
+    update();
+  }
+
+  return (
+    <Space
+      size={'3rem'}
+      className={styles.sorts}
+      split={<span className={styles.sep} />}
+    >
+      {SortOptions.map((item) => (
         <div
+          key={item.label}
           className={classNames(
             styles.sort_item,
-            (params.sortBy as string)?.startsWith('price') && styles.active
+            item.value === finalValue && styles.active
           )}
           onClick={() => {
-            onChange({
-              sortBy: (params.sortBy as string)?.endsWith('asc')
-                ? 'price-desc'
-                : 'price-asc'
-            });
+            handleChange(item.value);
           }}
         >
-          价格
-          <Iconfont
-            type={'i-arrow-down-long'}
-            className={classNames(
-              styles.icon_arrow,
-              params.sortBy === 'price-desc' && styles.up
-            )}
-          />
+          {item.label}
         </div>
-      </Space>
-
-      <Checkbox.Group
-        onChange={(values) => {
-          onChange({
-            checkedItems: values
-          });
+      ))}
+      <div
+        className={classNames(
+          styles.sort_item,
+          finalValue?.startsWith('price') && styles.active
+        )}
+        onClick={() => {
+          const val = finalValue?.endsWith('asc') ? 'price-desc' : 'price-asc';
+          handleChange(val);
         }}
       >
-        <Space size={'3rem'}>
-          {CheckOptions.map((item) => (
-            <Checkbox key={item.value as Key} value={item.value}>
-              {item.label}
-            </Checkbox>
-          ))}
-        </Space>
-      </Checkbox.Group>
-    </Row>
+        价格
+        <Iconfont
+          type={'i-arrow-down-long'}
+          className={classNames(
+            styles.icon_arrow,
+            finalValue === 'price-desc' && styles.up
+          )}
+        />
+      </div>
+    </Space>
   );
 }

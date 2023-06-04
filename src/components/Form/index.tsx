@@ -24,6 +24,8 @@ interface FormItemInjects {
 }
 
 interface FormContextProps {
+  // FormItem无样式
+  noStyle?: boolean;
   // 初始值
   initialValues?: ValuesType;
   // 注册相关方法
@@ -50,6 +52,8 @@ export interface FormHandle {
 }
 
 interface FormProps extends PropsWithChildren {
+  // FormItem无样式
+  noStyle?: boolean;
   // 初始值
   initialValues?: ValuesType;
   // 值变化回调入口
@@ -64,7 +68,7 @@ interface FormForwardRef
 }
 
 const Form = forwardRef<FormHandle, FormProps>(
-  ({ children, initialValues, onChange, onOk }, forwardRef) => {
+  ({ children, noStyle, initialValues, onChange, onOk }, forwardRef) => {
     const [fields, setFields] = useSetState<FormItemInjects>();
 
     // 收集数据
@@ -113,6 +117,7 @@ const Form = forwardRef<FormHandle, FormProps>(
       >
         <FormContext.Provider
           value={{
+            noStyle,
             initialValues,
             registerField(name, injects) {
               setFields({

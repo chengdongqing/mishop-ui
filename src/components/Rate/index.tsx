@@ -1,27 +1,40 @@
 import Space from '@/components/Space';
+import useFormItem from '@/hooks/useFormItem.ts';
 import { StarFilled } from '@ant-design/icons';
 import classNames from 'classnames';
-import { PropsWithChildren, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styles from './index.module.less';
 
-interface RateProps extends PropsWithChildren {
-  count?: number;
+interface RateProps {
   value?: number;
+  defaultValue?: number;
+  count?: number;
   disabled?: boolean;
   character?: ReactNode | ((value: number) => ReactNode);
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+
   onChange?(value: number): void;
 }
 
 export default function Rate({
+  value,
+  defaultValue = 5,
   count = 5,
-  value = 5,
   disabled,
   character = <StarFilled />,
-  children,
+  prefix,
+  suffix,
   onChange
 }: RateProps) {
+  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
+    value,
+    defaultValue
+  );
+
   return (
     <Space>
+      {!!prefix && <div className={styles.prefix}>{prefix}</div>}
       <Space>
         {Array(count)
           .fill(null)
@@ -30,20 +43,26 @@ export default function Rate({
               key={index}
               className={classNames(
                 styles.item,
-                value > index && styles.active,
+                finalValue > index && styles.active,
                 disabled && styles.disabled
               )}
               onClick={() => {
                 if (!disabled) {
-                  onChange?.(index + 1);
+                  const val = index + 1;
+                  formItemCtx.onChange?.(val);
+                  valueRef.current = val;
+                  onChange?.(val);
+                  update();
                 }
               }}
             >
-              {typeof character === 'function' ? character(value) : character}
+              {typeof character === 'function'
+                ? character(finalValue)
+                : character}
             </div>
           ))}
       </Space>
-      {!!children && <div className={styles.label}>{children}</div>}
+      {!!suffix && <div className={styles.suffix}>{suffix}</div>}
     </Space>
   );
 }

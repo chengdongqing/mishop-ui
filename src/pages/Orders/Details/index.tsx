@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import Row from '@/components/Row';
+import Space from '@/components/Space';
 import UserLayout from '@/layouts/UserLayout';
 import { orders } from '@/pages/Orders/Orders/const.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -61,9 +62,14 @@ export default function OrderDetailsPage() {
         <div className={styles.order_id}>
           订单号：<span>{orderId}</span>
         </div>
-        <Button outlined className={styles.btn}>
-          联系客服
-        </Button>
+        <Space size={'1rem'}>
+          <Button outlined className={styles.btn}>
+            联系客服
+          </Button>
+          <Button outlined className={styles.btn}>
+            申请售后
+          </Button>
+        </Space>
       </Row>
       <div className={styles.order_status}>已发货</div>
       <ProgressBar value={4} options={OrderProgresses} />

@@ -1,4 +1,4 @@
-interface OrderProps {
+interface Order {
   id: number;
   status: string;
   shippingInfo: ShippingInfo;
@@ -11,7 +11,7 @@ interface OrderProps {
   createTime: string;
 }
 
-export const orders: OrderProps[] = [
+export const orders: Order[] = [
   {
     id: 5230601985602776,
     status: '已收货',
@@ -40,7 +40,7 @@ export const orders: OrderProps[] = [
     productsAmount: 2138,
     discount: 9.99,
     expressFee: 0,
-    paymentAmount: 2137.01,
+    paymentAmount: 2128.01,
     paymentMethod: '微信支付',
     createTime: '2023-06-01 14:59:57'
   },
@@ -70,7 +70,7 @@ export const orders: OrderProps[] = [
       }
     ],
     productsAmount: 2138,
-    discount: 9.99,
+    discount: 0.99,
     expressFee: 0,
     paymentAmount: 2137.01,
     paymentMethod: '支付宝支付',
