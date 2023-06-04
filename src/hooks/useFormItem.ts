@@ -2,7 +2,11 @@ import { FormItemContext } from '@/components/Form/FormItem.tsx';
 import useUpdate from '@/hooks/useUpdate.ts';
 import { useContext, useEffect, useRef } from 'react';
 
-export default function useFormItem<T>(value: T | undefined, defaultValue: T) {
+export default function useFormItem<T, S extends T>(
+  value: T | undefined,
+  defaultValue: T,
+  onChange?: (value: S) => void
+) {
   const isControlled = value !== undefined;
   const valueRef = useRef(isControlled ? value : defaultValue);
   const finalValue = isControlled ? value : valueRef.current;
@@ -27,5 +31,12 @@ export default function useFormItem<T>(value: T | undefined, defaultValue: T) {
     });
   }, [formItemCtx.initialValue]);
 
-  return { finalValue, valueRef, formItemCtx, update };
+  const setValue = useRef((val: S) => {
+    formItemCtx.onChange?.(val);
+    valueRef.current = val;
+    onChange?.(val);
+    update();
+  });
+
+  return [finalValue, setValue.current, formItemCtx] as const;
 }

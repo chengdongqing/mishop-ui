@@ -9,7 +9,7 @@ import styles from './index.module.less';
 export default function FilterBar({
   label,
   options,
-  value,
+  value: propValue,
   defaultValue,
   borderless,
   onChange
@@ -21,10 +21,7 @@ export default function FilterBar({
   borderless?: boolean;
   onChange?: (value: BasicValue) => void;
 }) {
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
+  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   const [expand, toggleExpand] = useToggle();
   const height = useMemo(() => {
@@ -51,16 +48,12 @@ export default function FilterBar({
           <div
             className={classNames(
               styles.item,
-              item.value === finalValue && styles.active,
+              item.value === value && styles.active,
               'text-ellipsis'
             )}
             key={item.label + index}
             onClick={() => {
-              const val = item.value;
-              formItemCtx.onChange?.(val);
-              valueRef.current = val;
-              onChange?.(val);
-              update();
+              setValue(item.value);
             }}
           >
             <span>{item.label}</span>

@@ -61,7 +61,7 @@ const SortOptions = [
 ];
 
 function Sorter({
-  value,
+  value: propValue,
   defaultValue,
   onChange
 }: {
@@ -69,16 +69,7 @@ function Sorter({
   defaultValue?: string;
   onChange?(value?: string): void;
 }) {
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
-  function handleChange(val?: string) {
-    formItemCtx.onChange?.(val);
-    valueRef.current = val;
-    onChange?.(val);
-    update();
-  }
+  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   return (
     <Space
@@ -91,10 +82,10 @@ function Sorter({
           key={item.label}
           className={classNames(
             styles.sort_item,
-            item.value === finalValue && styles.active
+            item.value === value && styles.active
           )}
           onClick={() => {
-            handleChange(item.value);
+            setValue(item.value);
           }}
         >
           {item.label}
@@ -103,11 +94,11 @@ function Sorter({
       <div
         className={classNames(
           styles.sort_item,
-          finalValue?.startsWith('price') && styles.active
+          value?.startsWith('price') && styles.active
         )}
         onClick={() => {
-          const val = finalValue?.endsWith('asc') ? 'price-desc' : 'price-asc';
-          handleChange(val);
+          const val = value?.endsWith('asc') ? 'price-desc' : 'price-asc';
+          setValue(val);
         }}
       >
         价格
@@ -115,7 +106,7 @@ function Sorter({
           type={'i-arrow-down-long'}
           className={classNames(
             styles.icon_arrow,
-            finalValue === 'price-desc' && styles.up
+            value === 'price-desc' && styles.up
           )}
         />
       </div>

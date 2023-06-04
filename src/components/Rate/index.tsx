@@ -18,7 +18,7 @@ interface RateProps {
 }
 
 export default function Rate({
-  value,
+  value: propValue,
   defaultValue = 5,
   count = 5,
   disabled,
@@ -27,10 +27,7 @@ export default function Rate({
   suffix,
   onChange
 }: RateProps) {
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
+  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   return (
     <Space>
@@ -43,22 +40,16 @@ export default function Rate({
               key={index}
               className={classNames(
                 styles.item,
-                finalValue > index && styles.active,
+                value > index && styles.active,
                 disabled && styles.disabled
               )}
               onClick={() => {
                 if (!disabled) {
-                  const val = index + 1;
-                  formItemCtx.onChange?.(val);
-                  valueRef.current = val;
-                  onChange?.(val);
-                  update();
+                  setValue(index + 1);
                 }
               }}
             >
-              {typeof character === 'function'
-                ? character(finalValue)
-                : character}
+              {typeof character === 'function' ? character(value) : character}
             </div>
           ))}
       </Space>

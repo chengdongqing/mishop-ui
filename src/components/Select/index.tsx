@@ -15,19 +15,16 @@ interface SelectProps {
 }
 
 export default function Select({
-  value,
+  value: propValue,
   defaultValue,
   options,
   placeholder,
   onChange
 }: SelectProps) {
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
+  const [value, setValue, ctx] = useFormItem(propValue, defaultValue, onChange);
   const current = useMemo(() => {
-    return options.find((item) => item.key === finalValue)?.label as string;
-  }, [options, finalValue]);
+    return options.find((item) => item.key === value)?.label as string;
+  }, [options, value]);
 
   return (
     <div className={styles.select}>
@@ -37,18 +34,13 @@ export default function Select({
         arrow={false}
         trigger={'click'}
         overlayClassName={styles.overlay}
-        onChange={(val) => {
-          formItemCtx.onChange?.(val);
-          valueRef.current = val;
-          onChange?.(val);
-          update();
-        }}
+        onChange={setValue}
       >
         <FormItemContext.Provider value={{}}>
           <Input
             readonly
             value={current}
-            error={formItemCtx.error}
+            error={ctx.error}
             placeholder={placeholder}
             style={{ width: '100%' }}
             className={styles.input}

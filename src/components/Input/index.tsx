@@ -22,7 +22,7 @@ interface InputProps extends PropsWithStyle {
 }
 
 export default function Input({
-  value,
+  value: propValue,
   defaultValue = '',
   placeholder,
   type,
@@ -39,10 +39,7 @@ export default function Input({
   const [focused, setFocused] = useState(false);
   const [showPwd, toggleShowPwd] = useToggle();
   const isPwdType = useMemo(() => type === 'password', [type]);
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
+  const [value, setValue, ctx] = useFormItem(propValue, defaultValue, onChange);
 
   return (
     <Row
@@ -53,38 +50,34 @@ export default function Input({
         className,
         styles.container,
         focused && styles.active,
-        (error || formItemCtx.error) && styles.error
+        (error || ctx.error) && styles.error
       )}
     >
       {prefix}
       <input
         ref={inputRef}
-        value={finalValue}
+        value={value}
         readOnly={readonly}
         disabled={disabled}
         autoComplete={'off'}
         type={isPwdType && showPwd ? undefined : type}
         className={classNames(styles.input, !!placeholder && styles.with_label)}
         onChange={(e) => {
-          const val = e.target.value;
-          formItemCtx.onChange?.(val);
-          valueRef.current = val;
-          onChange?.(val);
-          update();
+          setValue(e.target.value);
         }}
         onFocus={() => {
           setFocused(true);
         }}
         onBlur={(e) => {
           setFocused(false);
-          formItemCtx.checkValue?.(e.target.value);
+          ctx.checkValue?.(e.target.value);
         }}
       />
       {!!placeholder && (
         <div
           className={classNames(
             styles.label,
-            (finalValue || focused) && styles.active
+            (value || focused) && styles.active
           )}
           onClick={() => {
             inputRef.current?.focus();

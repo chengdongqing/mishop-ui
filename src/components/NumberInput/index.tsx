@@ -12,23 +12,17 @@ interface NumberInputProps {
 }
 
 export default function NumberInput({
-  value,
+  value: propValue,
   defaultValue = 1,
   min = 0,
   max = Number.MAX_VALUE,
   onChange
 }: NumberInputProps) {
-  const { finalValue, valueRef, formItemCtx, update } = useFormItem(
-    value,
-    defaultValue
-  );
+  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   function handleChange(val: number) {
     if (val >= min && val <= max) {
-      formItemCtx.onChange?.(val);
-      valueRef.current = val;
-      onChange?.(val);
-      update();
+      setValue(val);
     }
   }
 
@@ -38,12 +32,12 @@ export default function NumberInput({
         type={'i-minus'}
         className={styles.icon}
         onClick={() => {
-          handleChange(finalValue - 1);
+          handleChange(value - 1);
         }}
       />
       <input
         type={'number'}
-        value={finalValue}
+        value={value}
         className={styles.input}
         onChange={(e) => {
           const val = Number(e.target.value);
@@ -56,7 +50,7 @@ export default function NumberInput({
         type={'i-plus'}
         className={styles.icon}
         onClick={() => {
-          handleChange(finalValue + 1);
+          handleChange(value + 1);
         }}
       />
     </div>
