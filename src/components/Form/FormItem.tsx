@@ -2,9 +2,9 @@ import useUnmount from '@/hooks/useUnmount.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
-import { validateValue } from './helpers.ts';
 import styles from './index.module.less';
 import { FormContext } from './index.tsx';
+import validate from './validate.ts';
 
 interface FieldInjects {
   // 获取值
@@ -50,6 +50,7 @@ export interface FormRule {
 interface FormItemProps extends PropsWithStyle, PropsWithChildren {
   name?: string;
   rules?: FormRule[];
+  validateOnChange?: boolean;
   initialValue?: unknown;
   noStyle?: boolean;
 }
@@ -57,11 +58,12 @@ interface FormItemProps extends PropsWithStyle, PropsWithChildren {
 export default function FormItem({
   name,
   rules,
+  validateOnChange = true,
   children,
   noStyle,
   style,
   className,
-  initialValue: initialValue1
+  initialValue: propInitialValue
 }: FormItemProps) {
   const formCtx = useContext(FormContext);
   const [injects, setInjects] = useState<FieldInjects>();
@@ -71,7 +73,7 @@ export default function FormItem({
   const checkValue = useCallback(
     (value?: unknown) => {
       if (Array.isArray(rules) && rules.length) {
-        const res = validateValue(value || injects?.getValue(), rules);
+        const res = validate(value || injects?.getValue(), rules);
         res.then(() => setMessage(undefined)).catch(setMessage);
         return res;
       }
@@ -82,10 +84,10 @@ export default function FormItem({
 
   useEffect(() => {
     if (name) {
-      setInitialValue(initialValue1 || formCtx.initialValues?.[name]);
+      setInitialValue(propInitialValue || formCtx.initialValues?.[name]);
       formCtx.registerField?.(name, {
         resetValue() {
-          injects?.setValue(initialValue1);
+          injects?.setValue(propInitialValue);
         },
         checkValue,
         getValue() {
@@ -121,8 +123,10 @@ export default function FormItem({
           checkValue,
           onChange(value) {
             if (name) {
-              checkValue(value);
               formCtx.onChange?.(name, value);
+              if (validateOnChange) {
+                checkValue(value);
+              }
             }
           }
         }}

@@ -70,14 +70,16 @@ export default function Input({
         }}
         onBlur={(e) => {
           setFocused(false);
-          ctx.checkValue?.(e.target.value);
+          if (!disabled && !readonly) {
+            ctx.checkValue?.(e.target.value);
+          }
         }}
       />
       {!!placeholder && (
         <div
           className={classNames(
             styles.label,
-            (value || focused) && styles.active
+            (value || (focused && !disabled && !readonly)) && styles.active
           )}
           onClick={() => {
             inputRef.current?.focus();

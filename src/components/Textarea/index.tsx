@@ -12,7 +12,8 @@ interface TextareaProps extends PropsWithStyle {
   disabled?: boolean;
   readonly?: boolean;
   maxLength?: number;
-  noPrefix?: boolean;
+  withPrefix?: boolean;
+  gray?: boolean;
 
   onChange?(value: string): void;
 }
@@ -25,7 +26,8 @@ export default function Textarea({
   disabled: propDisabled,
   readonly,
   maxLength = 500,
-  noPrefix,
+  withPrefix = false,
+  gray = false,
   style,
   className,
   onChange
@@ -35,7 +37,7 @@ export default function Textarea({
 
   return (
     <div>
-      {!noPrefix && <EditOutlined className={styles.prefix_icon} />}
+      {withPrefix && <EditOutlined className={styles.prefix_icon} />}
       <textarea
         value={value}
         disabled={disabled}
@@ -43,7 +45,12 @@ export default function Textarea({
         autoComplete={'off'}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={classNames(styles.textarea, className)}
+        className={classNames(
+          styles.textarea,
+          withPrefix && styles.indent,
+          gray && styles.gray,
+          className
+        )}
         style={style}
         onChange={(e) => {
           setValue(e.target.value);

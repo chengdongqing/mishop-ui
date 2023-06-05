@@ -42,7 +42,7 @@ export const FormContext = createContext<FormContextProps>({});
 
 export interface FormHandle {
   // 提交表单
-  submit(): void;
+  submit(): Promise<ValuesType>;
   // 重置表单
   resetFields(): void;
   // 校验表单
@@ -95,8 +95,10 @@ const Form = forwardRef<FormHandle, FormProps>(
     }
     // 提交表单
     function submit() {
-      validateFields().then(() => {
-        onOk?.(getFieldsValue());
+      return validateFields().then(() => {
+        const values = getFieldsValue();
+        onOk?.(values);
+        return values;
       });
     }
 

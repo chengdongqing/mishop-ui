@@ -5,23 +5,17 @@ import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
-import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import { AddressGroup } from '@/pages/User/Addresses';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
-import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
-import classNames from 'classnames';
 import Decimal from 'decimal.js';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { addresses } from './const.ts';
 import styles from './index.module.less';
 
 export default function CheckoutPage() {
-  const [activeAddressId, setActiveAddressId] = useState<number>();
-  const activeAddress = useMemo(() => {
-    return addresses.find((item) => item.id === activeAddressId);
-  }, [activeAddressId]);
+  const [address, setAddress] = useState<ShippingInfo>();
 
   return (
     <>
@@ -33,11 +27,11 @@ export default function CheckoutPage() {
         }}
       >
         <div className={styles.container}>
-          <AddressList value={activeAddressId} onChange={setActiveAddressId} />
+          <AddressList address={address} onChange={setAddress} />
           <ProductList />
           <Shipment />
           <BillInfos />
-          <FooterBar address={activeAddress} />
+          <FooterBar address={address} />
         </div>
       </div>
     </>
@@ -45,18 +39,14 @@ export default function CheckoutPage() {
 }
 
 function AddressList({
-  value,
+  address,
   onChange
 }: {
-  value?: number;
-  onChange(id: number): void;
+  address?: ShippingInfo;
+  onChange(value: ShippingInfo): void;
 }) {
-  const [showAll, toggleShowAll] = useToggle(false);
-  const height = useMemo(() => {
-    return showAll
-      ? `${(17.8 + 1.6) * Math.ceil((addresses.length + 1) / 4) - 1.6}rem`
-      : '17.8rem';
-  }, [showAll]);
+  const [frequentlyUsedAddress, setFrequentlyUsedAddress] =
+    useState<ShippingInfo>();
   const containerRef = useRef<HTMLDivElement>(null);
   const fixed = useElementVisible(containerRef, (rect) => {
     return rect.bottom <= 0;
@@ -66,60 +56,17 @@ function AddressList({
     <>
       <div ref={containerRef} className={styles.address_list}>
         <div className={styles.title}>收货地址</div>
-        <Grid
+        <AddressGroup
+          selectMode
           columns={4}
-          gap={'1.6rem'}
-          style={{ height }}
-          className={styles.list}
-        >
-          {addresses.map((item) => (
-            <div
-              key={item.id}
-              className={classNames(
-                styles.item,
-                item.id === value && styles.active
-              )}
-              onClick={() => {
-                onChange(item.id);
-              }}
-            >
-              <Row
-                align={'middle'}
-                justify={'space-between'}
-                className={styles.header}
-              >
-                <div className={styles.username}>{item.username}</div>
-                <div className={styles.label}>{item.label}</div>
-              </Row>
-              <div>{item.phoneNumber}</div>
-              <div>
-                {item.address.map((info) => (
-                  <div key={info}>{info}</div>
-                ))}
-              </div>
-              <div className={styles.footer}>
-                <span>修改</span>
-              </div>
-            </div>
-          ))}
-          <div className={classNames(styles.item, styles.add)}>
-            <div>
-              <PlusCircleFilled className={styles.icon} />
-              <div>添加新地址</div>
-            </div>
-          </div>
-        </Grid>
-        {addresses.length > 3 && (
-          <div className={styles.btn_more} onClick={toggleShowAll}>
-            {showAll ? '收起' : '显示'}更多地址{' '}
-            <DownOutlined
-              className={classNames(styles.icon, showAll && styles.active)}
-            />
-          </div>
-        )}
+          value={address?.id}
+          defaultExpand={false}
+          onChange={onChange}
+          onLoaded={setFrequentlyUsedAddress}
+        />
       </div>
 
-      {!!addresses.length && !value && fixed && (
+      {!address && !!frequentlyUsedAddress && fixed && (
         <div className={styles.fixed_header}>
           <Row
             align={'middle'}
@@ -127,14 +74,14 @@ function AddressList({
             className={styles.wrapper}
           >
             <Space size={'2.4rem'}>
-              <span>{addresses[0].username}</span>
-              <span>{addresses[0].phoneNumber}</span>
-              <span>{addresses[0].address.join(' ')}</span>
+              <span>{frequentlyUsedAddress.username}</span>
+              <span>{frequentlyUsedAddress.phoneNumber}</span>
+              <span>{frequentlyUsedAddress.address.join(' ')}</span>
             </Space>
             <Button
               className={styles.btn}
               onClick={() => {
-                onChange(addresses[0].id);
+                onChange(frequentlyUsedAddress);
                 containerRef.current?.scrollIntoView({
                   behavior: 'smooth'
                 });

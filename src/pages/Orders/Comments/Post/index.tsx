@@ -65,7 +65,10 @@ export default function PostCommentPage() {
           <CommentGroup
             loading={loading === 'overall'}
             textarea={
-              <Textarea placeholder={'还有想说的吗？您的意见对我们非常重要'} />
+              <Textarea
+                withPrefix
+                placeholder={'还有想说的吗？您的意见对我们非常重要'}
+              />
             }
           />
         </Row>
@@ -94,7 +97,6 @@ export default function PostCommentPage() {
                       '外形如何？品质如何？写写你的感受分享给网友吧！\n' +
                       '为保障您的个人隐私，请将带有个人信息的数据打码上传，否则可能会影响您的评价展示呦~'
                     }
-                    noPrefix
                     style={{ fontSize: '1.4rem', textIndent: 0 }}
                   />
                 }

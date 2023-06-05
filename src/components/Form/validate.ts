@@ -1,6 +1,6 @@
 import { FormRule } from './FormItem.tsx';
 
-export function validateValue(
+export default function validate(
   value?: unknown,
   rules?: FormRule[]
 ): Promise<string | void> {

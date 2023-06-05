@@ -1,0 +1,40 @@
+.picker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 1;
+  padding: 1.6rem;
+  margin-top: 1rem;
+  background-color: #fff;
+  border-radius: 0.4rem;
+  border: 0.2rem solid var(--color-primary);
+
+  .header {
+    color: #757575;
+    font-size: 1.4rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 0.1rem solid #e0e0e0;
+
+    .active {
+      color: var(--color-primary);
+      cursor: pointer;
+    }
+  }
+
+  .options {
+    color: #333;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    padding-top: 1.4rem;
+    cursor: pointer;
+
+    .item {
+      transition: 0.2s;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+}

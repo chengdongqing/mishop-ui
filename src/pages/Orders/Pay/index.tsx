@@ -5,7 +5,7 @@ import Space from '@/components/Space';
 import useCountdown from '@/hooks/useCountdown.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
-import { addresses } from '@/pages/Orders/Checkout/const.ts';
+import { addresses } from '@/pages/User/Addresses/const.ts';
 import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { formatAmount, formatTime } from '@/utils';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';

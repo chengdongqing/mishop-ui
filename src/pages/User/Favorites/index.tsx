@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
-export default function FavoriteProducts() {
+export default function FavoriteProductsPage() {
   const products = useCartProducts();
 
   return (
@@ -31,7 +31,7 @@ export default function FavoriteProducts() {
                 <Button
                   className={classNames(styles.btn, styles.plain)}
                   onClick={() => {
-                    popup.confirm('确定删除吗？', {
+                    popup.confirm('确定删除该商品吗？', {
                       onOk() {
                         return new Promise((resolve) => {
                           setTimeout(() => {
