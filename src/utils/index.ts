@@ -5,7 +5,9 @@ import { EmptyValue } from './constants';
  * @param label 商品名称
  */
 export function buildProductUrl(label: string) {
-  return '/product/' + label.replace(/\s*/g, '').toLowerCase();
+  return (
+    '/product/' + encodeURIComponent(label.replace(/\s*/g, '').toLowerCase())
+  );
 }
 
 /**

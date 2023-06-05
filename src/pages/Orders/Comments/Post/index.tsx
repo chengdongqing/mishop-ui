@@ -9,17 +9,18 @@ import toast from '@/components/Toast';
 import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
 import { orders } from '@/pages/Orders/Orders/const.ts';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import styles from './index.module.less';
 
 export default function PostCommentPage() {
   const order = orders[0];
   const [data, setData] = useSetState();
+  const [loading, setLoading] = useState<string>();
 
   function post(key: string, values: unknown) {
-    const close = toast.loading('提交中...');
+    setLoading(key);
     setTimeout(() => {
-      close();
+      setLoading(undefined);
       toast.success('提交成功');
       setData({
         [key]: values
@@ -62,6 +63,7 @@ export default function PostCommentPage() {
             </Form.Item>
           </div>
           <CommentGroup
+            loading={loading === 'overall'}
             textarea={
               <Textarea placeholder={'还有想说的吗？您的意见对我们非常重要'} />
             }
@@ -85,6 +87,7 @@ export default function PostCommentPage() {
             <div className={styles.content}>
               <Score />
               <CommentGroup
+                loading={loading === item.label}
                 textarea={
                   <Textarea
                     placeholder={
@@ -125,7 +128,13 @@ function Score() {
   );
 }
 
-function CommentGroup({ textarea }: { textarea: ReactNode }) {
+function CommentGroup({
+  textarea,
+  loading
+}: {
+  textarea: ReactNode;
+  loading?: boolean;
+}) {
   return (
     <div className={styles.content}>
       <Form.Item name={'content'}>{textarea}</Form.Item>
@@ -134,7 +143,12 @@ function CommentGroup({ textarea }: { textarea: ReactNode }) {
           <Form.Item name={'anonymous'}>
             <Checkbox>匿名评价</Checkbox>
           </Form.Item>
-          <Button outlined type={'submit'} className={styles.btn}>
+          <Button
+            outlined
+            type={'submit'}
+            loading={loading}
+            className={styles.btn}
+          >
             发表评价
           </Button>
         </Space>

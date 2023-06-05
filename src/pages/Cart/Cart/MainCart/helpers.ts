@@ -35,7 +35,12 @@ export function useCart() {
   function removeItem(item: CartProduct) {
     popup.confirm('确定删除所选商品吗？', {
       onOk() {
-        dispatch(cartSlice.actions.removeProduct(item));
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            dispatch(cartSlice.actions.removeProduct(item));
+            resolve();
+          }, 500);
+        });
       }
     });
   }

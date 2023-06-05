@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import { Outlet, RouteObject } from 'react-router-dom';
 import ordersRoutes from './orders';
 import productRoutes from './product';
+import userRoutes from './user';
 
 const HomePage = lazy(() => import('@/pages/Home'));
 const VideosPage = lazy(() => import('@/pages/Videos'));
@@ -74,6 +75,15 @@ const routes: RouteObject[] = [
       </PageDecorator>
     ),
     children: ordersRoutes
+  },
+  {
+    path: '/user',
+    element: (
+      <PageDecorator requiresAuth>
+        <Outlet />
+      </PageDecorator>
+    ),
+    children: userRoutes
   }
 ];
 

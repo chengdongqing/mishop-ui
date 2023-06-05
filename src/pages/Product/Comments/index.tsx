@@ -64,15 +64,11 @@ export default function ProductCommentsPage() {
 }
 
 function CommentList() {
-  const [withPhotosOnly, setWithPhotosOnly] = useState(false);
-
   return (
     <div className={styles.body}>
       <Row justify={'space-between'} align={'middle'} className={styles.header}>
         <div className={styles.title}>热门评价</div>
-        <Checkbox checked={withPhotosOnly} onChange={setWithPhotosOnly}>
-          只显示带图评价
-        </Checkbox>
+        <Checkbox>只显示带图评价</Checkbox>
       </Row>
 
       <div className={styles.comment_list}>

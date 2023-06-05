@@ -2,10 +2,11 @@ import Button from '@/components/Button';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useToggle from '@/hooks/useToggle.ts';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
-import { CheckCircleOutlined, HeartOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { useStore } from 'react-redux';
@@ -43,6 +44,7 @@ function ProductPanel({
 }) {
   const store = useStore();
   const navigate = useNavigate();
+  const [liked, toggleLiked] = useToggle();
   const [sku, setSku] = useState<ProductSku>();
   const productName = useMemo(() => {
     return (
@@ -103,8 +105,27 @@ function ProductPanel({
           >
             加入购物车
           </Button>
-          <Button className={classNames(styles.btn, styles.btn_like)} gray>
-            <HeartOutlined className={styles.icon} />
+          <Button
+            gray
+            className={classNames(styles.btn, styles.btn_like)}
+            onClick={toggleLiked}
+          >
+            {!liked ? (
+              <HeartOutlined className={styles.icon} />
+            ) : (
+              <>
+                <HeartFilled
+                  className={classNames(styles.icon, styles.active)}
+                />
+                <HeartFilled
+                  className={classNames(
+                    styles.icon,
+                    styles.active,
+                    styles.animation
+                  )}
+                />
+              </>
+            )}
             喜欢
           </Button>
         </Space>

@@ -1,8 +1,8 @@
+import UserLayout from '@/layouts/UserLayout';
 import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
-const UserLayout = lazy(() => import('@/layouts/UserLayout'));
 const OrdersPage = lazy(() => import('@/pages/Orders/Orders'));
 const OrderDetailsPage = lazy(() => import('@/pages/Orders/Details'));
 const OrderCommentsPage = lazy(() => import('@/pages/Orders/Comments'));
@@ -14,11 +14,7 @@ const PaySuccessfulPage = lazy(() => import('@/pages/Orders/Pay/Successful'));
 const routes: RouteObject[] = [
   {
     path: '',
-    element: (
-      <PageDecorator>
-        <UserLayout />
-      </PageDecorator>
-    ),
+    element: <UserLayout />,
     children: [
       {
         path: '',

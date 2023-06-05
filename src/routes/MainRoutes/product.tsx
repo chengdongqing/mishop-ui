@@ -1,12 +1,13 @@
 import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
+import { RouteObject } from 'react-router-dom';
 
 const ProductSketchPage = lazy(() => import('@/pages/Product/Sketch'));
 const ProductSpecsPage = lazy(() => import('@/pages/Product/Specs'));
 const ProductCommentsPage = lazy(() => import('@/pages/Product/Comments'));
 const ProductBuyingPage = lazy(() => import('@/pages/Product/Buy'));
 
-const routes = [
+const routes: RouteObject[] = [
   {
     path: '',
     element: (

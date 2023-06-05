@@ -9,13 +9,12 @@ import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function MiniCart() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const products = useCartProducts();
   const isEmptyCart = useIsEmptyCart();
@@ -57,19 +56,18 @@ export default function MiniCart() {
         setOpen(false);
       }}
     >
-      <Space
-        size={4}
-        className={classNames(styles.btn, !isEmptyCart && styles.active)}
-        onClick={() => {
-          navigate('/cart');
-        }}
-      >
-        <Iconfont
-          type={isEmptyCart ? 'i-cart' : 'i-cart-full'}
-          style={{ fontSize: '2.2rem' }}
-        />
-        <div>购物车（{totalNumber}）</div>
-      </Space>
+      <Link to={'/cart'}>
+        <Space
+          size={4}
+          className={classNames(styles.btn, !isEmptyCart && styles.active)}
+        >
+          <Iconfont
+            type={isEmptyCart ? 'i-cart' : 'i-cart-full'}
+            className={styles.icon}
+          />
+          <span>购物车（{totalNumber}）</span>
+        </Space>
+      </Link>
 
       <div className={styles.popover} style={{ height }}>
         {loading ? (
@@ -103,7 +101,6 @@ function MainCart({
   autoScroll: boolean;
 }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   return (
     <>
@@ -155,14 +152,9 @@ function MainCart({
             <span>{formatAmount(totalAmount, '')}</span>元
           </div>
         </Space>
-        <Button
-          className={styles.btn_order}
-          onClick={() => {
-            navigate('/cart');
-          }}
-        >
-          去购物车结算
-        </Button>
+        <Link to={'/cart'}>
+          <Button className={styles.btn_order}>去购物车结算</Button>
+        </Link>
       </Row>
     </>
   );

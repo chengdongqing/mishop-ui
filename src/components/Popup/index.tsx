@@ -26,9 +26,11 @@ export interface PopupProps extends PropsWithChildren {
   cancelText?: ReactNode;
   // 点击确定时关闭
   closeOnOk?: boolean;
+  // 确定按钮loading
+  confirmLoading?: boolean;
 
   // 点击确认回调
-  onOk?(): void;
+  onOk?(): void | Promise<void>;
   // 点击取消回调
   onCancel?(): void;
 }
@@ -43,11 +45,14 @@ function Popup({
   okText = '确定',
   cancelText = '取消',
   closeOnOk,
+  confirmLoading,
   children,
   onOk,
   onCancel
 }: PopupProps) {
   const [closing, setClosing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const finalLoading = loading || confirmLoading;
 
   function close() {
     setClosing(true);
@@ -73,11 +78,21 @@ function Popup({
               <Space size={'1.4rem'}>
                 {!!okText && (
                   <Button
+                    loading={finalLoading}
                     onClick={() => {
-                      if (closeOnOk) {
-                        close();
+                      if (onOk?.()?.then) {
+                        setLoading(true);
+                        onOk()
+                          ?.then(close)
+                          .finally(() => {
+                            setLoading(false);
+                          });
+                      } else {
+                        if (closeOnOk) {
+                          close();
+                        }
+                        onOk?.();
                       }
-                      onOk?.();
                     }}
                   >
                     {okText}

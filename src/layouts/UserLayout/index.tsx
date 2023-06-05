@@ -77,3 +77,7 @@ UserLayout.Header = function Header({
     </div>
   );
 };
+
+UserLayout.Empty = function Empty({ title = '数据为空' }) {
+  return <div className={styles.empty_tips}>{title}</div>;
+};

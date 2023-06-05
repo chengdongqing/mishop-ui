@@ -12,7 +12,7 @@ import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart, useCartCounter } from './helpers.ts';
@@ -120,8 +120,10 @@ function FooterBar() {
     (rect) => rect.bottom >= window.innerHeight,
     [products.length]
   );
+
   const hasLogin = useHasLogin();
   const navigate = useNavigate();
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <div
@@ -141,7 +143,12 @@ function FooterBar() {
           onClick={() => {
             popup.confirm('确定清空购物车吗？', {
               onOk() {
-                dispatch(cartSlice.actions.clearCart());
+                return new Promise((resolve) => {
+                  setTimeout(() => {
+                    dispatch(cartSlice.actions.clearCart());
+                    resolve();
+                  }, 1000);
+                });
               }
             });
           }}
@@ -158,6 +165,7 @@ function FooterBar() {
         </div>
         <div>
           <Button
+            loading={submitting}
             className={classNames(
               styles.btn_order,
               totalNumber === 0 && styles.disabled
@@ -165,7 +173,10 @@ function FooterBar() {
             onClick={() => {
               if (totalNumber > 0) {
                 if (hasLogin) {
-                  navigate('/orders/checkout');
+                  setSubmitting(true);
+                  setTimeout(() => {
+                    navigate('/orders/checkout');
+                  }, 1000);
                 } else {
                   openAgreementsDeclaring(() => {
                     navigate('/auth/login', {
