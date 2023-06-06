@@ -1,4 +1,5 @@
 import Grid from '@/components/Grid';
+import LazyImage from '@/components/LazyImage';
 import styles from '../index.module.less';
 
 const options = [
@@ -31,7 +32,7 @@ const options = [
 export default function Section10() {
   return (
     <div className={styles.section10}>
-      <img
+      <LazyImage
         src={
           'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/14554.png?x-fds-process=image/resize,q_90'
         }

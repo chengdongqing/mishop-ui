@@ -1,5 +1,6 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
+import LazyImage from '@/components/LazyImage';
 import Swiper, { SwiperHandle } from '@/components/Swiper';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -100,7 +101,7 @@ function ProductBlock(props: Product) {
 
   return (
     <Link className={styles.product_item} to={buildProductUrl(props.label)}>
-      <img
+      <LazyImage
         alt={props.label}
         src={props.pictureUrl}
         className={styles.picture}

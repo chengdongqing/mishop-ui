@@ -12,19 +12,19 @@ export interface City {
   children?: City[];
 }
 
-interface CityPickerProps {
+interface CitySelectorProps {
   value?: City[];
   defaultValue?: City[];
   placeholder?: string;
   onChange?(values: City[]): void;
 }
 
-export default function CityPicker({
+export default function CitySelector({
   value: propValue,
   defaultValue = [],
   placeholder,
   onChange
-}: CityPickerProps) {
+}: CitySelectorProps) {
   const [value, setValue, ctx] = useFormItem(propValue, defaultValue, onChange);
   const [open, setOpen] = useState(false);
 

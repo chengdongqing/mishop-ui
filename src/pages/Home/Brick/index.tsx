@@ -1,5 +1,6 @@
 import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
+import LazyImage from '@/components/LazyImage';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -86,7 +87,7 @@ function PromoBlocks({ promos }: { promos: Promo[] }) {
           target={'_blank'}
           className={styles.promo_item}
         >
-          <img
+          <LazyImage
             src={item.src}
             alt={item.description}
             className={styles.picture}
@@ -119,7 +120,7 @@ function ProductBlocks({
             to={buildProductUrl(item.label)}
             target={'_blank'}
           >
-            <img
+            <LazyImage
               className={styles.picture}
               src={item.pictureUrl}
               alt={item.label}
@@ -132,9 +133,7 @@ function ProductBlocks({
                 {item.description}
               </div>
               <Space>
-                <span className={styles.price}>
-                  {formatAmount(item.price)}
-                </span>
+                <span className={styles.price}>{formatAmount(item.price)}</span>
                 {!!item.originalPrice && (
                   <span className={classNames(styles.price, styles.original)}>
                     {formatAmount(item.originalPrice)}
@@ -154,7 +153,7 @@ function ProductBlocks({
               to={buildProductUrl(overflowProduct.label)}
               target={'_blank'}
             >
-              <img
+              <LazyImage
                 className={styles.picture}
                 src={overflowProduct.pictureUrl}
                 alt={overflowProduct.label}

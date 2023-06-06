@@ -1,9 +1,10 @@
 import Grid from '@/components/Grid';
+import LazyImage from '@/components/LazyImage';
 import Space from '@/components/Space';
-import useElementVisible from '@/hooks/useElementVisible.ts';
 import classNames from 'classnames';
 import { useRef } from 'react';
 import styles from '../index.module.less';
+import useVisible from '../useVisible.ts';
 
 const options = [
   {
@@ -71,9 +72,7 @@ const options = [
 
 export default function Section6() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const visible = useElementVisible(containerRef, (rect) => {
-    return rect.top <= window.innerHeight;
-  });
+  const visible = useVisible(containerRef);
 
   return (
     <div ref={containerRef} style={{ backgroundColor: '#000' }}>
@@ -85,7 +84,7 @@ export default function Section6() {
         )}
       >
         <div className={styles.header}>
-          <img
+          <LazyImage
             src={
               'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/4397.jpg?x-fds-process=image/resize,q_90'
             }
@@ -105,7 +104,7 @@ export default function Section6() {
         <div className={styles.body}>
           <div className={styles.left}>
             <div className={styles.group}>
-              <img
+              <LazyImage
                 src={
                   'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/2302.png?x-fds-process=image/resize,q_90'
                 }
@@ -127,7 +126,7 @@ export default function Section6() {
                 key={item.pictureUrl}
                 className={classNames(styles.group, item.className)}
               >
-                <img src={item.pictureUrl} alt={''} />
+                <LazyImage src={item.pictureUrl} alt={''} />
                 <div className={styles.description}>
                   <div className={styles.keypoint}>{item.keypoint}</div>
                   <div className={styles.other_points}>{item.otherPoints}</div>
@@ -138,7 +137,7 @@ export default function Section6() {
         </div>
         <div className={styles.footer}>
           <div className={styles.group}>
-            <img
+            <LazyImage
               src={
                 'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/2877.png?x-fds-process=image/resize,q_90'
               }
@@ -158,7 +157,7 @@ export default function Section6() {
             </div>
           </div>
           <div className={styles.group}>
-            <img
+            <LazyImage
               src={
                 'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/2353.png?x-fds-process=image/resize,q_90'
               }

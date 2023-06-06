@@ -1,8 +1,9 @@
+import LazyImage from '@/components/LazyImage';
 import Space from '@/components/Space';
-import useElementVisible from '@/hooks/useElementVisible.ts';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import styles from '../index.module.less';
+import useVisible from '../useVisible.ts';
 
 const options = [
   {
@@ -33,9 +34,7 @@ export default function Section4() {
   const item = useMemo(() => options[current], [current]);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const visible = useElementVisible(containerRef, (rect) => {
-    return rect.top <= window.innerHeight;
-  });
+  const visible = useVisible(containerRef);
 
   return (
     <div ref={containerRef} style={{ backgroundColor: '#000' }}>
@@ -56,7 +55,7 @@ export default function Section4() {
           </div>
         </div>
 
-        <img src={item.src} alt={item.label} width={'100%'} height={'100%'} />
+        <LazyImage src={item.src} alt={item.label} width={'100%'} height={'100%'} />
 
         <Space size={'2rem'} className={styles.color_switch}>
           {options.map((item, index) => (
@@ -72,7 +71,7 @@ export default function Section4() {
               }}
             >
               <div className={styles.icon_wrapper}>
-                <img
+                <LazyImage
                   src={index === current ? item.iconActive : item.icon}
                   className={styles.icon}
                   alt={item.label}

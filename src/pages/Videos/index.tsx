@@ -1,6 +1,7 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
+import LazyImage from '@/components/LazyImage';
 import Popup from '@/components/Popup';
 import { Videos } from '@/pages/Videos/const.ts';
 import classNames from 'classnames';
@@ -56,7 +57,7 @@ export function VideoCard(props: VideoProps & { large?: boolean }) {
           });
         }}
       >
-        <img
+        <LazyImage
           draggable={false}
           alt={props.title}
           src={props.coverUrl}

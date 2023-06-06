@@ -1,3 +1,4 @@
+import LazyImage from '@/components/LazyImage';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { PriceDescription } from '../index.tsx';
@@ -29,7 +30,7 @@ export default function ProductDetails() {
       <div style={{ backgroundColor: 'var(--color-background)' }}>
         <div className={styles.content}>
           {ProductNavs[current].children.map((item) => (
-            <img key={item} src={item} alt={''} width={'100%'} />
+            <LazyImage key={item} src={item} alt={''} width={'100%'} />
           ))}
         </div>
 

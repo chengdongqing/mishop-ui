@@ -1,3 +1,4 @@
+import LazyImage from '@/components/LazyImage';
 import Row from '@/components/Row';
 import classNames from 'classnames';
 import styles from './index.module.less';
@@ -11,7 +12,7 @@ export default function Xiaomi13UltraSpecs() {
         className={classNames(styles.section, styles.section1)}
       >
         <div>
-          <img
+          <LazyImage
             src={
               'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/specs/4363.png'
             }
@@ -47,7 +48,7 @@ export default function Xiaomi13UltraSpecs() {
             IP68级防尘防水*
           </div>
         </div>
-        <img
+        <LazyImage
           src={
             'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/specs/99999.png'
           }
@@ -73,7 +74,7 @@ export default function Xiaomi13UltraSpecs() {
           <div className={styles.remark}>
             *以上数据为小米实验室测试数据，依据行业内测量方式不同，实际结果可能略有差异。
           </div>
-          <img
+          <LazyImage
             src={
               'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/specs/4028.png'
             }
@@ -122,7 +123,7 @@ export default function Xiaomi13UltraSpecs() {
       <Row justify={'space-between'} className={styles.section}>
         <div className={styles.title}>屏幕显示</div>
         <div className={styles.content}>
-          <img
+          <LazyImage
             src={
               'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/specs/3935.png'
             }

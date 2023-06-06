@@ -2,6 +2,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import CommendedProducts from '@/components/CommendedProducts';
 import Form from '@/components/Form';
 import Grid from '@/components/Grid';
+import LazyImage from '@/components/LazyImage';
 import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import Space from '@/components/Space';
@@ -93,7 +94,7 @@ function ProductItem(props: ProductItemProps) {
 
   return (
     <Link className={styles.product_item} to={buildProductUrl(props.label)}>
-      <img
+      <LazyImage
         alt={props.label}
         src={props.pictureUrls[pictureIndex]}
         className={styles.picture}

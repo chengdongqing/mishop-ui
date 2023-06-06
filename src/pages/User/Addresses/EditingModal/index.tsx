@@ -7,7 +7,7 @@ import Textarea from '@/components/Textarea';
 import toast from '@/components/Toast';
 import patterns from '@/utils/patterns.ts';
 import { useRef } from 'react';
-import CityPicker, { City } from '../CityPicker';
+import CitySelector, { City } from '../CitySelector';
 
 export default function EditingModal({
   open,
@@ -82,7 +82,7 @@ export default function EditingModal({
             ]}
             validateOnChange={false}
           >
-            <CityPicker placeholder={'城市'} />
+            <CitySelector placeholder={'城市'} />
           </Form.Item>
           <Form.Item
             name={'address'}

@@ -1,3 +1,4 @@
+import LazyImage from '@/components/LazyImage';
 import classNames from 'classnames';
 import { useState } from 'react';
 import styles from '../index.module.less';
@@ -46,7 +47,7 @@ export default function Section8() {
       </div>
 
       <div className={styles.images_composing}>
-        <img
+        <LazyImage
           src={
             'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/14483.png?x-fds-process=image/resize,q_90'
           }
@@ -54,7 +55,7 @@ export default function Section8() {
           draggable={false}
           className={styles.background}
         />
-        <img
+        <LazyImage
           src={options[current].src}
           alt={options[current].label}
           className={styles.content}

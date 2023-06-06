@@ -3,6 +3,7 @@ import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
+const UserCenterPage = lazy(() => import('@/pages/User'));
 const FavoriteProductsPage = lazy(() => import('@/pages/User/Favorites'));
 const ShippingAddressesPage = lazy(() => import('@/pages/User/Addresses'));
 
@@ -11,6 +12,14 @@ const routes: RouteObject[] = [
     path: '',
     element: <UserLayout />,
     children: [
+      {
+        path: '',
+        element: (
+          <PageDecorator title={'个人中心'}>
+            <UserCenterPage />
+          </PageDecorator>
+        )
+      },
       {
         path: 'favorites',
         element: (

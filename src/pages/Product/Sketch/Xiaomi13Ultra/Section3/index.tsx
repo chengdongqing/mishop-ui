@@ -1,14 +1,13 @@
+import LazyImage from '@/components/LazyImage';
 import popup from '@/components/Popup';
-import useElementVisible from '@/hooks/useElementVisible.ts';
 import classNames from 'classnames';
 import { useRef } from 'react';
 import styles from '../index.module.less';
+import useVisible from '../useVisible.ts';
 
 export default function Section3() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const visible = useElementVisible(containerRef, (rect) => {
-    return rect.top <= window.innerHeight;
-  });
+  const visible = useVisible(containerRef);
 
   return (
     <div ref={containerRef} style={{ backgroundColor: '#000' }}>
@@ -30,7 +29,7 @@ export default function Section3() {
         />
 
         <div className={styles.mask}>
-          <img
+          <LazyImage
             src={
               'https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-Ulimited-edition1byfh9/15132.png?x-fds-process=image/resize,q_90'
             }

@@ -1,3 +1,4 @@
+import LazyImage from '@/components/LazyImage';
 import Row from '@/components/Row';
 import styles from '../index.module.less';
 
@@ -54,7 +55,7 @@ export default function Section11() {
         {options.map((item) => (
           <div key={item.label} className={styles.feature_item}>
             <div className={styles.img_wrapper}>
-              <img
+              <LazyImage
                 src={item.icon}
                 alt={item.label}
                 style={{ width: item.iconWidth }}
