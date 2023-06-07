@@ -8,7 +8,7 @@ export default function useElementVisible(
 ) {
   const [visible, setVisible] = useState(false);
 
-  const onScroll = useDebounce(() => {
+  const handleScroll = useDebounce(() => {
     const element = target instanceof HTMLElement ? target : target.current;
     if (element) {
       setVisible(predicate(element.getBoundingClientRect()));
@@ -16,17 +16,17 @@ export default function useElementVisible(
   }, 50);
 
   useEffect(() => {
-    onScroll();
+    handleScroll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   useEffect(() => {
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [onScroll]);
+  }, [handleScroll]);
 
   return visible;
 }

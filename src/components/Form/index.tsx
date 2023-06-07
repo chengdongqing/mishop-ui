@@ -76,7 +76,7 @@ const Form = forwardRef<FormHandle, FormProps>(
     { children, noStyle, disabled, initialValues, onChange, onOk },
     forwardRef
   ) => {
-    const [fields, setFields] = useSetState<FormItemInjects>();
+    const [fields, setFields] = useSetState<Record<string, FormItemInjects>>();
 
     // 收集数据
     function getFieldsValue() {

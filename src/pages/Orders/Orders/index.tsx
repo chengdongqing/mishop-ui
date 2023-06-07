@@ -4,6 +4,7 @@ import Pagination from '@/components/Pagination';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useMount from '@/hooks/useMount.ts';
+import useQueryParams from '@/hooks/useQueryParams.ts';
 import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -17,8 +18,10 @@ import FilterBar from './FilterBar';
 import styles from './index.module.less';
 
 export default function OrdersPage() {
+  const params = useQueryParams<{ status: string }>();
   const [loading, setLoading] = useState(true);
   useMount(() => {
+    console.log('status: ', params.status);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -72,7 +75,10 @@ function OrderList() {
               justify={'space-between'}
               className={styles.order_details}
             >
-              <Space split={<span style={{ color: 'var(--color-border)' }}>|</span>} wrap>
+              <Space
+                split={<span style={{ color: 'var(--color-border)' }}>|</span>}
+                wrap
+              >
                 {moment(item.createTime).format(DefaultDateTimeFormat)}
                 {item.shippingInfo.username}
                 <span>

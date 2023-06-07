@@ -1,7 +1,7 @@
 import Iconfont from '@/components/Iconfont';
 import Space from '@/components/Space';
 import useMount from '@/hooks/useMount.ts';
-import useSetState, { PatchStateAction } from '@/hooks/useSetState.ts';
+import useSetState, { SetStateAction } from '@/hooks/useSetState.ts';
 import { downloadFile } from '@/utils';
 import {
   DownloadOutlined,
@@ -109,7 +109,7 @@ function FooterBar({
   onChange
 }: {
   src: string;
-  onChange: (patch: PatchStateAction<number>) => void;
+  onChange: (patch: SetStateAction<{ scale: number; rotate: number }>) => void;
 }) {
   return (
     <div className={styles.footer}>

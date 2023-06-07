@@ -1,10 +1,9 @@
-import useLatest from '@/hooks/useLatest.ts';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function useMount(fn: () => void) {
-  const fnRef = useLatest(fn);
+  const fnRef = useRef(fn);
 
   useEffect(() => {
     fnRef.current();
-  }, [fnRef]);
+  }, []);
 }

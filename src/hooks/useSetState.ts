@@ -1,27 +1,26 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
-type SetState<T> = Record<string, T>;
-export type PatchStateAction<T> = SetState<T> | ((value: SetState<T>) => SetState<T>);
+type InitialState<T> = T | (() => T);
+export type SetStateAction<T> = Partial<T> | ((prevState: T) => Partial<T>);
 
-export default function useSetState<T>(
-  initialState: SetState<T> | (() => SetState<T>) = {}
+export default function useSetState<T extends Record<string, unknown>>(
+  initialState: InitialState<T> = {} as T
 ) {
-  const [value, setValue] = useState(initialState);
+  const [state, setState] = useState<T>(initialState);
 
-  const mergeValues = useCallback(
-    (patch: PatchStateAction<T>, override = false) => {
-      setValue((prevValue) => {
-        const newValue = typeof patch === 'function' ? patch(prevValue) : patch;
-        return override
-          ? newValue
+  const setMergedState = (patch: SetStateAction<T>, overwrite = false) => {
+    setState((prevState) => {
+      const nextState = typeof patch === 'function' ? patch(prevState) : patch;
+      return (
+        overwrite
+          ? nextState
           : {
-              ...prevValue,
-              ...newValue
-            };
-      });
-    },
-    []
-  );
+              ...prevState,
+              ...nextState
+            }
+      ) as T;
+    });
+  };
 
-  return [value, mergeValues] as const;
+  return [state, setMergedState] as const;
 }
