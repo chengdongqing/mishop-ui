@@ -1,15 +1,12 @@
 import openAgreementsDeclaring from '@/components/AgreementsDeclaring';
-import popup from '@/components/Popup';
 import Space from '@/components/Space';
-import toast from '@/components/Toast';
-import cartSlice from '@/store/slices/cartSlice.ts';
-import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
+import { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
 import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
+import useLogout from './useLogout.ts';
 
 const menus = [
   {
@@ -30,7 +27,7 @@ export default function UserNavs({ miniHeader = false }) {
   const hasLogin = useHasLogin();
   return (
     <div className={classNames(miniHeader && styles.mini_header)}>
-      {hasLogin ? <NavsWithLogin /> : <NavsWithoutLogin />}
+      {hasLogin ? <NavsWithLogin /> : <NavsWithoutLoggedIn />}
     </div>
   );
 }
@@ -38,8 +35,7 @@ export default function UserNavs({ miniHeader = false }) {
 function NavsWithLogin() {
   const [open, setOpen] = useState(false);
   const userInfo = useUserInfo();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const logout = useLogout();
 
   return (
     <Space split={<div className={styles.sep} />}>
@@ -74,21 +70,7 @@ function NavsWithLogin() {
             ))}
             <span
               className={classNames(styles.menu_item, styles.danger)}
-              onClick={() => {
-                popup.confirm('确定退出登录吗？', {
-                  onOk() {
-                    return new Promise((resolve) => {
-                      setTimeout(() => {
-                        dispatch(userSlice.actions.setUser(null));
-                        dispatch(cartSlice.actions.setCart([]));
-                        navigate('/', { replace: true });
-                        toast.warning('已退出登录');
-                        resolve();
-                      }, 1000);
-                    });
-                  }
-                });
-              }}
+              onClick={logout}
             >
               退出登录
             </span>
@@ -102,7 +84,7 @@ function NavsWithLogin() {
   );
 }
 
-function NavsWithoutLogin() {
+function NavsWithoutLoggedIn() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

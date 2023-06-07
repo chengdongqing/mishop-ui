@@ -37,10 +37,6 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
 }
 
-.anticon {
-  vertical-align: middle;
-}
-
 .text-ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;

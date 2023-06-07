@@ -1,0 +1,78 @@
+.container {
+  max-width: 144rem;
+  height: calc(100vh - 16rem);
+  margin: 2rem auto;
+  padding: 0 8rem;
+  display: flex;
+}
+
+.side_bar {
+  width: 26rem;
+  border-radius: 0.4rem;
+  box-shadow: 0 2rem 5rem 0.6rem hsla(0, 0%, 64%, 0.1);
+
+  .profile {
+    background-image: url('https://cdn.web-global.fds.api.mi-img.com/mcfe--mi-account/static/static/media/background.fdf39507..png');
+    background-size: cover;
+    padding: 4rem 2rem;
+    text-align: center;
+
+    .avatar {
+      width: 8rem;
+      height: 8rem;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+
+    & > div {
+      color: #333;
+      font-size: 1.9rem;
+      font-weight: 500;
+      line-height: 4rem;
+    }
+  }
+
+  .menus {
+    margin-top: 2rem;
+
+    .menu_item {
+      height: 6rem;
+      line-height: 6rem;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: #333;
+      padding-left: 6.4rem;
+      border-left: 0.6rem solid transparent;
+      cursor: pointer;
+
+      &.active {
+        background-color: #fff3e6;
+        border-left-color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.main {
+  flex: 1;
+  margin-left: 2rem;
+  border-radius: 0.4rem;
+  box-shadow: 0 2rem 5rem 0.6rem hsla(0, 0%, 64%, 0.1);
+}
+
+.page_title {
+  color: #333;
+  font-size: 1.9rem;
+  line-height: 2rem;
+  padding: 2rem;
+
+  & > div::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 0;
+    bottom: 0;
+    width: 0.4rem;
+    background-color: #333;
+  }
+}

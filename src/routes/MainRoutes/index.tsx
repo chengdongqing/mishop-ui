@@ -1,3 +1,4 @@
+import UserLayout from '@/layouts/UserLayout';
 import PageDecorator from '@/routes/PageDecorator';
 import { lazy } from 'react';
 import { Outlet, RouteObject } from 'react-router-dom';
@@ -80,7 +81,7 @@ const routes: RouteObject[] = [
     path: '/user',
     element: (
       <PageDecorator requiresAuth>
-        <Outlet />
+        <UserLayout />
       </PageDecorator>
     ),
     children: userRoutes

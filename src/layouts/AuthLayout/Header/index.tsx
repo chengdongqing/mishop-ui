@@ -2,12 +2,21 @@ import Dropdown from '@/components/Dropdown';
 import Logo from '@/components/Logo';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useLogout from '@/layouts/MainLayout/Header/TopBar/UserNavs/useLogout.ts';
+import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { Key, useState } from 'react';
 import styles from './index.module.less';
 
 export default function Header() {
+  const hasLogin = useHasLogin();
+  const logout = useLogout();
+
   return (
-    <Row align={'middle'} justify={'space-between'} className={styles.container}>
+    <Row
+      align={'middle'}
+      justify={'space-between'}
+      className={styles.container}
+    >
       <Space size={'1rem'}>
         <Logo className={styles.logo} />
         <div className={styles.title}>小米账号</div>
@@ -44,7 +53,14 @@ export default function Header() {
             帮助中心
           </a>
         </Space>
-        <LanguagePicker />
+        <Space size={'2rem'}>
+          <LanguagePicker />
+          {hasLogin && (
+            <a className={styles.logout} onClick={logout}>
+              退出
+            </a>
+          )}
+        </Space>
       </Space>
     </Row>
   );

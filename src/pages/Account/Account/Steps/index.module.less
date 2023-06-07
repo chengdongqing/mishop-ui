@@ -1,0 +1,58 @@
+.steps {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.step_item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 1.6rem;
+
+  &:last-child {
+    flex: unset;
+    margin-right: 0;
+
+    .line {
+      display: none;
+    }
+  }
+
+  &.active {
+    .icon {
+      box-shadow: 0 0 0 0.3rem rgba(255, 92, 0, 0.25);
+      background-color: var(--color-primary);
+      border: none;
+      color: #fff;
+    }
+    .label {
+      color: #333;
+    }
+  }
+
+  .icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    line-height: 2.2rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 1.7rem;
+    color: #aaa;
+    border: 0.1rem solid #aaa;
+    margin: 0.3rem;
+  }
+
+  .label {
+    color: #aaa;
+    font-size: 1.6rem;
+    margin-left: 0.5rem;
+    padding-right: 1.6rem;
+  }
+
+  .line {
+    flex: 1;
+    height: 0.1rem;
+    background-color: #f0f0f0;
+  }
+}

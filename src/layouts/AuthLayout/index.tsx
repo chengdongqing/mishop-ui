@@ -83,7 +83,7 @@ export default function AuthLayout() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <div className={styles.footer}>
       小米公司版权所有-京ICP备10046444-

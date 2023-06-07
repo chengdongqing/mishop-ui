@@ -48,7 +48,7 @@ export default function UserCenterPage() {
           <div className={styles.welcome}>{currentPeriod}好～</div>
           <Link
             target={'_blank'}
-            to={'/user/account/profile'}
+            to={'/account/profile'}
             className={styles.link}
           >
             修改个人信息 {'>'}

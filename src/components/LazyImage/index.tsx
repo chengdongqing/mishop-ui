@@ -1,7 +1,8 @@
 import { ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 
-interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
-  src: string;
+interface LazyImageProps
+  extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
+  src: string | (() => Promise<typeof import('*.png')>);
   alt?: string;
   threshold?: number;
 }
@@ -14,6 +15,17 @@ export default function LazyImage({
 }: LazyImageProps) {
   const [isVisible, setIsVisible] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  const [value, setValue] = useState<string>();
+  useEffect(() => {
+    if (typeof src === 'function') {
+      src().then((res) => {
+        setValue(res.default);
+      });
+    } else {
+      setValue(src as string);
+    }
+  }, [src]);
 
   useEffect(() => {
     function unobserve() {
@@ -43,7 +55,7 @@ export default function LazyImage({
       ref={imageRef}
       src={
         isVisible
-          ? src
+          ? value
           : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
       }
       alt={alt}

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { ReactNode, useMemo, useRef, useState } from 'react';
 import styles from './index.module.less';
 
-interface InputProps extends PropsWithStyle {
+export interface InputProps extends PropsWithStyle {
   value?: string | number;
   defaultValue?: string | number;
   placeholder?: string;

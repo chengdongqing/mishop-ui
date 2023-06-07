@@ -1,19 +1,20 @@
-import Input from '@/components/Input';
+import Input, { InputProps } from '@/components/Input';
 import toast from '@/components/Toast';
 import useCountdown from '@/hooks/useCountdown.ts';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import styles from './index.module.less';
 
-interface InputProps {
+interface VerificationCodeInputProps extends InputProps {
   interval?: number;
   onSend(): Promise<string | void>;
 }
 
 export default function VerificationCodeInput({
   interval = 120,
-  onSend
-}: InputProps) {
+  onSend,
+  ...rest
+}: VerificationCodeInputProps) {
   const sending = useRef(false);
   const hasSent = useRef(false);
   const [waiting, setWaiting] = useState(false);
@@ -56,6 +57,7 @@ export default function VerificationCodeInput({
           {waiting && seconds ? ` ${seconds}s` : ''}
         </div>
       }
+      {...rest}
     />
   );
 }

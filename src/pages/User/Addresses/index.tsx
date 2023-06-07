@@ -10,7 +10,7 @@ import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { addresses } from './const.ts';
-import EditingModal from './EditingModal';
+import EditingPopup from './EditingPopup';
 import styles from './index.module.less';
 
 export default function ShippingAddresses() {
@@ -155,7 +155,7 @@ export function AddressGroup({
         </div>
       )}
 
-      <EditingModal
+      <EditingPopup
         open={modalOpen}
         values={currentAddress}
         onCancel={() => {

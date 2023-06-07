@@ -24,7 +24,7 @@ export default function EditingModal({
     <Popup
       open={open}
       width={'66rem'}
-      title={`${values ? '修改' : '新增'}收货地址`}
+      title={`${values ? '修改' : '添加'}收货地址`}
       onOk={() => {
         return new Promise((resolve, reject) => {
           formRef.current

@@ -123,7 +123,7 @@ export default function Login() {
             validator(value) {
               const val = value as string;
               if (val !== passwordRef.current) {
-                return Promise.reject('两次输入的密码不一致');
+                return Promise.reject('密码输入不一致');
               }
               return Promise.resolve();
             }

@@ -72,11 +72,7 @@ function Sorter({
   const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   return (
-    <Space
-      size={'3rem'}
-      className={styles.sorts}
-      split={<span className={styles.sep} />}
-    >
+    <Space size={'3rem'} split={<span className={styles.sep} />}>
       {SortOptions.map((item) => (
         <div
           key={item.label}
