@@ -1,4 +1,6 @@
+import CloseIcon from '@/components/CloseIcon';
 import Input from '@/components/Input';
+import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
@@ -27,10 +29,10 @@ export default function CitySelector({
 }: CitySelectorProps) {
   const [value, setValue, ctx] = useFormItem(propValue, defaultValue, onChange);
   const [open, setOpen] = useState(false);
-
   const tips = useMemo(() => {
     return ['省份/自治区', '城市/地区', '区县'][value.length];
   }, [value.length]);
+
   const options = useMemo(() => {
     function findOptions(values: City[], depth: number): City[] {
       if (!value.length) return values;
@@ -67,7 +69,11 @@ export default function CitySelector({
         className={classNames(styles.picker, open && styles.open)}
         hidden={!open}
       >
-        <div className={styles.header}>
+        <Row
+          align={'middle'}
+          justify={'space-between'}
+          className={styles.header}
+        >
           <Space>
             {value.map((item, index) => (
               <span
@@ -85,7 +91,13 @@ export default function CitySelector({
             ))}
             {!!tips && <span>选择{tips}</span>}
           </Space>
-        </div>
+          <CloseIcon
+            className={styles.icon}
+            onClick={() => {
+              setOpen(false);
+            }}
+          />
+        </Row>
         <div className={styles.options}>
           <Space wrap size={'1.4rem'}>
             {options?.map((item) => (

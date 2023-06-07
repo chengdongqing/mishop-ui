@@ -57,6 +57,8 @@ export function AddressGroup({
   });
 
   const [modalOpen, toggleModal] = useToggle();
+  const [currentAddress, setCurrentAddress] =
+    useState<Record<string, unknown>>();
 
   return (
     <div>
@@ -96,7 +98,31 @@ export function AddressGroup({
               ))}
             </div>
             <Space size={'1rem'} className={styles.footer}>
-              <span>修改</span>
+              <span
+                onClick={() => {
+                  setCurrentAddress({
+                    ...item,
+                    city: [
+                      {
+                        name: '重庆',
+                        code: '500000'
+                      },
+                      {
+                        name: '重庆市',
+                        code: '500100'
+                      },
+                      {
+                        name: '江北区',
+                        code: '500105'
+                      }
+                    ],
+                    address: item.address[1]
+                  });
+                  toggleModal();
+                }}
+              >
+                修改
+              </span>
               {!selectMode && (
                 <span
                   onClick={() => {
@@ -129,7 +155,14 @@ export function AddressGroup({
         </div>
       )}
 
-      <EditingModal open={modalOpen} onCancel={toggleModal} />
+      <EditingModal
+        open={modalOpen}
+        values={currentAddress}
+        onCancel={() => {
+          toggleModal();
+          setCurrentAddress(undefined);
+        }}
+      />
     </div>
   );
 }

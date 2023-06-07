@@ -11,9 +11,11 @@ import CitySelector, { City } from '../CitySelector';
 
 export default function EditingModal({
   open,
+  values,
   onCancel
 }: {
   open: boolean;
+  values?: Record<string, unknown>;
   onCancel(): void;
 }) {
   const formRef = useRef<FormHandle>(null);
@@ -22,8 +24,7 @@ export default function EditingModal({
     <Popup
       open={open}
       width={'66rem'}
-      title={'新增收货地址'}
-      maskClosable={false}
+      title={`${values ? '修改' : '新增'}收货地址`}
       onOk={() => {
         return new Promise((resolve, reject) => {
           formRef.current
@@ -40,7 +41,7 @@ export default function EditingModal({
       }}
       onCancel={onCancel}
     >
-      <Form noStyle ref={formRef}>
+      <Form noStyle initialValues={values} ref={formRef}>
         <Grid columns={1} gap={'1.4rem'}>
           <Row>
             <Form.Item

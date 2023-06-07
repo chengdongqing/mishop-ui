@@ -36,9 +36,11 @@ export default function useFormItem<T, S extends T>(
       typeof patch === 'function'
         ? (patch as (value: T) => S)(valueRef.current)
         : patch;
-    formItemCtx.onChange?.(val);
-    setInnerValue(val);
-    onChange?.(val);
+    if (val !== valueRef.current) {
+      formItemCtx.onChange?.(val);
+      setInnerValue(val);
+      onChange?.(val);
+    }
   });
 
   return [finalValue, setValue.current, formItemCtx] as const;
