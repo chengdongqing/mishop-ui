@@ -18,7 +18,7 @@ const types = {
   },
   success: {
     icon: <CheckCircleFilled />,
-    color: '#52c41a'
+    color: 'var(--color-success)'
   },
   info: {
     icon: <InfoCircleFilled />,

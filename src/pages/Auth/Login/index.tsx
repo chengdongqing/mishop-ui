@@ -35,7 +35,9 @@ export default function Login() {
                 userSlice.actions.setUser({
                   id: 450762342,
                   name: '海盐芝士不加糖',
-                  phoneNumber: '189*****874'
+                  phoneNumber: '189*****874',
+                  avatarUrl:
+                    'https://cdn.cnbj1.fds.api.mi-img.com/user-avatar/920d7ac3-25ee-4f5e-89ec-5b051d75616f.jpg'
                 })
               );
               setTimeout(() => {

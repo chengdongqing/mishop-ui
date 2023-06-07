@@ -72,7 +72,7 @@ function OrderList() {
               justify={'space-between'}
               className={styles.order_details}
             >
-              <Space split={<span style={{ color: '#e0e0e0' }}>|</span>} wrap>
+              <Space split={<span style={{ color: 'var(--color-border)' }}>|</span>} wrap>
                 {moment(item.createTime).format(DefaultDateTimeFormat)}
                 {item.shippingInfo.username}
                 <span>

@@ -1,0 +1,86 @@
+.header {
+  padding-top: 2.4rem;
+  padding-bottom: 4rem;
+  border-bottom: 0.1rem solid var(--color-border);
+
+  .avatar {
+    width: 16rem;
+    height: 16rem;
+    padding: 0.4rem;
+    margin-right: 2rem;
+    border-radius: 50%;
+    border: 0.1rem solid var(--color-border);
+  }
+
+  .profile {
+    flex: 1;
+
+    .name {
+      color: #616161;
+      font-size: 2.4rem;
+    }
+
+    .welcome {
+      color: #b0b0b0;
+      font-size: 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .link {
+      color: var(--color-primary);
+      font-size: 1.2rem;
+      transition: 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .account {
+    flex: 1;
+
+    & > div {
+      color: #757575;
+      font-size: 1.4rem;
+      padding: 0.6rem 0;
+    }
+
+    .safety_level3 {
+      color: var(--color-success);
+    }
+  }
+}
+
+.numbers {
+  padding-top: 6rem;
+  color: #757575;
+
+  .icon {
+    width: 10rem;
+    height: 10rem;
+  }
+
+  .label {
+    font-size: 1.8rem;
+    margin-bottom: 0.4rem;
+
+    .value {
+      color: var(--color-primary);
+    }
+  }
+
+  .link {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    transition: 0.2s;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+
+    .icon_right {
+      line-height: 1.2;
+    }
+  }
+}

@@ -2,7 +2,7 @@
   margin-top: 1.5rem;
   margin-bottom: 2rem;
   padding: 0 2rem 1.2rem;
-  border: 0.1rem solid #83c44e;
+  border: 0.1rem solid var(--color-success);
   color: #757575;
   font-size: 1.2rem;
 }
@@ -42,7 +42,7 @@
       width: 0.7rem;
       height: 0.7rem;
       border-radius: 0.7rem;
-      background-color: #e0e0e0;
+      background-color: var(--color-border);
       z-index: 1;
     }
     &::after {
@@ -52,10 +52,10 @@
       bottom: -1rem;
       left: 0.3rem;
       width: 0.1rem;
-      background-color: #e0e0e0;
+      background-color: var(--color-border);
     }
     &:first-child::before {
-      background-color: #83c44e;
+      background-color: var(--color-success);
     }
     &:last-child::after {
       width: 0;

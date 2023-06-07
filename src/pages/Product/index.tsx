@@ -33,7 +33,7 @@ export default function ProductPage() {
           <div className={styles.label}>{name}</div>
           <Space>
             <Space
-              split={<span style={{ color: '#e0e0e0' }}>|</span>}
+              split={<span style={{ color: 'var(--color-border)' }}>|</span>}
               className={styles.navs}
             >
               <Link

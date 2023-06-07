@@ -10,6 +10,10 @@ export function buildProductUrl(label: string) {
   );
 }
 
+export function formatValue(value: unknown, unit = '') {
+  return value || value === 0 ? `${value}${unit}` : EmptyValue;
+}
+
 /**
  * 格式化金额
  * @param value 值

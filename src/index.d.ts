@@ -66,9 +66,9 @@ declare interface ShippingInfo {
 declare interface UserInfo {
   id: number;
   name: string;
+  avatarUrl: string;
   phoneNumber: string;
   email?: string;
-  avatarUrl?: string;
 }
 
 /**
