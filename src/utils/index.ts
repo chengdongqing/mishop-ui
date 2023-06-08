@@ -107,3 +107,22 @@ export function desensitizeAccount(account: string) {
 
   return desensitizedData;
 }
+
+/**
+ * 检查文件格式是否为指定后缀名
+ * @param fileName 文件名
+ * @param allowedExtensions 允许的后缀名数组
+ */
+export function checkFileFormat(fileName: string, allowedExtensions: string[]) {
+  const fileExtension = fileName.split('.').pop(); // 获取文件的后缀名
+  if (!fileExtension) {
+    return false; // 如果文件没有后缀名，则认为格式不正确
+  }
+  // 将后缀名转换为小写形式
+  const lowerCaseExtension = fileExtension.toLowerCase();
+
+  // 检查文件后缀名是否在允许的后缀名列表中
+  return allowedExtensions.some((extension) => {
+    return extension.toLowerCase() === lowerCaseExtension;
+  });
+}

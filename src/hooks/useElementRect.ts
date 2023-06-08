@@ -9,8 +9,11 @@ export default function useElementRect(
   const getRect = useDebounce(() => {
     const element = target instanceof HTMLElement ? target : target.current;
     if (element) {
-      setRect(element.getBoundingClientRect());
+      const value = element.getBoundingClientRect();
+      setRect(value);
+      return value;
     }
+    return null;
   }, 50);
 
   useEffect(() => {

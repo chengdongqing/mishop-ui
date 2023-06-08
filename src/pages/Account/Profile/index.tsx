@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import Form from '@/components/Form';
 import Input from '@/components/Input';
+import Popup from '@/components/Popup';
 import Radio from '@/components/Radio';
 import Row from '@/components/Row';
 import useToggle from '@/hooks/useToggle.ts';
@@ -9,6 +10,7 @@ import userSlice, { useUserInfo } from '@/store/slices/userSlice.ts';
 import patterns from '@/utils/patterns.ts';
 import { RightOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import AvatarCopper from './AvatarCopper';
 import styles from './index.module.less';
 
 export default function ProfilePage() {
@@ -16,10 +18,15 @@ export default function ProfilePage() {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
 
+  const [open, toggleOpen] = useToggle(true);
+
   return (
     <>
       <AccountLayout.Title title={'个人信息'} />
 
+      <Popup open={open} width={'45rem'} footer={null} onCancel={toggleOpen}>
+        <AvatarCopper />
+      </Popup>
       <Form
         noStyle
         initialValues={{ ...userInfo }}
@@ -36,6 +43,7 @@ export default function ProfilePage() {
                 align={'middle'}
                 justify={'space-between'}
                 style={{ cursor: 'pointer' }}
+                onClick={toggleOpen}
               >
                 <img
                   alt={''}

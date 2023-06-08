@@ -1,6 +1,7 @@
 import Checkbox from '@/components/Checkbox';
 import Grid from '@/components/Grid';
 import previewImages from '@/components/ImagePreview';
+import LazyImage from '@/components/LazyImage';
 import Loading from '@/components/Loading';
 import Rate from '@/components/Rate';
 import Row from '@/components/Row';
@@ -76,7 +77,7 @@ function CommentList() {
           <div key={item.user.name} className={styles.comment_item}>
             <Row justify={'space-between'} align={'middle'}>
               <Space size={'1.8rem'} className={styles.user_info}>
-                <img
+                <LazyImage
                   alt={item.user.name}
                   src={item.user.avatar}
                   className={styles.avatar}
@@ -104,7 +105,7 @@ function CommentList() {
               >
                 <Grid columns={4} gap={'0.8rem'}>
                   {item.photos.map((photo, index) => (
-                    <img
+                    <LazyImage
                       key={photo}
                       src={photo}
                       alt={''}
