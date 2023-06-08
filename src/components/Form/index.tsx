@@ -2,9 +2,9 @@ import useSetState from '@/hooks/useSetState.ts';
 import { arrayToObject } from '@/utils';
 import {
   createContext,
+  FormHTMLAttributes,
   forwardRef,
   ForwardRefExoticComponent,
-  PropsWithChildren,
   RefAttributes,
   useImperativeHandle
 } from 'react';
@@ -53,7 +53,8 @@ export interface FormHandle {
   setFieldsValue(values: ValuesType): void;
 }
 
-interface FormProps extends PropsWithChildren {
+interface FormProps
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onChange'> {
   // FormItem无样式
   noStyle?: boolean;
   // 禁用下属组件
@@ -73,7 +74,7 @@ interface FormForwardRef
 
 const Form = forwardRef<FormHandle, FormProps>(
   (
-    { children, noStyle, disabled, initialValues, onChange, onOk },
+    { children, noStyle, disabled, initialValues, onChange, onOk, ...rest },
     forwardRef
   ) => {
     const [fields, setFields] = useSetState<Record<string, FormItemInjects>>();
@@ -119,6 +120,7 @@ const Form = forwardRef<FormHandle, FormProps>(
 
     return (
       <form
+        {...rest}
         onSubmit={(e) => {
           e.preventDefault();
           submit();

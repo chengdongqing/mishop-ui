@@ -4,6 +4,7 @@ import { RouteObject } from 'react-router-dom';
 
 const AccountPage = lazy(() => import('@/pages/Account/Account'));
 const ProfilePage = lazy(() => import('@/pages/Account/Profile'));
+const PrivacyPage = lazy(() => import('@/pages/Account/Privacy'));
 
 const routes: RouteObject[] = [
   {
@@ -19,6 +20,14 @@ const routes: RouteObject[] = [
     element: (
       <PageDecorator title={'个人信息'}>
         <ProfilePage />
+      </PageDecorator>
+    )
+  },
+  {
+    path: 'privacy',
+    element: (
+      <PageDecorator title={'隐私中心'}>
+        <PrivacyPage />
       </PageDecorator>
     )
   }

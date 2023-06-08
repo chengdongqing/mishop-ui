@@ -1,0 +1,51 @@
+.radio_item {
+  display: flex;
+  align-items: center;
+  margin-left: 2.2rem;
+  cursor: pointer;
+  line-height: 1;
+
+  .icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 0.1rem solid #d9d9d9;
+    transition: border-color 0.3s, border-width 0.1s;
+  }
+
+  .label {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 1.7rem;
+    margin: 0 1rem;
+  }
+
+  &:hover {
+    .icon {
+      border-color: var(--color-primary);
+    }
+  }
+
+  &.active {
+    .icon {
+      border-width: 0.5rem;
+      border-color: var(--color-primary);
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    .icon {
+      border-color: #d9d9d9;
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .label {
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.radio_group {
+  display: flex;
+}

@@ -2,12 +2,15 @@ import LazyImage from '@/components/LazyImage';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useQueryParams from '@/hooks/useQueryParams.ts';
 import AccountLayout from '@/layouts/AccountLayout';
-import toModifyPassword from '@/pages/Account/Account/PasswordModificationPopup';
-import { useUserInfo } from '@/store/slices/userSlice.ts';
+import userSlice, { useUserInfo } from '@/store/slices/userSlice.ts';
 import { RightOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import toModifyAccount from './AccountModificationPopup';
 import styles from './index.module.less';
+import toModifyPassword from './PasswordModificationPopup';
 
 export default function AccountPage() {
   return (
@@ -20,6 +23,17 @@ export default function AccountPage() {
 
 function LoginMethods() {
   const userInfo = useUserInfo();
+  const dispatch = useDispatch();
+  const { action } = useQueryParams<{ action?: 'password' }>();
+  useEffect(() => {
+    if (action === 'password') {
+      setTimeout(() => {
+        toModifyPassword(() => {
+          popup.alert('密码修改成功！');
+        });
+      }, 500);
+    }
+  }, [action]);
 
   return (
     <>
@@ -30,7 +44,12 @@ function LoginMethods() {
           justify={'space-between'}
           className={styles.list_item}
           onClick={() => {
-            toModifyAccount('phoneNumber', () => {
+            toModifyAccount('phoneNumber', (value) => {
+              dispatch(
+                userSlice.actions.modifyUser({
+                  phoneNumber: value
+                })
+              );
               popup.alert('手机号修改成功！');
             });
           }}
@@ -53,7 +72,12 @@ function LoginMethods() {
           justify={'space-between'}
           className={styles.list_item}
           onClick={() => {
-            toModifyAccount('email', () => {
+            toModifyAccount('email', (value) => {
+              dispatch(
+                userSlice.actions.modifyUser({
+                  email: value
+                })
+              );
               popup.alert('邮箱修改成功！');
             });
           }}

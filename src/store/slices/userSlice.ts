@@ -11,6 +11,14 @@ export default createSlice({
   reducers: {
     setUser(state, { payload }: PayloadAction<UserInfo | null>) {
       state.userInfo = payload;
+    },
+    modifyUser(state, { payload }: PayloadAction<Partial<UserInfo>>) {
+      if (!state.userInfo) return;
+
+      state.userInfo = {
+        ...state.userInfo,
+        ...payload
+      };
     }
   }
 });

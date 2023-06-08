@@ -10,16 +10,17 @@ import useLogout from './useLogout.ts';
 
 const menus = [
   {
-    key: '/user',
-    label: '个人中心'
+    label: '个人中心',
+    href: '/user'
   },
   {
-    key: '/user/favorites',
-    label: '我的喜欢'
+    label: '我的喜欢',
+    href: '/user/favorites'
   },
   {
-    key: '/account',
-    label: '我的帐户'
+    label: '我的帐户',
+    href: '/account',
+    target: '_blank'
   }
 ];
 
@@ -64,7 +65,12 @@ function NavsWithLogin() {
         >
           <div style={{ padding: '0.8rem 0' }}>
             {menus.map((item) => (
-              <Link key={item.key} to={item.key} className={styles.menu_item}>
+              <Link
+                to={item.href}
+                key={item.label}
+                target={item.target}
+                className={styles.menu_item}
+              >
                 {item.label}
               </Link>
             ))}

@@ -69,6 +69,7 @@ declare interface UserInfo {
   avatarUrl: string;
   phoneNumber: string;
   email?: string;
+  gender?: number;
 }
 
 /**

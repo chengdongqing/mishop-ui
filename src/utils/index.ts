@@ -1,3 +1,4 @@
+import patterns from '@/utils/patterns.ts';
 import { EmptyValue } from './constants';
 
 /**
@@ -80,4 +81,29 @@ export function arrayToObject(
   return source.reduce((sum, item) => {
     return Object.assign(sum, apply(item));
   }, {});
+}
+
+/**
+ * 帐号脱敏处理，by ChatGPT
+ * @param account 数据源：手机号/邮箱
+ */
+export function desensitizeAccount(account: string) {
+  let desensitizedData = account;
+
+  if (patterns.email.test(account)) {
+    // 处理电子邮件地址
+    const parts = account.split('@');
+    const username = parts[0];
+    const domain = parts[1];
+    const usernameLength = username.length;
+    const desensitizedUsername = `${username.charAt(0)}${'*'.repeat(
+      usernameLength - 2
+    )}${username.charAt(usernameLength - 1)}`;
+    desensitizedData = `${desensitizedUsername}@${domain}`;
+  } else if (patterns.phoneNumber.test(account)) {
+    // 处理手机号码
+    desensitizedData = `${account.slice(0, 3)}****${account.slice(7)}`;
+  }
+
+  return desensitizedData;
 }

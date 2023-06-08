@@ -48,7 +48,7 @@ const menus: MenuItemProps[] = [
       },
       {
         label: '修改密码',
-        href: '/account',
+        href: '/account?action=password',
         target: '_blank'
       },
       {

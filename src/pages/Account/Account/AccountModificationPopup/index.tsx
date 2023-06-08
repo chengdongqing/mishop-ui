@@ -4,6 +4,7 @@ import Input from '@/components/Input';
 import popup from '@/components/Popup';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
 import useSetState from '@/hooks/useSetState.ts';
+import { desensitizeAccount } from '@/utils';
 import patterns from '@/utils/patterns.ts';
 import { useMemo, useState } from 'react';
 import Steps from '../Steps';
@@ -16,7 +17,7 @@ export function AccountModificationPopup({
   onOk
 }: {
   type: AccountTypes;
-  onOk(): void;
+  onOk(value: string): void;
 }) {
   const label = useMemo(() => {
     return { phoneNumber: '手机号', email: '邮箱' }[type];
@@ -79,7 +80,7 @@ export function AccountModificationPopup({
             setSubmitting(true);
             setTimeout(() => {
               setSubmitting(false);
-              onOk();
+              onOk(desensitizeAccount(values.account));
             }, 1000);
           }}
         >
@@ -120,16 +121,19 @@ export function AccountModificationPopup({
   );
 }
 
-export default function toModifyAccount(type: AccountTypes, onOk: () => void) {
+export default function toModifyAccount(
+  type: AccountTypes,
+  onOk: (value: string) => void
+) {
   const close = popup.open({
     footer: null,
     width: '45rem',
     content: (
       <AccountModificationPopup
         type={type}
-        onOk={() => {
+        onOk={(value) => {
           close();
-          onOk();
+          onOk(value);
         }}
       />
     )
