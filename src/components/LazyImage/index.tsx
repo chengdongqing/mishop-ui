@@ -1,4 +1,4 @@
-import { EmptyImage } from '@/utils/constants.ts';
+import { EmptyImage, EmptyValue } from '@/utils/constants.ts';
 import { ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 
 interface LazyImageProps
@@ -17,7 +17,7 @@ export default function LazyImage({
   const [isVisible, setIsVisible] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>(EmptyValue);
   useEffect(() => {
     if (typeof src === 'function') {
       src().then((res) => {
@@ -53,12 +53,9 @@ export default function LazyImage({
 
   return (
     <img
-      ref={imageRef}
       src={isVisible ? value : EmptyImage}
+      ref={imageRef}
       alt={alt}
-      onError={() => {
-        setValue(EmptyImage);
-      }}
       {...rest}
     />
   );

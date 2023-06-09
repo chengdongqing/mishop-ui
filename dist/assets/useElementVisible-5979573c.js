@@ -1,1 +1,0 @@
-import{r as t,a9 as c}from"./index-a9e2cc54.js";function f(n,o,i=[]){const[r,l]=t.useState(!1),e=c(()=>{const s=n instanceof HTMLElement?n:n.current;s&&l(o(s.getBoundingClientRect()))},50);return t.useEffect(()=>{e()},i),t.useEffect(()=>(window.addEventListener("scroll",e),()=>{window.removeEventListener("scroll",e)}),[e]),r}export{f as u};
