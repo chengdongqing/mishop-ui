@@ -126,3 +126,14 @@ export function checkFileFormat(fileName: string, allowedExtensions: string[]) {
     return extension.toLowerCase() === lowerCaseExtension;
   });
 }
+
+/**
+ * 将blob类型转为file类型
+ * @param blob blob二进制数据
+ * @param filename 文件名
+ */
+export function blobToFile(blob: Blob, filename: string) {
+  return new File([blob], filename, {
+    type: blob.type
+  });
+}

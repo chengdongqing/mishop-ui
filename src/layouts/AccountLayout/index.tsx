@@ -7,7 +7,7 @@ import styles from './index.module.less';
 
 export default function AccountLayout() {
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: '4rem' }}>
       <Header />
 
       <div className={styles.container}>

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import styles from './index.module.less';
 
-export default function AvatarCopper() {
+function AvatarCopper({ onChange }: { onChange(value: string): void }) {
   const [file, setFile] = useState<File>();
   const copperRef = useRef<ImageCropperHandle>(null);
 
@@ -32,13 +32,9 @@ export default function AvatarCopper() {
             <Button
               className={styles.btn}
               onClick={() => {
-                copperRef.current?.crop().then((res) => {
-                  const src = URL.createObjectURL(res as File);
-
-                  popup.open({
-                    width: '36rem',
-                    content: <img src={src} style={{ width: '36rem' }} />
-                  });
+                copperRef.current?.crop().then(([file, dataUrl]) => {
+                  console.log(file);
+                  onChange(dataUrl);
                 });
               }}
             >
@@ -74,4 +70,19 @@ export default function AvatarCopper() {
       )}
     </div>
   );
+}
+
+export default function toCropImage(onChange: (value: string) => void) {
+  const close = popup.open({
+    width: '45rem',
+    footer: null,
+    content: (
+      <AvatarCopper
+        onChange={(value) => {
+          onChange(value);
+          close();
+        }}
+      />
+    )
+  });
 }
