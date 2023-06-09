@@ -1,7 +1,6 @@
-import { PropsWithStyle } from '@/utils/typings';
-import { PropsWithChildren } from 'react';
+import { HTMLAttributes } from 'react';
 
-interface GridProps extends PropsWithChildren, PropsWithStyle {
+interface GridProps extends HTMLAttributes<HTMLDivElement> {
   // 列数
   columns: number;
   // 间距
@@ -9,14 +8,15 @@ interface GridProps extends PropsWithChildren, PropsWithStyle {
 }
 
 export default function Grid({
-  children,
   columns,
   gap,
   style,
-  className
+  className,
+  ...rest
 }: GridProps) {
   return (
     <div
+      {...rest}
       style={{
         gap,
         display: 'grid',
@@ -24,8 +24,6 @@ export default function Grid({
         ...(style || {})
       }}
       className={className}
-    >
-      {children}
-    </div>
+    />
   );
 }

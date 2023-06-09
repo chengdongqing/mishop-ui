@@ -1,10 +1,6 @@
-import { PropsWithStyle } from '@/utils/typings';
-import { Children, CSSProperties, HTMLAttributes, isValidElement, PropsWithChildren, ReactNode, useMemo } from 'react';
+import { Children, CSSProperties, HTMLAttributes, isValidElement, ReactNode, useMemo } from 'react';
 
-interface SpaceProps
-  extends PropsWithChildren,
-    PropsWithStyle,
-    HTMLAttributes<HTMLDivElement> {
+interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
   // 排列方向
   direction?: 'horizontal' | 'vertical';
   // 对齐方式
