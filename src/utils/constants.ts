@@ -1,6 +1,10 @@
 // 空值
 export const EmptyValue = '--';
 
+// 空白图片
+export const EmptyImage =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 // 时间格式
 export const TimeFormat = 'HH:mm:ss';
 export const DateFormat = 'YYYY-MM-DD';

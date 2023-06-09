@@ -1,3 +1,4 @@
+import { EmptyImage } from '@/utils/constants.ts';
 import { ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 
 interface LazyImageProps
@@ -53,12 +54,11 @@ export default function LazyImage({
   return (
     <img
       ref={imageRef}
-      src={
-        isVisible
-          ? value
-          : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-      }
+      src={isVisible ? value : EmptyImage}
       alt={alt}
+      onError={() => {
+        setValue(EmptyImage);
+      }}
       {...rest}
     />
   );
