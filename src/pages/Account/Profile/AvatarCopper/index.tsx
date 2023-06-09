@@ -52,12 +52,14 @@ function AvatarCopper({ onChange }: { onChange(value: string): void }) {
               onChange={(e) => {
                 const newFile = e.target.files?.[0];
                 if (
-                  newFile &&
-                  checkFileFormat(newFile.name, ['jpg', 'png', 'jpeg'])
+                  !newFile ||
+                  !checkFileFormat(newFile.name, ['jpg', 'png', 'jpeg'])
                 ) {
-                  setFile(newFile);
-                } else {
                   toast.warning('图片格式不符合要求！');
+                } else if (newFile.size > 1024 * 1024 * 10) {
+                  toast.warning('图片大小不能超过10MB！');
+                } else {
+                  setFile(newFile);
                 }
               }}
             />
