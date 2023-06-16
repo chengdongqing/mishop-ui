@@ -11,7 +11,7 @@
 - 核心框架： React 18
 - 构建工具： Vite 4
 - node 版本：Node.js 18
-- 开发工具： WebStorm 2023.1.1
+- 开发工具： WebStorm 2023.1
 
 #### 使用方式
 
