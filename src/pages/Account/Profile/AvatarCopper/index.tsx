@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
-import ImageCropper, { ImageCropperHandle } from '@/components/ImageCropper';
+import ImageCropper, { ImageCropperRef } from '@/components/ImageCropper';
 import popup from '@/components/Popup';
 import toast from '@/components/Toast';
 import { checkFileFormat } from '@/utils';
@@ -10,7 +10,7 @@ import styles from './index.module.less';
 
 function AvatarCopper({ onChange }: { onChange(value: string): void }) {
   const [file, setFile] = useState<File>();
-  const copperRef = useRef<ImageCropperHandle>(null);
+  const copperRef = useRef<ImageCropperRef>(null);
 
   return (
     <div className={styles.container}>

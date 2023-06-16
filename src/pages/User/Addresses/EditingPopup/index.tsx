@@ -1,4 +1,4 @@
-import Form, { FormHandle } from '@/components/Form';
+import Form, { FormRef } from '@/components/Form';
 import Grid from '@/components/Grid';
 import Input from '@/components/Input';
 import Popup from '@/components/Popup';
@@ -18,7 +18,7 @@ export default function EditingModal({
   values?: Record<string, unknown>;
   onCancel(): void;
 }) {
-  const formRef = useRef<FormHandle>(null);
+  const formRef = useRef<FormRef>(null);
 
   return (
     <Popup

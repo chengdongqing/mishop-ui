@@ -40,7 +40,7 @@ interface FormContextProps {
 
 export const FormContext = createContext<FormContextProps>({});
 
-export interface FormHandle {
+export interface FormRef {
   // 提交表单
   submit(): Promise<ValuesType>;
   // 重置表单
@@ -67,12 +67,12 @@ interface FormProps
   onOk?(values: ValuesType): void;
 }
 
-interface FormForwardRef
-  extends ForwardRefExoticComponent<FormProps & RefAttributes<FormHandle>> {
+interface FormFC
+  extends ForwardRefExoticComponent<FormProps & RefAttributes<FormRef>> {
   Item: typeof FormItem;
 }
 
-const Form = forwardRef<FormHandle, FormProps>(
+const Form = forwardRef<FormRef, FormProps>(
   (
     { children, noStyle, disabled, initialValues, onChange, onOk, ...rest },
     forwardRef
@@ -154,7 +154,7 @@ const Form = forwardRef<FormHandle, FormProps>(
       </form>
     );
   }
-) as FormForwardRef;
+) as FormFC;
 
 Form.Item = FormItem;
 

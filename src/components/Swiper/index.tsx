@@ -1,7 +1,7 @@
 import useSwiper from '@/components/Swiper/useSwiper.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
-import { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
+import React, { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
 import styles from './index.module.less';
 
 export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
@@ -26,97 +26,95 @@ export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
   beforeChange?(current: number, next: number): void;
 }
 
-export interface SwiperHandle {
+export interface SwiperRef {
   next(): void;
   prev(): void;
   to(index: number): void;
 }
 
-const Swiper = forwardRef<SwiperHandle, SwiperProps>(
-  (
-    {
-      children,
-      autoplay = true,
-      animation = 'scrollX',
-      direction: direction1 = 'forward',
-      duration = 800,
-      interval = 3000,
-      circular = true,
-      indicatorDots = true,
-      style,
-      className,
-      afterChange,
-      beforeChange
-    },
-    forwardedRef
-  ) => {
-    const [
-      { activeIndex, prevIndex, nextIndex, direction, timer, length },
-      { switchIndex, startPlay }
-    ] = useSwiper({
-      direction: direction1,
-      children,
-      autoplay,
-      interval,
-      circular,
-      afterChange,
-      beforeChange
-    });
+const Swiper: React.ForwardRefRenderFunction<SwiperRef, SwiperProps> = (
+  {
+    children,
+    autoplay = true,
+    animation = 'scrollX',
+    direction: direction1 = 'forward',
+    duration = 800,
+    interval = 3000,
+    circular = true,
+    indicatorDots = true,
+    style,
+    className,
+    afterChange,
+    beforeChange
+  },
+  forwardedRef
+) => {
+  const [
+    { activeIndex, prevIndex, nextIndex, direction, timer, length },
+    { switchIndex, startPlay }
+  ] = useSwiper({
+    direction: direction1,
+    children,
+    autoplay,
+    interval,
+    circular,
+    afterChange,
+    beforeChange
+  });
 
-    function toIndex(index: number) {
-      startPlay();
-      switchIndex(true, index);
-    }
-
-    useImperativeHandle(forwardedRef, () => ({
-      next() {
-        startPlay();
-        switchIndex();
-      },
-      prev() {
-        startPlay();
-        switchIndex(false);
-      },
-      to: toIndex
-    }));
-
-    return (
-      <div
-        style={
-          { ...(style || {}), '--duration': `${duration}ms` } as CSSProperties
-        }
-        className={classNames(styles.container, className)}
-        onMouseEnter={() => {
-          clearInterval(timer.current);
-        }}
-        onMouseLeave={startPlay}
-      >
-        {Children.map(children, (child, index) => (
-          <div
-            className={classNames(
-              styles.swiper_item,
-              styles[animation],
-              styles[direction as string],
-              index === activeIndex && styles.active,
-              prevIndex === index && styles.prev,
-              nextIndex === index && styles.next
-            )}
-          >
-            {child}
-          </div>
-        ))}
-
-        {indicatorDots && (
-          <IndicatorDots
-            length={length}
-            current={activeIndex}
-            onChange={toIndex}
-          />
-        )}
-      </div>
-    );
+  function toIndex(index: number) {
+    startPlay();
+    switchIndex(true, index);
   }
-);
+
+  useImperativeHandle(forwardedRef, () => ({
+    next() {
+      startPlay();
+      switchIndex();
+    },
+    prev() {
+      startPlay();
+      switchIndex(false);
+    },
+    to: toIndex
+  }));
+
+  return (
+    <div
+      style={
+        { ...(style || {}), '--duration': `${duration}ms` } as CSSProperties
+      }
+      className={classNames(styles.container, className)}
+      onMouseEnter={() => {
+        clearInterval(timer.current);
+      }}
+      onMouseLeave={startPlay}
+    >
+      {Children.map(children, (child, index) => (
+        <div
+          className={classNames(
+            styles.swiper_item,
+            styles[animation],
+            styles[direction as string],
+            index === activeIndex && styles.active,
+            prevIndex === index && styles.prev,
+            nextIndex === index && styles.next
+          )}
+        >
+          {child}
+        </div>
+      ))}
+
+      {indicatorDots && (
+        <IndicatorDots
+          length={length}
+          current={activeIndex}
+          onChange={toIndex}
+        />
+      )}
+    </div>
+  );
+};
 
 function IndicatorDots({
   length,
@@ -147,4 +145,4 @@ function IndicatorDots({
   );
 }
 
-export default Swiper;
+export default forwardRef(Swiper);

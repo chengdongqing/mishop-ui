@@ -1,12 +1,12 @@
 import Space from '@/components/Space';
-import Swiper, { SwiperHandle } from '@/components/Swiper';
+import Swiper, { SwiperRef } from '@/components/Swiper';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.less';
 
 export default function ProductSwiper({ pictures }: { pictures: string[] }) {
-  const swiperRef = useRef<SwiperHandle>(null);
+  const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {

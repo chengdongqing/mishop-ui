@@ -1,7 +1,7 @@
 import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
-import Swiper, { SwiperHandle } from '@/components/Swiper';
+import Swiper, { SwiperRef } from '@/components/Swiper';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/typings';
@@ -38,7 +38,7 @@ export default function CommendedProducts({
 }
 
 function ProductsSwiper() {
-  const swiperRef = useRef<SwiperHandle>(null);
+  const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
   const panels = useMemo(() => {

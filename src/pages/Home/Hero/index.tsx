@@ -1,4 +1,4 @@
-import Swiper, { SwiperHandle } from '@/components/Swiper';
+import Swiper, { SwiperRef } from '@/components/Swiper';
 import { buildProductUrl } from '@/utils';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -86,7 +86,7 @@ function ProductsPanel({
 }
 
 function BannerSwiper() {
-  const swiperRef = useRef<SwiperHandle>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   return (
     <div className={styles.banner_card}>
