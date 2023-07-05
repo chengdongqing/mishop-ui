@@ -1,17 +1,20 @@
 import Breadcrumb from '@/components/Breadcrumb';
+import DataContainer from '@/components/DataContainer';
 import Grid from '@/components/Grid';
 import Iconfont from '@/components/Iconfont';
 import LazyImage from '@/components/LazyImage';
 import Popup from '@/components/Popup';
-import { Videos } from '@/pages/Videos/const.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import classNames from 'classnames';
 import styles from './index.module.less';
+import { fetchVideos } from './service.ts';
 
-export interface VideoProps {
-  // 标题
-  title: string;
+export interface Video {
+  id: number;
+  // 视频名称
+  name: string;
   // 视频播放地址
-  playUrl: string;
+  videoUrl: string;
   // 封面图片地址
   coverUrl: string;
   // 视频描述信息
@@ -19,6 +22,10 @@ export interface VideoProps {
 }
 
 export default function VideosPage() {
+  const { data, loading } = useRequest(fetchVideos, {
+    initialData: []
+  });
+
   return (
     <>
       <Breadcrumb value={'视频列表'} />
@@ -26,18 +33,20 @@ export default function VideosPage() {
         <div className={styles.container}>
           <div className={styles.title_bar}>全部视频</div>
 
-          <Grid columns={2} gap={'1.4rem'} className={styles.videos}>
-            {Videos.map((item) => (
-              <VideoCard key={item.title} {...item} large />
-            ))}
-          </Grid>
+          <DataContainer loading={loading} empty={!data?.length && '暂无视频数据'}>
+            <Grid columns={2} gap={'1.4rem'} className={styles.videos}>
+              {data?.map((item) => (
+                <VideoCard key={item.id} {...item} large />
+              ))}
+            </Grid>
+          </DataContainer>
         </div>
       </div>
     </>
   );
 }
 
-export function VideoCard(props: VideoProps & { large?: boolean }) {
+export function VideoCard(props: Video & { large?: boolean }) {
   return (
     <div
       className={classNames(styles.video_item, !!props.large && styles.large)}
@@ -46,12 +55,12 @@ export function VideoCard(props: VideoProps & { large?: boolean }) {
         className={styles.cover}
         onClick={() => {
           Popup.open({
-            title: props.title,
+            title: props.name,
             width: '88rem',
             footer: null,
             content: (
               <div style={{ margin: '-2rem' }}>
-                <video src={props.playUrl} width={'100%'} autoPlay controls />
+                <video src={props.videoUrl} width={'100%'} autoPlay controls />
               </div>
             )
           });
@@ -59,7 +68,7 @@ export function VideoCard(props: VideoProps & { large?: boolean }) {
       >
         <LazyImage
           draggable={false}
-          alt={props.title}
+          alt={props.name}
           src={props.coverUrl}
           className={styles.picture}
         />
@@ -68,7 +77,7 @@ export function VideoCard(props: VideoProps & { large?: boolean }) {
         </div>
       </div>
       <div className={styles.footer}>
-        <div className={styles.title}>{props.title}</div>
+        <div className={styles.title}>{props.name}</div>
         <div className={styles.description}>{props.description}</div>
       </div>
     </div>
