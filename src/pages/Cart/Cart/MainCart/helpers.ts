@@ -26,7 +26,7 @@ export function useCart() {
     } else {
       dispatch(
         cartSlice.actions.modifyProductCheck({
-          label: item.label,
+          label: item.name,
           checked
         })
       );

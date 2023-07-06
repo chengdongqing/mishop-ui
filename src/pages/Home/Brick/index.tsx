@@ -115,19 +115,19 @@ function ProductBlocks({
         .slice(0, isMultipleTabs && overflowProduct ? -1 : 8)
         .map((item) => (
           <Link
-            key={item.label}
+            key={item.name}
             className={styles.product_item}
-            to={buildProductUrl(item.label)}
+            to={buildProductUrl(item.name)}
             target={'_blank'}
           >
             <LazyImage
               className={styles.picture}
               src={item.pictureUrl}
-              alt={item.label}
+              alt={item.name}
             />
             <div>
               <div className={classNames(styles.label, 'text-ellipsis')}>
-                {item.label}
+                {item.name}
               </div>
               <div className={classNames(styles.description, 'text-ellipsis')}>
                 {item.description}
@@ -150,17 +150,17 @@ function ProductBlocks({
             <Link
               style={{ marginBottom: '1.4rem' }}
               className={classNames(styles.product_item, styles.small)}
-              to={buildProductUrl(overflowProduct.label)}
+              to={buildProductUrl(overflowProduct.name)}
               target={'_blank'}
             >
               <LazyImage
                 className={styles.picture}
                 src={overflowProduct.pictureUrl}
-                alt={overflowProduct.label}
+                alt={overflowProduct.name}
               />
               <div>
                 <div className={classNames(styles.label, 'text-ellipsis')}>
-                  {overflowProduct.label}
+                  {overflowProduct.name}
                 </div>
                 <span className={styles.price}>{overflowProduct.price}</span>
               </div>

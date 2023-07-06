@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 interface RequestConfig<T> {
   manual?: boolean;
-  defaultParams?: unknown;
+  defaultParams?: any[];
   initialData?: T | null;
   formatResult?: (res: Ret<T>) => T;
   onSuccess?: (data: T) => void;
@@ -13,9 +13,9 @@ interface RequestConfig<T> {
 }
 
 interface RequestResult<T> {
-  data: T | null;
+  data: T;
   loading: boolean;
-  run: (...args: unknown[]) => void;
+  run: (...args: any[]) => void;
   setData: React.Dispatch<React.SetStateAction<T | null>>;
 }
 
@@ -39,7 +39,7 @@ export default function useRequest<T>(
       setLoading(true);
 
       try {
-        const response = await service(args.length ? args : defaultParams);
+        const response = await service(...(args.length ? args : defaultParams || []));
         const res = formatResult?.(response.data) || response.data?.data;
         if (res) {
           setData(res);
@@ -60,7 +60,7 @@ export default function useRequest<T>(
   }, [manual, run]);
 
   return {
-    data,
+    data: data as T,
     loading,
     setData,
     run

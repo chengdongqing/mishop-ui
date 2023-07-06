@@ -110,19 +110,19 @@ function MainCart({
       >
         {products.map((item) => (
           <Row
-            key={item.label}
+            key={item.name}
             align={'middle'}
             justify={'space-between'}
             className={styles.product_item}
           >
-            <Link to={buildProductUrl(item.label)} style={{ flex: 1 }}>
+            <Link to={buildProductUrl(item.name)} style={{ flex: 1 }}>
               <Space size={'1rem'}>
                 <img
-                  alt={item.label}
+                  alt={item.name}
                   src={item.pictureUrl}
                   className={styles.img}
                 />
-                <div className={styles.label}>{item.label}</div>
+                <div className={styles.label}>{item.name}</div>
               </Space>
             </Link>
             <div className={styles.price}>

@@ -15,13 +15,13 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  placeholder,
-  keywords,
-  width,
-  height,
-  fontSize,
-  onSearch
-}: SearchBarProps) {
+                                    placeholder,
+                                    keywords,
+                                    width,
+                                    height,
+                                    fontSize,
+                                    onSearch
+                                  }: SearchBarProps) {
   const [focused, setFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [keyword, setKeyword] = useState('');
@@ -62,6 +62,8 @@ export default function SearchBar({
                 setActiveIndex((value) => {
                   return value < keywords.length - 1 ? value + 1 : 0;
                 });
+              } else if (e.key === 'Enter') {
+                onSearch?.(keyword);
               }
             }
           }}
@@ -91,12 +93,12 @@ export default function SearchBar({
 }
 
 function RecommendList({
-  open,
-  width,
-  keywords,
-  activeIndex,
-  onChange
-}: {
+                         open,
+                         width,
+                         keywords,
+                         activeIndex,
+                         onChange
+                       }: {
   open: boolean;
   width?: number | string;
   keywords: string[];

@@ -1,22 +1,41 @@
 /**
  * 通用值类型
  */
-declare type BasicValue = string | number | boolean | null | undefined;
+type BasicValue = string | number | boolean | null | undefined;
 
 /**
  * 通用数据模型
  */
-declare interface OptionItem {
-  label: string;
-  value: BasicValue;
+interface OptionItem {
+  id: BasicValue;
+  name: string;
 }
 
 /**
- * 产品模型
+ * 通用分页数据模型
  */
-declare interface Product {
+interface Page<T> {
+  pageNumber?: number;
+  pageSize?: number;
+  totalSize?: number;
+  data?: T[];
+}
+
+/**
+ * 通用请求分页数据模型
+ */
+interface Pageable {
+  pageNumber: number;
+  pageSize?: number;
+}
+
+/**
+ * 商品数据模型
+ */
+interface Product {
+  id: number;
   // 产品名称
-  label: string;
+  name: string;
   // 图片地址
   pictureUrl: string;
   // 当前价格
@@ -32,27 +51,27 @@ declare interface Product {
 }
 
 /**
- * 产品类别模型
+ * 产品类别数据模型
  */
-declare interface ProductCategory {
+interface ProductCategory {
   label: string;
   children?: Product[];
   href?: string;
 }
 
 /**
- * 促销广告图模型
+ * 促销广告图数据模型
  */
-declare interface Promo {
+interface Promo {
   src: string;
   href: string;
   description?: string;
 }
 
 /**
- * 收货信息模型
+ * 收货信息数据模型
  */
-declare interface ShippingInfo {
+interface ShippingInfo {
   id: number;
   label?: string;
   username: string;
@@ -61,9 +80,9 @@ declare interface ShippingInfo {
 }
 
 /**
- * 登录用户模型
+ * 登录用户数据模型
  */
-declare interface UserInfo {
+interface UserInfo {
   id: number;
   name: string;
   avatarUrl: string;
@@ -73,9 +92,24 @@ declare interface UserInfo {
 }
 
 /**
- * 购物车商品模型
+ * 购物车商品数据模型
  */
-declare interface CartProduct extends Product {
+interface CartProduct extends Product {
   checked?: boolean;
   number: number;
+}
+
+/**
+ * 视频数据模型
+ */
+interface Video {
+  id: number;
+  // 视频名称
+  name: string;
+  // 视频播放地址
+  videoUrl: string;
+  // 封面图片地址
+  coverUrl: string;
+  // 视频描述信息
+  description?: string;
 }

@@ -76,13 +76,13 @@ export default function OrderDetailsPage() {
       <div className={styles.product_list}>
         {order.products.map((item) => (
           <Row
-            key={item.label}
+            key={item.name}
             align={'middle'}
             className={styles.product_item}
           >
-            <Link to={buildProductUrl(item.label)} target={'_blank'}>
-              <img src={item.pictureUrl} alt={item.label} />
-              <span className={styles.label}>{item.label}</span>
+            <Link to={buildProductUrl(item.name)} target={'_blank'}>
+              <img src={item.pictureUrl} alt={item.name} />
+              <span className={styles.label}>{item.name}</span>
             </Link>
             <span>
               {formatAmount(item.price)} x {item.number}

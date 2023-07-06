@@ -19,11 +19,11 @@ export default function FavoriteProductsPage() {
       {products.length ? (
         <Grid columns={3}>
           {products.map((item) => (
-            <div key={item.label} className={styles.product_item}>
-              <Link to={buildProductUrl(item.label)} target={'_blank'}>
-                <img src={item.pictureUrl} alt={item.label} />
+            <div key={item.name} className={styles.product_item}>
+              <Link to={buildProductUrl(item.name)} target={'_blank'}>
+                <img src={item.pictureUrl} alt={item.name} />
                 <div className={classNames(styles.label, 'text-ellipsis')}>
-                  {item.label}
+                  {item.name}
                 </div>
               </Link>
               <div className={styles.price}>{formatAmount(item.price)}</div>
@@ -45,7 +45,7 @@ export default function FavoriteProductsPage() {
                 >
                   删除
                 </Button>
-                <Link to={buildProductUrl(item.label)} target={'_blank'}>
+                <Link to={buildProductUrl(item.name)} target={'_blank'}>
                   <Button className={styles.btn}>查看详情</Button>
                 </Link>
               </Space>

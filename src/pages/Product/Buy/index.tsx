@@ -89,7 +89,7 @@ function ProductPanel({
                 cartSlice.actions.putProduct({
                   product: {
                     pictureUrl: sku.picture,
-                    label: productName,
+                    name: productName,
                     price: sku.price,
                     checked: true,
                     number: 1

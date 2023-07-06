@@ -24,8 +24,8 @@ export default function MainHeader() {
         <SearchBar
           placeholder={placeholder}
           keywords={RecommendedKeywords}
-          onSearch={() => {
-            navigate('/search');
+          onSearch={(value) => {
+            navigate(`/search?keyword=${encodeURIComponent(value)}`);
           }}
         />
       </div>
@@ -47,9 +47,9 @@ export default function MainHeader() {
 }
 
 function CategoryBar({
-  timer,
-  onChange
-}: {
+                       timer,
+                       onChange
+                     }: {
   timer: MutableRefObject<NodeJS.Timer | undefined>;
   onChange: (items: Product[] | undefined) => void;
 }) {
@@ -83,11 +83,11 @@ function CategoryBar({
 }
 
 function ProductsPanel({
-  open,
-  products,
-  onMouseEnter,
-  onMouseLeave
-}: {
+                         open,
+                         products,
+                         onMouseEnter,
+                         onMouseLeave
+                       }: {
   open: boolean;
   products: Product[] | undefined;
   onMouseEnter: () => void;
@@ -126,19 +126,19 @@ function ProductsPanel({
       <div className={styles.wrapper}>
         {products?.map((item) => (
           <div
-            key={item.label}
+            key={item.name}
             className={styles.product_item}
             onClick={() => {
-              navigate(buildProductUrl(item.label));
+              navigate(buildProductUrl(item.name));
               window.location.reload();
             }}
           >
             <img
               className={styles.picture}
               src={item.pictureUrl}
-              alt={item.label}
+              alt={item.name}
             />
-            <div className={styles.label}>{item.label}</div>
+            <div className={styles.label}>{item.name}</div>
             <div className={styles.price}>{formatAmount(item.price)}</div>
           </div>
         ))}

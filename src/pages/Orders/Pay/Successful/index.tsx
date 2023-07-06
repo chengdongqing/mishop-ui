@@ -65,8 +65,8 @@ export default function PaySuccessfulPage() {
             <div className={styles.label}>商品名称：</div>
             <div>
               {products.map((item) => (
-                <div key={item.label}>
-                  {item.label}
+                <div key={item.name}>
+                  {item.name}
                   <span style={{ color: '#b0b0b0' }}> x {item.number}</span>
                 </div>
               ))}

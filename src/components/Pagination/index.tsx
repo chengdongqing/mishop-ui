@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import styles from './index.module.less';
 
 interface PaginationProps {
-  current?: number;
+  pageNumber?: number;
   pageSize?: number;
   totalSize?: number;
 
@@ -15,7 +15,7 @@ interface PaginationProps {
 const overPages = 7;
 
 export default function Pagination({
-  current = 1,
+  pageNumber = 1,
   pageSize = 10,
   totalSize = 10,
   onChange
@@ -30,30 +30,30 @@ export default function Pagination({
     }
 
     const items = [];
-    if (current <= 3) {
+    if (pageNumber <= 3) {
       for (let i = 2; i <= 4; i++) {
         items.push(i);
       }
-    } else if (current > pages - 3) {
+    } else if (pageNumber > pages - 3) {
       for (let i = pages - 4; i < pages; i++) {
         items.push(i);
       }
     } else {
-      for (let i = current - 2; i <= current + 2; i++) {
+      for (let i = pageNumber - 2; i <= pageNumber + 2; i++) {
         items.push(i);
       }
     }
     return items;
-  }, [current, pages]);
+  }, [pageNumber, pages]);
   const hasPrevMore = useMemo(() => {
-    return pages > overPages && current > 3;
-  }, [current, pages]);
+    return pages > overPages && pageNumber > 3;
+  }, [pageNumber, pages]);
   const hasNextMore = useMemo(() => {
-    return pages > overPages && current < pages - 3;
-  }, [current, pages]);
+    return pages > overPages && pageNumber < pages - 3;
+  }, [pageNumber, pages]);
 
   function handleChange(page: number) {
-    if (page !== current) {
+    if (page !== pageNumber) {
       onChange?.(page);
     }
   }
@@ -63,10 +63,10 @@ export default function Pagination({
       <Space size={'1rem'}>
         {/* 左箭头 */}
         <div
-          className={classNames(styles.item, current <= 1 && styles.disabled)}
+          className={classNames(styles.item, pageNumber <= 1 && styles.disabled)}
           onClick={() => {
-            if (current > 1) {
-              handleChange(current - 1);
+            if (pageNumber > 1) {
+              handleChange(pageNumber - 1);
             }
           }}
         >
@@ -75,7 +75,7 @@ export default function Pagination({
 
         {/* 第一页 */}
         <div
-          className={classNames(styles.item, current === 1 && styles.active)}
+          className={classNames(styles.item, pageNumber === 1 && styles.active)}
           onClick={() => {
             handleChange(1);
           }}
@@ -94,7 +94,7 @@ export default function Pagination({
             key={item}
             className={classNames(
               styles.item,
-              current === item && styles.active
+              pageNumber === item && styles.active
             )}
             onClick={() => {
               handleChange(item);
@@ -114,7 +114,7 @@ export default function Pagination({
           <div
             className={classNames(
               styles.item,
-              current === pages && styles.active
+              pageNumber === pages && styles.active
             )}
             onClick={() => {
               handleChange(pages);
@@ -128,11 +128,11 @@ export default function Pagination({
         <div
           className={classNames(
             styles.item,
-            current >= pages && styles.disabled
+            pageNumber >= pages && styles.disabled
           )}
           onClick={() => {
-            if (current < pages) {
-              handleChange(current + 1);
+            if (pageNumber < pages) {
+              handleChange(pageNumber + 1);
             }
           }}
         >

@@ -6,7 +6,7 @@ interface RequestConfig {
   baseUrl?: string;
   method?: RequestMethod;
   headers?: HeadersInit;
-  body?: BodyInit | null;
+  body?: unknown | null;
   params?: Record<string, unknown>;
   timeout?: number;
 }
@@ -37,11 +37,16 @@ export default async function request<T>(
   // Construct the full URL with query parameters if any
   const fullUrl = new URL(url, baseUrl);
   if (params) {
-    Object.keys(params).forEach((key) => {
-      if (key && params[key] !== undefined) {
-        fullUrl.searchParams.append(key, params[key] as string);
+    Object.entries(params).forEach(([key, value]) => {
+      if (key && value !== undefined) {
+        fullUrl.searchParams.append(key, value as string);
       }
     });
+  }
+  // Construct the full headers with content-type and jwt token if any
+  const fullHeaders = new Headers(headers);
+  if (body && method !== 'GET') {
+    fullHeaders.append('content-type', 'application/json');
   }
 
   try {
@@ -55,8 +60,8 @@ export default async function request<T>(
 
     const response = await fetch(fullUrl.toString(), {
       method,
-      headers,
-      body,
+      headers: fullHeaders,
+      body: body ? JSON.stringify(body) : null,
       signal
     });
     const data: Ret<T> = await response.json();

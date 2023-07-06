@@ -1,45 +1,54 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import CommendedProducts from '@/components/CommendedProducts';
-import Form from '@/components/Form';
+import DataContainer from '@/components/DataContainer';
+import Form, { FormRef } from '@/components/Form';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
-import Loading from '@/components/Loading';
 import Pagination from '@/components/Pagination';
 import Space from '@/components/Space';
-import useMount from '@/hooks/useMount.ts';
-import useSetState from '@/hooks/useSetState.ts';
+import useQueryParams from '@/hooks/useQueryParams.ts';
+import useRequest from '@/hooks/useRequest.ts';
+import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
+import { fetchProductBrands, fetchProductCategories, searchProducts } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FilterBarItems, ProductItemProps, Products } from './const';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
 import SortBar from './SortBar';
 
+export type SearchProduct = Omit<Product, 'pictureUrl'> & {
+  pictureUrls: string[];
+};
+
 export default function SearchPage() {
-  const [loading, setLoading] = useState(true);
-  useMount(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+  const formRef = useRef<FormRef>(null);
+  const { keyword } = useQueryParams<{
+    keyword: string;
+  }>();
+  const { data, loading, run } = useRequest(searchProducts, {
+    defaultParams: [{ keyword }, { pageSize: 12 }],
+    initialData: {
+      data: []
+    }
   });
+
+  useUpdateEffect(() => {
+    run({ keyword });
+  }, [keyword]);
 
   return (
     <>
       <Breadcrumb value={'全部结果'} split={'>'} />
-      <Form noStyle onChange={console.log}>
-        <div className={styles.filters}>
-          {FilterBarItems.map((item, index) => (
-            <Form.Item key={item.value} name={item.value}>
-              <FilterBar
-                label={item.label}
-                options={item.children}
-                borderless={index === FilterBarItems.length - 1}
-              />
-            </Form.Item>
-          ))}
-        </div>
+      <Form
+        noStyle
+        ref={formRef}
+        onChange={(_changedValues, allValues) => {
+          run(allValues);
+        }}
+      >
+        <FilterGroup />
         <div
           style={{
             backgroundColor: 'var(--color-background)',
@@ -48,14 +57,23 @@ export default function SearchPage() {
         >
           <div className={styles.container}>
             <SortBar />
-            {loading ? (
-              <Loading />
-            ) : (
-              <>
-                <ProductList />
-                <CommendedProducts mode={'swiper'} />
-              </>
-            )}
+            <DataContainer
+              loading={loading}
+              empty={
+                !data.totalSize && '对应筛选条件下没有找到商品，换个筛选条件吧'
+              }
+            >
+              <ProductList
+                page={data}
+                onPageChange={(value) => {
+                  run(formRef.current?.getFieldsValue(), {
+                    pageNumber: value,
+                    pageSize: 12
+                  });
+                }}
+              />
+            </DataContainer>
+            <CommendedProducts mode={'swiper'} />
           </div>
         </div>
       </Form>
@@ -63,43 +81,63 @@ export default function SearchPage() {
   );
 }
 
-function ProductList() {
-  const [page, setPage] = useSetState(() => ({
-    current: 1,
-    pageSize: 10,
-    totalSize: 156
-  }));
+function FilterGroup() {
+  const { data: brands, loading } = useRequest(fetchProductBrands, {
+    defaultParams: [100, 0],
+    initialData: []
+  });
+  const { data: categories, loading: loading1 } = useRequest(
+    fetchProductCategories,
+    {
+      defaultParams: [100, 0],
+      initialData: []
+    }
+  );
 
   return (
-    <div className={styles.products}>
-      <Grid columns={4} gap={'1.4rem'}>
-        {Products.map((item) => (
-          <ProductItem key={item.label} {...item} />
-        ))}
-      </Grid>
-      <Pagination
-        {...page}
-        onChange={(value) => {
-          setPage({
-            current: value
-          });
-        }}
-      />
+    <div className={styles.filters}>
+      <DataContainer loading={loading || loading1}>
+        <Form.Item name={'brandId'}>
+          <FilterBar label={'品牌'} options={brands} />
+        </Form.Item>
+        <Form.Item name={'categoryId'}>
+          <FilterBar label={'类别'} options={categories} borderless />
+        </Form.Item>
+      </DataContainer>
     </div>
   );
 }
 
-function ProductItem(props: ProductItemProps) {
+function ProductList({
+                       page,
+                       onPageChange
+                     }: {
+  page: Page<SearchProduct>;
+  onPageChange: (value: number) => void;
+}) {
+  return (
+    <div className={styles.products}>
+      <Grid columns={4} gap={'1.4rem'}>
+        {page.data?.map((item) => (
+          <ProductItem key={item.name} {...item} />
+        ))}
+      </Grid>
+      <Pagination {...page} onChange={onPageChange} />
+    </div>
+  );
+}
+
+function ProductItem(props: SearchProduct) {
   const [pictureIndex, setPictureIndex] = useState(0);
 
   return (
-    <Link className={styles.product_item} to={buildProductUrl(props.label)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.name)}>
       <LazyImage
-        alt={props.label}
+        alt={props.name}
         src={props.pictureUrls[pictureIndex]}
         className={styles.picture}
       />
-      <div className={styles.label}>{props.label}</div>
+      <div className={styles.label}>{props.name}</div>
       <Space size={'0.4rem'}>
         <div className={styles.price}>{formatAmount(props.price)}</div>
         {!!props.originalPrice && (
@@ -109,16 +147,16 @@ function ProductItem(props: ProductItemProps) {
         )}
       </Space>
       <Space className={styles.thumbs}>
-        {props.pictureUrls.map((item, index) => (
+        {props.pictureUrls.slice(0, 6).map((item, index) => (
           <img
             key={item}
             src={item}
-            alt={props.label}
+            alt={props.name}
             className={classNames(
               styles.thumb_item,
               index === pictureIndex &&
-                props.pictureUrls.length > 1 &&
-                styles.active
+              props.pictureUrls.length > 1 &&
+              styles.active
             )}
             onMouseEnter={() => {
               setPictureIndex(index);

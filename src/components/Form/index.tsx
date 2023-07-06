@@ -30,10 +30,13 @@ interface FormContextProps {
   disabled?: boolean;
   // 初始值
   initialValues?: ValuesType;
+
   // 注册相关方法
   registerField?(name: string, injects: FormItemInjects): void;
+
   // 取消注册
   cancelField?(name: string): void;
+
   // 值变化回调入口
   onChange?(name: string, value: unknown): void;
 }
@@ -43,12 +46,16 @@ export const FormContext = createContext<FormContextProps>({});
 export interface FormRef {
   // 提交表单
   submit(): Promise<ValuesType>;
+
   // 重置表单
   resetFields(): void;
+
   // 校验表单
   validateFields(): Promise<(string | void)[]>;
+
   // 获取表单值
   getFieldsValue(): ValuesType;
+
   // 设置表单值
   setFieldsValue(values: ValuesType): void;
 }
@@ -61,8 +68,10 @@ interface FormProps
   disabled?: boolean;
   // 初始值
   initialValues?: ValuesType;
+
   // 值变化回调入口
-  onChange?(changedValues: ValuesType): void;
+  onChange?(changedValues: ValuesType, allValues: ValuesType): void;
+
   // 点击提交且验证通过后回调
   onOk?(values: ValuesType): void;
 }
@@ -78,6 +87,7 @@ const Form = forwardRef<FormRef, FormProps>(
     forwardRef
   ) => {
     const [fields, setFields] = useSetState<Record<string, FormItemInjects>>();
+    const [, setValues] = useSetState();
 
     // 收集数据
     function getFieldsValue() {
@@ -88,12 +98,14 @@ const Form = forwardRef<FormRef, FormProps>(
         }))
       );
     }
+
     // 校验数据
     function validateFields() {
       return Promise.all(
         Object.values(fields).map((item) => item.checkValue())
       );
     }
+
     // 提交表单
     function submit() {
       return validateFields().then(() => {
@@ -143,8 +155,14 @@ const Form = forwardRef<FormRef, FormProps>(
               });
             },
             onChange(name, value) {
-              onChange?.({
-                [name]: value
+              const itemValue = { [name]: value };
+              setValues(prevValues => {
+                const newValues = {
+                  ...prevValues,
+                  ...itemValue
+                };
+                onChange?.(itemValue, newValues);
+                return newValues;
               });
             }
           }}

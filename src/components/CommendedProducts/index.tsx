@@ -62,7 +62,7 @@ function ProductsSwiper() {
         style={{ height: '30rem' }}
       >
         {panels.map((item) => (
-          <ProductBlocks key={item[0].label} products={item} />
+          <ProductBlocks key={item[0].name} products={item} />
         ))}
       </Swiper>
       <div className={styles.swiper_dots}>
@@ -89,7 +89,7 @@ function ProductBlocks({ products }: { products: Product[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
-        <ProductBlock key={item.label} {...item} />
+        <ProductBlock key={item.name} {...item} />
       ))}
     </Grid>
   );
@@ -100,13 +100,13 @@ function ProductBlock(props: Product) {
   const store = useStore();
 
   return (
-    <Link className={styles.product_item} to={buildProductUrl(props.label)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.name)}>
       <LazyImage
-        alt={props.label}
+        alt={props.name}
         src={props.pictureUrl}
         className={styles.picture}
       />
-      <div className={styles.label}>{props.label}</div>
+      <div className={styles.label}>{props.name}</div>
       <div className={styles.price}>{formatAmount(props.price)}</div>
       {!!props.comments && (
         <div className={styles.comments}>{props.comments}好评</div>

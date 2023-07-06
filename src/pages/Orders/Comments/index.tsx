@@ -44,8 +44,8 @@ export default function OrderCommentsPage() {
               <Space>
                 {item.products.slice(0, 6).map((item) => (
                   <img
-                    key={item.label}
-                    alt={item.label}
+                    key={item.name}
+                    alt={item.name}
                     src={item.pictureUrl}
                   />
                 ))}

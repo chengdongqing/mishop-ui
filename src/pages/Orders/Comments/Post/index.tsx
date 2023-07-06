@@ -76,21 +76,21 @@ export default function PostCommentPage() {
       {order.products.map((item) => (
         <Form
           noStyle
-          key={item.label}
-          disabled={!!data[item.label]}
+          key={item.name}
+          disabled={!!data[item.name]}
           onOk={(values) => {
-            post(item.label, values);
+            post(item.name, values);
           }}
         >
           <Row className={styles.product_item}>
             <div className={styles.product_info}>
-              <img src={item.pictureUrl} alt={item.label} />
-              <div className={styles.label}>{item.label}</div>
+              <img src={item.pictureUrl} alt={item.name} />
+              <div className={styles.label}>{item.name}</div>
             </div>
             <div className={styles.content}>
               <Score />
               <CommentGroup
-                loading={loading === item.label}
+                loading={loading === item.name}
                 textarea={
                   <Textarea
                     placeholder={

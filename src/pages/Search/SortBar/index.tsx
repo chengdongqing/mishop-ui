@@ -5,23 +5,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
-import { Key } from 'react';
 import styles from './index.module.less';
-
-const CheckOptions: OptionItem[] = [
-  {
-    label: '促销',
-    value: 'promo'
-  },
-  {
-    label: '分期',
-    value: 'instalment'
-  },
-  {
-    label: '仅看有货',
-    value: 'inStock'
-  }
-];
 
 export default function SortBar() {
   return (
@@ -30,16 +14,8 @@ export default function SortBar() {
         <Sorter />
       </Form.Item>
 
-      <Form.Item name={'checks'}>
-        <Checkbox.Group>
-          <Space size={'3rem'}>
-            {CheckOptions.map((item) => (
-              <Checkbox key={item.value as Key} value={item.value}>
-                {item.label}
-              </Checkbox>
-            ))}
-          </Space>
-        </Checkbox.Group>
+      <Form.Item name={'onlyAvailable'}>
+        <Checkbox value={true}>仅看有货</Checkbox>
       </Form.Item>
     </Row>
   );

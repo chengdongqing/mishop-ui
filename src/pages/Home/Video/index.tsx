@@ -2,7 +2,7 @@ import Grid from '@/components/Grid';
 import Row from '@/components/Row';
 import useRequest from '@/hooks/useRequest.ts';
 import { VideoCard } from '@/pages/Videos';
-import { fetchVideos } from '@/pages/Videos/service.ts';
+import { fetchVideos } from '@/services/video.ts';
 import { RightCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';

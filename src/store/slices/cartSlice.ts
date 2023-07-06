@@ -22,7 +22,7 @@ export default createSlice({
       const { product, callback } = payload;
 
       // 判断是否已存在该商品
-      const index = products.findIndex((item) => item.label === product.label);
+      const index = products.findIndex((item) => item.label === product.name);
       if (index === -1) {
         products.push(product);
         callback(true);

@@ -104,15 +104,15 @@ function ProductList() {
       <div className={styles.title}>商品信息</div>
       <div>
         {products.map((item) => (
-          <Row key={item.label} align={'middle'} className={styles.item}>
+          <Row key={item.name} align={'middle'} className={styles.item}>
             <Space size={'1rem'} style={{ flex: 1 }}>
-              <img src={item.pictureUrl} alt={item.label} />
+              <img src={item.pictureUrl} alt={item.name} />
               <Link
-                to={buildProductUrl(item.label)}
+                to={buildProductUrl(item.name)}
                 className={styles.name}
                 target={'_blank'}
               >
-                {item.label}
+                {item.name}
               </Link>
             </Space>
             <div className={styles.price_number}>

@@ -67,17 +67,17 @@ function ProductsPanel({
     >
       {products.slice(0, 24).map((item) => (
         <Link
-          key={item.label}
+          key={item.name}
           className={styles.product_item}
-          to={buildProductUrl(item.label)}
+          to={buildProductUrl(item.name)}
         >
           <img
-            alt={item.label}
+            alt={item.name}
             src={item.pictureUrl}
             className={styles.picture}
           />
           <span className={classNames(styles.label, 'text-ellipsis')}>
-            {item.label}
+            {item.name}
           </span>
         </Link>
       ))}

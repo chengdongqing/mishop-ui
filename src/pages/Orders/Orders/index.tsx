@@ -97,17 +97,17 @@ function OrderList() {
           <Row className={styles.main}>
             <div className={styles.product_list}>
               {item.products.map((product) => (
-                <div key={product.label} className={styles.product_item}>
+                <div key={product.name} className={styles.product_item}>
                   <Space size={'2rem'}>
-                    <Link to={buildProductUrl(product.label)}>
-                      <img alt={product.label} src={product.pictureUrl} />
+                    <Link to={buildProductUrl(product.name)}>
+                      <img alt={product.name} src={product.pictureUrl} />
                     </Link>
                     <div>
                       <Link
-                        to={buildProductUrl(product.label)}
+                        to={buildProductUrl(product.name)}
                         className={styles.label}
                       >
-                        {product.label}
+                        {product.name}
                       </Link>
                       <div>
                         {formatAmount(product.price)} x {product.number}

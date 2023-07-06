@@ -32,7 +32,7 @@ export default function FilterBar({
     return h;
   }, [expand, options.length]);
   const fullOptions = useMemo(() => {
-    return ([{ label: '全部', value: undefined }] as OptionItem[]).concat(
+    return ([{ name: '全部', id: undefined }] as OptionItem[]).concat(
       options
     );
   }, [options]);
@@ -48,15 +48,15 @@ export default function FilterBar({
           <div
             className={classNames(
               styles.item,
-              item.value === value && styles.active,
+              item.id === value && styles.active,
               'text-ellipsis'
             )}
-            key={item.label + index}
+            key={item.name + index}
             onClick={() => {
-              setValue(item.value);
+              setValue(item.id);
             }}
           >
-            <span>{item.label}</span>
+            <span>{item.name}</span>
           </div>
         ))}
       </Grid>

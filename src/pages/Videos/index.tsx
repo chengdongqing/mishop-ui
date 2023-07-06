@@ -5,21 +5,9 @@ import Iconfont from '@/components/Iconfont';
 import LazyImage from '@/components/LazyImage';
 import Popup from '@/components/Popup';
 import useRequest from '@/hooks/useRequest.ts';
+import { fetchVideos } from '@/services/video.ts';
 import classNames from 'classnames';
 import styles from './index.module.less';
-import { fetchVideos } from './service.ts';
-
-export interface Video {
-  id: number;
-  // 视频名称
-  name: string;
-  // 视频播放地址
-  videoUrl: string;
-  // 封面图片地址
-  coverUrl: string;
-  // 视频描述信息
-  description?: string;
-}
 
 export default function VideosPage() {
   const { data, loading } = useRequest(fetchVideos, {
