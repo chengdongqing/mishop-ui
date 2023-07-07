@@ -2,12 +2,12 @@ import useThrottle from '@/hooks/useThrottle.ts';
 import { ResponseData, Ret } from '@/utils/request.ts';
 import React, { useEffect, useState } from 'react';
 
-interface RequestConfig<T> {
+interface RequestConfig<T, U> {
   manual?: boolean;
   defaultParams?: any[];
   initialData?: T | null;
-  formatResult?: (res: Ret<T>) => T;
-  onSuccess?: (data: T) => void;
+  map?: (res: Ret<T>) => U;
+  onSuccess?: (data: U) => void;
   onError?: (error: Error | unknown) => void;
   onFinally?: () => void;
 }
@@ -16,22 +16,22 @@ interface RequestResult<T> {
   data: T;
   loading: boolean;
   run: (...args: any[]) => void;
-  setData: React.Dispatch<React.SetStateAction<T | null>>;
+  setData: React.Dispatch<React.SetStateAction<T>>;
 }
 
-export default function useRequest<T>(
+export default function useRequest<T, U = T>(
   service: (...args: any[]) => Promise<ResponseData<T>>,
   {
     manual = false,
     defaultParams,
     initialData = null,
-    formatResult,
+    map,
     onSuccess,
     onError,
     onFinally
-  }: RequestConfig<T> = {}
-): RequestResult<T> {
-  const [data, setData] = useState(initialData);
+  }: RequestConfig<T, U> = {}
+): RequestResult<U> {
+  const [data, setData] = useState(initialData as U);
   const [loading, setLoading] = useState(false);
 
   const run = useThrottle(
@@ -40,7 +40,7 @@ export default function useRequest<T>(
 
       try {
         const response = await service(...(args.length ? args : defaultParams || []));
-        const res = formatResult?.(response.data) || response.data?.data;
+        const res = (map?.(response.data) || response.data?.data) as U;
         if (res) {
           setData(res);
           onSuccess?.(res);
@@ -57,10 +57,10 @@ export default function useRequest<T>(
     if (!manual) {
       run();
     }
-  }, [manual, run]);
+  }, [run]);
 
   return {
-    data: data as T,
+    data,
     loading,
     setData,
     run

@@ -1,18 +1,27 @@
 import Logo from '@/components/Logo';
 import SearchBar from '@/components/SearchBar';
+import useRequest from '@/hooks/useRequest.ts';
+import { fetchHotProducts } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProductCategories, RecommendedKeywords } from './const';
+import { ProductCategories } from './const';
 import { usePlaceholder } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainHeader() {
   const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
   const timer = useRef<NodeJS.Timer>();
-  const placeholder = usePlaceholder(RecommendedKeywords);
   const navigate = useNavigate();
+
+  const { data: productNames } = useRequest(fetchHotProducts, {
+    initialData: [],
+    map(res) {
+      return res.data?.map(item => item.name) || [];
+    }
+  });
+  const placeholder = usePlaceholder(productNames);
 
   return (
     <div>
@@ -23,9 +32,11 @@ export default function MainHeader() {
         <CategoryBar timer={timer} onChange={setActiveProducts} />
         <SearchBar
           placeholder={placeholder}
-          keywords={RecommendedKeywords}
+          keywords={productNames}
           onSearch={(value) => {
-            navigate(`/search?keyword=${encodeURIComponent(value)}`);
+            if (value) {
+              navigate(`/search?keyword=${encodeURIComponent(value)}`);
+            }
           }}
         />
       </div>

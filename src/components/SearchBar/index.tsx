@@ -32,6 +32,13 @@ export default function SearchBar({
     }
   }, [activeIndex, keywords]);
 
+  function handleSearch() {
+    const value = keyword || placeholder;
+    if (value) {
+      onSearch?.(value);
+    }
+  }
+
   return (
     <div className={classNames(styles.container, focused && styles.focused)}>
       <Row>
@@ -63,7 +70,7 @@ export default function SearchBar({
                   return value < keywords.length - 1 ? value + 1 : 0;
                 });
               } else if (e.key === 'Enter') {
-                onSearch?.(keyword);
+                handleSearch();
               }
             }
           }}
@@ -71,9 +78,7 @@ export default function SearchBar({
         <div
           style={{ width: height, height }}
           className={styles.btn}
-          onClick={() => {
-            onSearch?.(keyword);
-          }}
+          onClick={handleSearch}
         >
           <SearchOutlined className={styles.icon} />
         </div>
@@ -85,7 +90,10 @@ export default function SearchBar({
           width={width}
           keywords={keywords}
           activeIndex={activeIndex}
-          onChange={setKeyword}
+          onChange={value => {
+            setKeyword(value);
+            onSearch?.(value);
+          }}
         />
       )}
     </div>

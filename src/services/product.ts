@@ -20,7 +20,7 @@ export function fetchProductCategories(pageSize?: number, productSize?: number) 
 }
 
 export function fetchHotProducts() {
-  return request('/products/hot-products');
+  return request<Product[]>('/products/hot-products');
 }
 
 interface SearchRequestData {

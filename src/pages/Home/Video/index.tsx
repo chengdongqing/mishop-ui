@@ -10,7 +10,7 @@ import styles from './index.module.less';
 export default function HomeVideo() {
   const { data } = useRequest(fetchVideos, {
     initialData: [],
-    defaultParams: 4
+    defaultParams: [4]
   });
 
   return (
