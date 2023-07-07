@@ -1,7 +1,7 @@
 import Logo from '@/components/Logo';
 import SearchBar from '@/components/SearchBar';
 import useRequest from '@/hooks/useRequest.ts';
-import { fetchHotProducts } from '@/services/product.ts';
+import { fetchHotProducts, fetchProductNamesLike } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
@@ -13,15 +13,6 @@ import styles from './index.module.less';
 export default function MainHeader() {
   const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();
   const timer = useRef<NodeJS.Timer>();
-  const navigate = useNavigate();
-
-  const { data: productNames } = useRequest(fetchHotProducts, {
-    initialData: [],
-    map(res) {
-      return res.data?.map(item => item.name) || [];
-    }
-  });
-  const placeholder = usePlaceholder(productNames);
 
   return (
     <div>
@@ -30,15 +21,7 @@ export default function MainHeader() {
           <Logo />
         </div>
         <CategoryBar timer={timer} onChange={setActiveProducts} />
-        <SearchBar
-          placeholder={placeholder}
-          keywords={productNames}
-          onSearch={(value) => {
-            if (value) {
-              navigate(`/search?keyword=${encodeURIComponent(value)}`);
-            }
-          }}
-        />
+        <SearchBox />
       </div>
 
       <ProductsPanel
@@ -55,6 +38,40 @@ export default function MainHeader() {
       />
     </div>
   );
+}
+
+function SearchBox() {
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const { data: productNames } = useRequest(fetchHotProducts, {
+    initialData: [],
+    onSuccess(res) {
+      setKeywords(res);
+    }
+  });
+  const placeholder = usePlaceholder(productNames);
+  const { run: query } = useRequest(fetchProductNamesLike, {
+    manual: true,
+    onSuccess: setKeywords
+  });
+
+  const navigate = useNavigate();
+
+  return <SearchBar
+    placeholder={placeholder}
+    keywords={keywords}
+    onSearch={(value) => {
+      if (value) {
+        navigate(`/search?keyword=${encodeURIComponent(value)}`);
+      }
+    }}
+    onChange={value => {
+      if (value) {
+        query(value);
+      } else {
+        setKeywords(productNames);
+      }
+    }}
+  />;
 }
 
 function CategoryBar({

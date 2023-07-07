@@ -12,6 +12,8 @@ interface SearchBarProps {
   fontSize?: number | string;
 
   onSearch?(value: string): void;
+
+  onChange?(value: string): void;
 }
 
 export default function SearchBar({
@@ -20,7 +22,8 @@ export default function SearchBar({
                                     width,
                                     height,
                                     fontSize,
-                                    onSearch
+                                    onSearch,
+                                    onChange
                                   }: SearchBarProps) {
   const [focused, setFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -30,7 +33,7 @@ export default function SearchBar({
     if (keywords) {
       setKeyword(keywords[activeIndex] || '');
     }
-  }, [activeIndex, keywords]);
+  }, [activeIndex]);
 
   function handleSearch() {
     const value = keyword || placeholder;
@@ -38,6 +41,8 @@ export default function SearchBar({
       onSearch?.(value);
     }
   }
+
+  console.log({ keyword });
 
   return (
     <div className={classNames(styles.container, focused && styles.focused)}>
@@ -57,7 +62,9 @@ export default function SearchBar({
             }, 200);
           }}
           onChange={(e) => {
-            setKeyword(e.target.value);
+            const { value } = e.target;
+            setKeyword(value);
+            onChange?.(value);
           }}
           onKeyDown={(e) => {
             if (keywords && keywords.length) {
@@ -84,7 +91,7 @@ export default function SearchBar({
         </div>
       </Row>
 
-      {!!keywords && (
+      {!!keywords?.length && (
         <RecommendList
           open={focused}
           width={width}

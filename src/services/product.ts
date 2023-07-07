@@ -20,7 +20,15 @@ export function fetchProductCategories(pageSize?: number, productSize?: number) 
 }
 
 export function fetchHotProducts() {
-  return request<Product[]>('/products/hot-products');
+  return request<string[]>('/products/hot');
+}
+
+export function fetchProductNamesLike(keyword: string) {
+  return request<string[]>('/products/name-like', {
+    params: {
+      keyword
+    }
+  });
 }
 
 interface SearchRequestData {
