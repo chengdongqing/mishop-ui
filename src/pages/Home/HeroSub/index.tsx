@@ -1,4 +1,6 @@
-import { Channels, Promos } from './const.ts';
+import useRequest from '@/hooks/useRequest.ts';
+import { fetchBanners } from '@/services/banner.ts';
+import { Channels } from './const.ts';
 import styles from './index.module.less';
 
 export default function HomeHeroSub() {
@@ -29,21 +31,21 @@ function ChannelBox() {
 }
 
 function PromoCards() {
+  const { data } = useRequest(fetchBanners, {
+    defaultParams: ['hero_sub'],
+    initialData: []
+  });
+
   return (
     <div className={styles.promo_cards}>
-      {Promos.map((item) => (
+      {data.map((item) => (
         <a
           className={styles.promo_item}
           key={item.src}
           href={item.href}
-          target={'_blank'}
+          target={item.target}
         >
-          <img
-            src={item.src}
-            alt={item.description}
-            title={item.description}
-            className={styles.picture}
-          />
+          <img src={item.src} alt={''} className={styles.picture} />
         </a>
       ))}
     </div>

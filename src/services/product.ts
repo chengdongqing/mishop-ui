@@ -1,8 +1,14 @@
 import { SearchProduct } from '@/pages/Search';
 import request from '@/utils/request.ts';
 
+export interface ParentProduct extends OptionItem {
+  banners: Banner[];
+  products: Product[];
+  children: ParentProduct[];
+}
+
 export function fetchProductBrands(pageSize?: number, productSize?: number) {
-  return request<OptionItem[]>('/products/brands', {
+  return request<ParentProduct[]>('/products/brands', {
     params: {
       pageSize,
       productSize
@@ -10,11 +16,12 @@ export function fetchProductBrands(pageSize?: number, productSize?: number) {
   });
 }
 
-export function fetchProductCategories(pageSize?: number, productSize?: number) {
-  return request<OptionItem[]>('/products/categories', {
+export function fetchProductCategories(pageSize?: number, productSize?: number, withBanners?: boolean) {
+  return request<ParentProduct[]>('/products/categories', {
     params: {
       pageSize,
-      productSize
+      productSize,
+      withBanners
     }
   });
 }

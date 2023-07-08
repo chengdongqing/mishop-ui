@@ -6,7 +6,7 @@ interface RequestConfig<T, U> {
   manual?: boolean;
   defaultParams?: any[];
   initialData?: T | null;
-  map?: (res: Ret<T>) => U;
+  convert?: (res: Ret<T>) => U;
   onSuccess?: (data: U) => void;
   onError?: (error: Error | unknown) => void;
   onFinally?: () => void;
@@ -25,7 +25,7 @@ export default function useRequest<T, U = T>(
     manual = false,
     defaultParams,
     initialData = null,
-    map,
+    convert,
     onSuccess,
     onError,
     onFinally
@@ -40,7 +40,7 @@ export default function useRequest<T, U = T>(
 
       try {
         const response = await service(...(args.length ? args : defaultParams || []));
-        const res = (map?.(response.data) || response.data?.data) as U;
+        const res = (convert?.(response.data) || response.data?.data) as U;
         if (res) {
           setData(res);
           onSuccess?.(res);

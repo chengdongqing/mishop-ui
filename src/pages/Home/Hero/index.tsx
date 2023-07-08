@@ -1,10 +1,12 @@
 import Swiper, { SwiperRef } from '@/components/Swiper';
+import useRequest from '@/hooks/useRequest.ts';
+import { fetchBanners } from '@/services/banner.ts';
+import { fetchProductCategories } from '@/services/product.ts';
 import { buildProductUrl } from '@/utils';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Banners, ProductCategories } from './const.ts';
 import styles from './index.module.less';
 
 export default function HomeHero() {
@@ -17,6 +19,19 @@ export default function HomeHero() {
 }
 
 function CategoryPanel() {
+  const { data: categories } = useRequest(fetchProductCategories, {
+    defaultParams: [10, 24],
+    initialData: [],
+    convert(res) {
+      return (
+        res.data?.map((item) => ({
+          ...item,
+          products: item.children.flatMap((item1) => item1.products)
+        })) || []
+      );
+    }
+  });
+
   const [products, setProducts] = useState<Product[]>();
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -28,19 +43,19 @@ function CategoryPanel() {
         setActiveIndex(-1);
       }}
     >
-      {ProductCategories.map((item, index) => (
+      {categories.map((item, index) => (
         <div
-          key={item.label}
+          key={item.id}
           className={classNames(
             styles.category_item,
             activeIndex === index && styles.active
           )}
           onMouseEnter={() => {
-            setProducts(item.children);
+            setProducts(item.products);
             setActiveIndex(index);
           }}
         >
-          <span className={styles.label}>{item.label}</span>
+          <span className={styles.label}>{item.name}</span>
           <RightOutlined className={styles.icon} />
         </div>
       ))}
@@ -87,6 +102,10 @@ function ProductsPanel({
 
 function BannerSwiper() {
   const swiperRef = useRef<SwiperRef>(null);
+  const { data } = useRequest(fetchBanners, {
+    defaultParams: ['hero'],
+    initialData: []
+  });
 
   return (
     <div className={styles.banner_card}>
@@ -95,20 +114,19 @@ function BannerSwiper() {
         animation={'fade'}
         className={styles.banner_swiper}
       >
-        {Banners.map((item) => (
+        {data.map((item) => (
           <a
-            key={item.src}
-            className={styles.banner_item}
-            href={item.href}
-            target={'_blank'}
+            key={item.id}
             rel={'nofollow'}
+            href={item.href}
+            target={item.target}
+            className={styles.banner_item}
           >
             <img
               src={item.src}
               draggable={false}
-              alt={item.description}
-              title={item.description}
               className={styles.picture}
+              alt={''}
             />
           </a>
         ))}

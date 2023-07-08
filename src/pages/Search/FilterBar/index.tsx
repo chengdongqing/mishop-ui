@@ -31,11 +31,6 @@ export default function FilterBar({
     }
     return h;
   }, [expand, options.length]);
-  const fullOptions = useMemo(() => {
-    return ([{ name: '全部', id: undefined }] as OptionItem[]).concat(
-      options
-    );
-  }, [options]);
 
   return (
     <div
@@ -44,19 +39,26 @@ export default function FilterBar({
     >
       <div className={styles.label}>{label}:</div>
       <Grid columns={7} className={styles.options} style={{ height }}>
-        {fullOptions.map((item, index) => (
-          <div
-            className={classNames(
-              styles.item,
-              item.id === value && styles.active,
-              'text-ellipsis'
-            )}
-            key={item.name + index}
+        <div className={styles.item}>
+          <span
+            className={classNames(value === undefined && styles.active)}
             onClick={() => {
-              setValue(item.id);
+              setValue(undefined);
             }}
           >
-            <span>{item.name}</span>
+            全部
+          </span>
+        </div>
+        {options.map((item) => (
+          <div className={styles.item} key={item.id}>
+            <span
+              className={classNames(value === item.id && styles.active)}
+              onClick={() => {
+                setValue(item.id);
+              }}
+            >
+              {item.name}
+            </span>
           </div>
         ))}
       </Grid>

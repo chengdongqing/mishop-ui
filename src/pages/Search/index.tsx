@@ -90,7 +90,10 @@ function FilterGroup() {
     fetchProductCategories,
     {
       defaultParams: [100, 0],
-      initialData: []
+      initialData: [],
+      convert(item) {
+        return item.data?.flatMap((item) => item.children) || [];
+      }
     }
   );
 
@@ -109,9 +112,9 @@ function FilterGroup() {
 }
 
 function ProductList({
-                       page,
-                       onPageChange
-                     }: {
+  page,
+  onPageChange
+}: {
   page: Page<SearchProduct>;
   onPageChange: (value: number) => void;
 }) {
@@ -155,8 +158,8 @@ function ProductItem(props: SearchProduct) {
             className={classNames(
               styles.thumb_item,
               index === pictureIndex &&
-              props.pictureUrls.length > 1 &&
-              styles.active
+                props.pictureUrls.length > 1 &&
+                styles.active
             )}
             onMouseEnter={() => {
               setPictureIndex(index);

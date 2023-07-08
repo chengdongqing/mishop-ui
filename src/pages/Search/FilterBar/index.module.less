@@ -20,11 +20,13 @@
     height: 4.8rem;
     line-height: 4.8rem;
     color: #424242;
-    cursor: pointer;
 
-    span:hover,
-    &.active {
-      color: var(--color-primary);
+    span {
+      cursor: pointer;
+
+      &:hover, &.active {
+        color: var(--color-primary);
+      }
     }
   }
 }

@@ -42,8 +42,6 @@ export default function SearchBar({
     }
   }
 
-  console.log({ keyword });
-
   return (
     <div className={classNames(styles.container, focused && styles.focused)}>
       <Row>

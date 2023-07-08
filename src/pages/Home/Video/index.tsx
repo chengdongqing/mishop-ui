@@ -13,8 +13,7 @@ export default function HomeVideo() {
     defaultParams: [4]
   });
 
-  return (
-    !!data?.length &&
+  return data?.length ? (
     <div className={styles.container}>
       <Row justify={'space-between'} align={'middle'} className={styles.header}>
         <div className={styles.title}>视频</div>
@@ -29,5 +28,5 @@ export default function HomeVideo() {
         ))}
       </Grid>
     </div>
-  );
+  ) : null;
 }

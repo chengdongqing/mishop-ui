@@ -1,12 +1,11 @@
 import Logo from '@/components/Logo';
 import SearchBar from '@/components/SearchBar';
 import useRequest from '@/hooks/useRequest.ts';
-import { fetchHotProducts, fetchProductNamesLike } from '@/services/product.ts';
+import { fetchHotProducts, fetchProductBrands, fetchProductNamesLike } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProductCategories } from './const';
 import { usePlaceholder } from './helpers.ts';
 import styles from './index.module.less';
 
@@ -56,22 +55,24 @@ function SearchBox() {
 
   const navigate = useNavigate();
 
-  return <SearchBar
-    placeholder={placeholder}
-    keywords={keywords}
-    onSearch={(value) => {
-      if (value) {
-        navigate(`/search?keyword=${encodeURIComponent(value)}`);
-      }
-    }}
-    onChange={value => {
-      if (value) {
-        query(value);
-      } else {
-        setKeywords(productNames);
-      }
-    }}
-  />;
+  return (
+    <SearchBar
+      placeholder={placeholder}
+      keywords={keywords}
+      onSearch={(value) => {
+        if (value) {
+          navigate(`/search?keyword=${encodeURIComponent(value)}`);
+        }
+      }}
+      onChange={(value) => {
+        if (value) {
+          query(value);
+        } else {
+          setKeywords(productNames);
+        }
+      }}
+    />
+  );
 }
 
 function CategoryBar({
@@ -81,6 +82,11 @@ function CategoryBar({
   timer: MutableRefObject<NodeJS.Timer | undefined>;
   onChange: (items: Product[] | undefined) => void;
 }) {
+  const { data } = useRequest(fetchProductBrands, {
+    defaultParams: [10, 6],
+    initialData: []
+  });
+
   return (
     <div
       className={styles.category_bar}
@@ -93,17 +99,15 @@ function CategoryBar({
         }, 200);
       }}
     >
-      {ProductCategories.map((item) => (
+      {data.map((item) => (
         <a
-          key={item.label}
+          key={item.id}
           className={styles.label}
-          href={item.href}
-          target={'_blank'}
           onMouseEnter={() => {
-            onChange(item.children);
+            onChange(item.products);
           }}
         >
-          {item.label}
+          {item.name}
         </a>
       ))}
     </div>
@@ -158,7 +162,7 @@ function ProductsPanel({
             className={styles.product_item}
             onClick={() => {
               navigate(buildProductUrl(item.name));
-              window.location.reload();
+              onMouseLeave();
             }}
           >
             <img
