@@ -68,7 +68,6 @@ function Header({
           <Link
             to={`/search?categoryId=${tabs[0].id}`}
             className={styles.more_link}
-            target={'_blank'}
           >
             查看更多 <RightCircleFilled className={styles.icon} />
           </Link>
@@ -164,9 +163,8 @@ function CategoryProducts({
             </Link>
           )}
           <Link
-            className={classNames(styles.product_item, styles.small)}
             to={`/search?categoryId=${tabs[current].id}`}
-            target={'_blank'}
+            className={classNames(styles.product_item, styles.small)}
           >
             <div className={styles.picture}>
               <Iconfont type={'i-arrow-right-circle'} className={styles.icon} />

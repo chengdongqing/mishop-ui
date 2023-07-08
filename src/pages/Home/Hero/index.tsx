@@ -32,6 +32,7 @@ function CategoryPanel() {
     }
   });
 
+  const timer = useRef<NodeJS.Timer>();
   const [products, setProducts] = useState<Product[]>();
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -39,8 +40,13 @@ function CategoryPanel() {
     <div
       className={styles.category_panel}
       onMouseLeave={() => {
-        setProducts([]);
-        setActiveIndex(-1);
+        timer.current = setTimeout(() => {
+          setProducts([]);
+          setActiveIndex(-1);
+        }, 200);
+      }}
+      onMouseEnter={() => {
+        clearTimeout(timer.current);
       }}
     >
       {categories.map((item, index) => (

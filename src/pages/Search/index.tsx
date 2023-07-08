@@ -12,7 +12,7 @@ import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { fetchProductBrands, fetchProductCategories, searchProducts } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
@@ -24,15 +24,25 @@ export type SearchProduct = Omit<Product, 'pictureUrl'> & {
 
 export default function SearchPage() {
   const formRef = useRef<FormRef>(null);
-  const { keyword } = useQueryParams<{
-    keyword: string;
+  const { keyword, categoryId, brandId } = useQueryParams<{
+    keyword?: string;
+    categoryId?: string;
+    brandId?: string;
   }>();
-  const { data, loading, run } = useRequest(searchProducts, {
-    defaultParams: [{ keyword }, { pageSize: 12 }],
-    initialData: {
-      data: []
+  const { data, loading, run } = useRequest(
+    (values, { pageNumber } = {}) => {
+      return searchProducts(
+        { ...values, keyword },
+        { pageSize: 8, pageNumber }
+      );
+    },
+    {
+      defaultParams: [{ keyword, categoryId, brandId }],
+      initialData: {
+        data: []
+      }
     }
-  });
+  );
 
   useUpdateEffect(() => {
     run({ keyword });
@@ -44,6 +54,10 @@ export default function SearchPage() {
       <Form
         noStyle
         ref={formRef}
+        initialValues={{
+          categoryId: categoryId ? Number(categoryId) : undefined,
+          brandId: brandId ? Number(brandId) : undefined
+        }}
         onChange={(_changedValues, allValues) => {
           run(allValues);
         }}
@@ -67,8 +81,7 @@ export default function SearchPage() {
                 page={data}
                 onPageChange={(value) => {
                   run(formRef.current?.getFieldsValue(), {
-                    pageNumber: value,
-                    pageSize: 12
+                    pageNumber: value
                   });
                 }}
               />
@@ -81,7 +94,7 @@ export default function SearchPage() {
   );
 }
 
-function FilterGroup() {
+const FilterGroup = memo(() => {
   const { data: brands, loading } = useRequest(fetchProductBrands, {
     defaultParams: [100, 0],
     initialData: []
@@ -109,7 +122,7 @@ function FilterGroup() {
       </DataContainer>
     </div>
   );
-}
+});
 
 function ProductList({
   page,

@@ -1,10 +1,12 @@
 import Row from '@/components/Row';
+import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.less';
 
 interface SearchBarProps {
+  value?: string;
   placeholder?: string;
   keywords?: string[];
   width?: number | string;
@@ -17,19 +19,20 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-                                    placeholder,
-                                    keywords,
-                                    width,
-                                    height,
-                                    fontSize,
-                                    onSearch,
-                                    onChange
-                                  }: SearchBarProps) {
+  value,
+  placeholder,
+  keywords,
+  width,
+  height,
+  fontSize,
+  onSearch,
+  onChange
+}: SearchBarProps) {
   const [focused, setFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState(value);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (keywords) {
       setKeyword(keywords[activeIndex] || '');
     }
@@ -65,7 +68,7 @@ export default function SearchBar({
             onChange?.(value);
           }}
           onKeyDown={(e) => {
-            if (keywords && keywords.length) {
+            if (keywords?.length) {
               if (e.key === 'ArrowUp') {
                 setActiveIndex((value) => {
                   return value > 0 ? value - 1 : keywords.length - 1;
@@ -74,9 +77,10 @@ export default function SearchBar({
                 setActiveIndex((value) => {
                   return value < keywords.length - 1 ? value + 1 : 0;
                 });
-              } else if (e.key === 'Enter') {
-                handleSearch();
               }
+            }
+            if (e.key === 'Enter') {
+              handleSearch();
             }
           }}
         />
@@ -95,7 +99,7 @@ export default function SearchBar({
           width={width}
           keywords={keywords}
           activeIndex={activeIndex}
-          onChange={value => {
+          onChange={(value) => {
             setKeyword(value);
             onSearch?.(value);
           }}
@@ -106,12 +110,12 @@ export default function SearchBar({
 }
 
 function RecommendList({
-                         open,
-                         width,
-                         keywords,
-                         activeIndex,
-                         onChange
-                       }: {
+  open,
+  width,
+  keywords,
+  activeIndex,
+  onChange
+}: {
   open: boolean;
   width?: number | string;
   keywords: string[];

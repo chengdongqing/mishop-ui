@@ -25,13 +25,13 @@ export default function Pagination({
   }, [pageSize, totalSize]);
 
   const middlePages = useMemo(() => {
-    if (pages <= overPages) {
+    if (pages <= 2) {
       return [];
     }
 
     const items = [];
-    if (pageNumber <= 3) {
-      for (let i = 2; i <= 4; i++) {
+    if (pages <= 3) {
+      for (let i = 2; i < 2 + (4 - pages); i++) {
         items.push(i);
       }
     } else if (pageNumber > pages - 3) {

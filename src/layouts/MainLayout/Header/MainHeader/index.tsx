@@ -1,10 +1,11 @@
 import Logo from '@/components/Logo';
 import SearchBar from '@/components/SearchBar';
+import useQueryParams from '@/hooks/useQueryParams.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import { fetchHotProducts, fetchProductBrands, fetchProductNamesLike } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { memo, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlaceholder } from './helpers.ts';
 import styles from './index.module.less';
@@ -39,7 +40,8 @@ export default function MainHeader() {
   );
 }
 
-function SearchBox() {
+const SearchBox = memo(() => {
+  const { keyword } = useQueryParams<{ keyword: string }>();
   const [keywords, setKeywords] = useState<string[]>([]);
   const { data: productNames } = useRequest(fetchHotProducts, {
     initialData: [],
@@ -57,6 +59,7 @@ function SearchBox() {
 
   return (
     <SearchBar
+      value={keyword}
       placeholder={placeholder}
       keywords={keywords}
       onSearch={(value) => {
@@ -73,12 +76,12 @@ function SearchBox() {
       }}
     />
   );
-}
+});
 
 function CategoryBar({
-                       timer,
-                       onChange
-                     }: {
+  timer,
+  onChange
+}: {
   timer: MutableRefObject<NodeJS.Timer | undefined>;
   onChange: (items: Product[] | undefined) => void;
 }) {
@@ -100,7 +103,7 @@ function CategoryBar({
       }}
     >
       {data.map((item) => (
-        <a
+        <span
           key={item.id}
           className={styles.label}
           onMouseEnter={() => {
@@ -108,18 +111,18 @@ function CategoryBar({
           }}
         >
           {item.name}
-        </a>
+        </span>
       ))}
     </div>
   );
 }
 
 function ProductsPanel({
-                         open,
-                         products,
-                         onMouseEnter,
-                         onMouseLeave
-                       }: {
+  open,
+  products,
+  onMouseEnter,
+  onMouseLeave
+}: {
   open: boolean;
   products: Product[] | undefined;
   onMouseEnter: () => void;

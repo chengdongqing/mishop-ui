@@ -22,7 +22,6 @@ export default function FilterBar({
   onChange?: (value: BasicValue) => void;
 }) {
   const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
-
   const [expand, toggleExpand] = useToggle();
   const height = useMemo(() => {
     let h = '4.8rem';
