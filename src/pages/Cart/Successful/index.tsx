@@ -1,5 +1,5 @@
 import Button from '@/components/Button';
-import CommendedProducts from '@/components/CommendedProducts';
+import RecommendedProducts from '@/components/RecommendedProducts';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import classNames from 'classnames';
@@ -50,7 +50,7 @@ export default function CartSuccessfulPage() {
           </Space>
         </Row>
 
-        <CommendedProducts title={'买购物车中商品的人还买了'} />
+        <RecommendedProducts title={'买购物车中商品的人还买了'} />
       </div>
     </div>
   );

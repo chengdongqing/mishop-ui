@@ -8,21 +8,19 @@ import HomeHeroSub from './HeroSub';
 import HomeVideo from './Video';
 
 export default function HomePage() {
-  const { data: banners } = useRequest(fetchBanners, {
-    defaultParams: ['home_banner'],
+  const { data: banners } = useRequest(() => fetchBanners('home_banner'), {
     initialData: []
   });
-  const { data: categories } = useRequest(fetchProductCategories, {
-    defaultParams: [undefined, 8, true],
-    initialData: [],
-    convert(res) {
-      return (
-        res.data?.filter((item) => {
+  const { data: categories } = useRequest(
+    () => fetchProductCategories(undefined, 8, true),
+    {
+      initialData: [],
+      convert: (res) =>
+        res.filter((item) => {
           return item.children.flatMap((item) => item.products).length;
         }) || []
-      );
     }
-  });
+  );
 
   return (
     <>

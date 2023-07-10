@@ -19,7 +19,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  value,
+  value = '',
   placeholder,
   keywords,
   width,

@@ -1,10 +1,10 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import CommendedProducts from '@/components/CommendedProducts';
 import DataContainer from '@/components/DataContainer';
 import Form, { FormRef } from '@/components/Form';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
 import Pagination from '@/components/Pagination';
+import RecommendedProducts from '@/components/RecommendedProducts';
 import Space from '@/components/Space';
 import useQueryParams from '@/hooks/useQueryParams.ts';
 import useRequest from '@/hooks/useRequest.ts';
@@ -30,14 +30,13 @@ export default function SearchPage() {
     brandId?: string;
   }>();
   const { data, loading, run } = useRequest(
-    (values, { pageNumber } = {}) => {
+    (values = { keyword, categoryId, brandId }, { pageNumber } = {}) => {
       return searchProducts(
         { ...values, keyword },
-        { pageSize: 8, pageNumber }
+        { pageSize: 12, pageNumber }
       );
     },
     {
-      defaultParams: [{ keyword, categoryId, brandId }],
       initialData: {
         data: []
       }
@@ -86,7 +85,7 @@ export default function SearchPage() {
                 }}
               />
             </DataContainer>
-            <CommendedProducts mode={'swiper'} />
+            <RecommendedProducts mode={'swiper'} />
           </div>
         </div>
       </Form>
@@ -95,17 +94,18 @@ export default function SearchPage() {
 }
 
 const FilterGroup = memo(() => {
-  const { data: brands, loading } = useRequest(fetchProductBrands, {
-    defaultParams: [100, 0],
-    initialData: []
-  });
-  const { data: categories, loading: loading1 } = useRequest(
-    fetchProductCategories,
+  const { data: brands, loading } = useRequest(
+    () => fetchProductBrands(100, 0),
     {
-      defaultParams: [100, 0],
+      initialData: []
+    }
+  );
+  const { data: categories, loading: loading1 } = useRequest(
+    () => fetchProductCategories(100, 0),
+    {
       initialData: [],
       convert(item) {
-        return item.data?.flatMap((item) => item.children) || [];
+        return item.flatMap((item) => item.children) || [];
       }
     }
   );

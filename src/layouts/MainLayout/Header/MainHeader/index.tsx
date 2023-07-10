@@ -41,7 +41,9 @@ export default function MainHeader() {
 }
 
 const SearchBox = memo(() => {
-  const { keyword } = useQueryParams<{ keyword: string }>();
+  const { keyword } = useQueryParams<{
+    keyword: string;
+  }>();
   const [keywords, setKeywords] = useState<string[]>([]);
   const { data: productNames } = useRequest(fetchHotProducts, {
     initialData: [],
@@ -85,8 +87,7 @@ function CategoryBar({
   timer: MutableRefObject<NodeJS.Timer | undefined>;
   onChange: (items: Product[] | undefined) => void;
 }) {
-  const { data } = useRequest(fetchProductBrands, {
-    defaultParams: [10, 6],
+  const { data } = useRequest(() => fetchProductBrands(10, 6), {
     initialData: []
   });
 
@@ -102,7 +103,7 @@ function CategoryBar({
         }, 200);
       }}
     >
-      {data.map((item) => (
+      {data?.map((item) => (
         <span
           key={item.id}
           className={styles.label}

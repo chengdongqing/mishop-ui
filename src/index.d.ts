@@ -18,13 +18,20 @@ interface Page<T> {
   totalSize?: number;
   data?: T[];
 }
-
 /**
  * 通用分页请求数据模型
  */
 interface Pageable {
   pageNumber: number;
   pageSize?: number;
+}
+/**
+ * 通用响应对象
+ */
+interface Ret<T> {
+  data?: T;
+  success: boolean;
+  message?: string;
 }
 
 /**
@@ -46,6 +53,13 @@ interface Product {
   comments?: string;
   // 限购数量
   limits?: number;
+}
+/**
+ * 购物车商品数据模型
+ */
+interface CartProduct extends Product {
+  checked?: boolean;
+  number: number;
 }
 
 /**
@@ -79,14 +93,6 @@ interface UserInfo {
   phoneNumber: string;
   email?: string;
   gender?: number;
-}
-
-/**
- * 购物车商品数据模型
- */
-interface CartProduct extends Product {
-  checked?: boolean;
-  number: number;
 }
 
 /**

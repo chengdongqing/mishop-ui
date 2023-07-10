@@ -1,8 +1,8 @@
 import useLatest from '@/hooks/useLatest.ts';
 import { useCallback, useRef } from 'react';
 
-export default function useThrottle(
-  fn: (...args: unknown[]) => void,
+export default function useThrottle<T>(
+  fn: (...args: unknown[]) => Promise<T>,
   interval = 200
 ) {
   const fnRef = useLatest(fn);
@@ -10,12 +10,14 @@ export default function useThrottle(
 
   return useCallback(
     (...args: unknown[]) => {
-      if (!timer.current) {
-        timer.current = setTimeout(() => {
-          timer.current = undefined;
-          fnRef.current(...args);
-        }, interval);
-      }
+      return new Promise<T>((resolve) => {
+        if (!timer.current) {
+          timer.current = setTimeout(() => {
+            timer.current = undefined;
+            resolve(fnRef.current(...args));
+          }, interval);
+        }
+      });
     },
     [fnRef, interval]
   );

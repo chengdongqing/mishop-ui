@@ -31,8 +31,7 @@ function ChannelBox() {
 }
 
 function PromoCards() {
-  const { data } = useRequest(fetchBanners, {
-    defaultParams: ['hero_sub'],
+  const { data } = useRequest(() => fetchBanners('hero_sub'), {
     initialData: []
   });
 

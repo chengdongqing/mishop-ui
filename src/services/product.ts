@@ -53,3 +53,11 @@ export function searchProducts(data?: SearchRequestData, pageable?: Pageable) {
     params: { ...pageable }
   });
 }
+
+export function fetchRecommendedProducts(pageSize?: number) {
+  return request<Product[]>('/products/recommended', {
+    params: {
+      pageSize
+    }
+  });
+}

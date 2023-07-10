@@ -1,5 +1,5 @@
-import CommendedProducts from '@/components/CommendedProducts';
 import MiniHeader from '@/components/MiniHeader';
+import RecommendedProducts from '@/components/RecommendedProducts';
 import EmptyCart from './EmptyCart';
 import styles from './index.module.less';
 import MainCart from './MainCart';
@@ -20,7 +20,7 @@ export default function ShoppingCartPage() {
       <div style={{ backgroundColor: 'var(--color-background)' }}>
         <div className={styles.container}>
           {isEmptyCart ? <EmptyCart /> : <MainCart />}
-          <CommendedProducts
+          <RecommendedProducts
             title={!isEmptyCart ? '买购物车中商品的人还买了' : '为您推荐'}
           />
         </div>

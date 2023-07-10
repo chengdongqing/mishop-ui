@@ -19,18 +19,17 @@ export default function HomeHero() {
 }
 
 function CategoryPanel() {
-  const { data: categories } = useRequest(fetchProductCategories, {
-    defaultParams: [10, 24],
-    initialData: [],
-    convert(res) {
-      return (
-        res.data?.map((item) => ({
+  const { data: categories } = useRequest(
+    () => fetchProductCategories(10, 24),
+    {
+      initialData: [],
+      convert: (res) =>
+        res.map((item) => ({
           ...item,
           products: item.children.flatMap((item1) => item1.products)
         })) || []
-      );
     }
-  });
+  );
 
   const timer = useRef<NodeJS.Timer>();
   const [products, setProducts] = useState<Product[]>();
@@ -108,8 +107,7 @@ function ProductsPanel({
 
 function BannerSwiper() {
   const swiperRef = useRef<SwiperRef>(null);
-  const { data } = useRequest(fetchBanners, {
-    defaultParams: ['hero'],
+  const { data } = useRequest(() => fetchBanners('hero'), {
     initialData: []
   });
 

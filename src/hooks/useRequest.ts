@@ -1,68 +1,55 @@
 import useThrottle from '@/hooks/useThrottle.ts';
-import { ResponseData, Ret } from '@/utils/request.ts';
 import React, { useEffect, useState } from 'react';
 
 interface RequestConfig<T, U> {
   manual?: boolean;
-  defaultParams?: any[];
-  initialData?: T | null;
-  convert?: (res: Ret<T>) => U;
-  onSuccess?: (data: U) => void;
-  onError?: (error: Error | unknown) => void;
-  onFinally?: () => void;
+  initialData?: T;
+  convert?: (res: T) => U;
+  onSuccess?: (res: U) => void;
 }
 
 interface RequestResult<T> {
   data: T;
   loading: boolean;
-  run: (...args: any[]) => void;
+  run: (...args: unknown[]) => Promise<T>;
   setData: React.Dispatch<React.SetStateAction<T>>;
 }
 
 export default function useRequest<T, U = T>(
-  service: (...args: any[]) => Promise<ResponseData<T>>,
+  service: (...args: any[]) => Promise<T>,
   {
     manual = false,
-    defaultParams,
-    initialData = null,
+    initialData,
     convert,
-    onSuccess,
-    onError,
-    onFinally
+    onSuccess
   }: RequestConfig<T, U> = {}
 ): RequestResult<U> {
   const [data, setData] = useState(initialData as U);
   const [loading, setLoading] = useState(false);
 
-  const run = useThrottle(
-    async (...args) => {
-      setLoading(true);
-
-      try {
-        const response = await service(...(args.length ? args : defaultParams || []));
-        const res = (convert?.(response.data) || response.data?.data) as U;
-        if (res) {
-          setData(res);
-          onSuccess?.(res);
-        }
-      } catch (error) {
-        onError?.(error);
-      } finally {
-        setLoading(false);
-        onFinally?.();
-      }
-    }, 50);
+  const run = useThrottle<U>(async (...args) => {
+    setLoading(true);
+    try {
+      const res = await service(...args);
+      const result = convert?.(res) || (res as unknown as U);
+      setData(result);
+      onSuccess?.(result);
+      return result;
+    } finally {
+      setLoading(false);
+    }
+  }, 50);
 
   useEffect(() => {
     if (!manual) {
-      run();
+      run().then();
     }
-  }, [run]);
+  }, [manual, run]);
 
   return {
+    run,
     data,
     loading,
-    setData,
-    run
+    setData
   };
 }

@@ -2,6 +2,8 @@ import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
 import Swiper, { SwiperRef } from '@/components/Swiper';
+import useRequest from '@/hooks/useRequest.ts';
+import { fetchRecommendedProducts } from '@/services/product.ts';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/typings';
@@ -9,47 +11,52 @@ import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Products } from './const.ts';
 import styles from './index.module.less';
 
-interface CommendedProductsProps extends PropsWithStyle {
+interface RecommendedProductsProps extends PropsWithStyle {
   // 标题
   title?: string;
   // 模式
   mode?: 'swiper' | 'static';
 }
 
-export default function CommendedProducts({
-  title = '猜你喜欢',
-  mode,
-  style,
-  className
-}: CommendedProductsProps) {
+export default function RecommendedProducts({
+                                              title = '猜你喜欢',
+                                              mode,
+                                              style,
+                                              className
+                                            }: RecommendedProductsProps) {
+  const { data } = useRequest(() => fetchRecommendedProducts(20), {
+    initialData: []
+  });
+
   return (
     <div className={classNames(styles.container, className)} style={style}>
       <div className={styles.title}>{title}</div>
       {mode === 'swiper' ? (
-        <ProductsSwiper />
+        <ProductsSwiper products={data} />
       ) : (
-        <ProductBlocks products={Products} />
+        <ProductBlocks products={data} />
       )}
     </div>
   );
 }
 
-function ProductsSwiper() {
+function ProductsSwiper({ products }: {
+  products: Product[]
+}) {
   const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
   const panels = useMemo(() => {
-    const products = [];
-    for (let i = 0; i < Products.length; i++) {
+    const data = [];
+    for (let i = 0; i < products.length; i++) {
       if (i % 5 === 0) {
-        products.push(Products.slice(i, i + 5));
+        data.push(products.slice(i, i + 5));
       }
     }
-    return products;
-  }, []);
+    return data;
+  }, [products]);
 
   return (
     <div>
@@ -85,7 +92,9 @@ function ProductsSwiper() {
   );
 }
 
-function ProductBlocks({ products }: { products: Product[] }) {
+function ProductBlocks({ products }: {
+  products: Product[]
+}) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (

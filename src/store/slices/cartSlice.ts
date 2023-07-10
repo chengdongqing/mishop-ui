@@ -22,7 +22,7 @@ export default createSlice({
       const { product, callback } = payload;
 
       // 判断是否已存在该商品
-      const index = products.findIndex((item) => item.label === product.name);
+      const index = products.findIndex((item) => item.name === product.name);
       if (index === -1) {
         products.push(product);
         callback(true);
@@ -42,7 +42,7 @@ export default createSlice({
       }
     },
     removeProduct({ products }, { payload }: PayloadAction<{ label: string }>) {
-      const index = products.findIndex((item) => item.label === payload.label);
+      const index = products.findIndex((item) => item.name === payload.label);
       if (index !== -1) {
         products.splice(index, 1);
       }
@@ -56,7 +56,7 @@ export default createSlice({
         state.products = products.filter((item) => !item.checked);
       } else if (payload.labels?.length) {
         state.products = products.filter((item) => {
-          return !payload.labels?.includes(item.label);
+          return !payload.labels?.includes(item.name);
         });
       }
     },
@@ -66,7 +66,7 @@ export default createSlice({
     ) {
       const { label, number } = payload;
 
-      const index = products.findIndex((item) => item.label === label);
+      const index = products.findIndex((item) => item.name === label);
       if (index !== -1) {
         // 判断是否超出限购数量
         const prevProduct = products[index];
@@ -81,7 +81,7 @@ export default createSlice({
       { products },
       { payload }: PayloadAction<{ label: string; checked: boolean }>
     ) {
-      const index = products.findIndex((item) => item.label === payload.label);
+      const index = products.findIndex((item) => item.name === payload.label);
       if (index !== -1) {
         products[index].checked = payload.checked;
       }
