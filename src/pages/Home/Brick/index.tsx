@@ -48,7 +48,6 @@ function Header({
         {tabs.length > 1 ? (
           <div className={styles.tabs}>
             {tabs
-              .filter((item) => item.products?.length)
               .map((item, index) => (
                 <div
                   key={item.id}

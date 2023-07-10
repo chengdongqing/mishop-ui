@@ -7,10 +7,8 @@ import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
-const name = 'Xiaomi 13 Ultra系列';
-
 export default function ProductPage() {
-  const { label } = useParams<{ label: string }>();
+  const { name } = useParams<{ name: string }>();
   useDocumentTitle(name);
 
   const { pathname } = useLocation();
@@ -37,15 +35,15 @@ export default function ProductPage() {
               className={styles.navs}
             >
               <Link
-                to={`/product/${label}`}
+                to={`/product/${name}`}
                 className={classNames(
-                  pathname.endsWith(label as string) && styles.disabled
+                  pathname.endsWith(name as string) && styles.disabled
                 )}
               >
                 概述页
               </Link>
               <Link
-                to={`/product/${label}/specs`}
+                to={`/product/${name}/specs`}
                 className={classNames(
                   pathname.endsWith('specs') && styles.disabled
                 )}
@@ -53,7 +51,7 @@ export default function ProductPage() {
                 参数页
               </Link>
               <Link
-                to={`/product/${label}/comments`}
+                to={`/product/${name}/comments`}
                 className={classNames(
                   pathname.endsWith('comments') && styles.disabled
                 )}
@@ -62,7 +60,7 @@ export default function ProductPage() {
               </Link>
             </Space>
             {!pathname.endsWith('buy') && (
-              <Link to={`/product/${label}/buy`}>
+              <Link to={`/product/${name}/buy`}>
                 <Button className={styles.btn_buy}>立即购买</Button>
               </Link>
             )}

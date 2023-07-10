@@ -15,10 +15,19 @@ export default function HomePage() {
     () => fetchProductCategories(undefined, 8, true),
     {
       initialData: [],
-      convert: (res) =>
-        res.filter((item) => {
-          return item.children.flatMap((item) => item.products).length;
-        }) || []
+      convert(res) {
+        return res
+          .filter((item) => {
+            return (
+              item.banners.length &&
+              item.children.flatMap((item) => item.products).length
+            );
+          })
+          .map((item) => ({
+            ...item,
+            children: item.children.filter((item) => item.products?.length)
+          }));
+      }
     }
   );
 

@@ -39,7 +39,7 @@ const routes: RouteObject[] = [
     )
   },
   {
-    path: '/product/:label',
+    path: '/product/:name',
     element: (
       <PageDecorator>
         <ProductPage />

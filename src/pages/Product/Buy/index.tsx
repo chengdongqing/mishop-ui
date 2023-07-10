@@ -21,9 +21,11 @@ export default function ProductBuyingPage() {
   const hasLogin = useHasLogin();
   const [pictures, setPictures] = useState<string[]>([]);
 
-  const { label } = useParams<{ label: string }>();
+  const { name } = useParams<{
+    name: string
+  }>();
   // 此处根据是否为空调控制展示静态详情，仅为功能示意
-  const isAC = useMemo(() => label?.includes('空调'), [label]);
+  const isAC = useMemo(() => name?.includes('空调'), [name]);
 
   return (
     <>
@@ -38,8 +40,8 @@ export default function ProductBuyingPage() {
 }
 
 function ProductPanel({
-  onPicturesChange
-}: {
+                        onPicturesChange
+                      }: {
   onPicturesChange: (values: string[]) => void;
 }) {
   const store = useStore();
@@ -88,6 +90,7 @@ function ProductPanel({
               store.dispatch(
                 cartSlice.actions.putProduct({
                   product: {
+                    id: 1,
                     pictureUrl: sku.picture,
                     name: productName,
                     price: sku.price,
@@ -163,7 +166,9 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
+export function PriceDescription({ weixin = false }: {
+  weixin?: boolean
+}) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (
