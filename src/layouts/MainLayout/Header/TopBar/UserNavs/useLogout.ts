@@ -14,6 +14,7 @@ export default function useLogout() {
       onOk() {
         return new Promise((resolve) => {
           setTimeout(() => {
+            window.localStorage.clear();
             dispatch(userSlice.actions.setUser(null));
             dispatch(cartSlice.actions.setCart([]));
             navigate('/', { replace: true });

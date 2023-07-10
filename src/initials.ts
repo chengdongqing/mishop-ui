@@ -9,7 +9,7 @@ function useCartInitial() {
   const products = useCartProducts();
   const dispatch = useDispatch();
   const [storageState, setStorageState] =
-    useLocalStorageState<CartProduct[]>('ShoppingCart');
+    useLocalStorageState<CartProduct[]>('shopping-cart');
 
   useMount(() => {
     if (storageState) {
@@ -26,7 +26,7 @@ function useUserInitial() {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const [storageState, setStorageState] =
-    useLocalStorageState<UserInfo>('LoginUser');
+    useLocalStorageState<UserInfo>('login-user');
 
   useMount(() => {
     if (storageState) {
