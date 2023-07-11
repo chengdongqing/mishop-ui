@@ -1,28 +1,18 @@
 import Grid from '@/components/Grid';
+import { ProductSKU } from '@/services/product.ts';
 import classNames from 'classnames';
 import { useEffect } from 'react';
-import { Xiaomi13Skus } from './const.ts';
 import styles from './index.module.less';
 import useSkus from './useSkus.ts';
 
-export interface ProductSku {
-  id: number;
-  price: number;
-  picture: string;
-  pictures: string[];
-  attrs: {
-    name: string;
-    value: string;
-  }[];
-}
-
 export default function ProductSkus({
+  items,
   onChange
 }: {
-  onChange: (value?: ProductSku) => void;
+  items: ProductSKU[];
+  onChange: (value?: ProductSKU) => void;
 }) {
-  const { categories, activeSkus, activeSku, switchSku } =
-    useSkus(Xiaomi13Skus);
+  const { categories, activeSkus, activeSku, switchSku } = useSkus(items);
   useEffect(() => {
     onChange(activeSku);
   }, [activeSku, onChange]);

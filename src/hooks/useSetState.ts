@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 type InitialState<T> = T | (() => T);
 export type SetStateAction<T> = Partial<T> | ((prevState: T) => Partial<T>);
@@ -8,7 +8,7 @@ export default function useSetState<T extends Record<string, unknown>>(
 ) {
   const [state, setState] = useState<T>(initialState);
 
-  const setMergedState = (patch: SetStateAction<T>, overwrite = false) => {
+  const setMergedState = useCallback((patch: SetStateAction<T>, overwrite = false) => {
     setState((prevState) => {
       const nextState = typeof patch === 'function' ? patch(prevState) : patch;
       return (
@@ -20,7 +20,7 @@ export default function useSetState<T extends Record<string, unknown>>(
             }
       ) as T;
     });
-  };
+  }, []);
 
   return [state, setMergedState] as const;
 }

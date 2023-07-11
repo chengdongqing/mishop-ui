@@ -1,18 +1,18 @@
 import useSetState from '@/hooks/useSetState.ts';
+import { ProductSKU } from '@/services/product.ts';
 import { arrayToObject } from '@/utils';
 import { useCallback, useMemo } from 'react';
-import { ProductSku } from './index.tsx';
 
-export default function useSkus(skus: ProductSku[]) {
+export default function useSkus(skus: ProductSKU[]) {
   const [activeSkus, setActiveSkus] = useSetState(() => {
-    return arrayToObject(skus[0].attrs);
+    return arrayToObject(skus[0].attributes);
   });
 
   const findSku = useCallback(
     (moreSkus = {}) => {
       const fullSkus = Object.assign({}, activeSkus, moreSkus);
       return skus.find((item) => {
-        return item.attrs.every((item1) => {
+        return item.attributes.every((item1) => {
           return fullSkus[item1.name] === item1.value;
         });
       });
@@ -23,7 +23,7 @@ export default function useSkus(skus: ProductSku[]) {
   const categories = useMemo(() => {
     return skus
       .reduce((sum: string[], item) => {
-        item.attrs
+        item.attributes
           .map((item) => item.name)
           .forEach((name) => {
             if (!sum.includes(name)) {
@@ -36,7 +36,7 @@ export default function useSkus(skus: ProductSku[]) {
         name: item,
         children: skus
           .reduce((sum: string[], item1) => {
-            item1.attrs.forEach((item2) => {
+            item1.attributes.forEach((item2) => {
               if (item2.name === item && !sum.includes(item2.value)) {
                 sum.push(item2.value);
               }
@@ -61,10 +61,10 @@ export default function useSkus(skus: ProductSku[]) {
 
   function switchSku(name: string, value: string) {
     const attrs = skus.find((item) => {
-      return item.attrs.some(
+      return item.attributes.some(
         (item3) => item3.name === name && item3.value === value
       );
-    })?.attrs;
+    })?.attributes;
     if (attrs) {
       if (!findSku({ [name]: value })) {
         const sku = arrayToObject(attrs);

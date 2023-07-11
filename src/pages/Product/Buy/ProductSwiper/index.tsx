@@ -5,7 +5,9 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.less';
 
-export default function ProductSwiper({ pictures }: { pictures: string[] }) {
+export default function ProductSwiper({ pictures }: {
+  pictures: string[]
+}) {
   const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
@@ -22,6 +24,7 @@ export default function ProductSwiper({ pictures }: { pictures: string[] }) {
         indicatorDots={false}
         afterChange={setCurrent}
         className={styles.swiper}
+        autoplay={pictures.length > 1}
       >
         {pictures.map((item) => (
           <img

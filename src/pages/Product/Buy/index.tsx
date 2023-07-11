@@ -1,88 +1,95 @@
 import Button from '@/components/Button';
+import DataContainer from '@/components/DataContainer';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useToggle from '@/hooks/useToggle.ts';
+import { ProductContext } from '@/pages/Product';
+import { ProductDetails as ProductDetailsType, ProductSKU } from '@/services/product.ts';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
 import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { useStore } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { AfterSaleInfos } from './const.ts';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import ProductDetails from './ProductDetails';
-import ProductSkus, { ProductSku } from './ProductSkus';
+import ProductSkus from './ProductSkus';
 import ProductSwiper from './ProductSwiper';
 
 export default function ProductBuyingPage() {
+  const ctx = useContext(ProductContext);
   const hasLogin = useHasLogin();
   const [pictures, setPictures] = useState<string[]>([]);
 
-  const { name } = useParams<{
-    name: string
-  }>();
-  // 此处根据是否为空调控制展示静态详情，仅为功能示意
-  const isAC = useMemo(() => name?.includes('空调'), [name]);
-
   return (
-    <>
+    <DataContainer loading={!ctx}>
       {!hasLogin && <LoginTipsBar />}
       <div className={styles.container}>
         <ProductSwiper pictures={pictures} />
-        <ProductPanel onPicturesChange={setPictures} />
+        <ProductPanel
+          product={ctx as ProductDetailsType}
+          onPicturesChange={setPictures}
+        />
       </div>
-      {isAC ? <ProductDetails /> : <PriceDescription />}
-    </>
+      {ctx?.staticDetails ? (
+        <ProductDetails items={ctx.staticDetails} />
+      ) : (
+        <PriceDescription />
+      )}
+    </DataContainer>
   );
 }
 
 function ProductPanel({
-                        onPicturesChange
-                      }: {
+  product,
+  onPicturesChange
+}: {
+  product: ProductDetailsType;
   onPicturesChange: (values: string[]) => void;
 }) {
   const store = useStore();
   const navigate = useNavigate();
   const [liked, toggleLiked] = useToggle();
-  const [sku, setSku] = useState<ProductSku>();
+  const [sku, setSku] = useState<ProductSKU>();
   const productName = useMemo(() => {
-    return (
-      sku?.attrs
-        .reduce((sum: string[], item) => {
-          sum.push(item.value);
-          return sum;
-        }, [])
-        .join(' ') || ''
-    );
-  }, [sku?.attrs]);
+    return [
+      product.name,
+      sku?.attributes.reduce((sum: string[], item) => {
+        sum.push(item.value);
+        return sum;
+      }, [])
+    ]
+      .flatMap((item) => item)
+      .join(' ');
+  }, [product.name, sku?.attributes]);
 
   return (
     <div className={styles.panel_container}>
-      <div className={styles.name}>Xiaomi 13 Ultra 系列</div>
-      <div className={styles.desc}>Xiaomi 13 Ultra 系列</div>
-      <div className={styles.source}>小米自营</div>
+      <div className={styles.name}>{product.name}</div>
+      <div className={styles.desc}>{product.description}</div>
+      <div className={styles.source}>{product.brand}</div>
       <div className={styles.price}>{formatAmount(sku?.price)}</div>
       <div className={styles.split} />
 
       <ProductSkus
+        items={product.skus}
         onChange={(value) => {
           setSku(value);
-          onPicturesChange(value?.pictures || []);
+          onPicturesChange(value?.pictureUrls || []);
         }}
       />
 
       <div className={styles.selected_info}>
         <Row justify={'space-between'}>
           <div>{productName}</div>
-          <div>{formatAmount(sku?.price)}</div>
         </Row>
         <div className={styles.total}>总计：{formatAmount(sku?.price)}</div>
       </div>
 
-      {!!sku && (
+      {!!sku && !!productName && (
         <Space size={'1rem'} className={styles.action_buttons}>
           <Button
             className={classNames(styles.btn, styles.btn_buy)}
@@ -91,7 +98,7 @@ function ProductPanel({
                 cartSlice.actions.putProduct({
                   product: {
                     id: 1,
-                    pictureUrl: sku.picture,
+                    pictureUrl: sku.pictureUrl,
                     name: productName,
                     price: sku.price,
                     checked: true,
@@ -135,7 +142,7 @@ function ProductPanel({
       )}
 
       <Space size={'1.5rem'} wrap className={styles.after_sale_info}>
-        {AfterSaleInfos.map((item) => (
+        {['7天无理由退货', '7天价格保护'].map((item) => (
           <div key={item} className={styles.item}>
             <CheckCircleOutlined className={styles.icon} />
             {item}
@@ -166,9 +173,7 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: {
-  weixin?: boolean
-}) {
+export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (

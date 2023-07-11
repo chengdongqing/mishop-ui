@@ -57,17 +57,17 @@ export default async function request<T>(
   if (res.status === 200) {
     // 成功处理请求
     return data;
-  } else if (res.status === 401) {
-    // 未登录授权
-    toast.warning('请登录后操作');
-    // 清除登录信息
-    store.dispatch(userSlice.actions.setUser(null));
-    window.localStorage.removeItem('login-user');
-    // 跳转登录页面
-    window.location.pathname = `${import.meta.env.BASE_URL}auth/login`;
   } else {
+    toast.warning(`${(data as any).message}（${res.status}）`);
+    // 未登录授权
+    if (res.status === 401) {
+      // 清除登录信息
+      store.dispatch(userSlice.actions.setUser(null));
+      window.localStorage.removeItem('login-user');
+      // 跳转登录页面
+      window.location.pathname = `${import.meta.env.BASE_URL}auth/login`;
+    }
     // 其他错误
-    toast.warning(`操作失败（${res.status}）`);
+    throw new Error();
   }
-  throw new Error('操作失败');
 }

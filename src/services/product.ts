@@ -16,7 +16,11 @@ export function fetchProductBrands(pageSize?: number, productSize?: number) {
   });
 }
 
-export function fetchProductCategories(pageSize?: number, productSize?: number, withBanners?: boolean) {
+export function fetchProductCategories(
+  pageSize?: number,
+  productSize?: number,
+  withBanners?: boolean
+) {
   return request<ParentProduct[]>('/products/categories', {
     params: {
       pageSize,
@@ -60,4 +64,34 @@ export function fetchRecommendedProducts(pageSize?: number) {
       pageSize
     }
   });
+}
+
+export interface ProductDetails {
+  id: number;
+  name: string;
+  description: string;
+  limits: number;
+  brand: string;
+  staticDetails?: {
+    name: string;
+    children: string[];
+  }[];
+  skus: ProductSKU[];
+}
+
+export interface ProductSKU {
+  id: number;
+  price: number;
+  originalPrice?: number;
+  pictureUrl: string;
+  pictureUrls: string[];
+  attributes: {
+    name: string;
+    value: string;
+  }[];
+  available: boolean;
+}
+
+export function fetchProductDetails(name: string) {
+  return request<ProductDetails>(`/products/${name}`);
 }

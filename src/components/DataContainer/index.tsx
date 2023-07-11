@@ -11,5 +11,5 @@ export default function DataContainer({ children, loading, empty }: DataContaine
   if (!loading && empty) {
     return <div className={styles.empty}>{empty}</div>;
   }
-  return <div>{loading ? <Loading style={{ height: '50vh' }} /> : children}</div>;
+  return <>{loading ? <Loading style={{ height: '50vh' }} /> : children}</>;
 }

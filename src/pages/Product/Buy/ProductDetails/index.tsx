@@ -2,16 +2,20 @@ import LazyImage from '@/components/LazyImage';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { PriceDescription } from '../index.tsx';
-import { ProductNavs } from './const.ts';
 import styles from './index.module.less';
 
-export default function ProductDetails() {
+interface DetailItem {
+  name: string;
+  children: string[];
+}
+
+export default function ProductDetails({ items }: { items: DetailItem[] }) {
   const [current, setCurrent] = useState(0);
 
   return (
     <>
       <div className={styles.navs_bar}>
-        {ProductNavs.map((item, index) => (
+        {items.map((item, index) => (
           <div
             key={item.name}
             className={classNames(
@@ -29,7 +33,7 @@ export default function ProductDetails() {
 
       <div style={{ backgroundColor: 'var(--color-background)' }}>
         <div className={styles.content}>
-          {ProductNavs[current].children.map((item) => (
+          {items[current].children.map((item) => (
             <LazyImage key={item} src={item} alt={''} width={'100%'} />
           ))}
         </div>

@@ -6,12 +6,13 @@ interface RequestConfig<T, U> {
   initialData?: T;
   convert?: (res: T) => U;
   onSuccess?: (res: U) => void;
+  onError?: () => void;
 }
 
 interface RequestResult<T> {
   data: T;
   loading: boolean;
-  run: (...args: unknown[]) => Promise<T>;
+  run: (...args: unknown[]) => Promise<T | null>;
   setData: React.Dispatch<React.SetStateAction<T>>;
 }
 
@@ -21,13 +22,14 @@ export default function useRequest<T, U = T>(
     manual = false,
     initialData,
     convert,
-    onSuccess
+    onSuccess,
+    onError
   }: RequestConfig<T, U> = {}
 ): RequestResult<U> {
   const [data, setData] = useState(initialData as U);
   const [loading, setLoading] = useState(false);
 
-  const run = useThrottle<U>(async (...args) => {
+  const run = useThrottle<U | null>(async (...args) => {
     setLoading(true);
     try {
       const res = await service(...args);
@@ -35,6 +37,9 @@ export default function useRequest<T, U = T>(
       setData(result);
       onSuccess?.(result);
       return result;
+    } catch (e) {
+      onError?.();
+      return null;
     } finally {
       setLoading(false);
     }
