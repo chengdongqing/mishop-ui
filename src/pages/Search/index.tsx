@@ -1,6 +1,6 @@
 import Breadcrumb from '@/components/Breadcrumb';
 import DataContainer from '@/components/DataContainer';
-import Form, { FormRef } from '@/components/Form';
+import Form from '@/components/Form';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
 import Pagination from '@/components/Pagination';
@@ -8,11 +8,11 @@ import RecommendedProducts from '@/components/RecommendedProducts';
 import Space from '@/components/Space';
 import useQueryParams from '@/hooks/useQueryParams.ts';
 import useRequest from '@/hooks/useRequest.ts';
-import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
+import useSetState from '@/hooks/useSetState.ts';
 import { fetchProductBrands, fetchProductCategories, searchProducts } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
-import { memo, useRef, useState } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
@@ -23,47 +23,36 @@ export type SearchProduct = Omit<Product, 'pictureUrl'> & {
 };
 
 export default function SearchPage() {
-  const formRef = useRef<FormRef>(null);
+  const [params, setParams] = useSetState();
   const { keyword, categoryId, brandId } = useQueryParams<{
     keyword?: string;
     categoryId?: string;
     brandId?: string;
   }>();
   const { data, loading, run } = useRequest(
-    (values = { keyword, categoryId, brandId }, { pageNumber } = {}) => {
-      return searchProducts(
-        {
-          keyword,
-          ...values,
-          pageNumber,
-          pageSize: 12
-        }
-      );
+    (pageNumber: number) => {
+      return searchProducts({
+        keyword,
+        ...params,
+        pageNumber,
+        pageSize: 12
+      });
     },
     {
-      initialData: {
-        data: []
-      } as Page<SearchProduct>
+      deps: [keyword, params]
     }
   );
-
-  useUpdateEffect(() => {
-    run({ keyword });
-  }, [keyword]);
 
   return (
     <>
       <Breadcrumb value={'全部结果'} split={'>'} />
       <Form
         noStyle
-        ref={formRef}
         initialValues={{
           categoryId: categoryId ? Number(categoryId) : undefined,
           brandId: brandId ? Number(brandId) : undefined
         }}
-        onChange={(_changedValues, allValues) => {
-          run(allValues);
-        }}
+        onChange={setParams}
       >
         <FilterGroup />
         <div
@@ -77,17 +66,10 @@ export default function SearchPage() {
             <DataContainer
               loading={loading}
               empty={
-                !data.totalSize && '对应筛选条件下没有找到商品，换个筛选条件吧'
+                !data?.totalSize && '对应筛选条件下没有找到商品，换个筛选条件吧'
               }
             >
-              <ProductList
-                page={data}
-                onPageChange={(value) => {
-                  run(formRef.current?.getFieldsValue(), {
-                    pageNumber: value
-                  });
-                }}
-              />
+              <ProductList page={data} onPageChange={run} />
             </DataContainer>
             <RecommendedProducts mode={'swiper'} />
           </div>
@@ -129,16 +111,16 @@ const FilterGroup = memo(() => {
 });
 
 function ProductList({
-                       page,
-                       onPageChange
-                     }: {
-  page: Page<SearchProduct>;
+  page,
+  onPageChange
+}: {
+  page?: Page<SearchProduct>;
   onPageChange: (value: number) => void;
 }) {
   return (
     <div className={styles.products}>
       <Grid columns={4} gap={'1.4rem'}>
-        {page.data?.map((item) => (
+        {page?.data?.map((item) => (
           <ProductItem key={item.name} {...item} />
         ))}
       </Grid>
@@ -175,8 +157,8 @@ function ProductItem(props: SearchProduct) {
             className={classNames(
               styles.thumb_item,
               index === pictureIndex &&
-              props.pictureUrls.length > 1 &&
-              styles.active
+                props.pictureUrls.length > 1 &&
+                styles.active
             )}
             onMouseEnter={() => {
               setPictureIndex(index);

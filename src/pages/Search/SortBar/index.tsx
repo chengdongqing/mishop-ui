@@ -28,7 +28,7 @@ const SortOptions = [
   },
   {
     label: '新品',
-    value: 'new'
+    value: 'newest'
   },
   {
     label: '销量',

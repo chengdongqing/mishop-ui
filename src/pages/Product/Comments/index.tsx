@@ -22,6 +22,7 @@ import SatisfactionCard from './SatisfactionCard';
 
 export default function ProductCommentsPage() {
   const productId = useParams().id as Id;
+  const [filterParams, setFilterParams] = useSetState<CommentsPageRequestDTO>();
   const { loading, data, run } = useRequest(fetchCommentsStatistics, {
     manual: true
   });
@@ -29,14 +30,10 @@ export default function ProductCommentsPage() {
     run(productId);
   }, [productId, run]);
 
-  const [filterParams, setFilterParams] = useSetState<CommentsPageRequestDTO>();
-
   const containerRef = useRef<HTMLDivElement>(null);
   const btnVisible = useElementVisible(containerRef, () => {
     return window.scrollY > 200;
   });
-
-  console.log(filterParams);
 
   return (
     <div
@@ -44,11 +41,7 @@ export default function ProductCommentsPage() {
       style={{ backgroundColor: 'var(--color-background)' }}
     >
       <div className={styles.container}>
-        <Form
-          onChange={(changedValues) => {
-            setFilterParams(changedValues);
-          }}
-        >
+        <Form noStyle onChange={setFilterParams}>
           <DataContainer
             loading={loading}
             empty={!data?.numberOfAll && '该商品暂无评论'}

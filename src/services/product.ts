@@ -46,7 +46,7 @@ interface SearchRequestDTO extends Pageable, Record<string, unknown> {
   categoryId?: number;
   brandId?: number;
   keyword?: string;
-  sortBy?: 'new' | 'sales' | 'price-asc' | 'price-desc';
+  sortBy?: string;
   onlyAvailable?: boolean;
 }
 
