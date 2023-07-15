@@ -8,9 +8,7 @@ import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function HomeVideo() {
-  const { data } = useRequest(() => fetchVideos(4), {
-    initialData: []
-  });
+  const { data } = useRequest(() => fetchVideos(4));
 
   return data?.length ? (
     <div className={styles.container}>

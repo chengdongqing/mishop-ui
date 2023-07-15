@@ -87,9 +87,7 @@ function CategoryBar({
   timer: MutableRefObject<NodeJS.Timer | undefined>;
   onChange: (items: Product[] | undefined) => void;
 }) {
-  const { data } = useRequest(() => fetchProductBrands(10, 6), {
-    initialData: []
-  });
+  const { data } = useRequest(() => fetchProductBrands(10, 6));
 
   return (
     <div
@@ -165,7 +163,7 @@ function ProductsPanel({
             key={item.name}
             className={styles.product_item}
             onClick={() => {
-              navigate(buildProductUrl(item.name));
+              navigate(buildProductUrl(item.id));
               onMouseLeave();
             }}
           >

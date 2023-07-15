@@ -99,12 +99,12 @@ function OrderList() {
               {item.products.map((product) => (
                 <div key={product.name} className={styles.product_item}>
                   <Space size={'2rem'}>
-                    <Link to={buildProductUrl(product.name)}>
+                    <Link to={buildProductUrl(product.id)}>
                       <img alt={product.name} src={product.pictureUrl} />
                     </Link>
                     <div>
                       <Link
-                        to={buildProductUrl(product.name)}
+                        to={buildProductUrl(product.id)}
                         className={styles.label}
                       >
                         {product.name}

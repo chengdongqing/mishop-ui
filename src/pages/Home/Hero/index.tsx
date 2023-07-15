@@ -24,7 +24,7 @@ function CategoryPanel() {
     {
       initialData: [],
       convert: (res) =>
-        res.map((item) => ({
+        res?.map((item) => ({
           ...item,
           products: item.children.flatMap((item1) => item1.products)
         })) || []
@@ -89,7 +89,7 @@ function ProductsPanel({
         <Link
           key={item.name}
           className={styles.product_item}
-          to={buildProductUrl(item.name)}
+          to={buildProductUrl(item.id)}
         >
           <img
             alt={item.name}
@@ -107,9 +107,7 @@ function ProductsPanel({
 
 function BannerSwiper() {
   const swiperRef = useRef<SwiperRef>(null);
-  const { data } = useRequest(() => fetchBanners('hero'), {
-    initialData: []
-  });
+  const { data } = useRequest(() => fetchBanners('hero'));
 
   return (
     <div className={styles.banner_card}>
@@ -118,7 +116,7 @@ function BannerSwiper() {
         animation={'fade'}
         className={styles.banner_swiper}
       >
-        {data.map((item) => (
+        {data?.map((item) => (
           <a
             key={item.id}
             rel={'nofollow'}

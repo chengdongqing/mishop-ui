@@ -70,8 +70,7 @@ interface FormProps
   initialValues?: ValuesType;
 
   // 值变化回调入口
-  onChange?(changedValues: ValuesType, allValues: ValuesType): void;
-
+  onChange?(changedValues: ValuesType): void;
   // 点击提交且验证通过后回调
   onOk?(values: ValuesType): void;
 }
@@ -87,7 +86,6 @@ const Form = forwardRef<FormRef, FormProps>(
     forwardRef
   ) => {
     const [fields, setFields] = useSetState<Record<string, FormItemInjects>>();
-    const [, setValues] = useSetState();
 
     // 收集数据
     function getFieldsValue() {
@@ -155,15 +153,7 @@ const Form = forwardRef<FormRef, FormProps>(
               });
             },
             onChange(name, value) {
-              const itemValue = { [name]: value };
-              setValues(prevValues => {
-                const newValues = {
-                  ...prevValues,
-                  ...itemValue
-                };
-                onChange?.(itemValue, newValues);
-                return newValues;
-              });
+              onChange?.({ [name]: value });
             }
           }}
         >

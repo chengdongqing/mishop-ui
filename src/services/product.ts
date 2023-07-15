@@ -42,7 +42,7 @@ export function fetchProductNamesLike(keyword: string) {
   });
 }
 
-interface SearchRequestData {
+interface SearchRequestDTO extends Pageable, Record<string, unknown> {
   categoryId?: number;
   brandId?: number;
   keyword?: string;
@@ -50,11 +50,9 @@ interface SearchRequestData {
   onlyAvailable?: boolean;
 }
 
-export function searchProducts(data?: SearchRequestData, pageable?: Pageable) {
+export function searchProducts(params: SearchRequestDTO) {
   return request<Page<SearchProduct>>('/products/search', {
-    method: 'POST',
-    body: data,
-    params: { ...pageable }
+    params
   });
 }
 
@@ -92,6 +90,6 @@ export interface ProductSKU {
   available: boolean;
 }
 
-export function fetchProductDetails(name: string) {
-  return request<ProductDetails>(`/products/${name}`);
+export function fetchProductDetails(id: Id) {
+  return request<ProductDetails>(`/products/${id}`);
 }

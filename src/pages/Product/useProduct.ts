@@ -1,24 +1,25 @@
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
+import { getSimpleProductName } from '@/pages/Product/utils.ts';
 import { fetchProductDetails } from '@/services/product.ts';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function useProduct(name: string, pathname: string) {
+export default function useProduct(id: Id, pathname: string) {
   // 查询商品详情
   const navigate = useNavigate();
   const {
     data: product,
     loading,
     run
-  } = useRequest(() => fetchProductDetails(name as string), {
+  } = useRequest(() => fetchProductDetails(id), {
     onError() {
       navigate('/', { replace: true });
     }
   });
   useEffect(() => {
     run();
-  }, [name, run]);
+  }, [id, run]);
 
   // 是否有动态的概述和参数详情页
   const [hasPages, setHasPages] = useSetState({
@@ -27,14 +28,15 @@ export default function useProduct(name: string, pathname: string) {
   });
   // 查询接口后，如果没有返回staticDetails，则尝试异步加载动态的概述和参数页面
   useEffect(() => {
-    if (product) {
+    if (product?.name) {
       if (!product.staticDetails) {
+        const name = getSimpleProductName(product.name);
         // 判断是否有动态概述和参数页面
         Promise.all([
-          import(`./Sketch/${name?.replace(/\s/g, '')}/index.tsx`).then(() => {
+          import(`./Sketch/${name}/index.tsx`).then(() => {
             setHasPages({ sketch: true });
           }),
-          import(`./Specs/${name?.replace(/\s/g, '')}/index.tsx`).then(() => {
+          import(`./Specs/${name}/index.tsx`).then(() => {
             setHasPages({ specs: true });
           })
         ]).catch(() => {

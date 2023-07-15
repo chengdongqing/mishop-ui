@@ -13,10 +13,11 @@ interface OptionItem {
  * 通用分页响应数据模型
  */
 interface Page<T> {
-  pageNumber?: number;
-  pageSize?: number;
-  totalSize?: number;
-  data?: T[];
+  pageNumber: number;
+  pageSize: number;
+  totalSize: number;
+  totalPages: number;
+  data: T[];
 }
 /**
  * 通用分页请求数据模型

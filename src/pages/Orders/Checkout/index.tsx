@@ -108,7 +108,7 @@ function ProductList() {
             <Space size={'1rem'} style={{ flex: 1 }}>
               <img src={item.pictureUrl} alt={item.name} />
               <Link
-                to={buildProductUrl(item.name)}
+                to={buildProductUrl(item.id)}
                 className={styles.name}
                 target={'_blank'}
               >

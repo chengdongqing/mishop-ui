@@ -80,7 +80,7 @@ export default function OrderDetailsPage() {
             align={'middle'}
             className={styles.product_item}
           >
-            <Link to={buildProductUrl(item.name)} target={'_blank'}>
+            <Link to={buildProductUrl(item.id)} target={'_blank'}>
               <img src={item.pictureUrl} alt={item.name} />
               <span className={styles.label}>{item.name}</span>
             </Link>

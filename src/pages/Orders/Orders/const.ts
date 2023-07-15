@@ -23,6 +23,7 @@ export const orders: Order[] = [
     },
     products: [
       {
+        id: 1,
         name: 'Xiaomi 11 青春版 8GB+256GB 清凉薄荷',
         pictureUrl:
           'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1617014232.08725811.jpg',
@@ -30,6 +31,7 @@ export const orders: Order[] = [
         number: 1
       },
       {
+        id: 2,
         name: '小米33W充电器 白色',
         pictureUrl:
           'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1615343278.87026928.jpg',
@@ -55,6 +57,7 @@ export const orders: Order[] = [
     },
     products: [
       {
+        id: 1,
         name: 'Xiaomi 11 青春版 8GB+256GB 清凉薄荷',
         pictureUrl:
           'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1617014232.08725811.jpg',
@@ -62,6 +65,7 @@ export const orders: Order[] = [
         number: 1
       },
       {
+        id: 2,
         name: '小米33W充电器 白色',
         pictureUrl:
           'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1615343278.87026928.jpg',

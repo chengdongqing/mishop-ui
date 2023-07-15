@@ -39,7 +39,7 @@ const routes: RouteObject[] = [
     )
   },
   {
-    path: '/product/:name',
+    path: '/product/:id',
     element: (
       <PageDecorator>
         <ProductPage />

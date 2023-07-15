@@ -32,14 +32,18 @@ export default function SearchPage() {
   const { data, loading, run } = useRequest(
     (values = { keyword, categoryId, brandId }, { pageNumber } = {}) => {
       return searchProducts(
-        { ...values, keyword },
-        { pageSize: 12, pageNumber }
+        {
+          keyword,
+          ...values,
+          pageNumber,
+          pageSize: 12
+        }
       );
     },
     {
       initialData: {
         data: []
-      }
+      } as Page<SearchProduct>
     }
   );
 
@@ -105,7 +109,7 @@ const FilterGroup = memo(() => {
     {
       initialData: [],
       convert(item) {
-        return item.flatMap((item) => item.children) || [];
+        return item?.flatMap((item) => item.children) || [];
       }
     }
   );
@@ -125,9 +129,9 @@ const FilterGroup = memo(() => {
 });
 
 function ProductList({
-  page,
-  onPageChange
-}: {
+                       page,
+                       onPageChange
+                     }: {
   page: Page<SearchProduct>;
   onPageChange: (value: number) => void;
 }) {
@@ -147,7 +151,7 @@ function ProductItem(props: SearchProduct) {
   const [pictureIndex, setPictureIndex] = useState(0);
 
   return (
-    <Link className={styles.product_item} to={buildProductUrl(props.name)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.id)}>
       <LazyImage
         alt={props.name}
         src={props.pictureUrls[pictureIndex]}
@@ -171,8 +175,8 @@ function ProductItem(props: SearchProduct) {
             className={classNames(
               styles.thumb_item,
               index === pictureIndex &&
-                props.pictureUrls.length > 1 &&
-                styles.active
+              props.pictureUrls.length > 1 &&
+              styles.active
             )}
             onMouseEnter={() => {
               setPictureIndex(index);

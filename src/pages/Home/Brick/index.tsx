@@ -112,7 +112,7 @@ function CategoryProducts({
           <Link
             key={item.name}
             target={'_blank'}
-            to={buildProductUrl(item.name)}
+            to={buildProductUrl(item.id)}
             className={styles.product_item}
           >
             <LazyImage
@@ -145,7 +145,7 @@ function CategoryProducts({
             <Link
               style={{ marginBottom: '1.4rem' }}
               className={classNames(styles.product_item, styles.small)}
-              to={buildProductUrl(overflowProduct.name)}
+              to={buildProductUrl(overflowProduct.id)}
               target={'_blank'}
             >
               <LazyImage

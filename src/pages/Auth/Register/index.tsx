@@ -24,7 +24,9 @@ export default function Register() {
 
   return (
     <Form
-      onChange={setValues}
+      onChange={(changedValues) => {
+        setValues(changedValues);
+      }}
       onOk={() => {
         if (!values.agreed) {
           toast.warning('请您同意用户条款');

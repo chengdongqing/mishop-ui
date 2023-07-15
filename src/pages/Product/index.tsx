@@ -10,13 +10,11 @@ import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 import useProduct from './useProduct.ts';
 
-export const ProductContext = createContext<ProductDetails | null>(null);
+export const ProductContext = createContext<ProductDetails | undefined>(undefined);
 
 export default function ProductPage() {
-  const name = useParams().name as string;
+  const id = useParams().id as Id;
   const { pathname } = useLocation();
-  // 设置文档标题
-  useDocumentTitle(name);
   // 子页面切换后自动滚动到顶部
   useEffect(() => {
     window.scrollTo({
@@ -25,7 +23,8 @@ export default function ProductPage() {
     });
   }, [pathname]);
 
-  const [product, loading, hasPages] = useProduct(name, pathname);
+  const [product, loading, hasPages] = useProduct(id, pathname);
+  useDocumentTitle(product?.name);
 
   return (
     <>
@@ -35,7 +34,7 @@ export default function ProductPage() {
           justify={'space-between'}
           className={styles.container}
         >
-          <div className={styles.label}>{name}</div>
+          <div className={styles.label}>{product?.name}</div>
           <Space>
             <Space
               split={<span style={{ color: 'var(--color-border)' }}>|</span>}
@@ -43,9 +42,9 @@ export default function ProductPage() {
             >
               {hasPages.sketch && (
                 <Link
-                  to={`/product/${name}`}
+                  to={`/product/${id}`}
                   className={classNames(
-                    pathname.endsWith(name) && styles.disabled
+                    pathname.endsWith(id.toString()) && styles.disabled
                   )}
                 >
                   概述页
@@ -53,7 +52,7 @@ export default function ProductPage() {
               )}
               {hasPages.specs && (
                 <Link
-                  to={`/product/${name}/specs`}
+                  to={`/product/${id}/specs`}
                   className={classNames(
                     pathname.endsWith('specs') && styles.disabled
                   )}
@@ -62,7 +61,7 @@ export default function ProductPage() {
                 </Link>
               )}
               <Link
-                to={`/product/${name}/comments`}
+                to={`/product/${id}/comments`}
                 className={classNames(
                   pathname.endsWith('comments') && styles.disabled
                 )}
@@ -71,7 +70,7 @@ export default function ProductPage() {
               </Link>
             </Space>
             {!pathname.endsWith('buy') && (
-              <Link to={`/product/${name}/buy`}>
+              <Link to={`/product/${id}/buy`}>
                 <Button className={styles.btn_buy}>立即购买</Button>
               </Link>
             )}

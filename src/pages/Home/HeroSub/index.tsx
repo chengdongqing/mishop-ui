@@ -31,13 +31,11 @@ function ChannelBox() {
 }
 
 function PromoCards() {
-  const { data } = useRequest(() => fetchBanners('hero_sub'), {
-    initialData: []
-  });
+  const { data } = useRequest(() => fetchBanners('hero_sub'));
 
   return (
     <div className={styles.promo_cards}>
-      {data.map((item) => (
+      {data?.map((item) => (
         <a
           className={styles.promo_item}
           key={item.src}

@@ -64,7 +64,7 @@ function ProductList() {
                 switchCheck(item, checked);
               }}
             />
-            <Link to={buildProductUrl(item.name)}>
+            <Link to={buildProductUrl(item.id)}>
               <img
                 alt={item.name}
                 src={item.pictureUrl}
@@ -73,7 +73,7 @@ function ProductList() {
             </Link>
           </div>
           <div className={classNames(styles.col_name, 'text-ellipsis')}>
-            <Link to={buildProductUrl(item.name)}>{item.name}</Link>
+            <Link to={buildProductUrl(item.id)}>{item.name}</Link>
           </div>
           <div className={styles.col_price}>{formatAmount(item.price)}</div>
           <div className={styles.col_num}>

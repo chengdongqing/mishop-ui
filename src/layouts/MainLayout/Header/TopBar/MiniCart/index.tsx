@@ -115,7 +115,7 @@ function MainCart({
             justify={'space-between'}
             className={styles.product_item}
           >
-            <Link to={buildProductUrl(item.name)} style={{ flex: 1 }}>
+            <Link to={buildProductUrl(item.id)} style={{ flex: 1 }}>
               <Space size={'1rem'}>
                 <img
                   alt={item.name}

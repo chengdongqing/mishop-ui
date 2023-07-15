@@ -14,8 +14,8 @@ import Section9 from './Section9';
 export default function Xiaomi13UltraSketch() {
   return (
     <>
-      <Section1/>
-      <Section2/>
+      <Section1 />
+      <Section2 />
       <Section3 />
       <Section4 />
       <Section5 />

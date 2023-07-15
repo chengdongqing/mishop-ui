@@ -6,7 +6,7 @@ import styles from './index.module.less';
 
 interface LoadingProps extends PropsWithStyle {
   // 效果类型
-  type?: 'wave' | 'circle' | 'dashed' | 'dot';
+  type?: 'wave' | 'circle' | 'dashed' | 'dots';
   // 颜色
   color?: string;
   // 动画时长
@@ -73,7 +73,7 @@ export default function Loading({
       )}
 
       {/* 跳动圆点 */}
-      {type === 'dot' && (
+      {type === 'dots' && (
         <div className={classNames(styles.loading, styles.dot)}>
           {Array(3)
             .fill(0)

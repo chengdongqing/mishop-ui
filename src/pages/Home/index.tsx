@@ -9,15 +9,14 @@ import HomeVideo from './Video';
 
 export default function HomePage() {
   const { data: banners } = useRequest(() => fetchBanners('home_banner'), {
-    initialData: []
+    initialData: [] as Banner[]
   });
   const { data: categories } = useRequest(
     () => fetchProductCategories(undefined, 8, true),
     {
-      initialData: [],
       convert(res) {
         return res
-          .filter((item) => {
+          ?.filter((item) => {
             return (
               item.banners.length &&
               item.children.flatMap((item) => item.products).length
@@ -38,7 +37,7 @@ export default function HomePage() {
 
       <div style={{ backgroundColor: 'var(--color-background)' }}>
         {banners.length > 0 && <HomeBanner {...banners[0]} />}
-        {categories.map((item) => (
+        {categories?.map((item) => (
           <HomeBrick key={item.id} {...item} />
         ))}
         {banners.length > 1 && <HomeBanner {...banners[banners.length - 1]} />}

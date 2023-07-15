@@ -1,44 +1,51 @@
 import Space from '@/components/Space';
+import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
-import { useState } from 'react';
 import styles from './index.module.less';
+
+interface FilterBarProps {
+  all: number;
+  items: Record<number, number>;
+  value?: number;
+  defaultValue?: number;
+  onChange?: (value: number | undefined) => void;
+}
 
 const options = [
   {
-    label: '综合',
-    number: 852268
+    label: '全部',
+    value: undefined
   },
   {
-    label: '价格实惠',
-    number: 636
+    label: '非常满意',
+    value: 5
   },
   {
-    label: '亮度可调',
-    number: 547
+    label: '比较满意',
+    value: 4
   },
   {
-    label: '颜值够高',
-    number: 488
+    label: '满意',
+    value: 3
   },
   {
-    label: '光线柔和',
-    number: 453
+    label: '失望',
+    value: 2
   },
   {
-    label: '质量上乘',
-    number: 388
-  },
-  {
-    label: '全部'
+    label: '非常失望',
+    value: 1
   }
 ];
 
 export default function FilterBar({
+  all,
+  items,
+  value: propValue,
+  defaultValue,
   onChange
-}: {
-  onChange: (value: number) => void;
-}) {
-  const [current, setCurrent] = useState(0);
+}: FilterBarProps) {
+  const [value, setValue] = useFormItem(propValue, defaultValue, onChange);
 
   return (
     <div className={styles.container}>
@@ -46,19 +53,22 @@ export default function FilterBar({
 
       <div className={styles.categories}>
         <Space size={'2.4rem'}>
-          {options.map((item, index) => (
+          {options.map((item) => (
             <div
               key={item.label}
               className={classNames(
                 styles.category_item,
-                index === current && styles.active
+                item.value === value && styles.active
               )}
               onClick={() => {
-                setCurrent(index);
-                onChange(index);
+                setValue(item.value);
+                onChange?.(item.value);
               }}
             >
-              {item.label} {!!item.number && `（${item.number}）`}
+              {item.label}
+              <span>
+                （{(item.value === undefined ? all : items[item.value]) || 0}）
+              </span>
             </div>
           ))}
         </Space>

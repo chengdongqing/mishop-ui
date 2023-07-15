@@ -109,7 +109,7 @@ function ProductBlock(props: Product) {
   const store = useStore();
 
   return (
-    <Link className={styles.product_item} to={buildProductUrl(props.name)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.id)}>
       <LazyImage
         alt={props.name}
         src={props.pictureUrl}

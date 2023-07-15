@@ -24,7 +24,7 @@ export default async function request<T>(
     params,
     timeout
   }: RequestConfig = {}
-): Promise<T> {
+): Promise<T | undefined> {
   const fullUrl = new URL(url, baseUrl);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {

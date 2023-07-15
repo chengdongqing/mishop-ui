@@ -1,4 +1,5 @@
 import Button from '@/components/Button';
+import RecommendedProducts from '@/components/RecommendedProducts';
 import Row from '@/components/Row';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/User/Addresses/const.ts';
@@ -6,7 +7,6 @@ import { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { formatAmount } from '@/utils';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import RecommendedProducts from '../@/components/RecommendedProducts';
 import styles from './index.module.less';
 
 export default function PaySuccessfulPage() {

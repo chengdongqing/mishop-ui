@@ -10,9 +10,7 @@ import classNames from 'classnames';
 import styles from './index.module.less';
 
 export default function VideosPage() {
-  const { data, loading } = useRequest(fetchVideos, {
-    initialData: []
-  });
+  const { data, loading } = useRequest(fetchVideos);
 
   return (
     <>
@@ -21,7 +19,10 @@ export default function VideosPage() {
         <div className={styles.container}>
           <div className={styles.title_bar}>全部视频</div>
 
-          <DataContainer loading={loading} empty={!data?.length && '暂无视频数据'}>
+          <DataContainer
+            loading={loading}
+            empty={!data?.length && '暂无视频数据'}
+          >
             <Grid columns={2} gap={'1.4rem'} className={styles.videos}>
               {data?.map((item) => (
                 <VideoCard key={item.id} {...item} large />

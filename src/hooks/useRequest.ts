@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 interface RequestConfig<T, U> {
   manual?: boolean;
-  initialData?: T;
+  initialData?: U;
+  deps?: unknown[];
   convert?: (res: T) => U;
   onSuccess?: (res: U) => void;
   onError?: () => void;
@@ -21,6 +22,7 @@ export default function useRequest<T, U = T>(
   {
     manual = false,
     initialData,
+    deps = [],
     convert,
     onSuccess,
     onError
@@ -47,9 +49,10 @@ export default function useRequest<T, U = T>(
 
   useEffect(() => {
     if (!manual) {
-      run().then();
+      run();
     }
-  }, [manual, run]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [manual, run, ...deps]);
 
   return {
     run,

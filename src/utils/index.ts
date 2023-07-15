@@ -3,10 +3,10 @@ import { EmptyValue } from './constants';
 
 /**
  * 构建商品详情访问地址
- * @param label 商品名称
+ * @param productId 商品id
  */
-export function buildProductUrl(label: string) {
-  return '/product/' + encodeURIComponent(label);
+export function buildProductUrl(productId: Id) {
+  return '/product/' + productId;
 }
 
 export function formatValue(value: unknown, unit = '') {

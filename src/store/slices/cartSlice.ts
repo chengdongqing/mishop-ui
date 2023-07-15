@@ -41,8 +41,8 @@ export default createSlice({
         }
       }
     },
-    removeProduct({ products }, { payload }: PayloadAction<{ label: string }>) {
-      const index = products.findIndex((item) => item.name === payload.label);
+    removeProduct({ products }, { payload }: PayloadAction<{ name: string }>) {
+      const index = products.findIndex((item) => item.name === payload.name);
       if (index !== -1) {
         products.splice(index, 1);
       }
