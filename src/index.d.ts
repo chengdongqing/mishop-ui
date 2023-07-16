@@ -50,16 +50,16 @@ interface Product {
   originalPrice?: number;
   // 产品描述
   description?: string;
-  // 好评数量
-  comments?: string;
   // 限购数量
-  limits?: number;
+  limits: number;
 }
 /**
  * 购物车商品数据模型
  */
 interface CartProduct extends Product {
-  checked?: boolean;
+  skuId: Id;
+  skuName: string;
+  checked: boolean;
   number: number;
 }
 

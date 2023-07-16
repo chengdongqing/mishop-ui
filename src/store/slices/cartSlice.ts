@@ -22,7 +22,7 @@ export default createSlice({
       const { product, callback } = payload;
 
       // 判断是否已存在该商品
-      const index = products.findIndex((item) => item.name === product.name);
+      const index = products.findIndex((item) => item.skuId === product.skuId);
       if (index === -1) {
         products.push(product);
         callback(true);
@@ -41,36 +41,36 @@ export default createSlice({
         }
       }
     },
-    removeProduct({ products }, { payload }: PayloadAction<{ name: string }>) {
-      const index = products.findIndex((item) => item.name === payload.name);
+    removeProduct({ products }, { payload }: PayloadAction<{ skuId: Id }>) {
+      const index = products.findIndex((item) => item.skuId === payload.skuId);
       if (index !== -1) {
         products.splice(index, 1);
       }
     },
     removeProducts(
       state,
-      { payload }: PayloadAction<{ labels?: string[]; allChecked?: boolean }>
+      { payload }: PayloadAction<{ skuIds?: Id[]; allChecked?: boolean }>
     ) {
       const { products } = state;
       if (payload.allChecked) {
         state.products = products.filter((item) => !item.checked);
-      } else if (payload.labels?.length) {
+      } else if (payload.skuIds?.length) {
         state.products = products.filter((item) => {
-          return !payload.labels?.includes(item.name);
+          return !payload.skuIds?.includes(item.skuId);
         });
       }
     },
     modifyProductNumber(
       { products },
-      { payload }: PayloadAction<{ label: string; number: number }>
+      { payload }: PayloadAction<{ skuId: Id; number: number }>
     ) {
-      const { label, number } = payload;
+      const { skuId, number } = payload;
 
-      const index = products.findIndex((item) => item.name === label);
+      const index = products.findIndex((item) => item.skuId === skuId);
       if (index !== -1) {
         // 判断是否超出限购数量
         const prevProduct = products[index];
-        if (prevProduct.limits && number > prevProduct.limits) {
+        if (prevProduct.limits !== -1 && number > prevProduct.limits) {
           popup.alert('商品加入购物车数量超过限购数');
         } else {
           products[index].number = number;
@@ -79,9 +79,9 @@ export default createSlice({
     },
     modifyProductCheck(
       { products },
-      { payload }: PayloadAction<{ label: string; checked: boolean }>
+      { payload }: PayloadAction<{ skuId: Id; checked: boolean }>
     ) {
-      const index = products.findIndex((item) => item.name === payload.label);
+      const index = products.findIndex((item) => item.name === payload.skuId);
       if (index !== -1) {
         products[index].checked = payload.checked;
       }

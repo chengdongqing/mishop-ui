@@ -40,7 +40,7 @@ export default function MiniCart() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 500);
   }
 
   return (
@@ -122,7 +122,7 @@ function MainCart({
                   src={item.pictureUrl}
                   className={styles.img}
                 />
-                <div className={styles.label}>{item.name}</div>
+                <div className={styles.label}>{item.name} {item.skuName}</div>
               </Space>
             </Link>
             <div className={styles.price}>

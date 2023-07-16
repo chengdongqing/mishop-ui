@@ -56,8 +56,14 @@ export function searchProducts(params: SearchRequestDTO) {
   });
 }
 
+export interface RecommendedProduct extends Product {
+  skuId: number;
+  skuName: string;
+  comments: number;
+}
+
 export function fetchRecommendedProducts(pageSize?: number) {
-  return request<Product[]>('/products/recommended', {
+  return request<RecommendedProduct[]>('/products/recommended', {
     params: {
       pageSize
     }
@@ -79,6 +85,7 @@ export interface ProductDetails {
 
 export interface ProductSKU {
   id: number;
+  name: string;
   price: number;
   originalPrice?: number;
   pictureUrl: string;

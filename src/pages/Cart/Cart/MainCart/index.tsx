@@ -73,7 +73,9 @@ function ProductList() {
             </Link>
           </div>
           <div className={classNames(styles.col_name, 'text-ellipsis')}>
-            <Link to={buildProductUrl(item.id)}>{item.name}</Link>
+            <Link to={buildProductUrl(item.id)}>
+              {item.name} {item.skuName}
+            </Link>
           </div>
           <div className={styles.col_price}>{formatAmount(item.price)}</div>
           <div className={styles.col_num}>
@@ -85,7 +87,7 @@ function ProductList() {
                 } else {
                   dispatch(
                     cartSlice.actions.modifyProductNumber({
-                      label: item.name,
+                      skuId: item.skuId,
                       number: value
                     })
                   );

@@ -44,9 +44,9 @@ export default function ProductBuyingPage() {
 }
 
 function ProductPanel({
-  product,
-  onPicturesChange
-}: {
+                        product,
+                        onPicturesChange
+                      }: {
   product: ProductDetailsType;
   onPicturesChange: (values: string[]) => void;
 }) {
@@ -55,16 +55,8 @@ function ProductPanel({
   const [liked, toggleLiked] = useToggle();
   const [sku, setSku] = useState<ProductSKU>();
   const productName = useMemo(() => {
-    return [
-      product.name,
-      sku?.attributes.reduce((sum: string[], item) => {
-        sum.push(item.value);
-        return sum;
-      }, [])
-    ]
-      .flatMap((item) => item)
-      .join(' ');
-  }, [product.name, sku?.attributes]);
+    return [product.name, sku?.name].join(' ');
+  }, [product.name, sku?.name]);
 
   return (
     <div className={styles.panel_container}>
@@ -97,10 +89,12 @@ function ProductPanel({
               store.dispatch(
                 cartSlice.actions.putProduct({
                   product: {
-                    id: 1,
-                    pictureUrl: sku.pictureUrl,
-                    name: productName,
+                    ...product,
                     price: sku.price,
+                    originalPrice: sku.originalPrice,
+                    pictureUrl: sku.pictureUrl,
+                    skuId: sku.id,
+                    skuName: sku.name,
                     checked: true,
                     number: 1
                   },
@@ -173,7 +167,9 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
+export function PriceDescription({ weixin = false }: {
+  weixin?: boolean
+}) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (

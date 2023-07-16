@@ -3,7 +3,7 @@ import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
 import Swiper, { SwiperRef } from '@/components/Swiper';
 import useRequest from '@/hooks/useRequest.ts';
-import { fetchRecommendedProducts } from '@/services/product.ts';
+import { fetchRecommendedProducts, RecommendedProduct } from '@/services/product.ts';
 import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/typings';
@@ -21,13 +21,13 @@ interface RecommendedProductsProps extends PropsWithStyle {
 }
 
 export default function RecommendedProducts({
-                                              title = '猜你喜欢',
-                                              mode,
-                                              style,
-                                              className
-                                            }: RecommendedProductsProps) {
+  title = '猜你喜欢',
+  mode,
+  style,
+  className
+}: RecommendedProductsProps) {
   const { data } = useRequest(() => fetchRecommendedProducts(20), {
-    initialData: []
+    initialData: [] as RecommendedProduct[]
   });
 
   return (
@@ -42,9 +42,7 @@ export default function RecommendedProducts({
   );
 }
 
-function ProductsSwiper({ products }: {
-  products: Product[]
-}) {
+function ProductsSwiper({ products }: { products: RecommendedProduct[] }) {
   const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
@@ -92,9 +90,7 @@ function ProductsSwiper({ products }: {
   );
 }
 
-function ProductBlocks({ products }: {
-  products: Product[]
-}) {
+function ProductBlocks({ products }: { products: RecommendedProduct[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
@@ -104,7 +100,7 @@ function ProductBlocks({ products }: {
   );
 }
 
-function ProductBlock(props: Product) {
+function ProductBlock(props: RecommendedProduct) {
   const [active, setActive] = useState(false);
   const store = useStore();
 
@@ -131,8 +127,8 @@ function ProductBlock(props: Product) {
             cartSlice.actions.putProduct({
               product: {
                 ...props,
-                checked: true,
-                number: 1
+                number: 1,
+                checked: true
               },
               callback(successful) {
                 if (successful) {
