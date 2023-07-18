@@ -7,24 +7,24 @@ export interface ParentProduct extends OptionItem {
   children: ParentProduct[];
 }
 
-export function fetchProductBrands(pageSize?: number, productSize?: number) {
+export function fetchProductBrands(limits?: number, productLimits?: number) {
   return request<ParentProduct[]>('/products/brands', {
     params: {
-      pageSize,
-      productSize
+      limits,
+      productLimits
     }
   });
 }
 
 export function fetchProductCategories(
-  pageSize?: number,
-  productSize?: number,
+  limits?: number,
+  productLimits?: number,
   withBanners?: boolean
 ) {
   return request<ParentProduct[]>('/products/categories', {
     params: {
-      pageSize,
-      productSize,
+      limits,
+      productLimits,
       withBanners
     }
   });
@@ -62,10 +62,10 @@ export interface RecommendedProduct extends Product {
   comments: number;
 }
 
-export function fetchRecommendedProducts(pageSize?: number) {
+export function fetchRecommendedProducts(limits?: number) {
   return request<RecommendedProduct[]>('/products/recommended', {
     params: {
-      pageSize
+      limits
     }
   });
 }
