@@ -157,6 +157,7 @@ function alert(title: ReactNode, onOk?: () => void) {
     maskClosable: false,
     cancelText: null,
     closeOnOk: true,
+    closable: false,
     onOk
   });
 }

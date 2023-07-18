@@ -1,6 +1,7 @@
 import Form from '@/components/Form';
 import Input from '@/components/Input';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
+import { sendVerificationCode } from '@/services/auth.ts';
 import patterns from '@/utils/patterns.ts';
 import { useState } from 'react';
 import styles from '../index.module.less';
@@ -39,9 +40,9 @@ export default function LoginByVerificationCode() {
                 reject('手机号格式错误');
                 return;
               }
-              setTimeout(() => {
+              sendVerificationCode(phoneNumber).then(() => {
                 resolve();
-              }, 1000);
+              }).catch(reject);
             });
           }}
         />

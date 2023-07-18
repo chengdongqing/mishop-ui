@@ -4,6 +4,8 @@ import Input from '@/components/Input';
 import popup from '@/components/Popup';
 import Select from '@/components/Select';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
+import useRequest from '@/hooks/useRequest.ts';
+import { resetPassword, ResetPasswordDTO, sendVerificationCode } from '@/services/auth.ts';
 import patterns from '@/utils/patterns.ts';
 import { Key, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -24,23 +26,32 @@ const AccountTypes = [
 
 export default function Login() {
   const [activeType, setActiveType] = useState<Key>('phoneNumber');
-  const [account, setAccount] = useState('');
+  const accountRef = useRef('');
   const passwordRef = useRef('');
-  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
+  const { run, loading: submitting } = useRequest(
+    (values: RecordsType) => resetPassword(values as ResetPasswordDTO),
+    {
+      manual: true
+    }
+  );
+
+  function handleReset(values: RecordsType) {
+    run({
+      ...values,
+      account: values.phoneNumber || values.email
+    }).then((res) => {
+      if (res) {
+        popup.alert('密码重置成功，即将重新登录', () => {
+          navigate('/auth/login');
+        });
+      }
+    });
+  }
+
   return (
-    <Form
-      onOk={() => {
-        setSubmitting(true);
-        setTimeout(() => {
-          setSubmitting(false);
-          popup.alert('密码重置成功，即将重新登录', () => {
-            navigate('/auth/login');
-          });
-        }, 1000);
-      }}
-    >
+    <Form onOk={handleReset}>
       <Form.Item name={'type'}>
         <Select
           defaultValue={activeType}
@@ -63,11 +74,16 @@ export default function Login() {
             }
           ]}
         >
-          <Input placeholder={item.label} onChange={setAccount} />
+          <Input
+            placeholder={item.label}
+            onChange={(value) => {
+              accountRef.current = value;
+            }}
+          />
         </Form.Item>
       ))}
       <Form.Item
-        name={'verification-code'}
+        name={'verificationCode'}
         rules={[
           { required: true, message: '请输入验证码' },
           {
@@ -81,24 +97,29 @@ export default function Login() {
             return new Promise((resolve, reject) => {
               if (
                 activeType === 'phoneNumber' &&
-                !patterns.phoneNumber.test(account)
+                !patterns.phoneNumber.test(accountRef.current)
               ) {
                 reject('请输入正确的手机号');
                 return;
               }
-              if (activeType === 'email' && !patterns.email.test(account)) {
+              if (
+                activeType === 'email' &&
+                !patterns.email.test(accountRef.current)
+              ) {
                 reject('请输入正确的邮箱');
                 return;
               }
-              setTimeout(() => {
-                resolve();
-              }, 1000);
+              sendVerificationCode(accountRef.current)
+                .then(() => {
+                  resolve();
+                })
+                .catch(reject);
             });
           }}
         />
       </Form.Item>
       <Form.Item
-        name={'password'}
+        name={'newPassword'}
         rules={[
           { required: true, message: '请输入密码' },
           {

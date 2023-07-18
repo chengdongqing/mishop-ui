@@ -1,5 +1,6 @@
 type Id = string | number;
 type BasicValue = string | number | boolean | null | undefined;
+type RecordsType = Record<string, unknown>;
 
 /**
  * 通用数据模型
@@ -19,6 +20,7 @@ interface Page<T> {
   totalPages: number;
   data: T[];
 }
+
 /**
  * 通用分页请求数据模型
  */
@@ -26,6 +28,7 @@ interface Pageable {
   pageNumber: number;
   pageSize?: number;
 }
+
 /**
  * 通用响应对象
  */
@@ -53,6 +56,7 @@ interface Product {
   // 限购数量
   limits: number;
 }
+
 /**
  * 购物车商品数据模型
  */
@@ -87,13 +91,17 @@ interface ShippingInfo {
 /**
  * 登录用户数据模型
  */
-interface UserInfo {
+interface LoginUser {
   id: number;
   name: string;
   avatarUrl: string;
   phoneNumber: string;
   email?: string;
   gender?: number;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
 }
 
 /**

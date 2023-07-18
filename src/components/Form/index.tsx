@@ -10,8 +10,6 @@ import {
 } from 'react';
 import FormItem from './FormItem.tsx';
 
-type ValuesType = Record<string, unknown>;
-
 interface FormItemInjects {
   // 重置值
   resetValue: () => void;
@@ -29,7 +27,7 @@ interface FormContextProps {
   // 禁用下属组件
   disabled?: boolean;
   // 初始值
-  initialValues?: ValuesType;
+  initialValues?: RecordsType;
 
   // 注册相关方法
   registerField?(name: string, injects: FormItemInjects): void;
@@ -45,7 +43,7 @@ export const FormContext = createContext<FormContextProps>({});
 
 export interface FormRef {
   // 提交表单
-  submit(): Promise<ValuesType>;
+  submit(): Promise<RecordsType>;
 
   // 重置表单
   resetFields(): void;
@@ -54,10 +52,10 @@ export interface FormRef {
   validateFields(): Promise<(string | void)[]>;
 
   // 获取表单值
-  getFieldsValue(): ValuesType;
+  getFieldsValue(): RecordsType;
 
   // 设置表单值
-  setFieldsValue(values: ValuesType): void;
+  setFieldsValue(values: RecordsType): void;
 }
 
 interface FormProps
@@ -67,12 +65,12 @@ interface FormProps
   // 禁用下属组件
   disabled?: boolean;
   // 初始值
-  initialValues?: ValuesType;
+  initialValues?: RecordsType;
 
   // 值变化回调入口
-  onChange?(changedValues: ValuesType): void;
+  onChange?(changedValues: RecordsType): void;
   // 点击提交且验证通过后回调
-  onOk?(values: ValuesType): void;
+  onOk?(values: RecordsType): void;
 }
 
 interface FormFC

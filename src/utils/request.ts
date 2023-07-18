@@ -10,7 +10,7 @@ interface RequestConfig {
   method?: RequestMethod;
   headers?: HeadersInit;
   body?: unknown | null;
-  params?: Record<string, unknown>;
+  params?: RecordsType;
   timeout?: number;
 }
 
@@ -24,7 +24,7 @@ export default async function request<T>(
     params,
     timeout
   }: RequestConfig = {}
-): Promise<T | undefined> {
+): Promise<T | null> {
   const fullUrl = new URL(url, baseUrl);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -54,11 +54,11 @@ export default async function request<T>(
   });
   const data: T = await res.json();
 
-  if (res.status === 200) {
+  if (res.ok) {
     // 成功处理请求
     return data;
   } else {
-    toast.warning(`${(data as any).message}（${res.status}）`);
+    toast.warning(`${(data as RecordsType)?.message || ''}（${res.status}）`);
     // 未登录授权
     if (res.status === 401) {
       // 清除登录信息

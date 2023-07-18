@@ -7,10 +7,11 @@ import Space from '@/components/Space';
 import toast from '@/components/Toast';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
 import useLatest from '@/hooks/useLatest.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
+import { register, RegisterDTO, sendVerificationCode } from '@/services/auth.ts';
 import userSlice from '@/store/slices/userSlice.ts';
 import patterns from '@/utils/patterns.ts';
-import { useState } from 'react';
 import { useStore } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from '../index.module.less';
@@ -18,37 +19,37 @@ import styles from '../index.module.less';
 export default function Register() {
   const [values, setValues] = useSetState();
   const valuesRef = useLatest(values);
-  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const store = useStore();
+
+  const { run, loading: submitting } = useRequest(
+    (values: RecordsType) => register(values as RegisterDTO),
+    {
+      manual: true
+    }
+  );
+
+  function handleRegister(values: RecordsType) {
+    if (!values.agreed) {
+      toast.warning('请您同意用户条款');
+    } else {
+      run(values).then((res) => {
+        if (res) {
+          store.dispatch(userSlice.actions.setUser(res));
+          popup.alert('恭喜您，注册成功！', () => {
+            navigate('/');
+          });
+        }
+      });
+    }
+  }
 
   return (
     <Form
       onChange={(changedValues) => {
         setValues(changedValues);
       }}
-      onOk={() => {
-        if (!values.agreed) {
-          toast.warning('请您同意用户条款');
-        } else {
-          setSubmitting(true);
-          setTimeout(() => {
-            setSubmitting(false);
-            store.dispatch(
-              userSlice.actions.setUser({
-                id: 450762342,
-                name: '海盐芝士不加糖',
-                phoneNumber: '189*****874',
-                avatarUrl:
-                  'https://cdn.cnbj1.fds.api.mi-img.com/user-avatar/920d7ac3-25ee-4f5e-89ec-5b051d75616f.jpg'
-              })
-            );
-            popup.alert('恭喜您，注册成功！', () => {
-              navigate('/');
-            });
-          }, 1000);
-        }
-      }}
+      onOk={handleRegister}
     >
       <Form.Item
         name={'phoneNumber'}
@@ -76,15 +77,15 @@ export default function Register() {
           onSend={() => {
             return new Promise((resolve, reject) => {
               if (
-                !values.phoneNumber ||
-                !patterns.phoneNumber.test(values.phoneNumber as string)
+                !valuesRef.current.phoneNumber ||
+                !patterns.phoneNumber.test(valuesRef.current.phoneNumber as string)
               ) {
                 reject('手机号格式错误');
                 return;
               }
-              setTimeout(() => {
+              sendVerificationCode(valuesRef.current.phoneNumber as string).then(() => {
                 resolve();
-              }, 1000);
+              }).catch(reject);
             });
           }}
         />

@@ -14,7 +14,7 @@ export function fetchCommentsStatistics(productId: Id) {
   );
 }
 
-export interface CommentsPageRequestDTO extends Pageable, Record<string, unknown> {
+export interface CommentsPageRequestDTO extends Pageable, RecordsType {
   rating?: number;
   withPhotosOnly?: boolean;
 }

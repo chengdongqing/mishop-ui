@@ -26,7 +26,7 @@ function useUserInitial() {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const [storageState, setStorageState] =
-    useLocalStorageState<UserInfo>('login-user');
+    useLocalStorageState<LoginUser>('login-user');
 
   useMount(() => {
     if (storageState) {

@@ -42,7 +42,7 @@ export function fetchProductNamesLike(keyword: string) {
   });
 }
 
-interface SearchRequestDTO extends Pageable, Record<string, unknown> {
+interface SearchRequestDTO extends Pageable, RecordsType {
   categoryId?: number;
   brandId?: number;
   keyword?: string;
