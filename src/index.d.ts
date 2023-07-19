@@ -58,16 +58,6 @@ interface Product {
 }
 
 /**
- * 购物车商品数据模型
- */
-interface CartProduct extends Product {
-  skuId: Id;
-  skuName: string;
-  checked: boolean;
-  number: number;
-}
-
-/**
  * 广告图数据模型
  */
 interface Banner {
@@ -101,6 +91,7 @@ interface LoginUser {
   token: {
     accessToken: string;
     refreshToken: string;
+    expireIn: string;
   };
 }
 

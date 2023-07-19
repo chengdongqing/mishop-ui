@@ -62,7 +62,7 @@ function ProductPanel({
     <div className={styles.panel_container}>
       <div className={styles.name}>{product.name}</div>
       <div className={styles.desc}>{product.description}</div>
-      <div className={styles.source}>{product.brand}</div>
+      <div className={styles.source}>{product.brandName}</div>
       <div className={styles.price}>{formatAmount(sku?.price)}</div>
       <div className={styles.split} />
 
@@ -89,14 +89,14 @@ function ProductPanel({
               store.dispatch(
                 cartSlice.actions.putProduct({
                   product: {
-                    ...product,
+                    productId: product.id,
+                    productName: product.name,
                     price: sku.price,
-                    originalPrice: sku.originalPrice,
                     pictureUrl: sku.pictureUrl,
                     skuId: sku.id,
                     skuName: sku.name,
-                    checked: true,
-                    number: 1
+                    isChecked: true,
+                    quantity: 1
                   },
                   callback(successful) {
                     if (successful) {

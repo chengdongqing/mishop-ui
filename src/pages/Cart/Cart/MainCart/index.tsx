@@ -56,39 +56,39 @@ function ProductList() {
         <div className={styles.col_action}>操作</div>
       </Row>
       {products.map((item) => (
-        <Row key={item.name} align={'middle'} className={styles.product_row}>
+        <Row key={item.skuId} align={'middle'} className={styles.product_row}>
           <div className={styles.col_check}>
             <Checkbox
-              checked={item.checked}
+              checked={item.isChecked}
               onChange={(checked) => {
                 switchCheck(item, checked);
               }}
             />
-            <Link to={buildProductUrl(item.id)}>
+            <Link to={buildProductUrl(item.productId)}>
               <img
-                alt={item.name}
+                alt={item.productName}
                 src={item.pictureUrl}
                 className={styles.img}
               />
             </Link>
           </div>
           <div className={classNames(styles.col_name, 'text-ellipsis')}>
-            <Link to={buildProductUrl(item.id)}>
-              {item.name} {item.skuName}
+            <Link to={buildProductUrl(item.productId)}>
+              {item.productName} {item.skuName}
             </Link>
           </div>
           <div className={styles.col_price}>{formatAmount(item.price)}</div>
           <div className={styles.col_num}>
             <NumberInput
-              value={item.number}
+              value={item.quantity}
               onChange={(value) => {
                 if (value === 0) {
                   removeItem(item);
                 } else {
                   dispatch(
-                    cartSlice.actions.modifyProductNumber({
+                    cartSlice.actions.modifyProductQuantity({
                       skuId: item.skuId,
-                      number: value
+                      quantity: value
                     })
                   );
                 }
@@ -96,7 +96,7 @@ function ProductList() {
             />
           </div>
           <div className={classNames(styles.col_total, styles.value)}>
-            {formatAmount(new Decimal(item.price).mul(item.number).toNumber())}
+            {formatAmount(new Decimal(item.price).mul(item.quantity).toNumber())}
           </div>
           <div className={styles.col_action}>
             <CloseIcon

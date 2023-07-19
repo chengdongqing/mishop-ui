@@ -4,6 +4,7 @@ import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import { CartItemVO } from '@/services/cart.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
@@ -95,7 +96,7 @@ function MainCart({
   totalAmount,
   autoScroll
 }: {
-  products: CartProduct[];
+  products: CartItemVO[];
   totalNumber: number;
   totalAmount: number;
   autoScroll: boolean;
@@ -110,23 +111,23 @@ function MainCart({
       >
         {products.map((item) => (
           <Row
-            key={item.name}
+            key={item.skuId}
             align={'middle'}
             justify={'space-between'}
             className={styles.product_item}
           >
-            <Link to={buildProductUrl(item.id)} style={{ flex: 1 }}>
+            <Link to={buildProductUrl(item.productId)} style={{ flex: 1 }}>
               <Space size={'1rem'}>
                 <img
-                  alt={item.name}
+                  alt={item.productName}
                   src={item.pictureUrl}
                   className={styles.img}
                 />
-                <div className={styles.label}>{item.name} {item.skuName}</div>
+                <div className={styles.label}>{item.productName} {item.skuName}</div>
               </Space>
             </Link>
             <div className={styles.price}>
-              {formatAmount(item.price)} x {item.number}
+              {formatAmount(item.price)} x {item.quantity}
             </div>
             <Iconfont
               type={'i-close'}

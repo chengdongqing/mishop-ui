@@ -67,7 +67,7 @@ function ProductsSwiper({ products }: { products: RecommendedProduct[] }) {
         style={{ height: '30rem' }}
       >
         {panels.map((item) => (
-          <ProductBlocks key={item[0].name} products={item} />
+          <ProductBlocks key={item[0].skuId} products={item} />
         ))}
       </Swiper>
       <div className={styles.swiper_dots}>
@@ -94,7 +94,7 @@ function ProductBlocks({ products }: { products: RecommendedProduct[] }) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
-        <ProductBlock key={item.name} {...item} />
+        <ProductBlock key={item.skuId} {...item} />
       ))}
     </Grid>
   );
@@ -105,13 +105,13 @@ function ProductBlock(props: RecommendedProduct) {
   const store = useStore();
 
   return (
-    <Link className={styles.product_item} to={buildProductUrl(props.id)}>
+    <Link className={styles.product_item} to={buildProductUrl(props.productId)}>
       <LazyImage
-        alt={props.name}
+        alt={props.productName}
         src={props.pictureUrl}
         className={styles.picture}
       />
-      <div className={styles.label}>{props.name}</div>
+      <div className={styles.label}>{props.productName}</div>
       <div className={styles.price}>{formatAmount(props.price)}</div>
       {!!props.comments && (
         <div className={styles.comments}>{props.comments}好评</div>
@@ -127,8 +127,8 @@ function ProductBlock(props: RecommendedProduct) {
             cartSlice.actions.putProduct({
               product: {
                 ...props,
-                number: 1,
-                checked: true
+                quantity: 1,
+                isChecked: true
               },
               callback(successful) {
                 if (successful) {

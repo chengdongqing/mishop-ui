@@ -1,4 +1,5 @@
 import popup from '@/components/Popup';
+import { CartItemVO } from '@/services/cart.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
@@ -9,30 +10,30 @@ export function useCart() {
   const dispatch = useDispatch();
 
   const allChecked = useMemo(() => {
-    return products.every((item) => item.checked);
+    return products.every((item) => item.isChecked);
   }, [products]);
   const halfChecked = useMemo(() => {
-    return products.some((item) => item.checked);
+    return products.some((item) => item.isChecked);
   }, [products]);
 
-  function switchCheck(item: CartProduct | null, checked: boolean) {
+  function switchCheck(item: CartItemVO | null, isChecked: boolean) {
     if (!item) {
       //全选/全不选
       dispatch(
         cartSlice.actions.modifyProductsCheck({
-          checked
+          isChecked
         })
       );
     } else {
       dispatch(
         cartSlice.actions.modifyProductCheck({
           skuId: item.skuId,
-          checked
+          isChecked
         })
       );
     }
   }
-  function removeItem(item: CartProduct) {
+  function removeItem(item: CartItemVO) {
     popup.confirm('确定删除所选商品吗？', {
       onOk() {
         return new Promise((resolve) => {
@@ -61,17 +62,17 @@ export function useCartCounter(onlyChecked = true) {
 
   const totalNumber = useMemo(() => {
     return products.reduce((sum, item) => {
-      return !onlyChecked || (onlyChecked && item.checked)
-        ? sum + item.number
+      return !onlyChecked || (onlyChecked && item.isChecked)
+        ? sum + item.quantity
         : sum;
     }, 0);
   }, [onlyChecked, products]);
 
   const totalAmount = useMemo(() => {
     return products.reduce((sum, item) => {
-      return !onlyChecked || (onlyChecked && item.checked)
+      return !onlyChecked || (onlyChecked && item.isChecked)
         ? new Decimal(sum)
-            .plus(new Decimal(item.price).mul(item.number))
+            .plus(new Decimal(item.price).mul(item.quantity))
             .toNumber()
         : sum;
     }, 0);

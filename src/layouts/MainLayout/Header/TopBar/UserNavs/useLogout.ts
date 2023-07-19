@@ -12,16 +12,11 @@ export default function useLogout() {
   return () => {
     popup.confirm('确定退出登录吗？', {
       onOk() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            window.localStorage.clear();
-            dispatch(userSlice.actions.setUser(null));
-            dispatch(cartSlice.actions.setCart([]));
-            navigate('/', { replace: true });
-            toast.warning('已退出登录');
-            resolve();
-          }, 1000);
-        });
+        window.localStorage.clear();
+        dispatch(userSlice.actions.setUser(null));
+        dispatch(cartSlice.actions.setCart([]));
+        navigate('/', { replace: true });
+        toast.warning('已退出登录');
       }
     });
   };

@@ -9,7 +9,7 @@ interface RequestConfig {
   baseUrl?: string;
   method?: RequestMethod;
   headers?: HeadersInit;
-  body?: unknown | null;
+  body?: object | string | null;
   params?: RecordsType;
   timeout?: number;
 }
@@ -33,9 +33,18 @@ export default async function request<T>(
       }
     });
   }
+
   const fullHeaders = new Headers(headers);
-  if (body && method !== 'GET' && !fullHeaders.has('content-type')) {
-    fullHeaders.append('content-type', 'application/json');
+  const token = store.getState().user.userInfo?.token;
+  if (token?.accessToken) {
+    fullHeaders.append('Authorization', `Bearer ${token.accessToken}`);
+  }
+  if (method !== 'GET' && body) {
+    if (typeof body === 'object') {
+      fullHeaders.append('content-type', 'application/json');
+    } else {
+      fullHeaders.append('content-type', 'text/plain');
+    }
   }
 
   const controller = new AbortController();
@@ -49,7 +58,7 @@ export default async function request<T>(
   const res = await fetch(fullUrl.toString(), {
     method,
     headers: fullHeaders,
-    body: body ? JSON.stringify(body) : null,
+    body: typeof body === 'object' ? JSON.stringify(body) : body,
     signal
   });
   const data: T = await res.json();

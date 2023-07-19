@@ -1,8 +1,10 @@
+import { CartItemVO } from '@/services/cart.ts';
+
 interface Order {
   id: number;
   status: string;
   shippingInfo: ShippingInfo;
-  products: CartProduct[];
+  products: CartItemVO[];
   productsAmount: number;
   discount: number;
   expressFee: number;
