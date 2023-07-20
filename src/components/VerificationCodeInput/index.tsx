@@ -7,7 +7,7 @@ import styles from './index.module.less';
 
 interface VerificationCodeInputProps extends InputProps {
   interval?: number;
-  onSend(): Promise<string | void>;
+  onSend(): Promise<string | null>;
 }
 
 export default function VerificationCodeInput({

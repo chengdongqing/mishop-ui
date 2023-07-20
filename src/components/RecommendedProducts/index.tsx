@@ -2,14 +2,13 @@ import Button from '@/components/Button';
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
 import Swiper, { SwiperRef } from '@/components/Swiper';
+import useCartOperations from '@/hooks/useCartOperations.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import { fetchRecommendedProducts, RecommendedProduct } from '@/services/product.ts';
-import cartSlice from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
-import { useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
@@ -21,11 +20,11 @@ interface RecommendedProductsProps extends PropsWithStyle {
 }
 
 export default function RecommendedProducts({
-  title = '猜你喜欢',
-  mode,
-  style,
-  className
-}: RecommendedProductsProps) {
+                                              title = '猜你喜欢',
+                                              mode,
+                                              style,
+                                              className
+                                            }: RecommendedProductsProps) {
   const { data } = useRequest(() => fetchRecommendedProducts(20), {
     initialData: [] as RecommendedProduct[]
   });
@@ -42,7 +41,9 @@ export default function RecommendedProducts({
   );
 }
 
-function ProductsSwiper({ products }: { products: RecommendedProduct[] }) {
+function ProductsSwiper({ products }: {
+  products: RecommendedProduct[]
+}) {
   const swiperRef = useRef<SwiperRef>(null);
   const [current, setCurrent] = useState(0);
 
@@ -90,7 +91,9 @@ function ProductsSwiper({ products }: { products: RecommendedProduct[] }) {
   );
 }
 
-function ProductBlocks({ products }: { products: RecommendedProduct[] }) {
+function ProductBlocks({ products }: {
+  products: RecommendedProduct[]
+}) {
   return (
     <Grid columns={5} gap={'1.4rem'} style={{ width: 'var(--width-primary)' }}>
       {products.map((item) => (
@@ -102,7 +105,7 @@ function ProductBlocks({ products }: { products: RecommendedProduct[] }) {
 
 function ProductBlock(props: RecommendedProduct) {
   const [active, setActive] = useState(false);
-  const store = useStore();
+  const cartOperations = useCartOperations();
 
   return (
     <Link className={styles.product_item} to={buildProductUrl(props.productId)}>
@@ -122,24 +125,14 @@ function ProductBlock(props: RecommendedProduct) {
         className={styles.btn_action}
         onClick={(e) => {
           e.preventDefault();
-
-          store.dispatch(
-            cartSlice.actions.putProduct({
-              product: {
-                ...props,
-                quantity: 1,
-                isChecked: true
-              },
-              callback(successful) {
-                if (successful) {
-                  setActive(true);
-                  setTimeout(() => {
-                    setActive(false);
-                  }, 1000);
-                }
-              }
-            })
-          );
+          cartOperations.add(props, (res) => {
+            if (res) {
+              setActive(true);
+              setTimeout(() => {
+                setActive(false);
+              }, 1000);
+            }
+          });
         }}
       >
         加入购物车

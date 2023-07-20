@@ -3,16 +3,15 @@ import DataContainer from '@/components/DataContainer';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useCartOperations from '@/hooks/useCartOperations.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { ProductContext } from '@/pages/Product';
 import { ProductDetails as ProductDetailsType, ProductSKU } from '@/services/product.ts';
-import cartSlice from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
 import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useContext, useMemo, useState } from 'react';
-import { useStore } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import ProductDetails from './ProductDetails';
@@ -44,19 +43,19 @@ export default function ProductBuyingPage() {
 }
 
 function ProductPanel({
-                        product,
-                        onPicturesChange
-                      }: {
+  product,
+  onPicturesChange
+}: {
   product: ProductDetailsType;
   onPicturesChange: (values: string[]) => void;
 }) {
-  const store = useStore();
   const navigate = useNavigate();
   const [liked, toggleLiked] = useToggle();
   const [sku, setSku] = useState<ProductSKU>();
   const productName = useMemo(() => {
     return [product.name, sku?.name].join(' ');
   }, [product.name, sku?.name]);
+  const cartOperations = useCartOperations();
 
   return (
     <div className={styles.panel_container}>
@@ -86,24 +85,20 @@ function ProductPanel({
           <Button
             className={classNames(styles.btn, styles.btn_buy)}
             onClick={() => {
-              store.dispatch(
-                cartSlice.actions.putProduct({
-                  product: {
-                    productId: product.id,
-                    productName: product.name,
-                    price: sku.price,
-                    pictureUrl: sku.pictureUrl,
-                    skuId: sku.id,
-                    skuName: sku.name,
-                    isChecked: true,
-                    quantity: 1
-                  },
-                  callback(successful) {
-                    if (successful) {
-                      navigate(`/cart/successful/${productName}`);
-                    }
+              cartOperations.add(
+                {
+                  productId: product.id,
+                  productName: product.name,
+                  price: sku.price,
+                  pictureUrl: sku.pictureUrl,
+                  skuId: sku.id,
+                  skuName: sku.name
+                },
+                (res) => {
+                  if (res) {
+                    navigate(`/cart/successful/${productName}`);
                   }
-                })
+                }
               );
             }}
           >
@@ -167,9 +162,7 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: {
-  weixin?: boolean
-}) {
+export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (

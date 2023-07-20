@@ -75,18 +75,17 @@ export default function Register() {
       >
         <VerificationCodeInput
           onSend={() => {
-            return new Promise((resolve, reject) => {
-              if (
-                !valuesRef.current.phoneNumber ||
-                !patterns.phoneNumber.test(valuesRef.current.phoneNumber as string)
-              ) {
-                reject('手机号格式错误');
-                return;
-              }
-              sendVerificationCode(valuesRef.current.phoneNumber as string).then(() => {
-                resolve();
-              }).catch(reject);
-            });
+            if (
+              !valuesRef.current.phoneNumber ||
+              !patterns.phoneNumber.test(
+                valuesRef.current.phoneNumber as string
+              )
+            ) {
+              return Promise.reject('手机号格式错误');
+            }
+            return sendVerificationCode(
+              valuesRef.current.phoneNumber as string
+            );
           }}
         />
       </Form.Item>

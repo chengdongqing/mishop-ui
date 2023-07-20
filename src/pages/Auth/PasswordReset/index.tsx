@@ -94,27 +94,19 @@ export default function Login() {
       >
         <VerificationCodeInput
           onSend={() => {
-            return new Promise((resolve, reject) => {
-              if (
-                activeType === 'phoneNumber' &&
-                !patterns.phoneNumber.test(accountRef.current)
-              ) {
-                reject('请输入正确的手机号');
-                return;
-              }
-              if (
-                activeType === 'email' &&
-                !patterns.email.test(accountRef.current)
-              ) {
-                reject('请输入正确的邮箱');
-                return;
-              }
-              sendVerificationCode(accountRef.current)
-                .then(() => {
-                  resolve();
-                })
-                .catch(reject);
-            });
+            if (
+              activeType === 'phoneNumber' &&
+              !patterns.phoneNumber.test(accountRef.current)
+            ) {
+              return Promise.reject('请输入正确的手机号');
+            }
+            if (
+              activeType === 'email' &&
+              !patterns.email.test(accountRef.current)
+            ) {
+              return Promise.reject('请输入正确的邮箱');
+            }
+            return sendVerificationCode(accountRef.current);
           }}
         />
       </Form.Item>

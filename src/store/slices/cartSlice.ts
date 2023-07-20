@@ -13,7 +13,7 @@ export default createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    putProduct(
+    addToCart(
       { products },
       {
         payload

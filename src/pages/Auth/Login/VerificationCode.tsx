@@ -35,15 +35,10 @@ export default function LoginByVerificationCode() {
       >
         <VerificationCodeInput
           onSend={() => {
-            return new Promise((resolve, reject) => {
-              if (!phoneNumber || !patterns.phoneNumber.test(phoneNumber)) {
-                reject('手机号格式错误');
-                return;
-              }
-              sendVerificationCode(phoneNumber).then(() => {
-                resolve();
-              }).catch(reject);
-            });
+            if (!phoneNumber || !patterns.phoneNumber.test(phoneNumber)) {
+              return Promise.reject('手机号格式错误');
+            }
+            return sendVerificationCode(phoneNumber);
           }}
         />
       </Form.Item>

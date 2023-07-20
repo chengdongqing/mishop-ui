@@ -67,7 +67,7 @@ export function resetPassword(params: ResetPasswordDTO) {
 }
 
 export function sendVerificationCode(recipient: string) {
-  return request('/auth/send/verification-code', {
+  return request<null>('/auth/send/verification-code', {
     method: 'POST',
     params: {
       recipient

@@ -5,7 +5,7 @@ import Decimal from 'decimal.js';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-export function useCart() {
+export function useShoppingCart() {
   const products = useCartProducts();
   const dispatch = useDispatch();
 

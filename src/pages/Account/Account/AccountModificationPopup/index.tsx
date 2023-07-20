@@ -98,7 +98,7 @@ export function AccountModificationPopup({
               onSend={() => {
                 return new Promise((resolve) => {
                   setTimeout(() => {
-                    resolve();
+                    resolve(null);
                   }, 1000);
                 });
               }}

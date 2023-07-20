@@ -24,7 +24,7 @@ export function addToCart(item: CartItemVO) {
   });
 }
 
-export function updateCartItem(itemId: Id, item: CartItemVO) {
+export function modifyCartItem(itemId: Id, item: CartItemVO) {
   return request(`/shopping-cart/${itemId}`, {
     method: 'PUT',
     body: item

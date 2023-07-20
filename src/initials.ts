@@ -2,7 +2,7 @@ import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { refreshToken } from '@/services/auth.ts';
-import { CartItemVO } from '@/services/cart.ts';
+import { CartItemVO, fetchCartItems, syncCart } from '@/services/cart.ts';
 import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
 import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
 import moment from 'moment';
@@ -17,30 +17,39 @@ function useCartInitial() {
   const hasLogin = useHasLogin();
   const products = useCartProducts();
   const dispatch = useDispatch();
-  const [storageState, setStorageState] =
+  const [storageItems, setStorageItems] =
     useLocalStorageState<CartItemVO[]>('shopping-cart');
 
   // 默认先同步本地缓存的购物车数据
   useMount(() => {
-    if (storageState) {
-      dispatch(cartSlice.actions.setCart(storageState));
+    if (storageItems) {
+      dispatch(cartSlice.actions.setCart(storageItems));
     }
   });
 
-  // 当用户登录后自动同步本地购物车到服务器
+  // 购物车数据同步，包括本地/远程
   useUpdateEffect(() => {
-    /*if (hasLogin) {
-      syncCart(products).then(() => {
-        // 清空本地缓存
-        setStorageState(null);
-      });
-    }*/
+    if (hasLogin) {
+      if (products?.length) {
+        syncCart(products).then(() => {
+          // 清空本地缓存
+          setStorageItems(null);
+        });
+      } else {
+        // 获取服务器数据
+        fetchCartItems().then(res => {
+          if (res) {
+            dispatch(cartSlice.actions.setCart(res));
+          }
+        });
+      }
+    }
   }, [hasLogin]);
 
-  // 当购物车变化且没有登录时自动同步到本地缓存
+  // 未登录时持久化购物车到本地缓存
   useUpdateEffect(() => {
     if (!hasLogin) {
-      setStorageState(products);
+      setStorageItems(products);
     }
   }, [products]);
 }

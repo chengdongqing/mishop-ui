@@ -15,7 +15,7 @@ import Decimal from 'decimal.js';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart, useCartCounter } from './helpers.ts';
+import { useCartCounter, useShoppingCart } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -30,7 +30,7 @@ export default function MainCart() {
 function ProductList() {
   const products = useCartProducts();
   const dispatch = useDispatch();
-  const [{ allChecked, halfChecked }, { switchCheck, removeItem }] = useCart();
+  const [{ allChecked, halfChecked }, { switchCheck, removeItem }] = useShoppingCart();
 
   return (
     <div className={styles.product_list}>

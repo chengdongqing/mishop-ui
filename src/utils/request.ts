@@ -22,7 +22,7 @@ export default async function request<T>(
     headers,
     body,
     params,
-    timeout
+    timeout = 15 * 1000
   }: RequestConfig = {}
 ): Promise<T | null> {
   const fullUrl = new URL(url, baseUrl);
@@ -61,11 +61,11 @@ export default async function request<T>(
     body: typeof body === 'object' ? JSON.stringify(body) : body,
     signal
   });
-  const data: T = await res.json();
+  const data: T = res.headers.get('content-type')?.includes('application/json') ? await res.json() : null;
 
   if (res.ok) {
     // 成功处理请求
-    return data;
+    return Promise.resolve(data);
   } else {
     toast.warning(`${(data as RecordsType)?.message || ''}（${res.status}）`);
     // 未登录授权
@@ -77,6 +77,6 @@ export default async function request<T>(
       window.location.pathname = `${import.meta.env.BASE_URL}auth/login`;
     }
     // 其他错误
-    throw new Error();
+    return Promise.reject();
   }
 }
