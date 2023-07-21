@@ -80,18 +80,14 @@ function Popup({
                   <Button
                     loading={finalLoading}
                     onClick={() => {
-                      if (onOk?.()?.then) {
+                      const res = onOk?.();
+                      if (res instanceof Promise) {
                         setLoading(true);
-                        onOk()
-                          ?.then(close)
-                          .finally(() => {
-                            setLoading(false);
-                          });
-                      } else {
-                        if (closeOnOk) {
-                          close();
-                        }
-                        onOk?.();
+                        res.then(close).finally(() => {
+                          setLoading(false);
+                        });
+                      } else if (closeOnOk) {
+                        close();
                       }
                     }}
                   >

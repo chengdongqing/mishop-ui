@@ -1,13 +1,12 @@
-import popup from '@/components/Popup';
+import useCartActions from '@/hooks/useCartActions.ts';
 import { CartItemVO } from '@/services/cart.ts';
-import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 
-export function useShoppingCart() {
-  const products = useCartProducts();
-  const dispatch = useDispatch();
+export function useCartCheck() {
+  const products = useCartItems();
+  const actions = useCartActions();
 
   const allChecked = useMemo(() => {
     return products.every((item) => item.isChecked);
@@ -17,66 +16,37 @@ export function useShoppingCart() {
   }, [products]);
 
   function switchCheck(item: CartItemVO | null, isChecked: boolean) {
-    if (!item) {
-      //全选/全不选
-      dispatch(
-        cartSlice.actions.modifyProductsCheck({
-          isChecked
-        })
-      );
-    } else {
-      dispatch(
-        cartSlice.actions.modifyProductCheck({
-          skuId: item.skuId,
-          isChecked
-        })
-      );
-    }
-  }
-  function removeItem(item: CartItemVO) {
-    popup.confirm('确定删除所选商品吗？', {
-      onOk() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            dispatch(cartSlice.actions.removeProduct(item));
-            resolve();
-          }, 500);
-        });
-      }
-    });
+    const items = (!item ? products : [item]).map((item) => ({
+      ...item,
+      isChecked
+    }));
+    actions.modify(items);
   }
 
-  return [
-    { allChecked, halfChecked },
-    { switchCheck, removeItem }
-  ] as const;
+  return { allChecked, halfChecked, switchCheck };
 }
 
 export function useIsEmptyCart() {
-  const products = useCartProducts();
+  const products = useCartItems();
   return useMemo(() => !products.length, [products.length]);
 }
 
 export function useCartCounter(onlyChecked = true) {
-  const products = useCartProducts();
+  const products = useCartItems(onlyChecked);
 
   const totalNumber = useMemo(() => {
     return products.reduce((sum, item) => {
-      return !onlyChecked || (onlyChecked && item.isChecked)
-        ? sum + item.quantity
-        : sum;
+      return sum + item.quantity;
     }, 0);
-  }, [onlyChecked, products]);
+  }, [products]);
 
   const totalAmount = useMemo(() => {
     return products.reduce((sum, item) => {
-      return !onlyChecked || (onlyChecked && item.isChecked)
-        ? new Decimal(sum)
-            .plus(new Decimal(item.price).mul(item.quantity))
-            .toNumber()
-        : sum;
+      return new Decimal(sum)
+        .plus(new Decimal(item.price).mul(item.quantity))
+        .toNumber();
     }, 0);
-  }, [onlyChecked, products]);
+  }, [products]);
 
   return { totalNumber, totalAmount };
 }

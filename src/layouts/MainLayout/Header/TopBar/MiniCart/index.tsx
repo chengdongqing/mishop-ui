@@ -5,7 +5,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { CartItemVO } from '@/services/cart.ts';
-import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
@@ -17,7 +17,7 @@ export default function MiniCart() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const products = useCartProducts();
+  const products = useCartItems();
   const isEmptyCart = useIsEmptyCart();
   const { totalNumber, totalAmount } = useCartCounter(false);
   const [autoScroll, setAutoScroll] = useState(false);

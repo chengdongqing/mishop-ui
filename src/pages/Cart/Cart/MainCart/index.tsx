@@ -3,19 +3,18 @@ import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
 import CloseIcon from '@/components/CloseIcon';
 import NumberInput from '@/components/NumberInput';
-import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useCartActions from '@/hooks/useCartActions.ts';
 import useElementVisible from '@/hooks/useElementVisible.ts';
-import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import Decimal from 'decimal.js';
-import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCartCounter, useShoppingCart } from './helpers.ts';
+import { useCartCheck, useCartCounter } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -28,9 +27,9 @@ export default function MainCart() {
 }
 
 function ProductList() {
-  const products = useCartProducts();
-  const dispatch = useDispatch();
-  const [{ allChecked, halfChecked }, { switchCheck, removeItem }] = useShoppingCart();
+  const products = useCartItems();
+  const { allChecked, halfChecked, switchCheck } = useCartCheck();
+  const actions = useCartActions();
 
   return (
     <div className={styles.product_list}>
@@ -83,26 +82,28 @@ function ProductList() {
               value={item.quantity}
               onChange={(value) => {
                 if (value === 0) {
-                  removeItem(item);
+                  actions.remove([item]);
                 } else {
-                  dispatch(
-                    cartSlice.actions.modifyProductQuantity({
-                      skuId: item.skuId,
+                  actions.modify([
+                    {
+                      ...item,
                       quantity: value
-                    })
-                  );
+                    }
+                  ]);
                 }
               }}
             />
           </div>
           <div className={classNames(styles.col_total, styles.value)}>
-            {formatAmount(new Decimal(item.price).mul(item.quantity).toNumber())}
+            {formatAmount(
+              new Decimal(item.price).mul(item.quantity).toNumber()
+            )}
           </div>
           <div className={styles.col_action}>
             <CloseIcon
               className={styles.icon}
               onClick={() => {
-                removeItem(item);
+                actions.remove([item]);
               }}
             />
           </div>
@@ -113,8 +114,10 @@ function ProductList() {
 }
 
 function FooterBar() {
-  const products = useCartProducts();
-  const dispatch = useDispatch();
+  const products = useCartItems();
+  const checkedProducts = useMemo(() => {
+    return products.filter((item) => item.isChecked);
+  }, [products]);
   const { totalNumber, totalAmount } = useCartCounter();
   const footerRef = useRef<HTMLDivElement>(null);
   const fixed = useElementVisible(
@@ -125,6 +128,7 @@ function FooterBar() {
 
   const hasLogin = useHasLogin();
   const navigate = useNavigate();
+  const actions = useCartActions();
   const [submitting, setSubmitting] = useState(false);
 
   return (
@@ -140,23 +144,16 @@ function FooterBar() {
         <Link to={'/search'} className={styles.link_item}>
           继续购物
         </Link>
-        <div
-          className={classNames(styles.link_item, styles.danger)}
-          onClick={() => {
-            popup.confirm('确定清空购物车吗？', {
-              onOk() {
-                return new Promise((resolve) => {
-                  setTimeout(() => {
-                    dispatch(cartSlice.actions.clearCart());
-                    resolve();
-                  }, 1000);
-                });
-              }
-            });
-          }}
-        >
-          清空购物车
-        </div>
+        {!!checkedProducts.length && (
+          <div
+            className={classNames(styles.link_item, styles.danger)}
+            onClick={() => {
+              actions.remove(checkedProducts);
+            }}
+          >
+            删除已选
+          </div>
+        )}
         <div className={styles.cart_total}>
           已选择 <span>{formatAmount(totalNumber, '')}</span> 件
         </div>

@@ -2,8 +2,8 @@ import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { refreshToken } from '@/services/auth.ts';
-import { CartItemVO, fetchCartItems, syncCart } from '@/services/cart.ts';
-import cartSlice, { useCartProducts } from '@/store/slices/cartSlice.ts';
+import services, { CartItemVO } from '@/services/cart.ts';
+import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
 import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
  */
 function useCartInitial() {
   const hasLogin = useHasLogin();
-  const products = useCartProducts();
+  const products = useCartItems();
   const dispatch = useDispatch();
   const [storageItems, setStorageItems] =
     useLocalStorageState<CartItemVO[]>('shopping-cart');
@@ -31,13 +31,13 @@ function useCartInitial() {
   useUpdateEffect(() => {
     if (hasLogin) {
       if (products?.length) {
-        syncCart(products).then(() => {
+        services.syncCart(products).then(() => {
           // 清空本地缓存
           setStorageItems(null);
         });
       } else {
         // 获取服务器数据
-        fetchCartItems().then(res => {
+        services.fetchCartItems().then((res) => {
           if (res) {
             dispatch(cartSlice.actions.setCart(res));
           }

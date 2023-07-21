@@ -7,7 +7,7 @@ import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { AddressGroup } from '@/pages/User/Addresses';
-import { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import Decimal from 'decimal.js';
 import { useRef, useState } from 'react';
@@ -97,7 +97,7 @@ function AddressList({
 }
 
 function ProductList() {
-  const products = useCartProducts(true);
+  const products = useCartItems(true);
 
   return (
     <div className={styles.product_list}>

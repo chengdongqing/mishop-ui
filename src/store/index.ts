@@ -7,11 +7,6 @@ const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
     user: userSlice.reducer
-  },
-  middleware(getDefaultMiddleware) {
-    return getDefaultMiddleware({
-      serializableCheck: false
-    });
   }
 });
 

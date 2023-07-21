@@ -4,14 +4,14 @@ import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import toast from '@/components/Toast';
 import UserLayout from '@/layouts/UserLayout';
-import { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function FavoriteProductsPage() {
-  const products = useCartProducts();
+  const products = useCartItems();
 
   return (
     <>

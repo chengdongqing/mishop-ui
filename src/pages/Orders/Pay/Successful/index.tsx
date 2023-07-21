@@ -3,14 +3,14 @@ import RecommendedProducts from '@/components/RecommendedProducts';
 import Row from '@/components/Row';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/User/Addresses/const.ts';
-import { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { formatAmount } from '@/utils';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function PaySuccessfulPage() {
-  const products = useCartProducts(true);
+  const products = useCartItems(true);
   const { totalAmount } = useCartCounter(true);
   const address = useMemo(() => addresses[0], []);
 

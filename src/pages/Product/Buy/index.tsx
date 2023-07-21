@@ -3,7 +3,7 @@ import DataContainer from '@/components/DataContainer';
 import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import useCartOperations from '@/hooks/useCartOperations.ts';
+import useCartActions from '@/hooks/useCartActions.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { ProductContext } from '@/pages/Product';
 import { ProductDetails as ProductDetailsType, ProductSKU } from '@/services/product.ts';
@@ -55,7 +55,7 @@ function ProductPanel({
   const productName = useMemo(() => {
     return [product.name, sku?.name].join(' ');
   }, [product.name, sku?.name]);
-  const cartOperations = useCartOperations();
+  const actions = useCartActions();
 
   return (
     <div className={styles.panel_container}>
@@ -85,21 +85,18 @@ function ProductPanel({
           <Button
             className={classNames(styles.btn, styles.btn_buy)}
             onClick={() => {
-              cartOperations.add(
-                {
+              actions
+                .add({
                   productId: product.id,
                   productName: product.name,
                   price: sku.price,
                   pictureUrl: sku.pictureUrl,
                   skuId: sku.id,
                   skuName: sku.name
-                },
-                (res) => {
-                  if (res) {
-                    navigate(`/cart/successful/${productName}`);
-                  }
-                }
-              );
+                })
+                .then(() => {
+                  navigate(`/cart/successful/${productName}`);
+                });
             }}
           >
             加入购物车

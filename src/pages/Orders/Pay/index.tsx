@@ -6,7 +6,7 @@ import useCountdown from '@/hooks/useCountdown.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
 import { addresses } from '@/pages/User/Addresses/const.ts';
-import { useCartProducts } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { formatAmount, formatTime } from '@/utils';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -35,7 +35,7 @@ export default function PayPage() {
 
 function OrderInfos() {
   const address = useMemo(() => addresses[0], []);
-  const products = useCartProducts(true);
+  const products = useCartItems(true);
   const { totalAmount } = useCartCounter(true);
   const [open, toggleOpen] = useToggle(false);
   const height = useMemo(() => {
