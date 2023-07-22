@@ -8,7 +8,7 @@ export default function LoginByPassword() {
       <Form.Item
         name={'account'}
         rules={[
-          { required: true, message: '请输入帐号' },
+          { required: true, message: '请输入账号' },
           {
             validator(value) {
               const val = value as string;
@@ -16,7 +16,7 @@ export default function LoginByPassword() {
                 !patterns.phoneNumber.test(val) &&
                 !patterns.email.test(val)
               ) {
-                return Promise.reject('帐号格式错误');
+                return Promise.reject('账号格式错误');
               }
               return Promise.resolve();
             }

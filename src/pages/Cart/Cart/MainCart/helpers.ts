@@ -4,23 +4,22 @@ import { useCartItems } from '@/store/slices/cartSlice.ts';
 import Decimal from 'decimal.js';
 import { useMemo } from 'react';
 
-export function useCartCheck() {
-  const products = useCartItems();
+export function useCartItemsCheck(items: CartItemVO[]) {
   const actions = useCartActions();
 
   const allChecked = useMemo(() => {
-    return products.every((item) => item.isChecked);
-  }, [products]);
+    return items.every((item) => item.isChecked);
+  }, [items]);
   const halfChecked = useMemo(() => {
-    return products.some((item) => item.isChecked);
-  }, [products]);
+    return items.some((item) => item.isChecked) && !allChecked;
+  }, [items, allChecked]);
 
   function switchCheck(item: CartItemVO | null, isChecked: boolean) {
-    const items = (!item ? products : [item]).map((item) => ({
-      ...item,
+    const newItems = (item ? [item] : items).map((item1) => ({
+      ...item1,
       isChecked
     }));
-    actions.modify(items);
+    actions.modifyCartItems(newItems);
   }
 
   return { allChecked, halfChecked, switchCheck };

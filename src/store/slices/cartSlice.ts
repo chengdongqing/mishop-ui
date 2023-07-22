@@ -13,23 +13,25 @@ export default createSlice({
   initialState,
   reducers: {
     addToCart({ cart }, { payload: cartItem }: PayloadAction<CartItemVO>) {
-      // 判断是否已存在该商品
-      const index = cart.findIndex((item) => item.skuId === cartItem.skuId);
-      if (index === -1) {
+      const existingItem = cart.find((item) => {
+        return item.skuId === cartItem.skuId;
+      });
+      if (!existingItem) {
         cart.push(cartItem);
       } else {
-        const prevProduct = cart[index];
-        prevProduct.quantity += cartItem.quantity;
+        existingItem.quantity += cartItem.quantity;
       }
     },
-    modifyCartItems({ cart }, { payload: cartItems }: PayloadAction<CartItemVO[]>) {
-      cartItems.forEach(item => {
+    modifyCartItems(
+      { cart },
+      { payload: cartItems }: PayloadAction<CartItemVO[]>
+    ) {
+      cartItems.forEach((item) => {
         const { skuId, quantity, isChecked } = item;
-        const index = cart.findIndex((item) => item.skuId === skuId);
-        if (index !== -1) {
-          const cartItem = cart[index];
-          cartItem.quantity = quantity;
-          cartItem.isChecked = isChecked;
+        const existingItem = cart.find((item) => item.skuId === skuId);
+        if (existingItem) {
+          existingItem.quantity = quantity;
+          existingItem.isChecked = isChecked;
         }
       });
     },

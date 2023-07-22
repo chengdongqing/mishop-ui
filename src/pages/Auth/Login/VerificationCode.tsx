@@ -44,7 +44,7 @@ export default function LoginByVerificationCode() {
       </Form.Item>
       <Form.Item>
         <div className={styles.login_tips}>
-          未注册的手机号验证后将自动创建小米帐号
+          未注册的手机号验证后将自动创建小米账号
         </div>
       </Form.Item>
     </>

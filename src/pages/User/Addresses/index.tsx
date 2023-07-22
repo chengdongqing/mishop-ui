@@ -169,7 +169,7 @@ export function AddressGroup({
 
 function AddBtn({ toggleModal }: { toggleModal(): void }) {
   return (
-    <div className={classNames(styles.item, styles.add)} onClick={toggleModal}>
+    <div className={classNames(styles.item, styles.addToCart)} onClick={toggleModal}>
       <div>
         <PlusCircleFilled className={styles.icon} />
         <div>添加新地址</div>

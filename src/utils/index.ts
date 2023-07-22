@@ -82,7 +82,7 @@ export function arrayToObject(
 }
 
 /**
- * 帐号脱敏处理，by ChatGPT
+ * 账号脱敏处理，by ChatGPT
  * @param account 数据源：手机号/邮箱
  */
 export function desensitizeAccount(account: string) {

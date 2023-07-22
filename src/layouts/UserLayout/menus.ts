@@ -39,7 +39,7 @@ const menus: MenuItemProps[] = [
     ]
   },
   {
-    label: '帐户管理',
+    label: '账户管理',
     children: [
       {
         label: '个人信息',

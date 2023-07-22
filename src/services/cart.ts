@@ -18,7 +18,7 @@ export default {
     return request<CartItemVO[]>('/shopping-cart');
   },
   addToCart(item: CartItemVO) {
-    return request('/shopping-cart', {
+    return request<number>('/shopping-cart', {
       method: 'POST',
       body: item
     });

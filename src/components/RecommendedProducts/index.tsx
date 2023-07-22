@@ -121,7 +121,7 @@ function ProductBlock(props: RecommendedProduct) {
         className={styles.btn_action}
         onClick={(e) => {
           e.preventDefault();
-          actions.add(props).then(() => {
+          actions.addToCart(props).then(() => {
             setActive(true);
             setTimeout(() => {
               setActive(false);

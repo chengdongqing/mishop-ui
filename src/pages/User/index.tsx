@@ -56,7 +56,7 @@ export default function UserCenterPage() {
         </div>
         <div className={styles.account}>
           <div>
-            帐户安全：<span className={styles.safety_level3}>较高</span>
+            账户安全：<span className={styles.safety_level3}>较高</span>
           </div>
           <div>绑定手机：{user?.phoneNumber}</div>
           <div>绑定邮箱：{formatValue(user?.email)}</div>

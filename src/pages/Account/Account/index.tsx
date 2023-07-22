@@ -142,7 +142,7 @@ function LoginMethods() {
 function AccountSecurity() {
   return (
     <>
-      <AccountLayout.Title title={'帐号安全'} />
+      <AccountLayout.Title title={'账号安全'} />
       <div className={styles.list}>
         <Row
           align={'middle'}

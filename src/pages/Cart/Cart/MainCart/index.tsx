@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import Decimal from 'decimal.js';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCartCheck, useCartCounter } from './helpers.ts';
+import { useCartCounter, useCartItemsCheck } from './helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
@@ -27,8 +27,8 @@ export default function MainCart() {
 }
 
 function ProductList() {
-  const products = useCartItems();
-  const { allChecked, halfChecked, switchCheck } = useCartCheck();
+  const items = useCartItems();
+  const { allChecked, halfChecked, switchCheck } = useCartItemsCheck(items);
   const actions = useCartActions();
 
   return (
@@ -40,7 +40,7 @@ function ProductList() {
         <div className={styles.col_check}>
           <Checkbox
             checked={allChecked}
-            indeterminate={!allChecked && halfChecked}
+            indeterminate={halfChecked}
             onChange={(checked) => {
               switchCheck(null, checked);
             }}
@@ -50,11 +50,11 @@ function ProductList() {
         </div>
         <div className={styles.col_name}>商品名称</div>
         <div className={styles.col_price}>单价</div>
-        <div className={styles.col_num}>数量</div>
+        <div className={styles.col_quantity}>数量</div>
         <div className={styles.col_total}>小计</div>
         <div className={styles.col_action}>操作</div>
       </Row>
-      {products.map((item) => (
+      {items.map((item) => (
         <Row key={item.skuId} align={'middle'} className={styles.product_row}>
           <div className={styles.col_check}>
             <Checkbox
@@ -77,14 +77,14 @@ function ProductList() {
             </Link>
           </div>
           <div className={styles.col_price}>{formatAmount(item.price)}</div>
-          <div className={styles.col_num}>
+          <div className={styles.col_quantity}>
             <NumberInput
               value={item.quantity}
               onChange={(value) => {
                 if (value === 0) {
-                  actions.remove([item]);
+                  actions.removeCartItems([item]);
                 } else {
-                  actions.modify([
+                  actions.modifyCartItems([
                     {
                       ...item,
                       quantity: value
@@ -103,7 +103,7 @@ function ProductList() {
             <CloseIcon
               className={styles.icon}
               onClick={() => {
-                actions.remove([item]);
+                actions.removeCartItems([item]);
               }}
             />
           </div>
@@ -148,7 +148,7 @@ function FooterBar() {
           <div
             className={classNames(styles.link_item, styles.danger)}
             onClick={() => {
-              actions.remove(checkedProducts);
+              actions.removeCartItems(checkedProducts);
             }}
           >
             删除已选

@@ -63,7 +63,7 @@ export default function Login() {
         <Form.Item name={'agreed'}>
           <Checkbox>
             <Space className={styles.accept_terms} size={'0.4rem'}>
-              已阅读并同意小米帐号
+              已阅读并同意小米账号
               <a
                 href={
                   'https://account.xiaomi.com/about/protocol/agreement?_locale=zh_CN'

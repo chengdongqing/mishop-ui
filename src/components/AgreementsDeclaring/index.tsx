@@ -15,11 +15,11 @@ const options = [
     href: 'https://m.mi.com/support/module?id=63&headless=1'
   },
   {
-    label: '小米帐号用户协议',
+    label: '小米账号用户协议',
     href: 'https://account.xiaomi.com/about/protocol/agreement?_locale=zh_CN'
   },
   {
-    label: '小米帐号隐私政策',
+    label: '小米账号隐私政策',
     href: 'https://account.xiaomi.com/about/protocol/privacy?_locale=zh_CN'
   }
 ];

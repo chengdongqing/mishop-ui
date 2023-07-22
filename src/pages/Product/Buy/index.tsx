@@ -86,7 +86,7 @@ function ProductPanel({
             className={classNames(styles.btn, styles.btn_buy)}
             onClick={() => {
               actions
-                .add({
+                .addToCart({
                   productId: product.id,
                   productName: product.name,
                   price: sku.price,

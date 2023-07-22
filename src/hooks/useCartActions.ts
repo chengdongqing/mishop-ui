@@ -6,17 +6,17 @@ import { useDispatch } from 'react-redux';
 
 export default function useCartActions() {
   const hasLogin = useHasLogin();
-  const dispatch = useDispatch();
   const products = useCartItems();
+  const dispatch = useDispatch();
 
-  async function add(item: Omit<CartItemVO, 'quantity' | 'isChecked'>) {
+  async function addToCart(item: Omit<CartItemVO, 'quantity' | 'isChecked'>) {
     const cartItem = {
       ...item,
       quantity: 1,
       isChecked: true
     };
 
-    await (hasLogin
+    const id = await (hasLogin
       ? services.addToCart(cartItem)
       : new Promise<void>((resolve, reject) => {
         const existingItem = products.find((item_2) => {
@@ -32,11 +32,14 @@ export default function useCartActions() {
           resolve();
         }
       }));
+    if (id) {
+      cartItem.id = id;
+    }
 
     dispatch(cartSlice.actions.addToCart(cartItem));
   }
 
-  async function modify(items: CartItemVO[]) {
+  async function modifyCartItems(items: CartItemVO[]) {
     if (!items.length) return;
 
     await (hasLogin
@@ -55,7 +58,7 @@ export default function useCartActions() {
     dispatch(cartSlice.actions.modifyCartItems(items));
   }
 
-  function remove(items: CartItemVO[]) {
+  function removeCartItems(items: CartItemVO[]) {
     if (!items.length) return;
 
     popup.confirm('确定删除已选的商品吗？', {
@@ -70,5 +73,5 @@ export default function useCartActions() {
     });
   }
 
-  return { add, modify, remove };
+  return { addToCart, modifyCartItems, removeCartItems };
 }

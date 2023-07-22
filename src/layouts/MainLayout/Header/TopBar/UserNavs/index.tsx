@@ -18,7 +18,7 @@ const menus = [
     href: '/user/favorites'
   },
   {
-    label: '我的帐户',
+    label: '我的账户',
     href: '/account',
     target: '_blank'
   }
