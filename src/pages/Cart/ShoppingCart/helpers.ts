@@ -26,26 +26,26 @@ export function useCartItemsCheck(items: CartItemVO[]) {
 }
 
 export function useIsEmptyCart() {
-  const products = useCartItems();
-  return useMemo(() => !products.length, [products.length]);
+  const items = useCartItems();
+  return useMemo(() => !items.length, [items.length]);
 }
 
 export function useCartCounter(onlyChecked = true) {
-  const products = useCartItems(onlyChecked);
+  const items = useCartItems(onlyChecked);
 
   const totalNumber = useMemo(() => {
-    return products.reduce((sum, item) => {
+    return items.reduce((sum, item) => {
       return sum + item.quantity;
     }, 0);
-  }, [products]);
+  }, [items]);
 
   const totalAmount = useMemo(() => {
-    return products.reduce((sum, item) => {
+    return items.reduce((sum, item) => {
       return new Decimal(sum)
         .plus(new Decimal(item.price).mul(item.quantity))
         .toNumber();
     }, 0);
-  }, [products]);
+  }, [items]);
 
   return { totalNumber, totalAmount };
 }

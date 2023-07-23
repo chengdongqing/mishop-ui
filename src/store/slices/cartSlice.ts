@@ -12,21 +12,21 @@ export default createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart({ cart }, { payload: cartItem }: PayloadAction<CartItemVO>) {
+    addToCart({ cart }, { payload }: PayloadAction<CartItemVO>) {
       const existingItem = cart.find((item) => {
-        return item.skuId === cartItem.skuId;
+        return item.skuId === payload.skuId;
       });
       if (!existingItem) {
-        cart.push(cartItem);
+        cart.push(payload);
       } else {
-        existingItem.quantity += cartItem.quantity;
+        existingItem.quantity += payload.quantity;
       }
     },
     modifyCartItems(
       { cart },
-      { payload: cartItems }: PayloadAction<CartItemVO[]>
+      { payload }: PayloadAction<CartItemVO[]>
     ) {
-      cartItems.forEach((item) => {
+      payload.forEach((item) => {
         const { skuId, quantity, isChecked } = item;
         const existingItem = cart.find((item) => item.skuId === skuId);
         if (existingItem) {
@@ -35,9 +35,9 @@ export default createSlice({
         }
       });
     },
-    removeCartItems(state, { payload: skuIds }: PayloadAction<Id[]>) {
+    removeCartItems(state, { payload }: PayloadAction<Id[]>) {
       state.cart = state.cart.filter((item) => {
-        return !skuIds?.includes(item.skuId);
+        return !payload?.includes(item.skuId);
       });
     },
     setCart(state, { payload }: PayloadAction<CartItemVO[]>) {

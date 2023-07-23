@@ -14,19 +14,19 @@ import classNames from 'classnames';
 import Decimal from 'decimal.js';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCartCounter, useCartItemsCheck } from './helpers.ts';
+import { useCartCounter, useCartItemsCheck } from '../helpers.ts';
 import styles from './index.module.less';
 
 export default function MainCart() {
   return (
     <div className={styles.container}>
-      <ProductList />
+      <CartTable />
       <FooterBar />
     </div>
   );
 }
 
-function ProductList() {
+function CartTable() {
   const items = useCartItems();
   const { allChecked, halfChecked, switchCheck } = useCartItemsCheck(items);
   const actions = useCartActions();

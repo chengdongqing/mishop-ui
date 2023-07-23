@@ -4,7 +4,7 @@ import Space from '@/components/Space';
 import UserLayout from '@/layouts/UserLayout';
 import { orders } from '@/pages/Orders/Orders/const.ts';
 import { formatAmount } from '@/utils';
-import { DefaultDateTimeFormat } from '@/utils/constants.ts';
+import { DefaultDateTimeFormat } from '@/utils/consts.ts';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
@@ -44,8 +44,8 @@ export default function OrderCommentsPage() {
               <Space>
                 {item.products.slice(0, 6).map((item) => (
                   <img
-                    key={item.name}
-                    alt={item.name}
+                    key={item.skuId}
+                    alt={item.productName}
                     src={item.pictureUrl}
                   />
                 ))}

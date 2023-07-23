@@ -15,9 +15,9 @@ import styles from './index.module.less';
 export default function PostCommentPage() {
   const order = orders[0];
   const [data, setData] = useSetState();
-  const [loading, setLoading] = useState<string>();
+  const [loading, setLoading] = useState<Id>();
 
-  function post(key: string, values: unknown) {
+  function post(key: Id, values: unknown) {
     setLoading(key);
     setTimeout(() => {
       setLoading(undefined);
@@ -76,21 +76,21 @@ export default function PostCommentPage() {
       {order.products.map((item) => (
         <Form
           noStyle
-          key={item.name}
-          disabled={!!data[item.name]}
+          key={item.skuId}
+          disabled={!!data[item.skuId]}
           onOk={(values) => {
-            post(item.name, values);
+            post(item.skuId, values);
           }}
         >
           <Row className={styles.product_item}>
             <div className={styles.product_info}>
-              <img src={item.pictureUrl} alt={item.name} />
-              <div className={styles.label}>{item.name}</div>
+              <img src={item.pictureUrl} alt={item.productName} />
+              <div className={styles.label}>{item.productName} {item.skuName}</div>
             </div>
             <div className={styles.content}>
               <Score />
               <CommentGroup
-                loading={loading === item.name}
+                loading={loading === item.productName}
                 textarea={
                   <Textarea
                     placeholder={

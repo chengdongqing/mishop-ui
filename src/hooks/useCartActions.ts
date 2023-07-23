@@ -58,19 +58,25 @@ export default function useCartActions() {
     dispatch(cartSlice.actions.modifyCartItems(items));
   }
 
-  function removeCartItems(items: CartItemVO[]) {
+  function removeCartItems(items: CartItemVO[], withConfirm = true) {
     if (!items.length) return;
 
-    popup.confirm('确定删除已选的商品吗？', {
-      async onOk() {
-        if (hasLogin) {
-          const ids = items.map((item) => item.id) as Id[];
-          await services.removeCartItems(ids);
-        }
-        const skuIds = items.map((item) => item.skuId);
-        dispatch(cartSlice.actions.removeCartItems(skuIds));
+    async function remove() {
+      if (hasLogin) {
+        const ids = items.map((item) => item.id) as Id[];
+        await services.removeCartItems(ids);
       }
-    });
+      const skuIds = items.map((item) => item.skuId);
+      dispatch(cartSlice.actions.removeCartItems(skuIds));
+    }
+
+    if (withConfirm) {
+      popup.confirm('确定删除已选的商品吗？', {
+        onOk: remove
+      });
+    } else {
+      remove();
+    }
   }
 
   return { addToCart, modifyCartItems, removeCartItems };

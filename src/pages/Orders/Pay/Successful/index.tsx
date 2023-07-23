@@ -1,7 +1,7 @@
 import Button from '@/components/Button';
 import RecommendedProducts from '@/components/RecommendedProducts';
 import Row from '@/components/Row';
-import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { addresses } from '@/pages/User/Addresses/const.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { formatAmount } from '@/utils';
@@ -65,9 +65,9 @@ export default function PaySuccessfulPage() {
             <div className={styles.label}>商品名称：</div>
             <div>
               {products.map((item) => (
-                <div key={item.name}>
-                  {item.name}
-                  <span style={{ color: '#b0b0b0' }}> x {item.number}</span>
+                <div key={item.skuId}>
+                  {item.productName} {item.skuName}
+                  <span style={{ color: '#b0b0b0' }}> x {item.quantity}</span>
                 </div>
               ))}
             </div>

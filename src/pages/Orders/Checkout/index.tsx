@@ -5,7 +5,7 @@ import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
-import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { AddressGroup } from '@/pages/User/Addresses';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -104,23 +104,23 @@ function ProductList() {
       <div className={styles.title}>商品信息</div>
       <div>
         {products.map((item) => (
-          <Row key={item.name} align={'middle'} className={styles.item}>
+          <Row key={item.skuId} align={'middle'} className={styles.item}>
             <Space size={'1rem'} style={{ flex: 1 }}>
-              <img src={item.pictureUrl} alt={item.name} />
+              <img src={item.pictureUrl} alt={item.productName} />
               <Link
-                to={buildProductUrl(item.id)}
+                to={buildProductUrl(item.productId)}
                 className={styles.name}
                 target={'_blank'}
               >
-                {item.name}
+                {item.productName} {item.skuName}
               </Link>
             </Space>
             <div className={styles.price_number}>
-              {formatAmount(item.price)} x {item.number}
+              {formatAmount(item.price)} x {item.quantity}
             </div>
             <div className={styles.subtotal}>
               {formatAmount(
-                new Decimal(item.price).mul(item.number).toNumber()
+                new Decimal(item.price).mul(item.quantity).toNumber()
               )}
             </div>
           </Row>

@@ -114,7 +114,7 @@ function ProductList({
   page,
   onPageChange
 }: {
-  page?: Page<SearchProduct>;
+  page: Page<SearchProduct> | null;
   onPageChange: (value: number) => void;
 }) {
   return (

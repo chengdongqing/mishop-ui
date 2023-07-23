@@ -1,9 +1,9 @@
 import MiniHeader from '@/components/MiniHeader';
 import RecommendedProducts from '@/components/RecommendedProducts';
 import EmptyCart from './EmptyCart';
+import { useIsEmptyCart } from './helpers.ts';
 import styles from './index.module.less';
 import MainCart from './MainCart';
-import { useIsEmptyCart } from './MainCart/helpers.ts';
 
 export default function ShoppingCartPage() {
   const isEmptyCart = useIsEmptyCart();

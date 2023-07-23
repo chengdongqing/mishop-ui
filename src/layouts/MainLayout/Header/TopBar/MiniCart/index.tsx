@@ -3,13 +3,13 @@ import Iconfont from '@/components/Iconfont';
 import Loading from '@/components/Loading';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
-import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import useCartActions from '@/hooks/useCartActions.ts';
+import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { CartItemVO } from '@/services/cart.ts';
-import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
+import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
@@ -91,17 +91,17 @@ export default function MiniCart() {
 }
 
 function MainCart({
-  products,
-  totalNumber,
-  totalAmount,
-  autoScroll
-}: {
+                    products,
+                    totalNumber,
+                    totalAmount,
+                    autoScroll
+                  }: {
   products: CartItemVO[];
   totalNumber: number;
   totalAmount: number;
   autoScroll: boolean;
 }) {
-  const dispatch = useDispatch();
+  const actions = useCartActions();
 
   return (
     <>
@@ -133,7 +133,7 @@ function MainCart({
               type={'i-close'}
               className={styles.icon_remove}
               onClick={() => {
-                dispatch(cartSlice.actions.removeProduct(item));
+                actions.removeCartItems([item], false);
               }}
             />
           </Row>

@@ -4,7 +4,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useCountdown from '@/hooks/useCountdown.ts';
 import useToggle from '@/hooks/useToggle.ts';
-import { useCartCounter } from '@/pages/Cart/Cart/MainCart/helpers.ts';
+import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { addresses } from '@/pages/User/Addresses/const.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { formatAmount, formatTime } from '@/utils';

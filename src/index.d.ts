@@ -30,15 +30,6 @@ interface Pageable {
 }
 
 /**
- * 通用响应对象
- */
-interface Ret<T> {
-  data?: T;
-  success: boolean;
-  message?: string;
-}
-
-/**
  * 商品数据模型
  */
 interface Product {

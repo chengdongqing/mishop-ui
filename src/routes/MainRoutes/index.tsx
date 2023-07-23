@@ -10,7 +10,7 @@ const HomePage = lazy(() => import('@/pages/Home'));
 const VideosPage = lazy(() => import('@/pages/Videos'));
 const SearchPage = lazy(() => import('@/pages/Search'));
 const ProductPage = lazy(() => import('@/pages/Product'));
-const CartPage = lazy(() => import('@/pages/Cart/Cart'));
+const CartPage = lazy(() => import('../../pages/Cart/ShoppingCart'));
 const CartSuccessfulPage = lazy(() => import('@/pages/Cart/Successful'));
 
 const routes: RouteObject[] = [

@@ -88,7 +88,7 @@ export function Footer() {
     <div className={styles.footer}>
       小米公司版权所有-京ICP备10046444-
       <a
-        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802020134"
+        href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802020134"
         rel="noopener noreferrer"
         target="_blank"
       >

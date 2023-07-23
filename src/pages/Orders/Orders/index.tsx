@@ -8,7 +8,7 @@ import useQueryParams from '@/hooks/useQueryParams.ts';
 import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
 import { buildProductUrl, formatAmount } from '@/utils';
-import { DefaultDateTimeFormat } from '@/utils/constants.ts';
+import { DefaultDateTimeFormat } from '@/utils/consts.ts';
 import classNames from 'classnames';
 import moment from 'moment';
 import { useState } from 'react';
