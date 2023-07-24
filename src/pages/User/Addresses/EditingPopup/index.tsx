@@ -5,7 +5,7 @@ import Popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Textarea from '@/components/Textarea';
 import toast from '@/components/Toast';
-import patterns from '@/utils/patterns.ts';
+import patterns from '@/consts/patterns.ts';
 import { useRef } from 'react';
 import CitySelector, { City } from '../CitySelector';
 

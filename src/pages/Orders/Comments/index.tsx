@@ -1,10 +1,10 @@
 import Button from '@/components/Button';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import { DefaultDateTimeFormat } from '@/consts';
 import UserLayout from '@/layouts/UserLayout';
 import { orders } from '@/pages/Orders/Orders/const.ts';
 import { formatAmount } from '@/utils';
-import { DefaultDateTimeFormat } from '@/utils/consts.ts';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';

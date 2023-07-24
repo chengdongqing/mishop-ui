@@ -1,4 +1,4 @@
-import { EmptyImage, EmptyValue } from '@/utils/consts.ts';
+import { EmptyImage, EmptyValue } from '@/consts';
 import { ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 
 interface LazyImageProps

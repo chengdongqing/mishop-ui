@@ -1,8 +1,8 @@
 import Form from '@/components/Form';
 import Input from '@/components/Input';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
+import patterns from '@/consts/patterns.ts';
 import { sendVerificationCode } from '@/services/auth.ts';
-import patterns from '@/utils/patterns.ts';
 import { useState } from 'react';
 import styles from '../index.module.less';
 

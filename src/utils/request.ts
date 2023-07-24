@@ -1,7 +1,7 @@
 import toast from '@/components/Toast';
+import { ApiHost } from '@/consts';
 import store from '@/store';
 import userSlice from '@/store/slices/userSlice.ts';
-import { ApiHost } from '@/utils/consts.ts';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

@@ -3,7 +3,7 @@ import Form from '@/components/Form';
 import Grid from '@/components/Grid';
 import Input from '@/components/Input';
 import popup from '@/components/Popup';
-import patterns from '@/utils/patterns.ts';
+import patterns from '@/consts/patterns.ts';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import styles from './index.module.less';

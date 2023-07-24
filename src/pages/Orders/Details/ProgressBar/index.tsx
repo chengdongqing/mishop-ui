@@ -1,4 +1,4 @@
-import { SimpleDateTimeFormat } from '@/utils/consts.ts';
+import { SimpleDateTimeFormat } from '@/consts';
 import classNames from 'classnames';
 import moment from 'moment';
 import styles from './index.module.less';

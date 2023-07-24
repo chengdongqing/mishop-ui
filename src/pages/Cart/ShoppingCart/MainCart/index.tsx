@@ -10,8 +10,8 @@ import useElementVisible from '@/hooks/useElementVisible.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
+import Decimal from '@/utils/decimal.ts';
 import classNames from 'classnames';
-import Decimal from 'decimal.js';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartCounter, useCartItemsCheck } from '../helpers.ts';
@@ -96,7 +96,7 @@ function CartTable() {
           </div>
           <div className={classNames(styles.col_total, styles.value)}>
             {formatAmount(
-              new Decimal(item.price).mul(item.quantity).toNumber()
+              Decimal.of(item.price).multiply(item.quantity).toNumber()
             )}
           </div>
           <div className={styles.col_action}>

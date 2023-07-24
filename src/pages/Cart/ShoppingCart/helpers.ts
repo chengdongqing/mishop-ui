@@ -1,7 +1,7 @@
 import useCartActions from '@/hooks/useCartActions.ts';
 import { CartItemVO } from '@/services/cart.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
-import Decimal from 'decimal.js';
+import Decimal from '@/utils/decimal.ts';
 import { useMemo } from 'react';
 
 export function useCartItemsCheck(items: CartItemVO[]) {
@@ -41,8 +41,8 @@ export function useCartCounter(onlyChecked = true) {
 
   const totalAmount = useMemo(() => {
     return items.reduce((sum, item) => {
-      return new Decimal(sum)
-        .plus(new Decimal(item.price).mul(item.quantity))
+      return Decimal.of(sum)
+        .add(Decimal.of(item.price).multiply(item.quantity).toString())
         .toNumber();
     }, 0);
   }, [items]);

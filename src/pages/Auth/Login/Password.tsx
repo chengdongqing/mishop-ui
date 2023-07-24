@@ -1,6 +1,6 @@
 import Form from '@/components/Form';
 import Input from '@/components/Input';
-import patterns from '@/utils/patterns.ts';
+import patterns from '@/consts/patterns.ts';
 
 export default function LoginByPassword() {
   return (

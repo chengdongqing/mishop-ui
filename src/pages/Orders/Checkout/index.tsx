@@ -9,7 +9,7 @@ import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { AddressGroup } from '@/pages/User/Addresses';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
-import Decimal from 'decimal.js';
+import Decimal from '@/utils/decimal.ts';
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
@@ -120,7 +120,7 @@ function ProductList() {
             </div>
             <div className={styles.subtotal}>
               {formatAmount(
-                new Decimal(item.price).mul(item.quantity).toNumber()
+                Decimal.of(item.price).multiply(item.quantity).toNumber()
               )}
             </div>
           </Row>
@@ -158,7 +158,10 @@ function BillInfos() {
         </div>
         <div className={styles.value}>
           <span style={{ fontSize: '3rem' }}>
-            {formatAmount(new Decimal(totalAmount).sub(0.01).toNumber(), '')}
+            {formatAmount(
+              Decimal.of(totalAmount).subtract(0.01).toNumber(),
+              ''
+            )}
           </span>
           <span> 元</span>
         </div>

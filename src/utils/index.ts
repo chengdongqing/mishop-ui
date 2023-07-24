@@ -1,5 +1,5 @@
-import { EmptyValue } from '@/utils/consts.ts';
-import patterns from '@/utils/patterns.ts';
+import { EmptyValue } from '@/consts';
+import patterns from '@/consts/patterns.ts';
 
 /**
  * 构建商品详情访问地址
