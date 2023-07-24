@@ -1,5 +1,5 @@
 import popup from '@/components/Popup';
-import services, { CartItemVO } from '@/services/cart.ts';
+import services, { CartItemDTO } from '@/services/cart.ts';
 import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,7 @@ export default function useCartActions() {
   const products = useCartItems();
   const dispatch = useDispatch();
 
-  async function addToCart(item: Omit<CartItemVO, 'quantity' | 'isChecked'>) {
+  async function addToCart(item: Omit<CartItemDTO, 'quantity' | 'isChecked'>) {
     const cartItem = {
       ...item,
       quantity: 1,
@@ -39,7 +39,7 @@ export default function useCartActions() {
     dispatch(cartSlice.actions.addToCart(cartItem));
   }
 
-  async function modifyCartItems(items: CartItemVO[]) {
+  async function modifyCartItems(items: CartItemDTO[]) {
     if (!items.length) return;
 
     await (hasLogin
@@ -58,12 +58,12 @@ export default function useCartActions() {
     dispatch(cartSlice.actions.modifyCartItems(items));
   }
 
-  function removeCartItems(items: CartItemVO[], withConfirm = true) {
+  function removeCartItems(items: CartItemDTO[], withConfirm = true) {
     if (!items.length) return;
 
     async function remove() {
       if (hasLogin) {
-        const ids = items.map((item) => item.id) as Id[];
+        const ids = items.map((item) => item.id) as number[];
         await services.removeCartItems(ids);
       }
       const skuIds = items.map((item) => item.skuId);

@@ -5,7 +5,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useCartActions from '@/hooks/useCartActions.ts';
 import { useCartCounter, useIsEmptyCart } from '@/pages/Cart/ShoppingCart/helpers.ts';
-import { CartItemVO } from '@/services/cart.ts';
+import { CartItemDTO } from '@/services/cart.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
@@ -96,7 +96,7 @@ function MainCart({
                     totalAmount,
                     autoScroll
                   }: {
-  products: CartItemVO[];
+  products: CartItemDTO[];
   totalNumber: number;
   totalAmount: number;
   autoScroll: boolean;

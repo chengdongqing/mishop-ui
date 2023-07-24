@@ -1,10 +1,10 @@
 import useCartActions from '@/hooks/useCartActions.ts';
-import { CartItemVO } from '@/services/cart.ts';
+import { CartItemDTO } from '@/services/cart.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import Decimal from '@/utils/decimal.ts';
 import { useMemo } from 'react';
 
-export function useCartItemsCheck(items: CartItemVO[]) {
+export function useCartItemsCheck(items: CartItemDTO[]) {
   const actions = useCartActions();
 
   const allChecked = useMemo(() => {
@@ -14,7 +14,7 @@ export function useCartItemsCheck(items: CartItemVO[]) {
     return items.some((item) => item.isChecked) && !allChecked;
   }, [items, allChecked]);
 
-  function switchCheck(item: CartItemVO | null, isChecked: boolean) {
+  function switchCheck(item: CartItemDTO | null, isChecked: boolean) {
     const newItems = (item ? [item] : items).map((item1) => ({
       ...item1,
       isChecked

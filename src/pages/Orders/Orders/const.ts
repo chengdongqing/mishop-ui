@@ -1,10 +1,11 @@
-import { CartItemVO } from '@/services/cart.ts';
+import { AddressDTO } from '@/services/address.ts';
+import { CartItemDTO } from '@/services/cart.ts';
 
 interface Order {
   id: number;
   status: string;
-  shippingInfo: ShippingInfo;
-  products: CartItemVO[];
+  address: AddressDTO;
+  products: CartItemDTO[];
   productsAmount: number;
   discount: number;
   expressFee: number;

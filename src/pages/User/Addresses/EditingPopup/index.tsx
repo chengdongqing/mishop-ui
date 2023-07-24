@@ -6,16 +6,19 @@ import Row from '@/components/Row';
 import Textarea from '@/components/Textarea';
 import toast from '@/components/Toast';
 import patterns from '@/consts/patterns.ts';
+import services, { AddressDTO } from '@/services/address.ts';
 import { useRef } from 'react';
 import CitySelector, { City } from '../CitySelector';
 
 export default function EditingModal({
   open,
   values,
+  onChange,
   onCancel
 }: {
   open: boolean;
-  values?: Record<string, unknown>;
+  values?: AddressDTO;
+  onChange(): void;
   onCancel(): void;
 }) {
   const formRef = useRef<FormRef>(null);
@@ -29,12 +32,15 @@ export default function EditingModal({
         return new Promise((resolve, reject) => {
           formRef.current
             ?.submit()
-            .then((values) => {
-              setTimeout(() => {
-                toast.success('提交成功');
-                console.log(values);
-                resolve();
-              }, 1000);
+            .then((formValues) => {
+              return !values
+                ? services.addAddress(formValues as AddressDTO)
+                : services.modifyAddress(values.id, formValues as AddressDTO);
+            })
+            .then(() => {
+              toast.success('提交成功');
+              onChange();
+              resolve();
             })
             .catch(reject);
         });
@@ -45,7 +51,7 @@ export default function EditingModal({
         <Grid columns={1} gap={'1.4rem'}>
           <Row>
             <Form.Item
-              name={'username'}
+              name={'recipientName'}
               rules={[
                 { required: true, message: '请输入姓名' },
                 { max: 15, message: '姓名不能超过15个字符' }
@@ -55,7 +61,7 @@ export default function EditingModal({
               <Input placeholder={'姓名'} />
             </Form.Item>
             <Form.Item
-              name={'phoneNumber'}
+              name={'recipientPhone'}
               rules={[
                 { required: true, message: '请输入手机号' },
                 {
@@ -90,8 +96,8 @@ export default function EditingModal({
             rules={[
               { required: true, message: '请输入详细地址' },
               {
-                min: 5,
-                message: '不能少于5个字符'
+                min: 3,
+                message: '不能少于3个字符'
               }
             ]}
           >

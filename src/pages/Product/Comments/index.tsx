@@ -21,7 +21,7 @@ import styles from './index.module.less';
 import SatisfactionCard from './SatisfactionCard';
 
 export default function ProductCommentsPage() {
-  const productId = useParams().id as Id;
+  const productId = useParams().id as unknown as number;
   const [filterParams, setFilterParams] = useSetState<CommentsPageRequestDTO>();
   const { loading, data, run } = useRequest(fetchCommentsStatistics, {
     manual: true
@@ -78,7 +78,7 @@ export default function ProductCommentsPage() {
 }
 
 export interface ProductCommentItem {
-  id: Id;
+  id: number;
   rating: number;
   content?: string;
   photos?: string[];
@@ -91,7 +91,7 @@ function CommentList({
   productId,
   params
 }: {
-  productId: Id;
+  productId: number;
   params: CommentsPageRequestDTO;
 }) {
   const [comments, setComments] = useState<ProductCommentItem[]>([]);

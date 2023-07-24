@@ -1,5 +1,5 @@
 import { SearchProduct } from '@/pages/Search';
-import { CartItemVO } from '@/services/cart.ts';
+import { CartItemDTO } from '@/services/cart.ts';
 import request from '@/utils/request.ts';
 
 export interface ParentProduct extends OptionItem {
@@ -57,7 +57,7 @@ export function searchProducts(params: SearchRequestDTO) {
   });
 }
 
-export interface RecommendedProduct extends CartItemVO {
+export interface RecommendedProduct extends CartItemDTO {
   originalPrice?: number;
   comments: number;
 }
@@ -98,6 +98,6 @@ export interface ProductSKU {
   available: boolean;
 }
 
-export function fetchProductDetails(id: Id) {
+export function fetchProductDetails(id: number) {
   return request<ProductDetails>(`/products/${id}`);
 }

@@ -17,7 +17,7 @@ export default function PostCommentPage() {
   const [data, setData] = useSetState();
   const [loading, setLoading] = useState<Id>();
 
-  function post(key: Id, values: unknown) {
+  function post(key: number | string, values: unknown) {
     setLoading(key);
     setTimeout(() => {
       setLoading(undefined);
@@ -85,7 +85,9 @@ export default function PostCommentPage() {
           <Row className={styles.product_item}>
             <div className={styles.product_info}>
               <img src={item.pictureUrl} alt={item.productName} />
-              <div className={styles.label}>{item.productName} {item.skuName}</div>
+              <div className={styles.label}>
+                {item.productName} {item.skuName}
+              </div>
             </div>
             <div className={styles.content}>
               <Score />

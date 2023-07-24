@@ -5,7 +5,7 @@ import { fetchProductDetails } from '@/services/product.ts';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function useProduct(id: Id, pathname: string) {
+export default function useProduct(id: number, pathname: string) {
   // 查询商品详情
   const navigate = useNavigate();
   const {

@@ -8,7 +8,7 @@ export interface ProductCommentStatistics {
   scoresMap: Record<number, number>;
 }
 
-export function fetchCommentsStatistics(productId: Id) {
+export function fetchCommentsStatistics(productId: number) {
   return request<ProductCommentStatistics>(
     `/products/${productId}/comments/statistics`
   );
@@ -20,7 +20,7 @@ export interface CommentsPageRequestDTO extends Pageable, RecordsType {
 }
 
 export function fetchCommentsByPage(
-  productId: Id,
+  productId: number,
   params: CommentsPageRequestDTO
 ) {
   return request<Page<ProductCommentItem>>(

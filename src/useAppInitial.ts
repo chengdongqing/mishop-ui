@@ -2,7 +2,7 @@ import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { refreshToken } from '@/services/auth.ts';
-import services, { CartItemVO } from '@/services/cart.ts';
+import services, { CartItemDTO } from '@/services/cart.ts';
 import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
 import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
 import moment from 'moment';
@@ -18,7 +18,7 @@ function useCartInitial() {
   const products = useCartItems();
   const dispatch = useDispatch();
   const [storageItems, setStorageItems] =
-    useLocalStorageState<CartItemVO[]>('shopping-cart');
+    useLocalStorageState<CartItemDTO[]>('shopping-cart');
 
   // 默认先同步本地缓存的购物车数据
   useMount(() => {

@@ -5,7 +5,7 @@ import patterns from '@/consts/patterns.ts';
  * 构建商品详情访问地址
  * @param productId 商品id
  */
-export function buildProductUrl(productId: Id) {
+export function buildProductUrl(productId: number) {
   return '/product/' + productId;
 }
 

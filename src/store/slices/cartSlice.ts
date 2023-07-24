@@ -1,9 +1,9 @@
-import { CartItemVO } from '@/services/cart.ts';
+import { CartItemDTO } from '@/services/cart.ts';
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: {
-  cart: CartItemVO[];
+  cart: CartItemDTO[];
 } = {
   cart: []
 };
@@ -12,7 +12,7 @@ export default createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart({ cart }, { payload }: PayloadAction<CartItemVO>) {
+    addToCart({ cart }, { payload }: PayloadAction<CartItemDTO>) {
       const existingItem = cart.find((item) => {
         return item.skuId === payload.skuId;
       });
@@ -24,7 +24,7 @@ export default createSlice({
     },
     modifyCartItems(
       { cart },
-      { payload }: PayloadAction<CartItemVO[]>
+      { payload }: PayloadAction<CartItemDTO[]>
     ) {
       payload.forEach((item) => {
         const { skuId, quantity, isChecked } = item;
@@ -35,12 +35,12 @@ export default createSlice({
         }
       });
     },
-    removeCartItems(state, { payload }: PayloadAction<Id[]>) {
+    removeCartItems(state, { payload }: PayloadAction<number[]>) {
       state.cart = state.cart.filter((item) => {
         return !payload?.includes(item.skuId);
       });
     },
-    setCart(state, { payload }: PayloadAction<CartItemVO[]>) {
+    setCart(state, { payload }: PayloadAction<CartItemDTO[]>) {
       state.cart = payload;
     }
   }

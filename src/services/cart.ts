@@ -1,9 +1,9 @@
 import request from '@/utils/request.ts';
 
-export interface CartItemVO {
-  id?: Id;
-  productId: Id;
-  skuId: Id;
+export interface CartItemDTO {
+  id?: number;
+  productId: number;
+  skuId: number;
   productName: string;
   skuName: string;
   pictureUrl: string;
@@ -15,27 +15,27 @@ export interface CartItemVO {
 
 export default {
   fetchCartItems() {
-    return request<CartItemVO[]>('/shopping-cart');
+    return request<CartItemDTO[]>('/shopping-cart');
   },
-  addToCart(item: CartItemVO) {
+  addToCart(item: CartItemDTO) {
     return request<number>('/shopping-cart', {
       method: 'POST',
       body: item
     });
   },
-  modifyCartItems(items: CartItemVO[]) {
+  modifyCartItems(items: CartItemDTO[]) {
     return request('/shopping-cart', {
       method: 'PUT',
       body: items
     });
   },
-  removeCartItems(itemIds: Id[]) {
+  removeCartItems(itemIds: number[]) {
     return request('/shopping-cart', {
       method: 'DELETE',
       body: itemIds
     });
   },
-  syncCart(items: CartItemVO[]) {
+  syncCart(items: CartItemDTO[]) {
     return request('/shopping-cart/sync', {
       method: 'POST',
       body: items

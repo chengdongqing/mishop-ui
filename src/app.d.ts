@@ -1,4 +1,3 @@
-type Id = string | number;
 type BasicValue = string | number | boolean | null | undefined;
 type RecordsType = Record<string, unknown>;
 
@@ -6,7 +5,7 @@ type RecordsType = Record<string, unknown>;
  * 通用数据模型
  */
 interface OptionItem {
-  id: Id;
+  id: number;
   name: string;
 }
 
@@ -33,7 +32,7 @@ interface Pageable {
  * 商品数据模型
  */
 interface Product {
-  id: Id;
+  id: number;
   // 产品名称
   name: string;
   // 图片地址
@@ -52,21 +51,10 @@ interface Product {
  * 广告图数据模型
  */
 interface Banner {
-  id: Id;
+  id: number;
   src: string;
   href: string;
   target?: '_blank' | '_self';
-}
-
-/**
- * 收货信息数据模型
- */
-interface ShippingInfo {
-  id: number;
-  label?: string;
-  username: string;
-  phoneNumber: string;
-  address: string[];
 }
 
 /**
