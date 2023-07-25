@@ -1,20 +1,28 @@
+import DataContainer from '@/components/DataContainer';
 import MiniHeader from '@/components/MiniHeader';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import toast from '@/components/Toast';
 import useCountdown from '@/hooks/useCountdown.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import useToggle from '@/hooks/useToggle.ts';
-import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
-import { addresses } from '@/pages/User/Addresses/const.ts';
-import { useCartItems } from '@/store/slices/cartSlice.ts';
+import { fetchOrderInfo, OrderVO, requestPayment } from '@/services/order.ts';
 import { formatAmount, formatTime } from '@/utils';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
+import moment from 'moment';
 import { useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function PayPage() {
+  const params = useParams<{
+    id: string;
+  }>();
+  const orderId = Number(params.id);
+  const { data, loading } = useRequest(() => fetchOrderInfo(orderId));
+
   return (
     <>
       <MiniHeader title={'支付订单'} />
@@ -25,25 +33,32 @@ export default function PayPage() {
         }}
       >
         <div className={styles.container}>
-          <OrderInfos />
-          <PaymentMethods />
+          <DataContainer loading={loading}>
+            <OrderInfos order={data} />
+            <PaymentMethods orderId={orderId} />
+          </DataContainer>
         </div>
       </div>
     </>
   );
 }
 
-function OrderInfos() {
-  const address = useMemo(() => addresses[0], []);
-  const products = useCartItems(true);
-  const { totalAmount } = useCartCounter(true);
+function OrderInfos({ order }: { order: OrderVO | null }) {
   const [open, toggleOpen] = useToggle(false);
   const height = useMemo(() => {
-    return open ? `${11.7 + 2.4 * (products.length - 1)}rem` : 0;
-  }, [open, products.length]);
+    return open && order?.orderItems
+      ? `${11.7 + 2.4 * (order?.orderItems.length - 1)}rem`
+      : 0;
+  }, [open, order?.orderItems]);
 
   const navigate = useNavigate();
-  const [remaining] = useCountdown(60 * 60 * 2, false, () => {
+  const seconds = useMemo(() => {
+    if (order) {
+      return moment(order.createdAt).add(2, 'hours').diff(moment(), 'seconds');
+    }
+    return 0;
+  }, [order]);
+  const [remaining] = useCountdown(seconds, false, () => {
     setTimeout(() => {
       popup.alert('支付超时，订单已取消', () => {
         navigate('/orders', {
@@ -68,18 +83,14 @@ function OrderInfos() {
             </div>
             <div className={styles.tips} hidden={open}>
               收货信息：
-              {[
-                address.username,
-                address.phoneNumber,
-                address.address.join(' ')
-              ].join(' ')}
+              {order?.recipientAddress}
             </div>
           </div>
           <div className={styles.right}>
             <div style={{ marginBottom: '1rem' }}>
               应付金额：
               <span className={styles.amount}>
-                <span>{formatAmount(totalAmount, '')}</span>元
+                <span>{formatAmount(order?.paidAmount, '')}</span>元
               </span>
             </div>
             <div className={styles.btn_more} onClick={toggleOpen}>
@@ -94,25 +105,19 @@ function OrderInfos() {
           <div className={styles.details}>
             <div className={styles.item}>
               <div className={styles.label}>订单号：</div>
-              <div className={styles.order_number}>5230601985602776</div>
+              <div className={styles.order_number}>{order?.orderNumber}</div>
             </div>
             <div className={styles.item}>
               <div className={styles.label}>收货信息：</div>
-              <div>
-                {[
-                  address.username,
-                  address.phoneNumber,
-                  address.address.join(' ')
-                ].join(' ')}
-              </div>
+              <div>{order?.recipientAddress}</div>
             </div>
             <div className={styles.item}>
               <div className={styles.label}>商品名称：</div>
               <div>
-                {products.map((item) => (
-                  <div key={item.name}>
-                    {item.name}
-                    <span style={{ color: '#b0b0b0' }}> x {item.number}</span>
+                {order?.orderItems.map((item) => (
+                  <div key={item.skuId}>
+                    {item.productName} {item.skuName}
+                    <span style={{ color: '#b0b0b0' }}> x {item.quantity}</span>
                   </div>
                 ))}
               </div>
@@ -124,24 +129,60 @@ function OrderInfos() {
   );
 }
 
-const methods = [
+interface PaymentMethod {
+  label: string;
+  code: string;
+  icon: string;
+}
+
+const methods: PaymentMethod[] = [
   {
     label: '支付宝',
+    code: 'ALIPAY',
     icon: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/031f3af10e3856352b847fe480b2b2e5.png'
   },
   {
-    label: '小米钱包',
-    icon: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/60ca2cd19969cfbfa9a5507ab80ab620.png'
-  },
-  {
     label: '微信',
+    code: 'WECHAT',
     icon: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4cdfb179cdce8f95c57e8d82c469d20c.png'
   }
 ];
 
-function PaymentMethods() {
+function PaymentMethods({ orderId }: { orderId: number }) {
   const timer = useRef<NodeJS.Timer>();
   const navigate = useNavigate();
+
+  async function handlePayment(item: PaymentMethod) {
+    const closeLoading = toast.loading('请求支付中...');
+    const url = await requestPayment(orderId, item.code);
+    closeLoading();
+
+    const close = popup.open({
+      title: `${item.label}支付`,
+      width: '37rem',
+      footer: null,
+      content: (
+        <div className={styles.payment_qrcode}>
+          <img src={url as string} alt={'qrcode'} className={styles.qrcode} />
+          <div className={styles.tips}>
+            请使用 <span>{item.label}</span> 扫一扫
+            <br />
+            二维码完成支付
+          </div>
+        </div>
+      ),
+      onCancel() {
+        clearTimeout(timer.current);
+      }
+    });
+
+    /*timer.current = setTimeout(() => {
+      close();
+      navigate('successful', {
+        replace: true
+      });
+    }, 3000);*/
+  }
 
   return (
     <div className={classNames(styles.card, styles.payment_methods)}>
@@ -151,39 +192,7 @@ function PaymentMethods() {
           <div
             key={item.label}
             className={styles.method_item}
-            onClick={() => {
-              const close = popup.open({
-                title: `${item.label}支付`,
-                width: '37rem',
-                footer: null,
-                content: (
-                  <div className={styles.payment_qrcode}>
-                    <img
-                      src={
-                        'https://i.huodong.mi.com/qrcode/wxget?code=weixin%3A%2F%2Fwxpay%2Fbizpayurl%3Fpr%3D3X3F5Efzz&key=3361d67c9d7664f3a5749925c9ce1c25'
-                      }
-                      alt={'qrcode'}
-                      className={styles.qrcode}
-                    />
-                    <div className={styles.tips}>
-                      请使用 <span>{item.label}</span> 扫一扫
-                      <br />
-                      二维码完成支付
-                    </div>
-                  </div>
-                ),
-                onCancel() {
-                  clearTimeout(timer.current);
-                }
-              });
-
-              timer.current = setTimeout(() => {
-                close();
-                navigate('/orders/pay/successful/5230601985602776', {
-                  replace: true
-                });
-              }, 3000);
-            }}
+            onClick={() => handlePayment(item)}
           >
             <img src={item.icon} alt={item.label} />
           </div>

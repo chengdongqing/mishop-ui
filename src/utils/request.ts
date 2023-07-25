@@ -61,7 +61,13 @@ export default async function request<T>(
     body: typeof body === 'object' ? JSON.stringify(body) : body,
     signal
   });
-  const data: T = res.headers.get('content-type')?.includes('application/json') ? await res.json() : null;
+  let data: T | null = null;
+  const contentType = res.headers.get('content-type');
+  if (contentType?.includes('application/json')) {
+    data = await res.json();
+  } else if (contentType?.includes('text/plain')) {
+    data = (await res.text()) as T;
+  }
 
   if (res.ok) {
     // 成功处理请求

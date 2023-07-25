@@ -64,7 +64,7 @@ const routes: RouteObject[] = [
     )
   },
   {
-    path: 'pay',
+    path: 'pay/:id',
     children: [
       {
         path: '',
@@ -75,7 +75,7 @@ const routes: RouteObject[] = [
         )
       },
       {
-        path: 'successful/:orderId',
+        path: 'successful',
         element: (
           <PageDecorator title={'支付成功'}>
             <PaySuccessfulPage />

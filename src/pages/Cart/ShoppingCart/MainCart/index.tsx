@@ -175,7 +175,7 @@ function FooterBar() {
                   setSubmitting(true);
                   setTimeout(() => {
                     navigate('/orders/checkout');
-                  }, 1000);
+                  }, 500);
                 } else {
                   openAgreementsDeclaring(() => {
                     navigate('/auth/login', {

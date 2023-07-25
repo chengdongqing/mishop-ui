@@ -5,8 +5,12 @@ import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { AddressGroup } from '@/pages/User/Addresses';
+import { buildAddress } from '@/pages/User/Addresses/utils.ts';
+import { AddressDTO } from '@/services/address.ts';
+import { createOrder } from '@/services/order.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import Decimal from '@/utils/decimal.ts';
@@ -15,7 +19,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function CheckoutPage() {
-  const [address, setAddress] = useState<ShippingInfo>();
+  const [address, setAddress] = useState<AddressDTO>();
 
   return (
     <>
@@ -42,11 +46,11 @@ function AddressList({
   address,
   onChange
 }: {
-  address?: ShippingInfo;
-  onChange(value: ShippingInfo): void;
+  address?: AddressDTO;
+  onChange(value: AddressDTO): void;
 }) {
   const [frequentlyUsedAddress, setFrequentlyUsedAddress] =
-    useState<ShippingInfo>();
+    useState<AddressDTO>();
   const containerRef = useRef<HTMLDivElement>(null);
   const fixed = useElementVisible(containerRef, (rect) => {
     return rect.bottom <= 0;
@@ -74,9 +78,12 @@ function AddressList({
             className={styles.wrapper}
           >
             <Space size={'2.4rem'}>
-              <span>{frequentlyUsedAddress.username}</span>
-              <span>{frequentlyUsedAddress.phoneNumber}</span>
-              <span>{frequentlyUsedAddress.address.join(' ')}</span>
+              <span>{frequentlyUsedAddress.recipientName}</span>
+              <span>{frequentlyUsedAddress.recipientPhone}</span>
+              <span>
+                {buildAddress(frequentlyUsedAddress.city)}{' '}
+                {frequentlyUsedAddress.address}
+              </span>
             </Space>
             <Button
               className={styles.btn}
@@ -150,18 +157,15 @@ function BillInfos() {
         <div className={styles.label}>商品总价：</div>
         <div className={styles.value}>{formatAmount(totalAmount)}</div>
         <div className={styles.label}>优惠金额：</div>
-        <div className={styles.value}>-{formatAmount(0.01)}</div>
+        <div className={styles.value}>-0</div>
         <div className={styles.label}>运费：</div>
-        <div className={styles.value}>{formatAmount(0)}</div>
+        <div className={styles.value}>0</div>
         <div className={styles.label} style={{ lineHeight: '3rem' }}>
           应付总额：
         </div>
         <div className={styles.value}>
           <span style={{ fontSize: '3rem' }}>
-            {formatAmount(
-              Decimal.of(totalAmount).subtract(0.01).toNumber(),
-              ''
-            )}
+            {formatAmount(totalAmount, '')}
           </span>
           <span> 元</span>
         </div>
@@ -170,9 +174,14 @@ function BillInfos() {
   );
 }
 
-function FooterBar({ address }: { address?: ShippingInfo }) {
+function FooterBar({ address }: { address?: AddressDTO }) {
   const navigate = useNavigate();
-  const [submitting, setSubmitting] = useState(false);
+  const { run: submit, loading: submitting } = useRequest(
+    (addressId) => createOrder(addressId),
+    {
+      manual: true
+    }
+  );
 
   return (
     <Row justify={'space-between'} className={styles.footer_bar}>
@@ -180,10 +189,12 @@ function FooterBar({ address }: { address?: ShippingInfo }) {
         {!!address && (
           <>
             <div>
-              {address.username} {address.phoneNumber}
+              {address.recipientName} {address.recipientPhone}
             </div>
             <Space>
-              <div>{address.address.join(' ')}</div>
+              <div>
+                {buildAddress(address.city)} {address.address}
+              </div>
               <div className={styles.btn}>修改</div>
             </Space>
           </>
@@ -201,16 +212,14 @@ function FooterBar({ address }: { address?: ShippingInfo }) {
         </Button>
         <Button
           loading={submitting}
-          onClick={() => {
+          onClick={async () => {
             if (!address) {
               popup.alert('请选择地址');
             } else {
-              setSubmitting(true);
-              setTimeout(() => {
-                navigate('/orders/pay', {
-                  replace: true
-                });
-              }, 1000);
+              const orderId = await submit(address.id);
+              navigate(`/orders/pay/${orderId}`, {
+                replace: true
+              });
             }
           }}
         >
