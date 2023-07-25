@@ -4,8 +4,9 @@ import Iconfont from '@/components/Iconfont';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useCartActions from '@/hooks/useCartActions.ts';
-import useToggle from '@/hooks/useToggle.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import { ProductContext } from '@/pages/Product';
+import favoriteServices from '@/services/favorite.ts';
 import { ProductDetails as ProductDetailsType, ProductSKU } from '@/services/product.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
@@ -50,12 +51,15 @@ function ProductPanel({
   onPicturesChange: (values: string[]) => void;
 }) {
   const navigate = useNavigate();
-  const [liked, toggleLiked] = useToggle();
   const [sku, setSku] = useState<ProductSKU>();
   const productName = useMemo(() => {
     return [product.name, sku?.name].join(' ');
   }, [product.name, sku?.name]);
   const actions = useCartActions();
+
+  const { data: liked, run: refreshLike } = useRequest(() =>
+    favoriteServices.existsFavorite(product.id)
+  );
 
   return (
     <div className={styles.panel_container}>
@@ -104,7 +108,12 @@ function ProductPanel({
           <Button
             gray
             className={classNames(styles.btn, styles.btn_like)}
-            onClick={toggleLiked}
+            onClick={() => {
+              (liked
+                ? favoriteServices.removeFavorite(product.id)
+                : favoriteServices.addFavorite(product.id, sku.id)
+              ).then(refreshLike);
+            }}
           >
             {!liked ? (
               <HeartOutlined className={styles.icon} />

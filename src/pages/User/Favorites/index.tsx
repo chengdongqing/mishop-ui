@@ -1,29 +1,31 @@
 import Button from '@/components/Button';
+import DataContainer from '@/components/DataContainer';
 import Grid from '@/components/Grid';
 import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import toast from '@/components/Toast';
+import useRequest from '@/hooks/useRequest.ts';
 import UserLayout from '@/layouts/UserLayout';
-import { useCartItems } from '@/store/slices/cartSlice.ts';
+import services from '@/services/favorite.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function FavoriteProductsPage() {
-  const products = useCartItems();
+  const { data, loading, run } = useRequest(services.fetchFavorites);
 
   return (
     <>
       <UserLayout.Header title={'喜欢的商品'} />
-      {products.length ? (
+      <DataContainer loading={loading} empty={!data?.length && '您暂未收藏任何商品。'}>
         <Grid columns={3}>
-          {products.map((item) => (
-            <div key={item.name} className={styles.product_item}>
-              <Link to={buildProductUrl(item.id)} target={'_blank'}>
-                <img src={item.pictureUrl} alt={item.name} />
+          {data?.map((item) => (
+            <div key={item.id} className={styles.product_item}>
+              <Link to={buildProductUrl(item.productId)} target={'_blank'}>
+                <img src={item.pictureUrl} alt={item.productName} />
                 <div className={classNames(styles.label, 'text-ellipsis')}>
-                  {item.name}
+                  {item.productName} {item.skuName}
                 </div>
               </Link>
               <div className={styles.price}>{formatAmount(item.price)}</div>
@@ -31,30 +33,25 @@ export default function FavoriteProductsPage() {
                 <Button
                   className={classNames(styles.btn, styles.plain)}
                   onClick={() => {
-                    popup.confirm('确定删除该商品吗？', {
-                      onOk() {
-                        return new Promise((resolve) => {
-                          setTimeout(() => {
-                            toast.success('删除成功');
-                            resolve();
-                          }, 1000);
-                        });
+                    popup.confirm('确定要删除吗？', {
+                      async onOk() {
+                        await services.removeFavorite(item.productId);
+                        toast.success('删除成功');
+                        await run();
                       }
                     });
                   }}
                 >
                   删除
                 </Button>
-                <Link to={buildProductUrl(item.id)} target={'_blank'}>
+                <Link to={buildProductUrl(item.productId)} target={'_blank'}>
                   <Button className={styles.btn}>查看详情</Button>
                 </Link>
               </Space>
             </div>
           ))}
         </Grid>
-      ) : (
-        <UserLayout.Empty title={'您暂未收藏任何商品。'} />
-      )}
+      </DataContainer>
     </>
   );
 }

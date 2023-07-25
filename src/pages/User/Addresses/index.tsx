@@ -11,7 +11,6 @@ import services, { AddressDTO } from '@/services/address.ts';
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
-import { addresses } from './const.ts';
 import EditingPopup from './EditingPopup';
 import styles from './index.module.less';
 
@@ -46,17 +45,17 @@ export function AddressGroup({
   const [value, setValue] = useState<number>();
   const finalValue = propValue !== undefined ? propValue : value;
 
+  const { data, run } = useRequest(services.fetchAddresses);
+
   const [expand, toggleExpand] = useToggle(false);
   const height = useMemo(() => {
     if (defaultExpand) {
       return undefined;
     }
-    return expand
-      ? `${(17.8 + 1.6) * Math.ceil((addresses.length + 1) / 4) - 1.6}rem`
+    return data && expand
+      ? `${(17.8 + 1.6) * Math.ceil((data.length + 1) / 4) - 1.6}rem`
       : '17.8rem';
-  }, [defaultExpand, expand]);
-
-  const { data, run } = useRequest(services.fetchAddresses);
+  }, [data, defaultExpand, expand]);
 
   // 回调地址信息
   useEffect(() => {
@@ -99,7 +98,7 @@ export function AddressGroup({
         ))}
         {selectMode && <AddBtn toggleModal={toggleModal} />}
       </Grid>
-      {!defaultExpand && addresses.length >= columns && (
+      {!defaultExpand && !!data && data.length >= columns && (
         <div className={styles.btn_more} onClick={toggleExpand}>
           {expand ? '收起' : '显示'}更多地址{' '}
           <DownOutlined

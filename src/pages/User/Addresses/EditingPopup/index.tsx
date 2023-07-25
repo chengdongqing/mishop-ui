@@ -54,7 +54,7 @@ export default function EditingModal({
               name={'recipientName'}
               rules={[
                 { required: true, message: '请输入姓名' },
-                { max: 15, message: '姓名不能超过15个字符' }
+                { max: 10, message: '姓名不能超过10个字符' }
               ]}
               style={{ flex: 1, marginRight: '1.4rem' }}
             >
