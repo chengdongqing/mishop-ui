@@ -6,7 +6,7 @@ import toast from '@/components/Toast';
 import useRequest from '@/hooks/useRequest.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import UserLayout from '@/layouts/UserLayout';
-import { buildAddress } from '@/pages/User/Addresses/utils.ts';
+import { formatAddress } from '@/pages/User/Addresses/utils.ts';
 import services, { AddressDTO } from '@/services/address.ts';
 import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
@@ -147,7 +147,7 @@ function AddressItem({
       </Row>
       <div>{item.recipientPhone}</div>
       <div>
-        <div>{buildAddress(item.city)}</div>
+        <div>{formatAddress(item.city)}</div>
         <div>{item.address}</div>
       </div>
       <Space size={'1rem'} className={styles.footer}>

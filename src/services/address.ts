@@ -14,22 +14,22 @@ export interface AddressDTO extends RecordsType {
 
 export default {
   fetchAddresses() {
-    return request<AddressDTO[]>('/addresses');
+    return request<AddressDTO[]>('/users/addresses');
   },
   addAddress(address: AddressDTO) {
-    return request('/addresses', {
+    return request('/users/addresses', {
       method: 'POST',
       body: address
     });
   },
   modifyAddress(id: number, address: AddressDTO) {
-    return request(`/addresses/${id}`, {
+    return request(`/users/addresses/${id}`, {
       method: 'PUT',
       body: address
     });
   },
   removeAddress(id: number) {
-    return request(`/addresses/${id}`, {
+    return request(`/users/addresses/${id}`, {
       method: 'DELETE'
     });
   }

@@ -12,13 +12,13 @@ export interface FavoriteProductDTO {
 
 export default {
   fetchFavorites() {
-    return request<FavoriteProductDTO[]>('/favorites');
+    return request<FavoriteProductDTO[]>('/users/favorites');
   },
   existsFavorite(productId: number) {
-    return request<boolean>(`/favorites/${productId}`);
+    return request<boolean>(`/users/favorites/${productId}`);
   },
   addFavorite(productId: number, skuId: number) {
-    return request('/favorites', {
+    return request('/users/favorites', {
       method: 'POST',
       body: {
         productId,
@@ -27,7 +27,7 @@ export default {
     });
   },
   removeFavorite(productId: number) {
-    return request(`/favorites/${productId}`, {
+    return request(`/users/favorites/${productId}`, {
       method: 'DELETE'
     });
   }

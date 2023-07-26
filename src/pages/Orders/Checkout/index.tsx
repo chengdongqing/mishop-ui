@@ -8,7 +8,7 @@ import useElementVisible from '@/hooks/useElementVisible.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
 import { AddressGroup } from '@/pages/User/Addresses';
-import { buildAddress } from '@/pages/User/Addresses/utils.ts';
+import { formatAddress } from '@/pages/User/Addresses/utils.ts';
 import { AddressDTO } from '@/services/address.ts';
 import { createOrder } from '@/services/order.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
@@ -81,7 +81,7 @@ function AddressList({
               <span>{frequentlyUsedAddress.recipientName}</span>
               <span>{frequentlyUsedAddress.recipientPhone}</span>
               <span>
-                {buildAddress(frequentlyUsedAddress.city)}{' '}
+                {formatAddress(frequentlyUsedAddress.city)}{' '}
                 {frequentlyUsedAddress.address}
               </span>
             </Space>
@@ -157,9 +157,9 @@ function BillInfos() {
         <div className={styles.label}>商品总价：</div>
         <div className={styles.value}>{formatAmount(totalAmount)}</div>
         <div className={styles.label}>优惠金额：</div>
-        <div className={styles.value}>-0</div>
+        <div className={styles.value}>-{formatAmount(0)}</div>
         <div className={styles.label}>运费：</div>
-        <div className={styles.value}>0</div>
+        <div className={styles.value}>{formatAmount(0)}</div>
         <div className={styles.label} style={{ lineHeight: '3rem' }}>
           应付总额：
         </div>
@@ -193,9 +193,8 @@ function FooterBar({ address }: { address?: AddressDTO }) {
             </div>
             <Space>
               <div>
-                {buildAddress(address.city)} {address.address}
+                {formatAddress(address.city)} {address.address}
               </div>
-              <div className={styles.btn}>修改</div>
             </Space>
           </>
         )}

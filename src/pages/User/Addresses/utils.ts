@@ -1,4 +1,4 @@
-export function buildAddress(city: {
+export function formatAddress(city: {
   name: string;
   code: number;
 }[]) {
