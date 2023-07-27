@@ -12,7 +12,7 @@ import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
 import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import ProductDetails from './ProductDetails';
@@ -31,6 +31,7 @@ export default function ProductBuyingPage() {
         <ProductSwiper pictures={pictures} />
         <ProductPanel
           product={ctx as ProductDetailsType}
+          hasLogin={hasLogin}
           onPicturesChange={setPictures}
         />
       </div>
@@ -44,10 +45,12 @@ export default function ProductBuyingPage() {
 }
 
 function ProductPanel({
-  product,
-  onPicturesChange
-}: {
+                        product,
+                        hasLogin,
+                        onPicturesChange
+                      }: {
   product: ProductDetailsType;
+  hasLogin: boolean;
   onPicturesChange: (values: string[]) => void;
 }) {
   const navigate = useNavigate();
@@ -57,9 +60,17 @@ function ProductPanel({
   }, [product.name, sku?.name]);
   const actions = useCartActions();
 
-  const { data: liked, run: refreshLike } = useRequest(() =>
-    favoriteServices.existsFavorite(product.id)
+  const { data: liked, run: refreshLike } = useRequest(
+    () => favoriteServices.existsFavorite(product.id),
+    {
+      manual: true
+    }
   );
+  useEffect(() => {
+    if (hasLogin) {
+      refreshLike();
+    }
+  }, [hasLogin, refreshLike]);
 
   return (
     <div className={styles.panel_container}>
@@ -99,7 +110,7 @@ function ProductPanel({
                   skuName: sku.name
                 })
                 .then(() => {
-                  navigate(`/cart/successful/${productName}`);
+                  navigate(`/cart/successfully/${productName}`);
                 });
             }}
           >
@@ -110,8 +121,8 @@ function ProductPanel({
             className={classNames(styles.btn, styles.btn_like)}
             onClick={() => {
               (liked
-                ? favoriteServices.removeFavorite(product.id)
-                : favoriteServices.addFavorite(product.id, sku.id)
+                  ? favoriteServices.removeFavorite(product.id)
+                  : favoriteServices.addFavorite(product.id, sku.id)
               ).then(refreshLike);
             }}
           >
@@ -154,7 +165,7 @@ function LoginTipsBar() {
   return showLoginTips ? (
     <div className={styles.login_tips}>
       <span>为方便您购买，请提前登录</span>
-      <Link to={'/login'} className={styles.link}>
+      <Link to={'/auth/login'} className={styles.link}>
         立即登录
       </Link>
       <Iconfont
@@ -168,7 +179,9 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
+export function PriceDescription({ weixin = false }: {
+  weixin?: boolean
+}) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (

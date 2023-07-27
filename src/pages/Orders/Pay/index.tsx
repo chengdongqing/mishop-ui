@@ -46,10 +46,10 @@ export default function PayPage() {
 function OrderInfos({ order }: { order: OrderVO | null }) {
   const [open, toggleOpen] = useToggle(false);
   const height = useMemo(() => {
-    return open && order?.orderItems
-      ? `${11.7 + 2.4 * (order?.orderItems.length - 1)}rem`
+    return open && order?.items
+      ? `${11.7 + 2.4 * (order?.items.length - 1)}rem`
       : 0;
-  }, [open, order?.orderItems]);
+  }, [open, order?.items]);
 
   const navigate = useNavigate();
   const seconds = useMemo(() => {
@@ -114,7 +114,7 @@ function OrderInfos({ order }: { order: OrderVO | null }) {
             <div className={styles.item}>
               <div className={styles.label}>商品名称：</div>
               <div>
-                {order?.orderItems.map((item) => (
+                {order?.items.map((item) => (
                   <div key={item.skuId}>
                     {item.productName} {item.skuName}
                     <span style={{ color: '#b0b0b0' }}> x {item.quantity}</span>
@@ -176,12 +176,12 @@ function PaymentMethods({ orderId }: { orderId: number }) {
       }
     });
 
-    /*timer.current = setTimeout(() => {
+    timer.current = setTimeout(() => {
       close();
-      navigate('successful', {
+      navigate('successfully', {
         replace: true
       });
-    }, 3000);*/
+    }, 3000);
   }
 
   return (

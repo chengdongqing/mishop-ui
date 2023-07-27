@@ -23,7 +23,7 @@ export interface OrderVO {
   paymentTime: string;
   paymentOrderNumber: string;
   status: string;
-  orderItems: OrderItemVO[];
+  items: OrderItemVO[];
   createdAt: string;
 }
 
@@ -44,5 +44,5 @@ export function fetchOrderInfo(id: number) {
 }
 
 export function requestPayment(id: number, paymentMethod: string) {
-  return request<string>(`/payment/${id}/${paymentMethod}`);
+  return request<string>(`/orders/payment/${id}/${paymentMethod}`);
 }

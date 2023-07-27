@@ -11,7 +11,7 @@ const VideosPage = lazy(() => import('@/pages/Videos'));
 const SearchPage = lazy(() => import('@/pages/Search'));
 const ProductPage = lazy(() => import('@/pages/Product'));
 const CartPage = lazy(() => import('../../pages/Cart/ShoppingCart'));
-const CartSuccessfulPage = lazy(() => import('@/pages/Cart/Successful'));
+const CartSuccessfullyPage = lazy(() => import('../../pages/Cart/Successfully'));
 
 const routes: RouteObject[] = [
   {
@@ -59,10 +59,10 @@ const routes: RouteObject[] = [
         )
       },
       {
-        path: 'successful/:label',
+        path: 'successfully/:label',
         element: (
           <PageDecorator title={'成功加入购物车'}>
-            <CartSuccessfulPage />
+            <CartSuccessfullyPage />
           </PageDecorator>
         )
       }
