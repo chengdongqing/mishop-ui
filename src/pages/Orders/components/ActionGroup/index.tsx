@@ -25,6 +25,13 @@ export default function ActionGroup({
           </Button>
         </Link>
       )}
+      {order.status === 'PENDING_PAYMENT' && (
+        <Link to={`/orders/pay/${order.id}`}>
+          <Button outlined className={styles.btn}>
+            去付款
+          </Button>
+        </Link>
+      )}
       {order.status === 'COMPLETED' && !order.isReviewed && (
         <Link to={`/orders/comments/${order.id}`}>
           <Button outlined className={styles.btn}>
