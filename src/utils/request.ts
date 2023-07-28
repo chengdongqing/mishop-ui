@@ -2,6 +2,7 @@ import toast from '@/components/Toast';
 import { ApiHost } from '@/consts';
 import store from '@/store';
 import userSlice from '@/store/slices/userSlice.ts';
+import { isBlank } from '@/utils/index.ts';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -28,7 +29,7 @@ export default async function request<T>(
   const fullUrl = new URL(url, baseUrl);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
-      if (key && value !== undefined) {
+      if (key && !isBlank(value)) {
         fullUrl.searchParams.append(key, value as string);
       }
     });

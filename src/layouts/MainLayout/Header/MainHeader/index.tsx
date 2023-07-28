@@ -65,9 +65,7 @@ const SearchBox = memo(() => {
       placeholder={placeholder}
       keywords={keywords}
       onSearch={(value) => {
-        if (value) {
-          navigate(`/search?keyword=${encodeURIComponent(value)}`);
-        }
+        navigate(`/search?keyword=${encodeURIComponent(value || placeholder)}`);
       }}
       onChange={(value) => {
         if (value) {

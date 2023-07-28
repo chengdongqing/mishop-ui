@@ -12,12 +12,12 @@ const options = [
   {
     label: '待支付的订单',
     icon: 'https://s01.mifile.cn/i/user/portal-icon-1.png',
-    href: '/orders?status=2'
+    href: '/orders?status=PENDING_PAYMENT'
   },
   {
     label: '待收货的订单',
     icon: 'https://s01.mifile.cn/i/user/portal-icon-2.png',
-    href: '/orders?status=4'
+    href: '/orders?status=PENDING_RECEIVING'
   },
   {
     label: '待评价的商品',

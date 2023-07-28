@@ -12,14 +12,12 @@ interface PaginationProps {
   onChange?(page: number): void;
 }
 
-const overPages = 7;
-
 export default function Pagination({
-  pageNumber = 1,
-  pageSize = 10,
-  totalSize = 10,
-  onChange
-}: PaginationProps) {
+                                     pageNumber = 1,
+                                     pageSize = 10,
+                                     totalSize = 10,
+                                     onChange
+                                   }: PaginationProps) {
   const pages = useMemo(() => {
     return totalSize > 0 ? Math.ceil(totalSize / pageSize) : 0;
   }, [pageSize, totalSize]);
@@ -29,28 +27,36 @@ export default function Pagination({
       return [];
     }
 
+    let startPage = pageNumber - 2;
+    let endPage = pageNumber + 2;
+
+    if (startPage <= 1) {
+      endPage -= (startPage - 2);
+      startPage = 2;
+    }
+    if (endPage >= pages) {
+      startPage -= (endPage - pages + 1);
+      endPage = pages - 1;
+    }
+
+    startPage = Math.max(startPage, 2);
+    endPage = Math.min(endPage, pages - 1);
+
     const items = [];
-    if (pages <= 3) {
-      for (let i = 2; i < 2 + (4 - pages); i++) {
-        items.push(i);
-      }
-    } else if (pageNumber > pages - 3) {
-      for (let i = pages - 4; i < pages; i++) {
-        items.push(i);
-      }
-    } else {
-      for (let i = pageNumber - 2; i <= pageNumber + 2; i++) {
-        items.push(i);
-      }
+    for (let i = startPage; i <= endPage; i++) {
+      items.push(i);
     }
     return items;
   }, [pageNumber, pages]);
+
   const hasPrevMore = useMemo(() => {
-    return pages > overPages && pageNumber > 3;
-  }, [pageNumber, pages]);
+    return middlePages.length > 0 && middlePages[0] > 2;
+  }, [middlePages]);
+
   const hasNextMore = useMemo(() => {
-    return pages > overPages && pageNumber < pages - 3;
-  }, [pageNumber, pages]);
+    return middlePages.length > 0 && middlePages[middlePages.length - 1] < pages - 1;
+  }, [middlePages, pages]);
+
 
   function handleChange(page: number) {
     if (page !== pageNumber) {

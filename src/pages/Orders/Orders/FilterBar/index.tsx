@@ -1,31 +1,16 @@
 import Row from '@/components/Row';
 import SearchBar from '@/components/SearchBar';
+import { OrderStatus } from '@/pages/Orders/enums.ts';
 import classNames from 'classnames';
-import { Key, useState } from 'react';
 import styles from './index.module.less';
 
-const OrderStatuses = [
-  {
-    label: '全部',
-    value: undefined
-  },
-  {
-    label: '待支付',
-    value: 1
-  },
-  {
-    label: '待收货',
-    value: 2
-  }
-];
-
 export default function FilterBar({
+  values,
   onChange
 }: {
-  onChange?: (values: Record<string, unknown>) => void;
+  values: RecordsType;
+  onChange(values: RecordsType): void;
 }) {
-  const [activeStatus, setActiveStatus] = useState<Key>();
-
   return (
     <Row
       align={'middle'}
@@ -33,19 +18,22 @@ export default function FilterBar({
       className={styles.container}
     >
       <div className={styles.status_list}>
-        {OrderStatuses.map((item) => (
+        {Object.entries({
+          '': '全部',
+          ...OrderStatus
+        }).map(([value, label]) => (
           <div
-            key={item.label}
+            key={label}
             className={classNames(
               styles.item,
-              item.value === activeStatus && styles.active
+              (value === values.status || (!values.status && !value)) &&
+                styles.active
             )}
             onClick={() => {
-              setActiveStatus(item.value);
-              onChange?.({ status: item.value });
+              onChange({ status: value });
             }}
           >
-            {item.label}
+            {label}
           </div>
         ))}
       </div>
@@ -55,7 +43,7 @@ export default function FilterBar({
         fontSize={'1.2rem'}
         placeholder={'输入商品名称、订单号'}
         onSearch={(keyword) => {
-          onChange?.({ keyword });
+          onChange({ keyword });
         }}
       />
     </Row>

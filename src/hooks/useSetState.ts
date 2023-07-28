@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 type InitialState<T> = T | (() => T);
 export type SetStateAction<T> = Partial<T> | ((prevState: T) => Partial<T>);
 
-export default function useSetState<T extends Record<string, unknown>>(
+export default function useSetState<T extends RecordsType>(
   initialState: InitialState<T> = {} as T
 ) {
   const [state, setState] = useState<T>(initialState);

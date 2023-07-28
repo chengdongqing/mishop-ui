@@ -1,31 +1,43 @@
 import Button from '@/components/Button';
-import Loading from '@/components/Loading';
+import DataContainer from '@/components/DataContainer';
 import Pagination from '@/components/Pagination';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import { DefaultDateTimeFormat } from '@/consts';
-import useMount from '@/hooks/useMount.ts';
 import useQueryParams from '@/hooks/useQueryParams.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
+import { OrderStatus, PaymentMethod } from '@/pages/Orders/enums.ts';
+import { fetchOrdersByPage, OrderVO } from '@/services/order.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import moment from 'moment';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { orders } from './const.ts';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
 
 export default function OrdersPage() {
-  const params = useQueryParams<{ status: string }>();
-  const [loading, setLoading] = useState(true);
-  useMount(() => {
-    console.log('status: ', params.status);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  });
+  const queryParams = useQueryParams<{
+    status: string;
+  }>();
+  const [params, setParams] = useSetState<{
+    status?: string;
+    keyword?: string;
+  }>(queryParams);
+
+  const { data, loading, run } = useRequest(
+    (pageNumber: number) => {
+      return fetchOrdersByPage({
+        ...params,
+        pageNumber,
+        pageSize: 2
+      });
+    },
+    {
+      deps: [params]
+    }
+  );
 
   return (
     <>
@@ -43,32 +55,29 @@ export default function OrdersPage() {
           </span>
         }
       />
-      <FilterBar
-        onChange={() => {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
-        }}
-      />
-      {loading ? <Loading /> : <OrderList />}
+      <FilterBar values={params} onChange={setParams} />
+      <DataContainer loading={loading} empty={!data?.totalSize && '暂无数据'}>
+        <OrderList page={data} onChange={run} />
+      </DataContainer>
     </>
   );
 }
 
-function OrderList() {
-  const [page, setPage] = useSetState(() => ({
-    current: 1,
-    pageSize: 10,
-    totalSize: 156
-  }));
-
+function OrderList({
+  page,
+  onChange
+}: {
+  page: Page<OrderVO> | null;
+  onChange(value: number): void;
+}) {
   return (
     <>
-      {orders.map((item) => (
+      {page?.data.map((item) => (
         <div key={item.id} className={styles.order_item}>
           <div className={styles.header}>
-            <div className={styles.order_status}>{item.status}</div>
+            <div className={styles.order_status}>
+              {OrderStatus[item.status]}
+            </div>
             <Row
               wrap={false}
               align={'bottom'}
@@ -79,38 +88,42 @@ function OrderList() {
                 split={<span style={{ color: 'var(--color-border)' }}>|</span>}
                 wrap
               >
-                {moment(item.createTime).format(DefaultDateTimeFormat)}
-                {item.shippingInfo.username}
+                {moment(item.createdAt).format(DefaultDateTimeFormat)}
+                {item.recipientName}
                 <span>
                   订单号：
                   <Link to={`/orders/${item.id}`} className={styles.order_id}>
-                    {item.id}
+                    {item.orderNumber}
                   </Link>
                 </span>
-                {item.paymentMethod}
+                {PaymentMethod[item.paymentMethod]}
               </Space>
               <div className={styles.amount}>
-                实付金额：<span>{formatAmount(item.paymentAmount, '')}</span>元
+                实付金额：<span>{formatAmount(item.paidAmount, '')}</span>元
               </div>
             </Row>
           </div>
           <Row className={styles.main}>
             <div className={styles.product_list}>
-              {item.products.map((product) => (
-                <div key={product.name} className={styles.product_item}>
+              {item.items.map((product) => (
+                <div key={product.id} className={styles.product_item}>
                   <Space size={'2rem'}>
-                    <Link to={buildProductUrl(product.id)}>
-                      <img alt={product.name} src={product.pictureUrl} />
+                    <Link
+                      to={buildProductUrl(product.productId)}
+                      target={'_blank'}
+                    >
+                      <img alt={product.productName} src={product.pictureUrl} />
                     </Link>
                     <div>
                       <Link
-                        to={buildProductUrl(product.id)}
+                        to={buildProductUrl(product.productId)}
                         className={styles.label}
+                        target={'_blank'}
                       >
-                        {product.name}
+                        {product.productName} {product.skuName}
                       </Link>
                       <div>
-                        {formatAmount(product.price)} x {product.number}
+                        {formatAmount(product.unitPrice)} x {product.quantity}
                       </div>
                     </div>
                   </Space>
@@ -126,30 +139,30 @@ function OrderList() {
                   订单详情
                 </Button>
               </Link>
-              <Link to={`/orders/comments/${item.id}`}>
-                <Button outlined className={styles.btn}>
-                  评价晒单
+              {item.status === 'COMPLETED' && !item.isReviewed && (
+                <Link to={`/orders/comments/${item.id}`}>
+                  <Button outlined className={styles.btn}>
+                    评价晒单
+                  </Button>
+                </Link>
+              )}
+              {(item.status === 'PENDING_PAYMENT' ||
+                item.status === 'PENDING_PACKING' ||
+                item.status === 'PENDING_SHIPPING' ||
+                item.status === 'PENDING_RECEIVING') && (
+                <Button
+                  outlined
+                  className={classNames(styles.btn, styles.gray)}
+                >
+                  取消订单
                 </Button>
-              </Link>
-              <Button outlined className={classNames(styles.btn, styles.gray)}>
-                申请售后
-              </Button>
-              <Button outlined className={classNames(styles.btn, styles.gray)}>
-                联系客服
-              </Button>
+              )}
             </Space>
           </Row>
         </div>
       ))}
 
-      <Pagination
-        {...page}
-        onChange={(value) => {
-          setPage({
-            current: value
-          });
-        }}
-      />
+      <Pagination {...page} onChange={onChange} />
     </>
   );
 }

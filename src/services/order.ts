@@ -1,3 +1,4 @@
+import { OrderStatus, PaymentMethod } from '@/pages/Orders/enums.ts';
 import request from '@/utils/request.ts';
 
 export function createOrder(addressId: number) {
@@ -19,10 +20,11 @@ export interface OrderVO {
   recipientName: string;
   recipientPhone: string;
   recipientAddress: string;
-  paymentMethod: string;
+  paymentMethod: keyof typeof PaymentMethod;
   paymentTime: string;
   paymentOrderNumber: string;
-  status: string;
+  isReviewed: boolean;
+  status: keyof typeof OrderStatus;
   items: OrderItemVO[];
   createdAt: string;
 }
@@ -45,4 +47,15 @@ export function fetchOrderInfo(id: number) {
 
 export function requestPayment(id: number, paymentMethod: string) {
   return request<string>(`/orders/payment/${id}/${paymentMethod}`);
+}
+
+export interface OrdersPageRequestDTO extends Pageable, RecordsType {
+  keyword?: string;
+  status?: string;
+}
+
+export function fetchOrdersByPage(params: OrdersPageRequestDTO) {
+  return request<Page<OrderVO>>('/orders', {
+    params
+  });
 }

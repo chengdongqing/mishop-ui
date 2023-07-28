@@ -69,10 +69,8 @@ export function downloadFile(src: string, filename: string) {
  * @param apply 处理函数
  */
 export function arrayToObject(
-  source: Record<string, unknown>[],
-  apply: (value: Record<string, unknown>) => Record<string, unknown> = (
-    item
-  ) => ({
+  source: RecordsType[],
+  apply: (value: RecordsType) => RecordsType = (item) => ({
     [item.name as string]: item.value
   })
 ) {
@@ -82,7 +80,7 @@ export function arrayToObject(
 }
 
 /**
- * 账号脱敏处理，by ChatGPT
+ * 账号脱敏处理
  * @param account 数据源：手机号/邮箱
  */
 export function desensitizeAccount(account: string) {
@@ -134,4 +132,16 @@ export function blobToFile(blob: Blob, filename: string) {
   return new File([blob], filename, {
     type: blob.type
   });
+}
+
+/**
+ * 判断值是否为空
+ * @param value 值
+ */
+export function isBlank(value: unknown) {
+  return (
+    value === null ||
+    value === undefined ||
+    (typeof value === 'string' ? value.trim().length === 0 : false)
+  );
 }

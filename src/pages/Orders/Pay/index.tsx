@@ -115,7 +115,7 @@ function OrderInfos({ order }: { order: OrderVO | null }) {
               <div className={styles.label}>商品名称：</div>
               <div>
                 {order?.items.map((item) => (
-                  <div key={item.skuId}>
+                  <div key={item.id}>
                     {item.productName} {item.skuName}
                     <span style={{ color: '#b0b0b0' }}> x {item.quantity}</span>
                   </div>

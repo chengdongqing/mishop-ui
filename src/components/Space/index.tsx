@@ -56,7 +56,14 @@ export default function Space({
   }, [direction, size]);
 
   function isNotLast(index: number) {
-    return index < Children.count(children) - 1;
+    return (
+      index <
+      Children.toArray(children).filter(
+        (child) =>
+          isValidElement(child) || ['string', 'number'].includes(typeof child)
+      ).length -
+        1
+    );
   }
 
   return (

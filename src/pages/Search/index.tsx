@@ -69,7 +69,7 @@ export default function SearchPage() {
                 !data?.totalSize && '对应筛选条件下没有找到商品，换个筛选条件吧'
               }
             >
-              <ProductList page={data} onPageChange={run} />
+              <ProductList page={data} onChange={run} />
             </DataContainer>
             <RecommendedProducts mode={'swiper'} />
           </div>
@@ -112,10 +112,10 @@ const FilterGroup = memo(() => {
 
 function ProductList({
   page,
-  onPageChange
+  onChange
 }: {
   page: Page<SearchProduct> | null;
-  onPageChange: (value: number) => void;
+  onChange(value: number): void;
 }) {
   return (
     <div className={styles.products}>
@@ -124,7 +124,7 @@ function ProductList({
           <ProductItem key={item.name} {...item} />
         ))}
       </Grid>
-      <Pagination {...page} onChange={onPageChange} />
+      <Pagination {...page} onChange={onChange} />
     </div>
   );
 }

@@ -39,10 +39,7 @@ export default function SearchBar({
   }, [activeIndex]);
 
   function handleSearch() {
-    const value = keyword || placeholder;
-    if (value) {
-      onSearch?.(value);
-    }
+    onSearch?.(keyword);
   }
 
   return (
