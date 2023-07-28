@@ -155,6 +155,7 @@ function PaymentMethods({ orderId }: { orderId: number }) {
   async function handlePayment(item: PaymentMethod) {
     const closeLoading = toast.loading('请求支付中...');
     const url = await requestPayment(orderId, item.code);
+    console.log({ url });
     closeLoading();
 
     const close = popup.open({
@@ -163,7 +164,13 @@ function PaymentMethods({ orderId }: { orderId: number }) {
       footer: null,
       content: (
         <div className={styles.payment_qrcode}>
-          <img src={url as string} alt={'qrcode'} className={styles.qrcode} />
+          <img
+            src={
+              'https://i.huodong.mi.com/qrcode/wxget?code=weixin%3A%2F%2Fwxpay%2Fbizpayurl%3Fpr%3D3X3F5Efzz&key=3361d67c9d7664f3a5749925c9ce1c25'
+            }
+            alt={'qrcode'}
+            className={styles.qrcode}
+          />
           <div className={styles.tips}>
             请使用 <span>{item.label}</span> 扫一扫
             <br />

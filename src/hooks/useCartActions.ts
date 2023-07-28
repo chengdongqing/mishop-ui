@@ -79,5 +79,14 @@ export default function useCartActions() {
     }
   }
 
-  return { addToCart, modifyCartItems, removeCartItems };
+  function refreshCart() {
+    // 获取服务器数据
+    services.fetchCartItems().then((res) => {
+      if (res) {
+        dispatch(cartSlice.actions.setCart(res));
+      }
+    });
+  }
+
+  return { addToCart, modifyCartItems, removeCartItems, refreshCart };
 }

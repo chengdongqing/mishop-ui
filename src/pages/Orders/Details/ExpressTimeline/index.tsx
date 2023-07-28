@@ -1,16 +1,19 @@
+import { OrderVO } from '@/services/order.ts';
 import { LoginOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
 
-export default function ExpressTimeline() {
+export default function ExpressTimeline({ order }: {
+  order: OrderVO
+}) {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         快递公司：
         <a href={'https://www.sf-express.com'} target={'_blank'}>
-          顺丰(北京-宅急送）
+          {order.expressName}
           <LoginOutlined className={styles.icon} />
         </a>
-        运单号：<span className={styles.waybill_no}>SF1989732423342</span>
+        运单号：<span className={styles.waybill_no}>{order.trackingNumber}</span>
       </div>
       <div className={styles.timeline}>
         <div className={styles.time_node}>

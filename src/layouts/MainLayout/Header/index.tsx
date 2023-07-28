@@ -7,7 +7,11 @@ const miniHeaderPaths = [
   '/cart',
   '/orders/checkout',
   {
-    predicate: (pathname: string) => pathname.startsWith('/orders/pay')
+    predicate(pathname: string) {
+      return (
+        pathname.startsWith('/orders/pay') && !pathname.endsWith('successfully')
+      );
+    }
   }
 ];
 
@@ -15,7 +19,9 @@ export default function Header() {
   const { pathname } = useLocation();
   const withoutHeader = useMemo(() => {
     return miniHeaderPaths.some((item) => {
-      return typeof item === 'object' ? item.predicate(pathname) : pathname === item;
+      return typeof item === 'object'
+        ? item.predicate(pathname)
+        : pathname === item;
     });
   }, [pathname]);
 

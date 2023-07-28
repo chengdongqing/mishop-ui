@@ -20,9 +20,9 @@ export interface OrderVO {
   recipientName: string;
   recipientPhone: string;
   recipientAddress: string;
-  paymentMethod: keyof typeof PaymentMethod;
-  paymentTime: string;
-  paymentOrderNumber: string;
+  paymentMethod?: keyof typeof PaymentMethod;
+  expressName?: string;
+  trackingNumber?: string;
   isReviewed: boolean;
   status: keyof typeof OrderStatus;
   items: OrderItemVO[];
@@ -45,6 +45,22 @@ export function fetchOrderInfo(id: number) {
   return request<OrderVO>(`/orders/${id}`);
 }
 
+export interface OrderEventsVO extends RecordsType {
+  orderId: number;
+  orderAt: string;
+  paymentAt?: string;
+  packingAt?: string;
+  shippedAt?: string;
+  completedAt?: string;
+  canceledAt?: string;
+  refundedAt?: string;
+  createdAt: string;
+}
+
+export function fetchOrderEvents(id: number) {
+  return request<OrderEventsVO>(`/orders/${id}/events`);
+}
+
 export function requestPayment(id: number, paymentMethod: string) {
   return request<string>(`/orders/payment/${id}/${paymentMethod}`);
 }
@@ -57,5 +73,11 @@ export interface OrdersPageRequestDTO extends Pageable, RecordsType {
 export function fetchOrdersByPage(params: OrdersPageRequestDTO) {
   return request<Page<OrderVO>>('/orders', {
     params
+  });
+}
+
+export function cancelOrder(id: number) {
+  return request(`/orders/${id}/cancel`, {
+    method: 'PUT'
   });
 }

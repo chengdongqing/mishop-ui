@@ -1,3 +1,4 @@
+import useCartActions from '@/hooks/useCartActions.ts';
 import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
@@ -19,6 +20,7 @@ function useCartInitial() {
   const dispatch = useDispatch();
   const [storageItems, setStorageItems] =
     useLocalStorageState<CartItemDTO[]>('shopping-cart');
+  const { refreshCart } = useCartActions();
 
   // 默认先同步本地缓存的购物车数据
   useMount(() => {
@@ -33,15 +35,10 @@ function useCartInitial() {
       if (products?.length) {
         services.syncCart(products).then(() => {
           // 清空本地缓存
-          setStorageItems(null);
+          window.localStorage.removeItem('shopping-cart');
         });
       } else {
-        // 获取服务器数据
-        services.fetchCartItems().then((res) => {
-          if (res) {
-            dispatch(cartSlice.actions.setCart(res));
-          }
-        });
+        refreshCart();
       }
     }
   }, [hasLogin]);

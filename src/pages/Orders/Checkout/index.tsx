@@ -4,6 +4,7 @@ import MiniHeader from '@/components/MiniHeader';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import useCartActions from '@/hooks/useCartActions.ts';
 import useElementVisible from '@/hooks/useElementVisible.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import { useCartCounter } from '@/pages/Cart/ShoppingCart/helpers.ts';
@@ -43,9 +44,9 @@ export default function CheckoutPage() {
 }
 
 function AddressList({
-  address,
-  onChange
-}: {
+                       address,
+                       onChange
+                     }: {
   address?: AddressDTO;
   onChange(value: AddressDTO): void;
 }) {
@@ -174,8 +175,11 @@ function BillInfos() {
   );
 }
 
-function FooterBar({ address }: { address?: AddressDTO }) {
+function FooterBar({ address }: {
+  address?: AddressDTO
+}) {
   const navigate = useNavigate();
+  const { refreshCart } = useCartActions();
   const { run: submit, loading: submitting } = useRequest(
     (addressId) => createOrder(addressId),
     {
@@ -216,9 +220,14 @@ function FooterBar({ address }: { address?: AddressDTO }) {
               popup.alert('请选择地址');
             } else {
               const orderId = await submit(address.id);
-              navigate(`/orders/pay/${orderId}`, {
-                replace: true
-              });
+              if (orderId) {
+                // 刷新购物车
+                refreshCart();
+                // 跳转到支付页
+                navigate(`/orders/pay/${orderId}`, {
+                  replace: true
+                });
+              }
             }
           }}
         >

@@ -1,48 +1,82 @@
-import Button from '@/components/Button';
+import DataContainer from '@/components/DataContainer';
 import Grid from '@/components/Grid';
 import Row from '@/components/Row';
-import Space from '@/components/Space';
+import useRequest from '@/hooks/useRequest.ts';
 import UserLayout from '@/layouts/UserLayout';
-import { orders } from '@/pages/Orders/Orders/const.ts';
+import ActionGroup from '@/pages/Orders/components/ActionGroup';
+import { OrderStatus, PaymentMethod } from '@/pages/Orders/enums.ts';
+import { fetchOrderEvents, fetchOrderInfo } from '@/services/order.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
+import classNames from 'classnames';
+import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ExpressTimeline from './ExpressTimeline';
 import styles from './index.module.less';
 import ProgressBar from './ProgressBar';
 
-const OrderProgresses = [
+const OrderProgressOptions = [
   {
     step: 1,
     label: '下单',
-    datetime: '2023-06-01 10:39:12'
+    statusCode: 'PENDING_PAYMENT',
+    timeCode: 'orderAt'
   },
   {
     step: 2,
     label: '付款',
-    datetime: '2023-06-01 10:42:12'
+    statusCode: 'PENDING_PACKING',
+    timeCode: 'paymentAt'
   },
   {
     step: 3,
     label: '配货',
-    datetime: '2023-06-01 10:59:12'
+    statusCode: 'PENDING_SHIPPING',
+    timeCode: 'packingAt'
   },
   {
     step: 4,
     label: '出库',
-    datetime: '2023-06-01 13:21:12'
+    statusCode: 'PENDING_RECEIVING',
+    timeCode: 'shippedAt'
   },
   {
     step: 5,
-    label: '交易成功'
+    label: '交易成功',
+    statusCode: 'COMPLETED',
+    timeCode: 'completedAt'
   }
 ];
 
 export default function OrderDetailsPage() {
-  const { orderId } = useParams<{ orderId: string }>();
-  const order = orders[0];
+  const params = useParams<{
+    orderId: string;
+  }>();
+  const orderId = Number(params.orderId);
+  // 订单信息
+  const {
+    data: order,
+    loading,
+    run: refresh
+  } = useRequest(() => fetchOrderInfo(orderId));
+
+  // 事件信息
+  const { data: events } = useRequest(() => fetchOrderEvents(orderId));
+  const eventOptions = useMemo(() => {
+    return OrderProgressOptions.map((item) => ({
+      ...item,
+      datetime: events?.[item.timeCode] as string
+    }));
+  }, [events]);
+  const progressStep = useMemo(() => {
+    return (
+      OrderProgressOptions.findIndex((item) => {
+        return item.statusCode === order?.status;
+      }) + 1
+    );
+  }, [order?.status]);
 
   return (
-    <>
+    <DataContainer loading={loading} empty={!order && '订单加载失败'}>
       <UserLayout.Header
         title={'订单详情'}
         extra={
@@ -59,33 +93,34 @@ export default function OrderDetailsPage() {
       />
       <Row justify={'space-between'} align={'middle'} className={styles.header}>
         <div className={styles.order_id}>
-          订单号：<span>{orderId}</span>
+          订单号：<span>{order?.orderNumber}</span>
         </div>
-        <Space size={'1rem'}>
-          <Button outlined className={styles.btn}>
-            联系客服
-          </Button>
-          <Button outlined className={styles.btn}>
-            申请售后
-          </Button>
-        </Space>
+        {!!order && <ActionGroup order={order} onChange={refresh} />}
       </Row>
-      <div className={styles.order_status}>已发货</div>
-      <ProgressBar value={4} options={OrderProgresses} />
-      <ExpressTimeline />
+      {!!order && (
+        <div
+          className={classNames(
+            styles.order_status,
+            !['PENDING_PAYMENT', 'CANCELED'].includes(order.status) &&
+              styles.active
+          )}
+        >
+          {OrderStatus[order?.status]}
+        </div>
+      )}
+      <ProgressBar value={progressStep} options={eventOptions} />
+      {!!order?.expressName && <ExpressTimeline order={order} />}
       <div className={styles.product_list}>
-        {order.products.map((item) => (
-          <Row
-            key={item.name}
-            align={'middle'}
-            className={styles.product_item}
-          >
-            <Link to={buildProductUrl(item.id)} target={'_blank'}>
-              <img src={item.pictureUrl} alt={item.name} />
-              <span className={styles.label}>{item.name}</span>
+        {order?.items.map((item) => (
+          <Row key={item.id} align={'middle'} className={styles.product_item}>
+            <Link to={buildProductUrl(item.productId)} target={'_blank'}>
+              <img src={item.pictureUrl} alt={item.productName} />
+              <span className={styles.label}>
+                {item.productName} {item.skuName}
+              </span>
             </Link>
             <span>
-              {formatAmount(item.price)} x {item.number}
+              {formatAmount(item.unitPrice)} x {item.quantity}
             </span>
           </Row>
         ))}
@@ -96,42 +131,48 @@ export default function OrderDetailsPage() {
           <span className={styles.label}>
             姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：
           </span>
-          <span>{order.shippingInfo.username}</span>
+          <span>{order?.recipientName}</span>
         </div>
         <div>
           <span className={styles.label}>联系电话：</span>
-          <span>{order.shippingInfo.phoneNumber}</span>
+          <span>{order?.recipientPhone}</span>
         </div>
         <div>
           <span className={styles.label}>收货地址：</span>
-          <span>{order.shippingInfo.address.join(' ')}</span>
+          <span>{order?.recipientAddress}</span>
         </div>
       </div>
-      <div className={styles.order_details}>
-        <div className={styles.title}>支付方式</div>
-        <div>
-          <span className={styles.label}>支付方式：</span>
-          <span>在线支付（{order.paymentMethod}）</span>
+      {!!order?.paymentMethod && (
+        <div className={styles.order_details}>
+          <div className={styles.title}>支付方式</div>
+          <div>
+            <span className={styles.label}>支付方式：</span>
+            <span>在线支付（{PaymentMethod[order?.paymentMethod]}）</span>
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.amount_info}>
         <Grid columns={2} gap={'0.8rem'} style={{ alignItems: 'end' }}>
           <span>商品总价：</span>
           <span className={styles.value}>
-            {formatAmount(order.productsAmount)}
+            {formatAmount(order?.productAmount)}
           </span>
           <span>优惠：</span>
-          <span className={styles.value}>-{formatAmount(order.discount)}</span>
+          <span className={styles.value}>
+            -{formatAmount(order?.discountAmount)}
+          </span>
           <span>运费：</span>
-          <span className={styles.value}>{formatAmount(order.expressFee)}</span>
+          <span className={styles.value}>
+            {formatAmount(order?.shippingFee)}
+          </span>
           <span style={{ lineHeight: '3rem', marginTop: '2.5rem' }}>
             实付金额：
           </span>
           <span className={styles.value}>
-            <span>{formatAmount(order.paymentAmount, '')}</span>元
+            <span>{formatAmount(order?.paidAmount, '')}</span>元
           </span>
         </Grid>
       </div>
-    </>
+    </DataContainer>
   );
 }

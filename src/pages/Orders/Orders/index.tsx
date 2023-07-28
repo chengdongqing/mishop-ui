@@ -1,4 +1,3 @@
-import Button from '@/components/Button';
 import DataContainer from '@/components/DataContainer';
 import Pagination from '@/components/Pagination';
 import Row from '@/components/Row';
@@ -8,6 +7,7 @@ import useQueryParams from '@/hooks/useQueryParams.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
 import UserLayout from '@/layouts/UserLayout';
+import ActionGroup from '@/pages/Orders/components/ActionGroup';
 import { OrderStatus, PaymentMethod } from '@/pages/Orders/enums.ts';
 import { fetchOrdersByPage, OrderVO } from '@/services/order.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -26,12 +26,15 @@ export default function OrdersPage() {
     keyword?: string;
   }>(queryParams);
 
-  const { data, loading, run } = useRequest(
+  const {
+    data,
+    loading,
+    run: refresh
+  } = useRequest(
     (pageNumber: number) => {
       return fetchOrdersByPage({
         ...params,
-        pageNumber,
-        pageSize: 2
+        pageNumber
       });
     },
     {
@@ -57,7 +60,7 @@ export default function OrdersPage() {
       />
       <FilterBar values={params} onChange={setParams} />
       <DataContainer loading={loading} empty={!data?.totalSize && '暂无数据'}>
-        <OrderList page={data} onChange={run} />
+        <OrderList page={data} onChange={refresh} />
       </DataContainer>
     </>
   );
@@ -68,14 +71,20 @@ function OrderList({
   onChange
 }: {
   page: Page<OrderVO> | null;
-  onChange(value: number): void;
+  onChange(value?: number): void;
 }) {
   return (
     <>
       {page?.data.map((item) => (
         <div key={item.id} className={styles.order_item}>
           <div className={styles.header}>
-            <div className={styles.order_status}>
+            <div
+              className={classNames(
+                styles.order_status,
+                !['PENDING_PAYMENT', 'CANCELED'].includes(item.status) &&
+                  styles.active
+              )}
+            >
               {OrderStatus[item.status]}
             </div>
             <Row
@@ -96,7 +105,7 @@ function OrderList({
                     {item.orderNumber}
                   </Link>
                 </span>
-                {PaymentMethod[item.paymentMethod]}
+                {!!item.paymentMethod && PaymentMethod[item.paymentMethod]}
               </Space>
               <div className={styles.amount}>
                 实付金额：<span>{formatAmount(item.paidAmount, '')}</span>元
@@ -130,34 +139,11 @@ function OrderList({
                 </div>
               ))}
             </div>
-            <Space direction={'vertical'} size={'1rem'}>
-              <Link to={`/orders/${item.id}`}>
-                <Button
-                  outlined
-                  className={classNames(styles.btn, styles.gray)}
-                >
-                  订单详情
-                </Button>
-              </Link>
-              {item.status === 'COMPLETED' && !item.isReviewed && (
-                <Link to={`/orders/comments/${item.id}`}>
-                  <Button outlined className={styles.btn}>
-                    评价晒单
-                  </Button>
-                </Link>
-              )}
-              {(item.status === 'PENDING_PAYMENT' ||
-                item.status === 'PENDING_PACKING' ||
-                item.status === 'PENDING_SHIPPING' ||
-                item.status === 'PENDING_RECEIVING') && (
-                <Button
-                  outlined
-                  className={classNames(styles.btn, styles.gray)}
-                >
-                  取消订单
-                </Button>
-              )}
-            </Space>
+            <ActionGroup
+              order={item}
+              direction={'vertical'}
+              onChange={onChange}
+            />
           </Row>
         </div>
       ))}
