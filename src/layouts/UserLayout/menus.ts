@@ -17,7 +17,7 @@ const menus: MenuItemProps[] = [
       },
       {
         label: '评价晒单',
-        href: '/orders/comments'
+        href: '/orders/reviews'
       }
     ]
   },

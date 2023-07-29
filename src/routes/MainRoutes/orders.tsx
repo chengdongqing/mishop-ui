@@ -5,8 +5,8 @@ import { RouteObject } from 'react-router-dom';
 
 const OrdersPage = lazy(() => import('@/pages/Orders/Orders'));
 const OrderDetailsPage = lazy(() => import('@/pages/Orders/Details'));
-const OrderCommentsPage = lazy(() => import('@/pages/Orders/Comments'));
-const PostCommentPage = lazy(() => import('@/pages/Orders/Comments/Post'));
+const OrderReviewsPage = lazy(() => import('@/pages/Orders/Reviews'));
+const PostReviewPage = lazy(() => import('@/pages/Orders/Reviews/Post'));
 const CheckoutPage = lazy(() => import('@/pages/Orders/Checkout'));
 const PayPage = lazy(() => import('@/pages/Orders/Pay'));
 const PaySuccessfullyPage = lazy(() => import('../../pages/Orders/Pay/Successfully'));
@@ -33,13 +33,13 @@ const routes: RouteObject[] = [
         )
       },
       {
-        path: 'comments',
+        path: 'reviews',
         children: [
           {
             path: '',
             element: (
               <PageDecorator title={'订单评价'}>
-                <OrderCommentsPage />
+                <OrderReviewsPage />
               </PageDecorator>
             )
           },
@@ -47,7 +47,7 @@ const routes: RouteObject[] = [
             path: ':orderId',
             element: (
               <PageDecorator title={'服务评价'}>
-                <PostCommentPage />
+                <PostReviewPage />
               </PageDecorator>
             )
           }

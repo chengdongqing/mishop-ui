@@ -59,7 +59,7 @@ export function searchProducts(params: SearchRequestDTO) {
 
 export interface RecommendedProduct extends CartItemDTO {
   originalPrice?: number;
-  comments: number;
+  reviews: number;
 }
 
 export function fetchRecommendedProducts(limits?: number) {

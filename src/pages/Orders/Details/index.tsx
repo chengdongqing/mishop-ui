@@ -71,7 +71,7 @@ export default function OrderDetailsPage() {
     return (
       OrderProgressOptions.findIndex((item) => {
         return item.statusCode === order?.status;
-      }) + 1
+      }) + 1 || 1
     );
   }, [order?.status]);
 
@@ -102,7 +102,7 @@ export default function OrderDetailsPage() {
           className={classNames(
             styles.order_status,
             !['PENDING_PAYMENT', 'CANCELED'].includes(order.status) &&
-              styles.active
+            styles.active
           )}
         >
           {OrderStatus[order?.status]}

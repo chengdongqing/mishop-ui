@@ -10,10 +10,13 @@ import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import styles from './index.module.less';
 import useProduct from './useProduct.ts';
 
-export const ProductContext = createContext<ProductDetails | undefined>(undefined);
+export const ProductContext = createContext<ProductDetails | null>(null);
 
 export default function ProductPage() {
-  const id = useParams().id as Id;
+  const params = useParams<{
+    id: string
+  }>();
+  const id = Number(params.id);
   const { pathname } = useLocation();
   // 子页面切换后自动滚动到顶部
   useEffect(() => {
@@ -61,9 +64,9 @@ export default function ProductPage() {
                 </Link>
               )}
               <Link
-                to={`/product/${id}/comments`}
+                to={`/product/${id}/reviews`}
                 className={classNames(
-                  pathname.endsWith('comments') && styles.disabled
+                  pathname.endsWith('reviews') && styles.disabled
                 )}
               >
                 用户评价

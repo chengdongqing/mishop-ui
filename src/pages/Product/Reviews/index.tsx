@@ -11,7 +11,12 @@ import Space from '@/components/Space';
 import useElementVisible from '@/hooks/useElementVisible.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
-import { CommentsPageRequestDTO, fetchCommentsByPage, fetchCommentsStatistics } from '@/services/comment.ts';
+import {
+  fetchReviewsByPage,
+  fetchReviewsStatistics,
+  ProductReviewVO,
+  ReviewPageRequestDTO
+} from '@/services/productReview.ts';
 import { MehOutlined, SmileOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
@@ -20,13 +25,13 @@ import FilterBar from './FilterBar';
 import styles from './index.module.less';
 import SatisfactionCard from './SatisfactionCard';
 
-export default function ProductCommentsPage() {
+export default function ProductReviewsPage() {
   const params = useParams<{
-    id: string
+    id: string;
   }>();
   const productId = Number(params.id);
-  const [filterParams, setFilterParams] = useSetState<CommentsPageRequestDTO>();
-  const { loading, data, run } = useRequest(fetchCommentsStatistics, {
+  const [filterParams, setFilterParams] = useSetState<ReviewPageRequestDTO>();
+  const { loading, data, run } = useRequest(fetchReviewsStatistics, {
     manual: true
   });
   useEffect(() => {
@@ -57,7 +62,7 @@ export default function ProductCommentsPage() {
               />
             </Form.Item>
             <Row style={{ marginTop: '3rem' }} wrap={false}>
-              <CommentList productId={productId} params={filterParams} />
+              <ReviewList productId={productId} params={filterParams} />
               <SatisfactionCard {...data} />
 
               <div className={styles.go_top}>
@@ -80,28 +85,18 @@ export default function ProductCommentsPage() {
   );
 }
 
-export interface ProductCommentItem {
-  id: number;
-  rating: number;
-  content?: string;
-  photos?: string[];
-  userName: string;
-  userAvatar: string;
-  createdAt: string;
-}
-
-function CommentList({
-                       productId,
-                       params
-                     }: {
+function ReviewList({
+  productId,
+  params
+}: {
   productId: number;
-  params: CommentsPageRequestDTO;
+  params: ReviewPageRequestDTO;
 }) {
-  const [comments, setComments] = useState<ProductCommentItem[]>([]);
+  const [reviews, setReviews] = useState<ProductReviewVO[]>([]);
   const [loadingMore, setLoadingMore] = useState(false);
   const { data, loading, run } = useRequest(
     (pageNumber: number) =>
-      fetchCommentsByPage(productId, {
+      fetchReviewsByPage(productId, {
         ...params,
         pageNumber
       }),
@@ -111,7 +106,7 @@ function CommentList({
   );
   useEffect(() => {
     run().then((res) => {
-      setComments(res?.data || []);
+      setReviews(res?.data || []);
     });
   }, [run, params]);
 
@@ -128,9 +123,9 @@ function CommentList({
         loading={loading && !loadingMore}
         empty={!data?.totalSize && '暂无数据'}
       >
-        <div className={styles.comment_list}>
-          {comments.map((item) => (
-            <div key={item.id} className={styles.comment_item}>
+        <div className={styles.review_list}>
+          {reviews.map((item) => (
+            <div key={item.id} className={styles.review_item}>
               <Row justify={'space-between'} align={'middle'}>
                 <Space size={'1.8rem'} className={styles.user_info}>
                   <LazyImage
@@ -183,7 +178,7 @@ function CommentList({
                 setLoadingMore(true);
                 run(data?.pageNumber + 1)
                   .then((res) => {
-                    setComments((items) => {
+                    setReviews((items) => {
                       return items.concat(res?.data || []);
                     });
                   })

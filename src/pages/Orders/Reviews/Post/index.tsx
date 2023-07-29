@@ -12,10 +12,10 @@ import { orders } from '@/pages/Orders/Orders/const.ts';
 import { ReactNode, useState } from 'react';
 import styles from './index.module.less';
 
-export default function PostCommentPage() {
+export default function PostReviewPage() {
   const order = orders[0];
   const [data, setData] = useSetState();
-  const [loading, setLoading] = useState<Id>();
+  const [loading, setLoading] = useState<number | string>();
 
   function post(key: number | string, values: unknown) {
     setLoading(key);
@@ -62,7 +62,7 @@ export default function PostCommentPage() {
               <Rate prefix={'客服服务'} />
             </Form.Item>
           </div>
-          <CommentGroup
+          <ReviewGroup
             loading={loading === 'overall'}
             textarea={
               <Textarea
@@ -91,7 +91,7 @@ export default function PostCommentPage() {
             </div>
             <div className={styles.content}>
               <Score />
-              <CommentGroup
+              <ReviewGroup
                 loading={loading === item.productName}
                 textarea={
                   <Textarea
@@ -132,7 +132,7 @@ function Score() {
   );
 }
 
-function CommentGroup({
+function ReviewGroup({
   textarea,
   loading
 }: {

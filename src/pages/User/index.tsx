@@ -22,7 +22,7 @@ const options = [
   {
     label: '待评价的商品',
     icon: 'https://s01.mifile.cn/i/user/portal-icon-3.png',
-    href: '/orders/comments'
+    href: '/orders/reviews'
   },
   {
     label: '喜欢的商品',

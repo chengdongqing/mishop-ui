@@ -12,14 +12,14 @@ import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { formatAmount } from '@/utils';
 import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import ProductDetails from './ProductDetails';
 import ProductSkus from './ProductSkus';
 import ProductSwiper from './ProductSwiper';
 
-export default function ProductBuyingPage() {
+export default function BuyProductPage() {
   const ctx = useContext(ProductContext);
   const hasLogin = useHasLogin();
   const [pictures, setPictures] = useState<string[]>([]);
@@ -60,6 +60,7 @@ function ProductPanel({
   }, [product.name, sku?.name]);
   const actions = useCartActions();
 
+  const hasLikeInitialized = useRef(false);
   const { data: liked, run: refreshLike } = useRequest(
     () => favoriteServices.existsFavorite(product.id),
     {
@@ -68,7 +69,11 @@ function ProductPanel({
   );
   useEffect(() => {
     if (hasLogin) {
-      refreshLike();
+      refreshLike().then(() => {
+        setTimeout(() => {
+          hasLikeInitialized.current = true;
+        }, 500);
+      });
     }
   }, [hasLogin, refreshLike]);
 
@@ -133,13 +138,15 @@ function ProductPanel({
                 <HeartFilled
                   className={classNames(styles.icon, styles.active)}
                 />
-                <HeartFilled
-                  className={classNames(
-                    styles.icon,
-                    styles.active,
-                    styles.animation
-                  )}
-                />
+                {hasLikeInitialized.current && (
+                  <HeartFilled
+                    className={classNames(
+                      styles.icon,
+                      styles.active,
+                      styles.animation
+                    )}
+                  />
+                )}
               </>
             )}
             喜欢

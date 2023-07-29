@@ -9,7 +9,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import styles from './index.module.less';
 
-export default function OrderCommentsPage() {
+export default function OrderReviewsPage() {
   return (
     <>
       <UserLayout.Header title={'订单评价'} />
@@ -61,7 +61,7 @@ export default function OrderCommentsPage() {
                 >
                   订单详情
                 </Link>
-                <Link to={`/orders/comments/${item.id}`}>
+                <Link to={`/orders/reviews/${item.id}`}>
                   <Button className={styles.btn}>去评价</Button>
                 </Link>
               </Space>

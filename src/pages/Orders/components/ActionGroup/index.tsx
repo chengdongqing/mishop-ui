@@ -33,7 +33,7 @@ export default function ActionGroup({
         </Link>
       )}
       {order.status === 'COMPLETED' && !order.isReviewed && (
-        <Link to={`/orders/comments/${order.id}`}>
+        <Link to={`/orders/reviews/${order.id}`}>
           <Button outlined className={styles.btn}>
             评价晒单
           </Button>

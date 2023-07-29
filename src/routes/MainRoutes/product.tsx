@@ -4,8 +4,8 @@ import { RouteObject } from 'react-router-dom';
 
 const ProductSketchPage = lazy(() => import('@/pages/Product/Sketch'));
 const ProductSpecsPage = lazy(() => import('@/pages/Product/Specs'));
-const ProductCommentsPage = lazy(() => import('@/pages/Product/Comments'));
-const ProductBuyingPage = lazy(() => import('@/pages/Product/Buy'));
+const ProductReviewsPage = lazy(() => import('@/pages/Product/Reviews'));
+const BuyProductPage = lazy(() => import('@/pages/Product/Buy'));
 
 const routes: RouteObject[] = [
   {
@@ -25,10 +25,10 @@ const routes: RouteObject[] = [
     )
   },
   {
-    path: 'comments',
+    path: 'reviews',
     element: (
       <PageDecorator title={'商品评论'}>
-        <ProductCommentsPage />
+        <ProductReviewsPage />
       </PageDecorator>
     )
   },
@@ -36,7 +36,7 @@ const routes: RouteObject[] = [
     path: 'buy',
     element: (
       <PageDecorator title={'立即购买'}>
-        <ProductBuyingPage />
+        <BuyProductPage />
       </PageDecorator>
     )
   }

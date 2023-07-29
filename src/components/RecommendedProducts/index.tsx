@@ -112,8 +112,8 @@ function ProductBlock(props: RecommendedProduct) {
       />
       <div className={styles.label}>{props.productName}</div>
       <div className={styles.price}>{formatAmount(props.price)}</div>
-      {!!props.comments && (
-        <div className={styles.comments}>{props.comments}好评</div>
+      {!!props.reviews && (
+        <div className={styles.reviews}>{props.reviews}好评</div>
       )}
       <Button
         outlined
