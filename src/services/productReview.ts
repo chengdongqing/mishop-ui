@@ -7,7 +7,7 @@ export interface ProductReviewStatistics {
   scoresMap: Record<number, number>;
 }
 
-export function fetchReviewsStatistics(productId: number) {
+export function fetchProductReviewsStatistics(productId: number) {
   return request<ProductReviewStatistics>(
     `/products/${productId}/reviews/statistics`
   );
@@ -28,7 +28,7 @@ export interface ProductReviewVO {
   createdAt: string;
 }
 
-export function fetchReviewsByPage(
+export function fetchProductReviewsByPage(
   productId: number,
   params: ReviewPageRequestDTO
 ) {

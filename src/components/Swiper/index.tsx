@@ -1,8 +1,8 @@
-import useSwiper from '@/components/Swiper/useSwiper.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import React, { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
 import styles from './index.module.less';
+import useSwiper from './useSwiper.ts';
 
 export interface SwiperProps extends PropsWithChildren, PropsWithStyle {
   // 自动切换

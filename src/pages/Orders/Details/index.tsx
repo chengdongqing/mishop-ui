@@ -36,7 +36,7 @@ const OrderProgressOptions = [
   {
     step: 4,
     label: '出库',
-    statusCode: 'PENDING_RECEIVING',
+    statusCode: 'PENDING_DELIVERY',
     timeCode: 'shippedAt'
   },
   {

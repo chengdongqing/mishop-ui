@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 interface RequestConfig<T, U> {
   manual?: boolean;
-  initialData?: U;
+  initialData?: U | null;
   deps?: unknown[];
   convert?: (res: T) => U;
   onSuccess?: (res: U) => void;
@@ -21,7 +21,7 @@ export default function useRequest<T, U = T>(
   service: (...args: any[]) => Promise<T>,
   {
     manual = false,
-    initialData,
+    initialData = null,
     deps = [],
     convert,
     onSuccess,
@@ -38,10 +38,10 @@ export default function useRequest<T, U = T>(
       const result = convert?.(res) || (res as unknown as U);
       setData(result);
       onSuccess?.(result);
-      return result;
+      return Promise.resolve(result);
     } catch (e) {
       onError?.();
-      return null;
+      return Promise.reject();
     } finally {
       setLoading(false);
     }

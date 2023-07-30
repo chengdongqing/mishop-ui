@@ -1,35 +1,39 @@
 import Button from '@/components/Button';
 import Checkbox from '@/components/Checkbox';
+import DataContainer from '@/components/DataContainer';
 import Form from '@/components/Form';
 import Rate from '@/components/Rate';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
 import Textarea from '@/components/Textarea';
-import toast from '@/components/Toast';
-import useSetState from '@/hooks/useSetState.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import UserLayout from '@/layouts/UserLayout';
-import { orders } from '@/pages/Orders/Orders/const.ts';
-import { ReactNode, useState } from 'react';
+import { createOrderReview, createProductReview, fetchOrderReview } from '@/services/orderReview.ts';
+import { ReactNode } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from './index.module.less';
 
 export default function PostReviewPage() {
-  const order = orders[0];
-  const [data, setData] = useSetState();
-  const [loading, setLoading] = useState<number | string>();
-
-  function post(key: number | string, values: unknown) {
-    setLoading(key);
-    setTimeout(() => {
-      setLoading(undefined);
-      toast.success('提交成功');
-      setData({
-        [key]: values
-      });
-    }, 1000);
-  }
+  const params = useParams<{
+    orderId: string;
+  }>();
+  const orderId = Number(params.orderId);
+  const {
+    data: order,
+    loading,
+    run: refresh
+  } = useRequest(() => fetchOrderReview(orderId));
+  const { run: submitOrderReview, loading: orderSubmitting } = useRequest(
+    createOrderReview,
+    { manual: true }
+  );
+  const { run: submitProductReview, loading: productSubmitting } = useRequest(
+    createProductReview,
+    { manual: true }
+  );
 
   return (
-    <>
+    <DataContainer loading={loading} empty={!order && '暂无数据'}>
       <UserLayout.Header
         title={
           <div
@@ -45,25 +49,26 @@ export default function PostReviewPage() {
       />
       <Form
         noStyle
-        disabled={!!data.overall}
+        disabled={!!order?.packagingRating}
+        initialValues={order?.packagingRating ? order : undefined}
         onOk={(values) => {
-          post('overall', values);
+          submitOrderReview(orderId, values).then(refresh);
         }}
       >
         <Row className={styles.overall}>
           <div className={styles.scores}>
-            <Form.Item name={'wrapper-score'} className={styles.item}>
+            <Form.Item name={'packagingRating'} className={styles.item}>
               <Rate prefix={'物流包装'} />
             </Form.Item>
-            <Form.Item name={'speed-score'} className={styles.item}>
+            <Form.Item name={'speedRating'} className={styles.item}>
               <Rate prefix={'物流速度'} />
             </Form.Item>
-            <Form.Item name={'service-score'} className={styles.item}>
+            <Form.Item name={'serviceRating'} className={styles.item}>
               <Rate prefix={'客服服务'} />
             </Form.Item>
           </div>
           <ReviewGroup
-            loading={loading === 'overall'}
+            loading={orderSubmitting}
             textarea={
               <Textarea
                 withPrefix
@@ -73,26 +78,25 @@ export default function PostReviewPage() {
           />
         </Row>
       </Form>
-      {order.products.map((item) => (
+      {order?.items.map((item) => (
         <Form
           noStyle
-          key={item.skuId}
-          disabled={!!data[item.skuId]}
+          key={item.id}
+          disabled={!!item.rating}
+          initialValues={item.rating ? item : undefined}
           onOk={(values) => {
-            post(item.skuId, values);
+            submitProductReview(orderId, item.id, values).then(refresh);
           }}
         >
           <Row className={styles.product_item}>
             <div className={styles.product_info}>
-              <img src={item.pictureUrl} alt={item.productName} />
-              <div className={styles.label}>
-                {item.productName} {item.skuName}
-              </div>
+              <img src={item.pictureUrl} alt={item.name} />
+              <div className={styles.label}>{item.name}</div>
             </div>
             <div className={styles.content}>
-              <Score />
+              <Rating />
               <ReviewGroup
-                loading={loading === item.productName}
+                loading={productSubmitting}
                 textarea={
                   <Textarea
                     placeholder={
@@ -107,7 +111,7 @@ export default function PostReviewPage() {
           </Row>
         </Form>
       ))}
-    </>
+    </DataContainer>
   );
 }
 
@@ -119,9 +123,9 @@ const options: Record<number, string> = {
   5: '超爱'
 };
 
-function Score() {
+function Rating() {
   return (
-    <Form.Item name={'score'} style={{ marginBottom: '1rem' }}>
+    <Form.Item name={'rating'} style={{ marginBottom: '1rem' }}>
       <Rate
         prefix={'评分'}
         suffix={(value) => {
@@ -133,9 +137,9 @@ function Score() {
 }
 
 function ReviewGroup({
-  textarea,
-  loading
-}: {
+                       textarea,
+                       loading
+                     }: {
   textarea: ReactNode;
   loading?: boolean;
 }) {
@@ -144,7 +148,7 @@ function ReviewGroup({
       <Form.Item name={'content'}>{textarea}</Form.Item>
       <div className={styles.actions}>
         <Space size={'3rem'}>
-          <Form.Item name={'anonymous'}>
+          <Form.Item name={'isAnonymous'}>
             <Checkbox>匿名评价</Checkbox>
           </Form.Item>
           <Button

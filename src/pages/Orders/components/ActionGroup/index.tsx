@@ -43,7 +43,7 @@ export default function ActionGroup({
         'PENDING_PAYMENT',
         'PENDING_PACKING',
         'PENDING_SHIPPING',
-        'PENDING_RECEIVING'
+        'PENDING_DELIVERY'
       ].includes(order.status) && (
         <Button
           outlined

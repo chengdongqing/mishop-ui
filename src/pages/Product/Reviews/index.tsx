@@ -12,8 +12,8 @@ import useElementVisible from '@/hooks/useElementVisible.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
 import {
-  fetchReviewsByPage,
-  fetchReviewsStatistics,
+  fetchProductReviewsByPage,
+  fetchProductReviewsStatistics,
   ProductReviewVO,
   ReviewPageRequestDTO
 } from '@/services/productReview.ts';
@@ -31,7 +31,7 @@ export default function ProductReviewsPage() {
   }>();
   const productId = Number(params.id);
   const [filterParams, setFilterParams] = useSetState<ReviewPageRequestDTO>();
-  const { loading, data, run } = useRequest(fetchReviewsStatistics, {
+  const { loading, data, run } = useRequest(fetchProductReviewsStatistics, {
     manual: true
   });
   useEffect(() => {
@@ -96,7 +96,7 @@ function ReviewList({
   const [loadingMore, setLoadingMore] = useState(false);
   const { data, loading, run } = useRequest(
     (pageNumber: number) =>
-      fetchReviewsByPage(productId, {
+      fetchProductReviewsByPage(productId, {
         ...params,
         pageNumber
       }),
