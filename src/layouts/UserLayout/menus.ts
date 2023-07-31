@@ -52,8 +52,8 @@ const menus: MenuItemProps[] = [
         target: '_blank'
       },
       {
-        label: '注销服务',
-        href: 'https://m.mi.com/userdelete',
+        label: '注销账号',
+        href: '/account?action=delete',
         target: '_blank'
       }
     ]

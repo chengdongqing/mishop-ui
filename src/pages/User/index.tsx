@@ -72,7 +72,7 @@ export default function UserCenterPage() {
             账户安全：<span className={styles.safety_level3}>较高</span>
           </div>
           <div>绑定手机：{user?.phoneNumber}</div>
-          {user?.email && <div>绑定邮箱：{user?.email}</div>}
+          {user?.emailAddress && <div>绑定邮箱：{user?.emailAddress}</div>}
         </div>
       </Row>
       <DataContainer loading={loading}>

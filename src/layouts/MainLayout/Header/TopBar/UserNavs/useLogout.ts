@@ -9,15 +9,21 @@ export default function useLogout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  return () => {
+  function logout() {
+    window.localStorage.clear();
+    dispatch(userSlice.actions.setUser(null));
+    dispatch(cartSlice.actions.setCart([]));
+    navigate('/', { replace: true });
+  }
+
+  function logoutWithConfirm() {
     popup.confirm('确定退出登录吗？', {
       onOk() {
-        window.localStorage.clear();
-        dispatch(userSlice.actions.setUser(null));
-        dispatch(cartSlice.actions.setCart([]));
-        navigate('/', { replace: true });
+        logout();
         toast.warning('已退出登录');
       }
     });
-  };
+  }
+
+  return { logout, logoutWithConfirm };
 }

@@ -2,8 +2,11 @@ import LazyImage from '@/components/LazyImage';
 import popup from '@/components/Popup';
 import Row from '@/components/Row';
 import Space from '@/components/Space';
+import toast from '@/components/Toast';
 import useQueryParams from '@/hooks/useQueryParams.ts';
 import AccountLayout from '@/layouts/AccountLayout';
+import useLogout from '@/layouts/MainLayout/Header/TopBar/UserNavs/useLogout.ts';
+import { deleteAccount } from '@/services/user.ts';
 import userSlice, { useUserInfo } from '@/store/slices/userSlice.ts';
 import { RightOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
@@ -24,7 +27,9 @@ export default function AccountPage() {
 function LoginMethods() {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
-  const { action } = useQueryParams<{ action?: 'password' }>();
+  const { action } = useQueryParams<{
+    action?: string;
+  }>();
   useEffect(() => {
     if (action === 'password') {
       setTimeout(() => {
@@ -75,7 +80,7 @@ function LoginMethods() {
             toModifyAccount('email', (value) => {
               dispatch(
                 userSlice.actions.modifyUser({
-                  email: value
+                  emailAddress: value
                 })
               );
               popup.alert('邮箱修改成功！');
@@ -91,7 +96,7 @@ function LoginMethods() {
             安全邮箱
           </Space>
           <div>
-            {userInfo?.email}
+            {userInfo?.emailAddress}
             <RightOutlined className={styles.icon_arrow} />
           </div>
         </Row>
@@ -140,6 +145,8 @@ function LoginMethods() {
 }
 
 function AccountSecurity() {
+  const { logout } = useLogout();
+
   return (
     <>
       <AccountLayout.Title title={'账号安全'} />
@@ -165,6 +172,18 @@ function AccountSecurity() {
           align={'middle'}
           justify={'space-between'}
           className={styles.list_item}
+          onClick={() => {
+            popup.confirm(
+              '请注意，注销后当前账号的个人信息将被彻底删除且不可恢复，确定注销账号吗？',
+              {
+                async onOk() {
+                  await deleteAccount();
+                  toast.success('账号注销成功');
+                  logout();
+                }
+              }
+            );
+          }}
         >
           <Space size={'1rem'}>
             <LazyImage
@@ -172,7 +191,7 @@ function AccountSecurity() {
               src={() => import('./assets/device.png')}
               className={styles.icon}
             />
-            登录设备管理
+            注销账号
           </Space>
           <div>
             <RightOutlined className={styles.icon_arrow} />

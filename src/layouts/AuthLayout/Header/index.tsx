@@ -9,7 +9,7 @@ import styles from './index.module.less';
 
 export default function Header() {
   const hasLogin = useHasLogin();
-  const logout = useLogout();
+  const { logoutWithConfirm } = useLogout();
 
   return (
     <Row
@@ -56,7 +56,7 @@ export default function Header() {
         <Space size={'2rem'}>
           <LanguagePicker />
           {hasLogin && (
-            <a className={styles.logout} onClick={logout}>
+            <a className={styles.logout} onClick={logoutWithConfirm}>
               退出
             </a>
           )}

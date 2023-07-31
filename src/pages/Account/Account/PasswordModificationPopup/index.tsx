@@ -4,8 +4,10 @@ import Grid from '@/components/Grid';
 import Input from '@/components/Input';
 import popup from '@/components/Popup';
 import patterns from '@/consts/patterns.ts';
+import useRequest from '@/hooks/useRequest.ts';
+import { modifyPassword } from '@/services/user.ts';
 import classNames from 'classnames';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import styles from './index.module.less';
 
 function PasswordModificationPopup({
@@ -16,18 +18,16 @@ function PasswordModificationPopup({
   onOk(): void;
 }) {
   const passwordRef = useRef('');
-  const [submitting, setSubmitting] = useState(false);
+  const { run, loading } = useRequest(modifyPassword, {
+    manual: true
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>修改密码</div>
       <Form
         onOk={() => {
-          setSubmitting(true);
-          setTimeout(() => {
-            setSubmitting(false);
-            onOk();
-          }, 1000);
+          run(passwordRef.current).then(onOk);
         }}
       >
         <Form.Item
@@ -66,7 +66,7 @@ function PasswordModificationPopup({
             }
           ]}
         >
-          <Input type={'password'} placeholder={'输入新密码'} />
+          <Input type={'password'} placeholder={'确认新密码'} />
         </Form.Item>
         <Grid columns={2} gap={'2rem'}>
           <Button
@@ -75,7 +75,7 @@ function PasswordModificationPopup({
           >
             取消
           </Button>
-          <Button className={styles.btn} type={'submit'} loading={submitting}>
+          <Button className={styles.btn} type={'submit'} loading={loading}>
             确定
           </Button>
         </Grid>

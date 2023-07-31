@@ -36,7 +36,7 @@ export default function UserNavs({ miniHeader = false }) {
 function NavsWithLogin() {
   const [open, setOpen] = useState(false);
   const userInfo = useUserInfo();
-  const logout = useLogout();
+  const { logoutWithConfirm } = useLogout();
 
   return (
     <Space split={<div className={styles.sep} />}>
@@ -76,7 +76,7 @@ function NavsWithLogin() {
             ))}
             <span
               className={classNames(styles.menu_item, styles.danger)}
-              onClick={logout}
+              onClick={logoutWithConfirm}
             >
               退出登录
             </span>

@@ -4,7 +4,10 @@ import Input from '@/components/Input';
 import popup from '@/components/Popup';
 import VerificationCodeInput from '@/components/VerificationCodeInput';
 import patterns from '@/consts/patterns.ts';
+import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
+import { sendVerificationCode } from '@/services/auth.ts';
+import { modifyEmailAddress, modifyPhoneNumber } from '@/services/user.ts';
 import { desensitizeAccount } from '@/utils';
 import { useMemo, useState } from 'react';
 import Steps from '../Steps';
@@ -13,9 +16,9 @@ import styles from './index.module.less';
 type AccountTypes = 'phoneNumber' | 'email';
 
 export function AccountModificationPopup({
-  type,
-  onOk
-}: {
+                                           type,
+                                           onOk
+                                         }: {
   type: AccountTypes;
   onOk(value: string): void;
 }) {
@@ -28,7 +31,11 @@ export function AccountModificationPopup({
     account: '',
     verificationCode: ''
   });
-  const [submitting, setSubmitting] = useState(false);
+
+  const { run, loading } = useRequest(
+    type === 'phoneNumber' ? modifyPhoneNumber : modifyEmailAddress,
+    { manual: true }
+  );
 
   return (
     <div className={styles.container}>
@@ -77,11 +84,9 @@ export function AccountModificationPopup({
       ) : (
         <Form
           onOk={() => {
-            setSubmitting(true);
-            setTimeout(() => {
-              setSubmitting(false);
+            run(values.account, values.verificationCode).then(() => {
               onOk(desensitizeAccount(values.account));
-            }, 1000);
+            });
           }}
         >
           <Form.Item
@@ -96,11 +101,7 @@ export function AccountModificationPopup({
           >
             <VerificationCodeInput
               onSend={() => {
-                return new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve(null);
-                  }, 1000);
-                });
+                return sendVerificationCode(values.account);
               }}
               onChange={(verificationCode) => {
                 setValues({ verificationCode });
@@ -109,7 +110,7 @@ export function AccountModificationPopup({
           </Form.Item>
           <Button
             type={'submit'}
-            loading={submitting}
+            loading={loading}
             disabled={!values.verificationCode}
             className={styles.btn}
           >
