@@ -56,35 +56,3 @@ interface Banner {
   href: string;
   target?: '_blank' | '_self';
 }
-
-/**
- * 登录用户数据模型
- */
-interface LoginUser {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  phoneNumber: string;
-  email?: string;
-  gender?: number;
-  token: {
-    accessToken: string;
-    refreshToken: string;
-    expireIn: string;
-  };
-}
-
-/**
- * 视频数据模型
- */
-interface Video {
-  id: number;
-  // 视频名称
-  name: string;
-  // 视频播放地址
-  videoUrl: string;
-  // 封面图片地址
-  coverUrl: string;
-  // 视频描述信息
-  description?: string;
-}

@@ -2,7 +2,7 @@ import useCartActions from '@/hooks/useCartActions.ts';
 import useLocalStorageState from '@/hooks/useLocalStorageState.ts';
 import useMount from '@/hooks/useMount.ts';
 import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
-import { refreshToken } from '@/services/auth.ts';
+import { AuthVO, refreshToken } from '@/services/auth.ts';
 import services, { CartItemDTO } from '@/services/cart.ts';
 import cartSlice, { useCartItems } from '@/store/slices/cartSlice.ts';
 import userSlice, { useHasLogin, useUserInfo } from '@/store/slices/userSlice.ts';
@@ -58,7 +58,7 @@ function useUserInitial() {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const [storageState, setStorageState] =
-    useLocalStorageState<LoginUser>('login-user');
+    useLocalStorageState<AuthVO>('login-user');
 
   useMount(() => {
     if (storageState) {

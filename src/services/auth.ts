@@ -1,3 +1,4 @@
+import { Gender } from '@/pages/User/enums.ts';
 import request from '@/utils/request.ts';
 
 export interface Token {
@@ -9,7 +10,7 @@ export interface Token {
 export interface AuthVO {
   id: number;
   name: string;
-  gender?: number;
+  gender?: keyof typeof Gender;
   avatarUrl: string;
   phoneNumber: string;
   emailAddress?: string;

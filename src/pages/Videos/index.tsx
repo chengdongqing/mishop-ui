@@ -5,7 +5,7 @@ import Iconfont from '@/components/Iconfont';
 import LazyImage from '@/components/LazyImage';
 import Popup from '@/components/Popup';
 import useRequest from '@/hooks/useRequest.ts';
-import { fetchVideos } from '@/services/video.ts';
+import { fetchVideos, Video } from '@/services/video.ts';
 import classNames from 'classnames';
 import styles from './index.module.less';
 

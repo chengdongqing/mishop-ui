@@ -6,6 +6,8 @@ import Row from '@/components/Row';
 import patterns from '@/consts/patterns.ts';
 import useToggle from '@/hooks/useToggle.ts';
 import AccountLayout from '@/layouts/AccountLayout';
+import { Gender } from '@/pages/User/enums.ts';
+import { updateProfile, UserProfileDTO } from '@/services/user.ts';
 import userSlice, { useUserInfo } from '@/store/slices/userSlice.ts';
 import { RightOutlined } from '@ant-design/icons';
 import { useState } from 'react';
@@ -17,7 +19,7 @@ export default function ProfilePage() {
   const [editingMode, toggleEditing] = useToggle();
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
-  const [avatarUrl, setAvatarurl] = useState<string>();
+  const [avatarUrl, setAvatarUrl] = useState<string>();
 
   return (
     <>
@@ -26,10 +28,11 @@ export default function ProfilePage() {
       <Form
         noStyle
         initialValues={{ ...userInfo }}
-        onOk={(values) => {
+        onOk={async (values) => {
           if (avatarUrl) {
             values.avatarUrl = avatarUrl;
           }
+          await updateProfile(values as UserProfileDTO);
           dispatch(userSlice.actions.modifyUser(values));
           toggleEditing();
         }}
@@ -43,7 +46,7 @@ export default function ProfilePage() {
                 justify={'space-between'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  toCropImage(setAvatarurl);
+                  toCropImage(setAvatarUrl);
                 }}
               >
                 <img
@@ -92,16 +95,13 @@ export default function ProfilePage() {
             {editingMode ? (
               <Form.Item name={'gender'}>
                 <Radio.Group>
-                  <Radio value={1}>男</Radio>
-                  <Radio value={2}>女</Radio>
+                  {Object.entries(Gender).map(([value, label]) => (
+                    <Radio key={value} value={value}>{label}</Radio>
+                  ))}
                 </Radio.Group>
               </Form.Item>
             ) : (
-              <span>
-                {userInfo?.gender
-                  ? { 1: '男', 2: '女' }[userInfo?.gender]
-                  : '未知'}
-              </span>
+              <span>{userInfo?.gender ? Gender[userInfo.gender] : '未知'}</span>
             )}
           </div>
         </div>
