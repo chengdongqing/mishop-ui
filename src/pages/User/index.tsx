@@ -29,7 +29,7 @@ const options: {
     code: 'pendingDeliveryOrdersCount'
   },
   {
-    label: '待评价的商品',
+    label: '待评价的订单',
     icon: 'https://s01.mifile.cn/i/user/portal-icon-3.png',
     href: '/orders/reviews',
     code: 'pendingReviewOrdersCount'
