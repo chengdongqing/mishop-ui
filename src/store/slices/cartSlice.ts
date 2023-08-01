@@ -2,15 +2,13 @@ import { CartItemDTO } from '@/services/cart.ts';
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: {
-  cart: CartItemDTO[];
-} = {
-  cart: []
-};
-
 export default createSlice({
   name: 'cart',
-  initialState,
+  initialState: {
+    cart: []
+  } as {
+    cart: CartItemDTO[];
+  },
   reducers: {
     addToCart({ cart }, { payload }: PayloadAction<CartItemDTO>) {
       const existingItem = cart.find((item) => {
@@ -22,10 +20,7 @@ export default createSlice({
         existingItem.quantity += payload.quantity;
       }
     },
-    modifyCartItems(
-      { cart },
-      { payload }: PayloadAction<CartItemDTO[]>
-    ) {
+    modifyCartItems({ cart }, { payload }: PayloadAction<CartItemDTO[]>) {
       payload.forEach((item) => {
         const { skuId, quantity, isChecked } = item;
         const existingItem = cart.find((item) => item.skuId === skuId);

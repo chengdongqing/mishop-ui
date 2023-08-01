@@ -145,3 +145,7 @@ export function isBlank(value: unknown) {
     (typeof value === 'string' ? value.trim().length === 0 : false)
   );
 }
+
+export function removeAllSpaces(value: string) {
+  return value.replace(/\s/g, '');
+}

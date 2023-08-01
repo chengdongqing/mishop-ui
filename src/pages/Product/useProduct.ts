@@ -1,7 +1,7 @@
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
-import { getSimpleProductName } from '@/pages/Product/utils.ts';
 import { fetchProductDetails } from '@/services/product.ts';
+import { removeAllSpaces } from '@/utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ export default function useProduct(id: number, pathname: string) {
   useEffect(() => {
     if (product?.name) {
       if (!product.staticDetails) {
-        const name = getSimpleProductName(product.name);
+        const name = removeAllSpaces(product.name);
         // 判断是否有动态概述和参数页面
         Promise.all([
           import(`./Sketch/${name}/index.tsx`).then(() => {

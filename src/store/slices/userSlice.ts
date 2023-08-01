@@ -2,15 +2,13 @@ import { AuthVO } from '@/services/auth.ts';
 import { useAppSelector } from '@/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: {
-  userInfo: AuthVO | null
-} = {
-  userInfo: null
-};
-
 export default createSlice({
   name: 'user',
-  initialState: initialState,
+  initialState: {
+    userInfo: null
+  } as {
+    userInfo: AuthVO | null;
+  },
   reducers: {
     setUser(state, { payload }: PayloadAction<AuthVO | null>) {
       if (payload && !payload.name) {

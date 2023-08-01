@@ -1,7 +1,7 @@
 import DataContainer from '@/components/DataContainer';
 import toast from '@/components/Toast';
 import { ProductContext } from '@/pages/Product';
-import { getSimpleProductName } from '@/pages/Product/utils.ts';
+import { removeAllSpaces } from '@/utils';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 
 export default function ProductSpecsPage() {
@@ -10,7 +10,7 @@ export default function ProductSpecsPage() {
 
   useEffect(() => {
     if (ctx?.name && !ctx.staticDetails) {
-      import(`./${getSimpleProductName(ctx.name)}/index.tsx`)
+      import(`./${removeAllSpaces(ctx.name)}/index.tsx`)
         .then((res) => {
           setComponent(res.default);
         })

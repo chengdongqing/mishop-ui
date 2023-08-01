@@ -19,19 +19,19 @@ export default function useCartActions() {
     const id = await (hasLogin
       ? services.addToCart(cartItem)
       : new Promise<void>((resolve, reject) => {
-        const existingItem = products.find((item_2) => {
-          return item_2.skuId === cartItem.skuId;
-        });
-        if (
-          existingItem?.limits &&
-          existingItem.quantity + cartItem.quantity > existingItem.limits
-        ) {
-          popup.alert('商品加入购物车数量超过限购数');
-          reject();
-        } else {
-          resolve();
-        }
-      }));
+          const existingItem = products.find((item_2) => {
+            return item_2.skuId === cartItem.skuId;
+          });
+          if (
+            existingItem?.limits &&
+            existingItem.quantity + cartItem.quantity > existingItem.limits
+          ) {
+            popup.alert('商品加入购物车数量超过限购数');
+            reject();
+          } else {
+            resolve();
+          }
+        }));
     if (id) {
       cartItem.id = id;
     }
@@ -39,35 +39,37 @@ export default function useCartActions() {
     dispatch(cartSlice.actions.addToCart(cartItem));
   }
 
-  async function modifyCartItems(items: CartItemDTO[]) {
+  function modifyCartItems(items: CartItemDTO[]) {
     if (!items.length) return;
 
-    await (hasLogin
+    (hasLogin
       ? services.modifyCartItems(items)
       : new Promise<void>((resolve, reject) => {
-        items.forEach(item => {
-          if (item?.limits && item.quantity > item.limits) {
-            popup.alert('商品加入购物车数量超过限购数');
-            reject();
-            return;
-          }
-        });
-        resolve();
-      }));
-
-    dispatch(cartSlice.actions.modifyCartItems(items));
+          items.forEach((item) => {
+            if (item?.limits && item.quantity > item.limits) {
+              popup.alert('商品加入购物车数量超过限购数');
+              reject();
+              return;
+            }
+          });
+          resolve();
+        })
+    ).then(() => {
+      dispatch(cartSlice.actions.modifyCartItems(items));
+    });
   }
 
   function removeCartItems(items: CartItemDTO[], withConfirm = true) {
     if (!items.length) return;
 
-    async function remove() {
+    function remove() {
       if (hasLogin) {
         const ids = items.map((item) => item.id) as number[];
-        await services.removeCartItems(ids);
+        services.removeCartItems(ids).then(() => {
+          const skuIds = items.map((item) => item.skuId);
+          dispatch(cartSlice.actions.removeCartItems(skuIds));
+        });
       }
-      const skuIds = items.map((item) => item.skuId);
-      dispatch(cartSlice.actions.removeCartItems(skuIds));
     }
 
     if (withConfirm) {
