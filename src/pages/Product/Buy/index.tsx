@@ -16,8 +16,8 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import ProductDetails from './ProductDetails';
+import ProductGallery from './ProductGallery';
 import ProductSkus from './ProductSkus';
-import ProductSwiper from './ProductSwiper';
 
 export default function BuyProductPage() {
   const ctx = useContext(ProductContext);
@@ -28,7 +28,7 @@ export default function BuyProductPage() {
     <DataContainer loading={!ctx}>
       {!hasLogin && <LoginTipsBar />}
       <div className={styles.container}>
-        <ProductSwiper pictures={pictures} />
+        <ProductGallery pictures={pictures} />
         <ProductPanel
           product={ctx as ProductDetailsType}
           hasLogin={hasLogin}

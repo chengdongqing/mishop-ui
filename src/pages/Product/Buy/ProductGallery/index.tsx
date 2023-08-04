@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.module.less';
 
-export default function ProductSwiper({ pictures }: {
+export default function ProductGallery({ pictures }: {
   pictures: string[]
 }) {
   const swiperRef = useRef<SwiperRef>(null);
