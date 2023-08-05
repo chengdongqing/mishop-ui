@@ -45,10 +45,10 @@ export default function BuyProductPage() {
 }
 
 function ProductPanel({
-                        product,
-                        hasLogin,
-                        onPicturesChange
-                      }: {
+  product,
+  hasLogin,
+  onPicturesChange
+}: {
   product: ProductDetailsType;
   hasLogin: boolean;
   onPicturesChange: (values: string[]) => void;
@@ -82,14 +82,19 @@ function ProductPanel({
       <div className={styles.name}>{product.name}</div>
       <div className={styles.desc}>{product.description}</div>
       <div className={styles.source}>{product.brandName}</div>
-      <div className={styles.price}>{formatAmount(sku?.price)}</div>
+      <div className={styles.price}>
+        {formatAmount(sku?.price)}
+        <span className={styles.price_original}>
+          {formatAmount(sku?.originalPrice)}
+        </span>
+      </div>
       <div className={styles.split} />
 
       <ProductSkus
         items={product.skus}
         onChange={(value) => {
           setSku(value);
-          onPicturesChange(value?.pictureUrls || []);
+          onPicturesChange(value?.gallery || []);
         }}
       />
 
@@ -115,7 +120,9 @@ function ProductPanel({
                   skuName: sku.name
                 })
                 .then(() => {
-                  navigate(`/cart/successfully/${productName}`);
+                  navigate(
+                    `/cart/successfully/${encodeURIComponent(productName)}`
+                  );
                 });
             }}
           >
@@ -126,8 +133,8 @@ function ProductPanel({
             className={classNames(styles.btn, styles.btn_like)}
             onClick={() => {
               (liked
-                  ? favoriteServices.removeFavorite(product.id)
-                  : favoriteServices.addFavorite(product.id, sku.id)
+                ? favoriteServices.removeFavorite(product.id)
+                : favoriteServices.addFavorite(product.id, sku.id)
               ).then(refreshLike);
             }}
           >
@@ -186,9 +193,7 @@ function LoginTipsBar() {
   ) : null;
 }
 
-export function PriceDescription({ weixin = false }: {
-  weixin?: boolean
-}) {
+export function PriceDescription({ weixin = false }: { weixin?: boolean }) {
   return (
     <div style={{ backgroundColor: 'var(--color-background)' }}>
       {weixin && (

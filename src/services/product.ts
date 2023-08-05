@@ -90,7 +90,7 @@ export interface ProductSKU {
   price: number;
   originalPrice?: number;
   pictureUrl: string;
-  pictureUrls: string[];
+  gallery: string[];
   attributes: {
     name: string;
     value: string;
