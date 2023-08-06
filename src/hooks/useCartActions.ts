@@ -62,14 +62,13 @@ export default function useCartActions() {
   function removeCartItems(items: CartItemDTO[], withConfirm = true) {
     if (!items.length) return;
 
-    function remove() {
+    async function remove() {
       if (hasLogin) {
         const ids = items.map((item) => item.id) as number[];
-        services.removeCartItems(ids).then(() => {
-          const skuIds = items.map((item) => item.skuId);
-          dispatch(cartSlice.actions.removeCartItems(skuIds));
-        });
+        await services.removeCartItems(ids);
       }
+      const skuIds = items.map((item) => item.skuId);
+      dispatch(cartSlice.actions.removeCartItems(skuIds));
     }
 
     if (withConfirm) {

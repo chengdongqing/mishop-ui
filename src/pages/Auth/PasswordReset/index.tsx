@@ -41,12 +41,10 @@ export default function Login() {
     run({
       ...values,
       account: values.phoneNumber || values.email
-    }).then((res) => {
-      if (res) {
-        popup.alert('密码重置成功，即将重新登录', () => {
-          navigate('/auth/login');
-        });
-      }
+    }).then(() => {
+      popup.alert('密码重置成功，即将重新登录', () => {
+        navigate('/auth/login');
+      });
     });
   }
 

@@ -36,6 +36,8 @@ function useCartInitial() {
         services.syncCart(products).then(() => {
           // 清空本地缓存
           window.localStorage.removeItem('shopping-cart');
+          // 刷新本地购物车
+          refreshCart();
         });
       } else {
         refreshCart();

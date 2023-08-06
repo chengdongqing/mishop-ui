@@ -7,6 +7,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useCartActions from '@/hooks/useCartActions.ts';
 import useElementVisible from '@/hooks/useElementVisible.ts';
+import useLatest from '@/hooks/useLatest.ts';
 import { useCartItems } from '@/store/slices/cartSlice.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
@@ -28,6 +29,7 @@ export default function MainCart() {
 
 function CartTable() {
   const items = useCartItems();
+  const itemsRef = useLatest(items);
   const { allChecked, halfChecked, switchCheck } = useCartItemsCheck(items);
   const actions = useCartActions();
 
@@ -60,7 +62,10 @@ function CartTable() {
             <Checkbox
               checked={item.isChecked}
               onChange={(checked) => {
-                switchCheck(item, checked);
+                const index = itemsRef.current.findIndex((item1) => {
+                  return item1.skuId === item.skuId;
+                });
+                switchCheck(itemsRef.current[index], checked);
               }}
             />
             <Link to={buildProductUrl(item.productId)}>
@@ -84,9 +89,12 @@ function CartTable() {
                 if (value === 0) {
                   actions.removeCartItems([item]);
                 } else {
+                  const index = itemsRef.current.findIndex((item1) => {
+                    return item1.skuId === item.skuId;
+                  });
                   actions.modifyCartItems([
                     {
-                      ...item,
+                      ...itemsRef.current[index],
                       quantity: value
                     }
                   ]);
