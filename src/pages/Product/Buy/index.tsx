@@ -84,9 +84,11 @@ function ProductPanel({
       <div className={styles.source}>{product.brandName}</div>
       <div className={styles.price}>
         {formatAmount(sku?.price)}
-        <span className={styles.price_original}>
-          {formatAmount(sku?.originalPrice)}
-        </span>
+        {!!sku?.originalPrice && (
+          <span className={styles.price_original}>
+            {formatAmount(sku?.originalPrice)}
+          </span>
+        )}
       </div>
       <div className={styles.split} />
 

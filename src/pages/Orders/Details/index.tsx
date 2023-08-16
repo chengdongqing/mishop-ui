@@ -19,7 +19,7 @@ const OrderProgressOptions = [
     step: 1,
     label: '下单',
     statusCode: 'PENDING_PAYMENT',
-    timeCode: 'orderAt'
+    timeCode: 'createdAt'
   },
   {
     step: 2,
@@ -155,7 +155,7 @@ export default function OrderDetailsPage() {
         <Grid columns={2} gap={'0.8rem'} style={{ alignItems: 'end' }}>
           <span>商品总价：</span>
           <span className={styles.value}>
-            {formatAmount(order?.productAmount)}
+            {formatAmount(order?.productsAmount)}
           </span>
           <span>优惠：</span>
           <span className={styles.value}>

@@ -52,12 +52,12 @@ export default function ProductReviewsPage() {
         <Form noStyle onChange={setFilterParams}>
           <DataContainer
             loading={loading}
-            empty={!data?.numberOfAll && '该商品暂无评论'}
+            empty={!data?.allCount && '该商品暂无评论'}
             whiteOnEmpty
           >
             <Form.Item name={'rating'}>
               <FilterBar
-                all={data?.numberOfAll || 0}
+                all={data?.allCount || 0}
                 items={data?.scoresMap || {}}
               />
             </Form.Item>
@@ -147,21 +147,21 @@ function ReviewList({
                 />
               </Row>
               <div className={styles.content}>{item.content}</div>
-              {!!item.photos?.length && (
+              {!!item.photoUrls?.length && (
                 <div
                   className={classNames(
                     styles.photos,
-                    item.photos.length === 1 && styles.single
+                    item.photoUrls.length === 1 && styles.single
                   )}
                 >
                   <Grid columns={4} gap={'0.8rem'}>
-                    {item.photos.map((photo, index) => (
+                    {item.photoUrls.map((photo, index) => (
                       <LazyImage
                         key={photo}
                         src={photo}
                         alt={''}
                         onClick={() => {
-                          previewImages(item.photos || [], index);
+                          previewImages(item.photoUrls || [], index);
                         }}
                       />
                     ))}

@@ -1,4 +1,5 @@
 import useRequest from '@/hooks/useRequest.ts';
+import { BannerType } from '@/pages/Home/enums.ts';
 import { fetchBanners } from '@/services/banner.ts';
 import { Channels } from './const.ts';
 import styles from './index.module.less';
@@ -31,7 +32,7 @@ function ChannelBox() {
 }
 
 function PromoCards() {
-  const { data } = useRequest(() => fetchBanners('hero_sub'));
+  const { data } = useRequest(() => fetchBanners(BannerType[BannerType.HOME_HERO_SUB]));
 
   return (
     <div className={styles.promo_cards}>

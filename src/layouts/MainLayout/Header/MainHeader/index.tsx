@@ -104,7 +104,7 @@ function CategoryBar({
           key={item.id}
           className={styles.label}
           onMouseEnter={() => {
-            onChange(item.products);
+            onChange(item.items);
           }}
         >
           {item.name}

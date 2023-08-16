@@ -154,8 +154,7 @@ function PaymentMethods({ orderId }: { orderId: number }) {
 
   async function handlePayment(item: PaymentMethod) {
     const closeLoading = toast.loading('请求支付中...');
-    const url = await requestPayment(orderId, item.code);
-    console.log({ url });
+    await requestPayment(orderId, item.code);
     closeLoading();
 
     const close = popup.open({

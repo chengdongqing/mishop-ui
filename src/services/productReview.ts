@@ -1,9 +1,9 @@
 import request from '@/utils/request.ts';
 
 export interface ProductReviewStatistics {
-  numberOfAll: number;
-  numberOfSatisfied: number;
-  percentOfSatisfaction: number;
+  allCount: number;
+  satisfiedCount: number;
+  satisfactionPercent: number;
   scoresMap: Record<number, number>;
 }
 
@@ -22,7 +22,7 @@ export interface ProductReviewVO {
   id: number;
   rating: number;
   content?: string;
-  photos?: string[];
+  photoUrls?: string[];
   userName: string;
   userAvatar: string;
   createdAt: string;
@@ -33,7 +33,7 @@ export function fetchProductReviewsByPage(
   params: ReviewPageRequestDTO
 ) {
   return request<Page<ProductReviewVO>>(
-    `/products/${productId}/reviews/page`,
+    `/products/${productId}/reviews`,
     {
       params
     }

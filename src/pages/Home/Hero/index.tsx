@@ -1,5 +1,6 @@
 import Swiper, { SwiperRef } from '@/components/Swiper';
 import useRequest from '@/hooks/useRequest.ts';
+import { BannerType } from '@/pages/Home/enums.ts';
 import { fetchBanners } from '@/services/banner.ts';
 import { fetchProductCategories } from '@/services/product.ts';
 import { buildProductUrl } from '@/utils';
@@ -26,7 +27,7 @@ function CategoryPanel() {
       convert: (res) =>
         res?.map((item) => ({
           ...item,
-          products: item.children.flatMap((item1) => item1.products)
+          products: item.children.flatMap((item1) => item1.items)
         })) || []
     }
   );
@@ -71,9 +72,9 @@ function CategoryPanel() {
 }
 
 function ProductsPanel({
-  open,
-  products
-}: {
+                         open,
+                         products
+                       }: {
   open: boolean;
   products: Product[];
 }) {
@@ -107,7 +108,7 @@ function ProductsPanel({
 
 function BannerSwiper() {
   const swiperRef = useRef<SwiperRef>(null);
-  const { data } = useRequest(() => fetchBanners('hero'));
+  const { data } = useRequest(() => fetchBanners(BannerType[BannerType.HOME_HERO]));
 
   return (
     <div className={styles.banner_card}>

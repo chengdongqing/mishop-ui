@@ -38,7 +38,7 @@ const options: {
     label: '喜欢的商品',
     icon: 'https://s01.mifile.cn/i/user/portal-icon-4.png',
     href: '/user/favorites',
-    code: 'likedProductsCount'
+    code: 'favoritesCount'
   }
 ];
 

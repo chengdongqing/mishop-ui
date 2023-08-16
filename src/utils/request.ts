@@ -74,7 +74,10 @@ export default async function request<T>(
     // 成功处理请求
     return Promise.resolve(data);
   } else {
-    toast.warning(`${typeof data === 'object' ? (data as any).message : data || ''}（${res.status}）`);
+    const message = (data as {
+      message: string
+    }).message || '请求失败';
+    toast.warning(`${message}（${res.status}）`);
     // 未登录授权
     if (res.status === 401) {
       // 清除登录信息

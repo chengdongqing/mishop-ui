@@ -101,7 +101,7 @@ function CategoryProducts({
   current: number;
 }) {
   const isMultipleTabs = tabs.length > 1;
-  const products = tabs[current].products || [];
+  const products = tabs[current].items || [];
   const overflowProduct = products[7];
 
   return (

@@ -13,7 +13,7 @@ export function fetchPendingReviewOrders() {
   return request<PendingReviewOrderVO[]>('/orders/reviews/pending');
 }
 
-interface OrderReviewVO extends RecordsType {
+export interface OrderReviewVO extends RecordsType {
   orderId: number;
   packagingRating?: number;
   speedRating?: number;
@@ -43,7 +43,7 @@ export interface OrderReviewDTO extends RecordsType {
   speedRating: number;
   serviceRating: number;
   content?: string;
-  photos?: string[];
+  photoUrls?: string[];
   isAnonymous: boolean;
 }
 
@@ -60,7 +60,7 @@ export function createOrderReview(
 export interface ProductReviewDTO extends RecordsType {
   rating: number;
   content?: string;
-  photos?: string[];
+  photoUrls?: string[];
   isAnonymous: boolean;
 }
 

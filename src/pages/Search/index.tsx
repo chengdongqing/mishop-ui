@@ -9,7 +9,7 @@ import Space from '@/components/Space';
 import useQueryParams from '@/hooks/useQueryParams.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import useSetState from '@/hooks/useSetState.ts';
-import { fetchProductBrands, fetchProductCategories, searchProducts } from '@/services/product.ts';
+import { fetchProductBrands, fetchProductCategories, SearchProduct, searchProducts } from '@/services/product.ts';
 import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { memo, useState } from 'react';
@@ -17,10 +17,6 @@ import { Link } from 'react-router-dom';
 import FilterBar from './FilterBar';
 import styles from './index.module.less';
 import SortBar from './SortBar';
-
-export type SearchProduct = Omit<Product, 'pictureUrl'> & {
-  pictureUrls: string[];
-};
 
 export default function SearchPage() {
   const [params, setParams] = useSetState();
@@ -136,7 +132,7 @@ function ProductItem(props: SearchProduct) {
     <Link className={styles.product_item} to={buildProductUrl(props.id)}>
       <LazyImage
         alt={props.name}
-        src={props.pictureUrls[pictureIndex]}
+        src={props.gallery[pictureIndex] || props.pictureUrl}
         className={styles.picture}
       />
       <div className={styles.label}>{props.name}</div>
@@ -149,7 +145,7 @@ function ProductItem(props: SearchProduct) {
         )}
       </Space>
       <Space className={styles.thumbs}>
-        {props.pictureUrls.slice(0, 6).map((item, index) => (
+        {props.gallery.slice(0, 6).map((item, index) => (
           <img
             key={item}
             src={item}
@@ -157,7 +153,7 @@ function ProductItem(props: SearchProduct) {
             className={classNames(
               styles.thumb_item,
               index === pictureIndex &&
-                props.pictureUrls.length > 1 &&
+                props.gallery.length > 1 &&
                 styles.active
             )}
             onMouseEnter={() => {

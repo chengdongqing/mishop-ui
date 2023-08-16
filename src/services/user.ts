@@ -5,11 +5,11 @@ export interface UserActivityStatisticsVO {
   pendingPaymentOrdersCount: number;
   pendingDeliveryOrdersCount: number;
   pendingReviewOrdersCount: number;
-  likedProductsCount: number;
+  favoritesCount: number;
 }
 
 export function fetchUserActivityStatistics() {
-  return request<UserActivityStatisticsVO>('/user/activity-statistics');
+  return request<UserActivityStatisticsVO>('/user/statistics');
 }
 
 export interface UserProfileDTO extends RecordsType {

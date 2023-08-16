@@ -1,0 +1,6 @@
+export enum BannerType {
+  HOME_HERO,
+  HOME_HERO_SUB,
+  HOME_BANNER,
+  PRODUCT_CATEGORY
+}

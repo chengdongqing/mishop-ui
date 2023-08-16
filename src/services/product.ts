@@ -1,55 +1,58 @@
-import { SearchProduct } from '@/pages/Search';
 import { CartItemDTO } from '@/services/cart.ts';
 import request from '@/utils/request.ts';
 
 export interface ParentProduct extends OptionItem {
+  items: Product[];
   banners: Banner[];
-  products: Product[];
   children: ParentProduct[];
 }
 
-export function fetchProductBrands(limits?: number, productLimits?: number) {
+export function fetchProductBrands(limits?: number, itemsLimits?: number) {
   return request<ParentProduct[]>('/products/brands', {
     params: {
       limits,
-      productLimits
+      itemsLimits
     }
   });
 }
 
 export function fetchProductCategories(
   limits?: number,
-  productLimits?: number,
+  itemsLimits?: number,
   withBanners?: boolean
 ) {
   return request<ParentProduct[]>('/products/categories', {
     params: {
       limits,
-      productLimits,
+      itemsLimits,
       withBanners
     }
   });
 }
 
 export function fetchHotProducts() {
-  return request<string[]>('/products/hot');
+  return request<string[]>('/products/names/hot');
 }
 
 export function fetchProductNamesLike(keyword: string) {
-  return request<string[]>('/products/name-like', {
+  return request<string[]>('/products/names/like', {
     params: {
       keyword
     }
   });
 }
 
-interface SearchRequestDTO extends Pageable, RecordsType {
+export interface SearchRequestDTO extends Pageable, RecordsType {
   categoryId?: number;
   brandId?: number;
   keyword?: string;
   sortBy?: string;
   onlyAvailable?: boolean;
 }
+
+export type SearchProduct = Product & {
+  gallery: string[];
+};
 
 export function searchProducts(params: SearchRequestDTO) {
   return request<Page<SearchProduct>>('/products/search', {

@@ -34,7 +34,9 @@ export interface LoginDTOWithVerificationCode extends RecordsType {
   verificationCode: string;
 }
 
-export function loginWithVerificationCode(params: LoginDTOWithVerificationCode) {
+export function loginWithVerificationCode(
+  params: LoginDTOWithVerificationCode
+) {
   return request<AuthVO>('/auth/login/verification-code', {
     method: 'POST',
     params
@@ -48,7 +50,7 @@ export interface RegisterDTO extends RecordsType {
 }
 
 export function register(params: RegisterDTO) {
-  return request<AuthVO>('/auth/register', {
+  return request<AuthVO>('/auth/signup', {
     method: 'POST',
     params
   });
@@ -61,23 +63,23 @@ export interface ResetPasswordDTO extends RecordsType {
 }
 
 export function resetPassword(params: ResetPasswordDTO) {
-  return request('/auth/reset-password', {
+  return request('/auth/password/reset', {
     method: 'POST',
     params
   });
 }
 
 export function sendVerificationCode(recipient: string) {
-  return request<null>('/auth/send/verification-code', {
-    method: 'POST',
+  return request<null>('/auth/verification-code', {
+    method: 'GET',
     params: {
       recipient
     }
-  })
+  });
 }
 
 export function refreshToken(refreshToken: string) {
-  return request<Token>('/auth/refresh-token', {
+  return request<Token>('/auth/token/refresh', {
     method: 'POST',
     body: refreshToken
   });

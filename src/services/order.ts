@@ -13,7 +13,7 @@ export function createOrder(addressId: number) {
 export interface OrderVO {
   id: number;
   orderNumber: string;
-  productAmount: number;
+  productsAmount: number;
   shippingFee: number;
   discountAmount: number;
   paidAmount: number;
@@ -47,7 +47,6 @@ export function fetchOrderInfo(id: number) {
 
 export interface OrderEventsVO extends RecordsType {
   orderId: number;
-  orderAt: string;
   paymentAt?: string;
   packingAt?: string;
   shippedAt?: string;
