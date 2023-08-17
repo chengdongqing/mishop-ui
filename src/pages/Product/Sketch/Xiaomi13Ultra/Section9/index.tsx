@@ -1,5 +1,5 @@
 import LazyImage from '@/components/LazyImage';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 export default function Section9() {
   return (

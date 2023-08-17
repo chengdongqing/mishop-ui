@@ -12,7 +12,7 @@ import { DownOutlined, PlusCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import EditingPopup from './EditingPopup';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function ShippingAddresses() {
   return (

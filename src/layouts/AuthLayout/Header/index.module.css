@@ -20,7 +20,7 @@
 
   .language_picker:hover {
     &,
-    a {
+    :is(a) {
       color: var(--color-primary);
     }
   }

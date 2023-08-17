@@ -14,7 +14,7 @@ import { register, RegisterDTO, sendVerificationCode } from '@/services/auth.ts'
 import userSlice from '@/store/slices/userSlice.ts';
 import { useStore } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 export default function Register() {
   const [values, setValues] = useSetState();

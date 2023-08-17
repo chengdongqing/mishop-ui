@@ -14,7 +14,7 @@ import { CheckCircleOutlined, HeartFilled, HeartOutlined } from '@ant-design/ico
 import classNames from 'classnames';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import ProductDetails from './ProductDetails';
 import ProductGallery from './ProductGallery';
 import ProductSkus from './ProductSkus';

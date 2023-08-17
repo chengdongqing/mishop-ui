@@ -2,7 +2,7 @@ import { FormContext } from '@/components/Form';
 import { LoadingOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { ButtonHTMLAttributes, useContext } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   gray?: boolean;

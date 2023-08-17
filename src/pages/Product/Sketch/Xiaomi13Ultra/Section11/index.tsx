@@ -1,6 +1,6 @@
 import LazyImage from '@/components/LazyImage';
 import Row from '@/components/Row';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 const options = [
   {

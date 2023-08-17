@@ -1,4 +1,4 @@
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function HomeBanner({ src, href }: Banner) {
   return (

@@ -1,7 +1,7 @@
 import LazyImage from '@/components/LazyImage';
 import classNames from 'classnames';
 import { useState } from 'react';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 const options = [
   {

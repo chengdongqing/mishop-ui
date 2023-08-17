@@ -3,7 +3,7 @@ import Iconfont from '@/components/Iconfont';
 import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import { Links, Services } from './const.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function MainFooter() {
   return (

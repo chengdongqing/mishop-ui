@@ -1,6 +1,6 @@
 import { OrderVO } from '@/services/order.ts';
 import { LoginOutlined } from '@ant-design/icons';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function ExpressTimeline({ order }: {
   order: OrderVO

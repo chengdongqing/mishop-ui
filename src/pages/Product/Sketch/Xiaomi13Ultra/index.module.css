@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: center;
 
-  div {
+  :is(div) {
     color: #fff;
     font-size: 1.4rem;
     font-weight: 200;
@@ -133,7 +133,7 @@
 }
 
 .section5 {
-  div {
+  :is(div) {
     z-index: 1;
     position: absolute;
     top: 10rem;
@@ -152,7 +152,7 @@
     background-color: #151515;
     border-radius: 1rem;
 
-    img {
+    :is(img) {
       width: 100%;
     }
 
@@ -202,7 +202,7 @@
       width: 29rem;
       margin-right: 1rem;
 
-      img {
+      :is(img) {
         width: 100%;
       }
     }
@@ -212,7 +212,7 @@
     }
 
     .group_cpu {
-      img {
+      :is(img) {
         width: 8.9rem;
         position: absolute;
         left: 50%;
@@ -264,7 +264,7 @@
       margin-top: 1rem;
     }
 
-    img {
+    :is(img) {
       width: 12rem;
       height: 2.2rem;
       margin-top: 3rem;
@@ -295,7 +295,7 @@
     height: 34.8rem;
     margin: 3rem auto;
 
-    img {
+    :is(img) {
       width: 100%;
 
       &.background {
@@ -360,7 +360,7 @@
       font-size: 5rem;
     }
 
-    img {
+    :is(img) {
       width: 18rem;
       height: 3.5rem;
       margin-top: 1rem;
@@ -392,14 +392,14 @@
       margin-top: 4rem;
 
       .feature_item {
-        div {
+        :is(div) {
           color: #000;
           font-size: 1.4rem;
           font-weight: 500;
           line-height: 3rem;
         }
 
-        span {
+         :is(span) {
           color: #666;
           font-size: 1.2rem;
         }
@@ -443,7 +443,7 @@
         line-height: 5rem;
       }
 
-      div {
+      :is(div) {
         color: #000;
         font-size: 1.6rem;
         font-weight: bold;
@@ -451,7 +451,7 @@
         margin-bottom: 1rem;
       }
 
-      span {
+       :is(span) {
         height: 5rem;
         color: #999;
         font-size: 1.2rem;

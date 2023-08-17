@@ -3,7 +3,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import UserNavs from '@/layouts/MainLayout/Header/TopBar/UserNavs';
 import { ReactNode } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function MiniHeader({
   title,

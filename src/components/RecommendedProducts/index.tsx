@@ -10,7 +10,7 @@ import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface RecommendedProductsProps extends PropsWithStyle {
   // 标题

@@ -1,7 +1,7 @@
 import { SimpleDateTimeFormat } from '@/consts';
 import classNames from 'classnames';
 import moment from 'moment';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface ProgressBarProps {
   value: number;

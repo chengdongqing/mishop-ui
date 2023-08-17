@@ -4,7 +4,7 @@ import useToggle from '@/hooks/useToggle.ts';
 import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function FilterBar({
   label,

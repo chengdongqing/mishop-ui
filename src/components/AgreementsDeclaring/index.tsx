@@ -3,7 +3,7 @@ import popup from '@/components/Popup';
 import Space from '@/components/Space';
 import useMount from '@/hooks/useMount.ts';
 import { useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 const options = [
   {

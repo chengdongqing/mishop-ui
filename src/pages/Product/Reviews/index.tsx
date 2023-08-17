@@ -22,7 +22,7 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FilterBar from './FilterBar';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import SatisfactionCard from './SatisfactionCard';
 
 export default function ProductReviewsPage() {
@@ -190,7 +190,7 @@ function ReviewList({
               加载更多
             </div>
           )}
-          {loadingMore && <Loading type={'dots'} />}
+          {loadingMore && <Loading />}
         </div>
       </DataContainer>
     </div>

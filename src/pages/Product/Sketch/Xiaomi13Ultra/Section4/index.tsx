@@ -2,7 +2,7 @@ import LazyImage from '@/components/LazyImage';
 import Space from '@/components/Space';
 import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 import useVisible from '../useVisible.ts';
 
 const options = [

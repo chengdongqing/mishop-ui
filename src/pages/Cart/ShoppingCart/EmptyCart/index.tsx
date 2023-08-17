@@ -4,7 +4,7 @@ import Space from '@/components/Space';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function EmptyCart() {
   const hasLogin = useHasLogin();

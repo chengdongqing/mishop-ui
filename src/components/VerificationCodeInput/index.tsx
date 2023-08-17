@@ -3,7 +3,7 @@ import toast from '@/components/Toast';
 import useCountdown from '@/hooks/useCountdown.ts';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface VerificationCodeInputProps extends InputProps {
   interval?: number;

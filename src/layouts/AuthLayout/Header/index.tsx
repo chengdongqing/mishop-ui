@@ -5,7 +5,7 @@ import Space from '@/components/Space';
 import useLogout from '@/layouts/MainLayout/Header/TopBar/UserNavs/useLogout.ts';
 import { useHasLogin } from '@/store/slices/userSlice.ts';
 import { Key, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function Header() {
   const hasLogin = useHasLogin();

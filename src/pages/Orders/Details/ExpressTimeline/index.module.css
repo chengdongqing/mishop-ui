@@ -12,7 +12,7 @@
   line-height: 3rem;
   border-bottom: 0.1rem solid #cfeeab;
 
-  a {
+  :is(a) {
     display: inline-flex;
     align-items: center;
     margin-right: 1.2rem;

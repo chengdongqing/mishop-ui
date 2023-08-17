@@ -2,8 +2,8 @@ import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import { CaretDownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import { CSSProperties, Key, PropsWithChildren, ReactNode, useRef, useState } from 'react';
-import styles from './index.module.less';
+import { Key, PropsWithChildren, ReactNode, useRef, useState } from 'react';
+import styles from './index.module.css';
 
 export interface OptionProps {
   key: Key;
@@ -16,8 +16,7 @@ interface DropdownProps extends PropsWithChildren<PropsWithStyle> {
   active?: Key;
   arrow?: boolean;
   trigger?: 'hover' | 'click';
-  overlayStyle?: CSSProperties;
-  overlayClassName?: string;
+  isSelect?: boolean;
 
   onChange?: (key: Key) => void;
   onOpenChange?: (open: boolean) => void;
@@ -31,8 +30,7 @@ export default function Dropdown({
   trigger = 'hover',
   style,
   className,
-  overlayStyle,
-  overlayClassName,
+  isSelect,
   onChange,
   onOpenChange
 }: DropdownProps) {
@@ -61,6 +59,7 @@ export default function Dropdown({
       });
     }
   }
+
   function closeOverlay() {
     setOpen(false);
     clearTimeout(timer.current);
@@ -104,18 +103,16 @@ export default function Dropdown({
 
       <div
         hidden={!willOpen}
-        style={overlayStyle}
         className={classNames(
           styles.overlay,
-          overlayClassName,
-          open && [styles.open, 'open']
+          isSelect && styles.select,
+          open && styles.open
         )}
       >
         {menus.map((item) => (
           <div
             key={item.key}
             className={classNames(
-              'item',
               styles.item,
               item.disabled && styles.disabled,
               item.key === active && [styles.active, 'active']

@@ -11,7 +11,7 @@ import UserLayout from '@/layouts/UserLayout';
 import { createOrderReview, createProductReview, fetchOrderReview } from '@/services/orderReview.ts';
 import { ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function PostReviewPage() {
   const params = useParams<{

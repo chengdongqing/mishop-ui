@@ -8,7 +8,7 @@ import useRequest from '@/hooks/useRequest.ts';
 import { modifyPassword } from '@/services/user.ts';
 import classNames from 'classnames';
 import { useRef } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 function PasswordModificationPopup({
   onCancel,

@@ -1,4 +1,4 @@
-import styles from './index.module.less';
+import styles from './index.module.css';
 import Section1 from './Section1';
 import Section10 from './Section10';
 import Section11 from './Section11';

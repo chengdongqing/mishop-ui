@@ -9,7 +9,7 @@ import { fetchPendingReviewOrders } from '@/services/orderReview.ts';
 import { formatAmount } from '@/utils';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function OrderReviewsPage() {
   const { data: orders, loading } = useRequest(fetchPendingReviewOrders);

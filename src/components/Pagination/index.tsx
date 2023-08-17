@@ -2,7 +2,7 @@ import Space from '@/components/Space';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useMemo } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface PaginationProps {
   pageNumber?: number;

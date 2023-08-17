@@ -1,5 +1,5 @@
 import { formatAmount, formatValue } from '@/utils';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface SatisfactionCardProps {
   satisfiedCount?: number;

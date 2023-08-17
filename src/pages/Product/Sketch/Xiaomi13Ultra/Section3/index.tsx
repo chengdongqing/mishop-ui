@@ -2,7 +2,7 @@ import LazyImage from '@/components/LazyImage';
 import popup from '@/components/Popup';
 import classNames from 'classnames';
 import { useRef } from 'react';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 import useVisible from '../useVisible.ts';
 
 export default function Section3() {

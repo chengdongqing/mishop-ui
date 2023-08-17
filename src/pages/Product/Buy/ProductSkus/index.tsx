@@ -2,7 +2,7 @@ import Grid from '@/components/Grid';
 import { ProductSKU } from '@/services/product.ts';
 import classNames from 'classnames';
 import { useEffect } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import useSkus from './useSkus.ts';
 
 export default function ProductSkus({

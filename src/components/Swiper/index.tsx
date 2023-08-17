@@ -1,7 +1,7 @@
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import React, { Children, CSSProperties, forwardRef, PropsWithChildren, useImperativeHandle } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import useSwiper from './useSwiper.ts';
 
 export interface SwiperProps extends PropsWithChildren, PropsWithStyle {

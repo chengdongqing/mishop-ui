@@ -11,7 +11,7 @@ import { modifyEmailAddress, modifyPhoneNumber } from '@/services/user.ts';
 import { desensitizeAccount } from '@/utils';
 import { useMemo, useState } from 'react';
 import Steps from '../Steps';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 type AccountTypes = 'phoneNumber' | 'email';
 

@@ -1,7 +1,7 @@
 import Iconfont from '@/components/Iconfont';
 import classNames from 'classnames';
 import { HTMLAttributes } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function CloseIcon({
   className,

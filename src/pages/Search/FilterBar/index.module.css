@@ -21,7 +21,7 @@
     line-height: 4.8rem;
     color: #424242;
 
-    span {
+     :is(span) {
       cursor: pointer;
 
       &:hover, &.active {

@@ -17,7 +17,7 @@ import { buildProductUrl, formatAmount } from '@/utils';
 import Decimal from '@/utils/decimal.ts';
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function CheckoutPage() {
   const [address, setAddress] = useState<AddressDTO>();

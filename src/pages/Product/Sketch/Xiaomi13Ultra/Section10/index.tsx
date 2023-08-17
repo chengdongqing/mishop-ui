@@ -1,6 +1,6 @@
 import Grid from '@/components/Grid';
 import LazyImage from '@/components/LazyImage';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 const options = [
   {

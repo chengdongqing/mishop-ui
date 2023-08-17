@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useMemo, useRef } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 const pages = [
   {

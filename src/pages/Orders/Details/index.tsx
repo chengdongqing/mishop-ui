@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ExpressTimeline from './ExpressTimeline';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import ProgressBar from './ProgressBar';
 
 const OrderProgressOptions = [

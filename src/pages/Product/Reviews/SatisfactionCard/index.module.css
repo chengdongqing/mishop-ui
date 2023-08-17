@@ -9,7 +9,7 @@
   color: #b0b0b0;
   font-size: 1.4rem;
 
-  span {
+   :is(span) {
     color: var(--color-primary);
     font-size: 6rem;
   }
@@ -20,7 +20,7 @@
   margin-top: 1.6rem;
   background: #f1f2f6;
 
-  span {
+   :is(span) {
     display: inline-block;
     height: 2.2rem;
     line-height: 2.2rem;

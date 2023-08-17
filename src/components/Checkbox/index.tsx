@@ -4,7 +4,7 @@ import Space from '@/components/Space';
 import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface CheckboxProps extends PropsWithChildren {
   value?: BasicValue;

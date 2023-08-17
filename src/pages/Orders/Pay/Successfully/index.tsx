@@ -6,7 +6,7 @@ import useRequest from '@/hooks/useRequest.ts';
 import { fetchOrderInfo } from '@/services/order.ts';
 import { formatAmount } from '@/utils';
 import { Link, useParams } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function PaySuccessfullyPage() {
   const params = useParams<{

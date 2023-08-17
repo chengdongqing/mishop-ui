@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import classNames from 'classnames';
 import { createRoot, Root } from 'react-dom/client';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 const types = {
   warning: {

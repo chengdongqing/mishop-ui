@@ -16,7 +16,7 @@ import userSlice from '@/store/slices/userSlice.ts';
 import { useRef } from 'react';
 import { useStore } from 'react-redux';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 export default function Login() {
   const { pathname, state } = useLocation();

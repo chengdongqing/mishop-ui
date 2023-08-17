@@ -2,7 +2,7 @@
   color: #aaa;
   font-size: 1.4rem;
 
-  a {
+  :is(a) {
     color: #333;
   }
 }
@@ -18,7 +18,7 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 
-  a {
+  :is(a) {
     color: var(--color-primary);
     font-size: 1.7rem;
     font-weight: 200;
@@ -46,7 +46,7 @@
     font-size: 4.6rem;
     line-height: 3.6rem;
 
-    span {
+     :is(span) {
       cursor: pointer;
       transition: 0.3s;
 

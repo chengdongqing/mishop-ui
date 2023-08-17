@@ -23,7 +23,7 @@
     margin: 2rem 0 3rem;
     color: #ff0;
 
-    span {
+     :is(span) {
       font-size: 2.4rem;
     }
   }
@@ -44,7 +44,7 @@
     color: #333;
     font-size: 1.2rem;
 
-    a {
+    :is(a) {
       color: #ff0;
       cursor: pointer;
       transition: 0.3s;

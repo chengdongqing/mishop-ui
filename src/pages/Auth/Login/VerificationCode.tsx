@@ -4,7 +4,7 @@ import VerificationCodeInput from '@/components/VerificationCodeInput';
 import patterns from '@/consts/patterns.ts';
 import { sendVerificationCode } from '@/services/auth.ts';
 import { useState } from 'react';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 export default function LoginByVerificationCode() {
   const [phoneNumber, setPhoneNumber] = useState<string>();

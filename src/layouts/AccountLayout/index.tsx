@@ -3,7 +3,7 @@ import Header from '@/layouts/AuthLayout/Header';
 import { useUserInfo } from '@/store/slices/userSlice.ts';
 import classNames from 'classnames';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function AccountLayout() {
   return (

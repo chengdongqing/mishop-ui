@@ -7,7 +7,7 @@ import Popup from '@/components/Popup';
 import useRequest from '@/hooks/useRequest.ts';
 import { fetchVideos, Video } from '@/services/video.ts';
 import classNames from 'classnames';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function VideosPage() {
   const { data, loading } = useRequest(fetchVideos);

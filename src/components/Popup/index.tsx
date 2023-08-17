@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createRoot, Root } from 'react-dom/client';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export interface PopupProps extends PropsWithChildren {
   // 是否弹出

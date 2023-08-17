@@ -12,7 +12,7 @@ import { RightOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import toModifyAccount from './AccountModificationPopup';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import toModifyPassword from './PasswordModificationPopup';
 
 export default function AccountPage() {

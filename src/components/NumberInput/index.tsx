@@ -1,6 +1,6 @@
 import Iconfont from '@/components/Iconfont';
 import useFormItem from '@/hooks/useFormItem.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface NumberInputProps {
   value?: number;

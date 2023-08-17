@@ -7,7 +7,7 @@ import { ProductDetails } from '@/services/product.ts';
 import classNames from 'classnames';
 import { createContext, useEffect } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import useProduct from './useProduct.ts';
 
 export const ProductContext = createContext<ProductDetails | null>(null);

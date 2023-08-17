@@ -9,7 +9,7 @@ import useRequest from '@/hooks/useRequest.ts';
 import { resetPassword, ResetPasswordDTO, sendVerificationCode } from '@/services/auth.ts';
 import { Key, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 
 const AccountTypes = [
   {

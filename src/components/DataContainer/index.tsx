@@ -1,7 +1,7 @@
 import Loading from '@/components/Loading';
 import classNames from 'classnames';
 import { PropsWithChildren } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface DataContainerProps extends PropsWithChildren {
   loading?: boolean;

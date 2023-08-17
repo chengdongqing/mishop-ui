@@ -9,9 +9,12 @@ import HomeHeroSub from './HeroSub';
 import HomeVideo from './Video';
 
 export default function HomePage() {
-  const { data: banners } = useRequest(() => fetchBanners(BannerType[BannerType.HOME_BANNER]), {
-    initialData: [] as Banner[]
-  });
+  const { data: banners } = useRequest(
+    () => fetchBanners(BannerType[BannerType.HOME_BANNER]),
+    {
+      initialData: [] as Banner[]
+    }
+  );
   const { data: categories } = useRequest(
     () => fetchProductCategories(10, 8, true),
     {

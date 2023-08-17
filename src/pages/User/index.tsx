@@ -8,7 +8,7 @@ import { useUserInfo } from '@/store/slices/userSlice.ts';
 import { RightOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 const options: {
   label: string;

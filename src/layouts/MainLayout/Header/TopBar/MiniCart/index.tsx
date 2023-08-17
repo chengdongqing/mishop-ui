@@ -11,7 +11,7 @@ import { buildProductUrl, formatAmount } from '@/utils';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function MiniCart() {
   const [open, setOpen] = useState(false);
@@ -72,7 +72,7 @@ export default function MiniCart() {
 
       <div className={styles.popover} style={{ height }}>
         {loading ? (
-          <Loading type={'wave'} style={{ padding: '5rem' }} />
+          <Loading style={{ padding: '5rem' }} />
         ) : !products.length ? (
           <div className={styles.placeholder}>
             购物车中还没有商品，赶紧选购吧！

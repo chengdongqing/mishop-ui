@@ -8,7 +8,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function HomeHero() {
   return (

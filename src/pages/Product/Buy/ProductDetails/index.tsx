@@ -2,7 +2,7 @@ import LazyImage from '@/components/LazyImage';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { PriceDescription } from '../index.tsx';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface DetailItem {
   name: string;

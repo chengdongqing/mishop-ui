@@ -1,7 +1,7 @@
 import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
 import { createContext, PropsWithChildren, useContext } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface RadioGroupContextProps {
   value?: BasicValue;

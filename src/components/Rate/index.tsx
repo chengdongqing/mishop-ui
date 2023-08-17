@@ -3,7 +3,7 @@ import useFormItem from '@/hooks/useFormItem.ts';
 import { StarFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { ReactNode, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface RateProps {
   value?: number;

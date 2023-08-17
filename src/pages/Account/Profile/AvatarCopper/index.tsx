@@ -6,7 +6,7 @@ import toast from '@/components/Toast';
 import { checkFileFormat } from '@/utils';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 function AvatarCopper({ onChange }: { onChange(value: string): void }) {
   const [file, setFile] = useState<File>();

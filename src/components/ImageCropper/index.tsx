@@ -8,7 +8,7 @@ import {
   useFileSrc,
   useMaskDrawing
 } from './helpers.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export interface ImageCropperRef {
   crop(): Promise<[File, string]>;

@@ -67,7 +67,7 @@
   text-align: center;
 
   &,
-  a {
+  :is(a) {
     color: #999;
   }
 }

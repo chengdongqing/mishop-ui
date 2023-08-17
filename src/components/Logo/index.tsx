@@ -2,7 +2,7 @@ import LogoIcon from '@/assets/logo.png';
 import classNames from 'classnames';
 import { ImgHTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function Logo({
   className,

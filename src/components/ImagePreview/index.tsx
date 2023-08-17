@@ -16,7 +16,7 @@ import {
 import classNames from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot, Root } from 'react-dom/client';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface ImagePreviewProps {
   // 图片源地址

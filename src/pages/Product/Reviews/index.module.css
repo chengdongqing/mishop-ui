@@ -59,12 +59,12 @@
     .photos {
       margin-top: 1.4rem;
 
-      &.single img {
+      &.single :is(img) {
         width: 33rem;
         height: 33rem;
       }
 
-      img {
+      :is(img) {
         width: 16rem;
         height: 16rem;
         cursor: pointer;

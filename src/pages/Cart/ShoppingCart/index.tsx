@@ -2,7 +2,7 @@ import MiniHeader from '@/components/MiniHeader';
 import RecommendedProducts from '@/components/RecommendedProducts';
 import EmptyCart from './EmptyCart';
 import { useIsEmptyCart } from './helpers.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import MainCart from './MainCart';
 
 export default function ShoppingCartPage() {

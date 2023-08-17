@@ -35,7 +35,7 @@
     .col_name {
       width: 38rem;
 
-      a {
+      :is(a) {
         color: #424242;
       }
     }
@@ -104,7 +104,7 @@
 
   .cart_total {
     color: #757575;
-    span {
+     :is(span) {
       color: var(--color-primary);
     }
   }
@@ -112,7 +112,7 @@
   .total_amount {
     color: var(--color-primary);
 
-    span {
+     :is(span) {
       font-size: 3rem;
     }
   }

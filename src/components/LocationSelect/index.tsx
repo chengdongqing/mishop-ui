@@ -2,7 +2,7 @@ import Grid from '@/components/Grid';
 import popup from '@/components/Popup';
 import { useMemo } from 'react';
 import { Locations } from './const.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 function LocationSelect() {
   const locations = useMemo(() => {

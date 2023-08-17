@@ -2,7 +2,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import classNames from 'classnames';
 import { ReactNode, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import menus from './menus.ts';
 
 export default function UserLayout() {

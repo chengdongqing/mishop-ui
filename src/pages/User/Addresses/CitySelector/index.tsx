@@ -6,7 +6,7 @@ import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
 import { useMemo, useState } from 'react';
 import cities from './cities.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export interface City {
   name: string;

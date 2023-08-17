@@ -2,7 +2,7 @@ import useFormItem from '@/hooks/useFormItem.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import { EditOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface TextareaProps extends PropsWithStyle {
   value?: string;

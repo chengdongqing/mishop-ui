@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function PayPage() {
   const params = useParams<{

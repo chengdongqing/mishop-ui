@@ -13,7 +13,7 @@ import { RightOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import toCropImage from './AvatarCopper';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function ProfilePage() {
   const [editingMode, toggleEditing] = useToggle();

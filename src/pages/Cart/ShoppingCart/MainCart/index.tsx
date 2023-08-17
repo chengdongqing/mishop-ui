@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartCounter, useCartItemsCheck } from '../helpers.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function MainCart() {
   return (

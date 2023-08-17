@@ -1,7 +1,7 @@
 import Space from '@/components/Space';
 import classNames from 'classnames';
 import { ReactNode, useMemo } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 type Item = { label: string; href?: string };
 

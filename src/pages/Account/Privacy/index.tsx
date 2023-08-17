@@ -3,7 +3,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import AccountLayout from '@/layouts/AccountLayout';
 import { RightOutlined } from '@ant-design/icons';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 const menus = [
   {

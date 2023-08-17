@@ -5,7 +5,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import useFormItem from '@/hooks/useFormItem.ts';
 import classNames from 'classnames';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function SortBar() {
   return (
@@ -28,11 +28,11 @@ const SortOptions = [
   },
   {
     label: '新品',
-    value: 'newest'
+    value: 'NEWEST'
   },
   {
     label: '销量',
-    value: 'sales'
+    value: 'SALES'
   }
 ];
 
@@ -66,10 +66,10 @@ function Sorter({
       <div
         className={classNames(
           styles.sort_item,
-          value?.startsWith('price') && styles.active
+          value?.startsWith('PRICE') && styles.active
         )}
         onClick={() => {
-          const val = value?.endsWith('asc') ? 'price-desc' : 'price-asc';
+          const val = value?.endsWith('ASC') ? 'PRICE_DESC' : 'PRICE_ASC';
           setValue(val);
         }}
       >
@@ -78,7 +78,7 @@ function Sorter({
           type={'i-arrow-down-long'}
           className={classNames(
             styles.icon_arrow,
-            value === 'price-desc' && styles.up
+            value === 'PRICE_DESC' && styles.up
           )}
         />
       </div>

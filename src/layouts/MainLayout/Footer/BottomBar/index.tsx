@@ -2,7 +2,7 @@ import LogoIcon from '@/assets/logo.png';
 import openLocationSelect from '@/components/LocationSelect';
 import Space from '@/components/Space';
 import { Certificates, Links } from './const.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function BottomBar() {
   return (

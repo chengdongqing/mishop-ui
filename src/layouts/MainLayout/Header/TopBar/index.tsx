@@ -1,7 +1,7 @@
 import openLocationSelect from '@/components/LocationSelect';
 import Space from '@/components/Space';
 import { NavItems } from './const';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import MiniCart from './MiniCart';
 import UserNavs from './UserNavs';
 

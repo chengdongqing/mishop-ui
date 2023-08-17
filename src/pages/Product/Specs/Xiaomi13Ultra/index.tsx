@@ -1,7 +1,7 @@
 import LazyImage from '@/components/LazyImage';
 import Row from '@/components/Row';
 import classNames from 'classnames';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function Xiaomi13UltraSpecs() {
   return (

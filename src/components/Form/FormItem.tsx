@@ -2,7 +2,7 @@ import useUnmount from '@/hooks/useUnmount.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import { FormContext } from './index.tsx';
 import validate from './validate.ts';
 

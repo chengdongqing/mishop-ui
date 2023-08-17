@@ -5,7 +5,7 @@ import { DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styles from '../index.module.less';
+import styles from '../index.module.css';
 import useLogout from './useLogout.ts';
 
 const menus = [

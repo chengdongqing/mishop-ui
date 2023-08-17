@@ -5,7 +5,7 @@ import { VideoCard } from '@/pages/Videos';
 import { fetchVideos } from '@/services/video.ts';
 import { RightCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function HomeVideo() {
   const { data } = useRequest(() => fetchVideos(4));

@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import FilterBar from './FilterBar';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function OrdersPage() {
   const queryParams = useQueryParams<{

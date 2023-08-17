@@ -3,7 +3,7 @@ import useUpdateEffect from '@/hooks/useUpdateEffect.ts';
 import { SearchOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface SearchBarProps {
   value?: string;

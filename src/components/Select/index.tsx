@@ -4,7 +4,7 @@ import Input from '@/components/Input';
 import useFormItem from '@/hooks/useFormItem.ts';
 import { DownOutlined } from '@ant-design/icons';
 import { Key, useMemo } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 interface SelectProps {
   value?: Key;
@@ -27,13 +27,13 @@ export default function Select({
   }, [options, value]);
 
   return (
-    <div className={styles.select}>
+    <div>
       <Dropdown
+        isSelect
         menus={options}
         active={value}
         arrow={false}
         trigger={'click'}
-        overlayClassName={styles.overlay}
         onChange={setValue}
       >
         <FormItemContext.Provider value={{}}>

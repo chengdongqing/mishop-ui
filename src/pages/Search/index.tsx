@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FilterBar from './FilterBar';
-import styles from './index.module.less';
+import styles from './index.module.css';
 import SortBar from './SortBar';
 
 export default function SearchPage() {

@@ -4,7 +4,7 @@ import Row from '@/components/Row';
 import Space from '@/components/Space';
 import classNames from 'classnames';
 import { useNavigate, useParams } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function CartSuccessfullyPage() {
   const params = useParams();

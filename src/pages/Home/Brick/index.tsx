@@ -9,7 +9,7 @@ import { RightCircleFilled } from '@ant-design/icons';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function HomeBrick({ name, children, banners }: ParentProduct) {
   const [currentTab, setCurrentTab] = useState(0);

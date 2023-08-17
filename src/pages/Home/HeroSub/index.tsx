@@ -2,7 +2,7 @@ import useRequest from '@/hooks/useRequest.ts';
 import { BannerType } from '@/pages/Home/enums.ts';
 import { fetchBanners } from '@/services/banner.ts';
 import { Channels } from './const.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function HomeHeroSub() {
   return (

@@ -6,7 +6,7 @@
     color: #333;
     font-size: 1.8rem;
 
-    span {
+     :is(span) {
       user-select: text;
     }
   }
@@ -31,7 +31,7 @@
     color: #333;
     font-size: 1.4rem;
 
-    img {
+    :is(img) {
       width: 8rem;
       height: 8rem;
       object-fit: cover;
@@ -79,7 +79,7 @@
   .value {
     color: var(--color-primary);
 
-    span {
+     :is(span) {
       font-size: 3rem;
       font-weight: 200;
     }

@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { memo, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePlaceholder } from './helpers.ts';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export default function MainHeader() {
   const [activeProducts, setActiveProducts] = useState<Product[] | undefined>();

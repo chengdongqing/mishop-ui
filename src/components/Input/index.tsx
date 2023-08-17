@@ -5,7 +5,7 @@ import useToggle from '@/hooks/useToggle.ts';
 import { PropsWithStyle } from '@/utils/typings';
 import classNames from 'classnames';
 import { ReactNode, useMemo, useRef, useState } from 'react';
-import styles from './index.module.less';
+import styles from './index.module.css';
 
 export interface InputProps extends PropsWithStyle {
   value?: string | number;
