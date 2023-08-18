@@ -7,12 +7,14 @@ import toast from '@/components/Toast';
 import useCountdown from '@/hooks/useCountdown.ts';
 import useRequest from '@/hooks/useRequest.ts';
 import useToggle from '@/hooks/useToggle.ts';
+import useWebSocket from '@/hooks/useWebSocket.ts';
 import { fetchOrderInfo, OrderVO, requestPayment } from '@/services/order.ts';
 import { formatAmount, formatTime } from '@/utils';
+import request from '@/utils/request.ts';
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import moment from 'moment';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './index.module.css';
 
@@ -22,6 +24,16 @@ export default function PayPage() {
   }>();
   const orderId = Number(params.id);
   const { data, loading } = useRequest(() => fetchOrderInfo(orderId));
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (data && data.status !== 'PENDING_PAYMENT') {
+      setTimeout(() => {
+        toast.warning('该订单不支持付款');
+        navigate(`/orders/${orderId}`);
+      }, 50);
+    }
+  }, [data, navigate, orderId]);
 
   return (
     <>
@@ -43,7 +55,9 @@ export default function PayPage() {
   );
 }
 
-function OrderInfos({ order }: { order: OrderVO | null }) {
+function OrderInfos({ order }: {
+  order: OrderVO | null
+}) {
   const [open, toggleOpen] = useToggle(false);
   const height = useMemo(() => {
     return open && order?.items
@@ -148,16 +162,32 @@ const methods: PaymentMethod[] = [
   }
 ];
 
-function PaymentMethods({ orderId }: { orderId: number }) {
+function PaymentMethods({ orderId }: {
+  orderId: number
+}) {
   const timer = useRef<NodeJS.Timer>();
   const navigate = useNavigate();
+  const close = useRef<() => void>();
+
+  useWebSocket(`ws://localhost:8080/order/payment/${orderId}`, {
+    onMessage(data: {
+      statusCode: string
+    }) {
+      if (data.statusCode === 'OK') {
+        close.current?.();
+        navigate('successfully', {
+          replace: true
+        });
+      }
+    }
+  });
 
   async function handlePayment(item: PaymentMethod) {
     const closeLoading = toast.loading('请求支付中...');
     await requestPayment(orderId, item.code);
     closeLoading();
 
-    const close = popup.open({
+    close.current = popup.open({
       title: `${item.label}支付`,
       width: '37rem',
       footer: null,
@@ -183,9 +213,12 @@ function PaymentMethods({ orderId }: { orderId: number }) {
     });
 
     timer.current = setTimeout(() => {
-      close();
-      navigate('successfully', {
-        replace: true
+      // 仅测试
+      request(`/orders/payment/callback/${item.code.toLowerCase()}`, {
+        method: 'POST',
+        params: {
+          orderId
+        }
       });
     }, 3000);
   }
