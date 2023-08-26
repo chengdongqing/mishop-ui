@@ -72,7 +72,7 @@ export default function ProductPage() {
                 用户评价
               </Link>
             </Space>
-            {!pathname.endsWith('buy') && (
+            {!!product?.skus.length && !pathname.endsWith('buy') && (
               <Link to={`/product/${id}/buy`}>
                 <Button className={styles.btn_buy}>立即购买</Button>
               </Link>
